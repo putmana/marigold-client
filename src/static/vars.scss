@@ -1,0 +1,25 @@
+$gray-a: rgb(20, 20, 20);
+$gray-b: rgb(50, 50, 50);
+$gray-c: rgb(70, 70, 70);
+$gray-d: rgb(85, 85, 85);
+$gray-e: rgb(100, 100, 100);
+$gray-f: rgb(135, 135, 135);
+$gray-g: rgb(200, 200, 200);
+$gray-h: rgb(240, 240, 240);
+
+$size: 30px;
+$font-size: 12pt;
+$margin-size: 5px;
+
+$sidebar-size-collapsed: calc(2 * $size);
+$sidebar-size-expanded: calc(6 * $size);
+$panel-size: calc(12 * $size);
+
+$player-size: calc(3 * $size);
+
+$tab-size: calc(2 * $size);
+$list-item-size: calc(3 * $size);
+$track-item-size: calc(2 * $size);
+
+$text-color: $gray-g;
+
