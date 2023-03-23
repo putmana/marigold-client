@@ -13,7 +13,6 @@
 
 <div class="app-wrapper">
   <div class="app-container">
-      
       <Sidebar/>
       {#if $mode === "playlist-view"}
         <PlaylistView/>

@@ -11,6 +11,9 @@ node_modules
 dist
 dist-ssr
 *.local
+old
+public/audio/test
+public/img/test
 
 # Editor directories and files
 .vscode/*
