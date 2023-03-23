@@ -2,7 +2,7 @@
     import Tab from "./tab.svelte";
 
     let expanded = false;
-    let current = "";
+
 
     function expand() {
         expanded = true;
@@ -16,22 +16,22 @@
 </script>
 
 <div class="sidebar" class:expanded={expanded} on:mouseenter="{expand}" on:mouseleave="{collapse}">
-    <Tab id="playlists" label="PLAYLISTS" expanded={expanded} bind:current>
+    <Tab id="playlist-view" label="PLAYLISTS" expanded={expanded}>
         <i class="bi bi-music-note-list"></i>
     </Tab>
-    <Tab id="albums" label="ALBUMS" expanded={expanded} bind:current> 
+    <Tab id="album-view" label="ALBUMS" expanded={expanded}> 
         <i class="bi bi-vinyl"></i>
     </Tab>
-    <Tab id="artists" label="ARTISTS" expanded={expanded} bind:current>
+    <Tab id="artist-view" label="ARTISTS" expanded={expanded}>
         <i class="bi bi-person"></i>
     </Tab>
-    <Tab id="search" label="SEARCH" expanded={expanded} bind:current>
+    <Tab id="search-view" label="SEARCH" expanded={expanded}>
         <i class="bi bi-file-music"></i>
     </Tab>
 </div>
 
 <style lang="scss">
-    @import "../../static/vars.scss";
+    @import "../static/vars.scss";
 
     .sidebar {
         position: relative;

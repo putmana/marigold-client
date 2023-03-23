@@ -1,0 +1,44 @@
+$gray-a: rgb(20, 20, 20);
+$gray-b: rgb(50, 50, 50);
+$gray-c: rgb(70, 70, 70);
+$gray-d: rgb(85, 85, 85);
+$gray-e: rgb(100, 100, 100);
+$gray-f: rgb(135, 135, 135);
+$gray-g: rgb(200, 200, 200);
+
+$shadow-color: rgba(20, 20, 20, 0.5);
+$border-color: rgba(255, 255, 255, 0.1);
+$hover-color: rgba(255, 255, 255, 0.1);
+$selected-color: rgba(255, 255, 255, 0.05);
+$scrub-track-color: rgba(20, 20, 20, 0.5);
+
+$text-color: white;
+
+$hover-fade-time: 0.15s;
+
+$size: 30px;
+$font-size: 12pt;
+$margin-size: 5px;
+$border-size: 1px;
+$shadow-size: 30px;
+
+$sidebar-size-collapsed: calc(2 * $size);
+$sidebar-size-expanded: calc(6 * $size);
+$panel-size: calc(12 * $size);
+
+$player-size: calc(3 * $size);
+$player-info-size: calc(12 * $size);
+$player-btn-size: calc(0.75 * $size);
+$player-main-btn-size: calc(1.25 * $size);
+$player-settings-btn-size: calc(1.5 * $size);
+
+
+$tab-size: calc(2 * $size);
+$list-header-size: calc(2 * $size);
+$list-item-size: calc(3 * $size);
+$track-header-size: calc(8.5 * $size - $margin-size);
+$track-item-size: calc(2.5 * $size);
+$track-item-art-size: calc(3 / 4 * $track-item-size);
+$queue-box-size: calc(12 * $size);
+$queue-item-size: calc(2 * $size);
+$queue-item-art-size: calc(3 / 4 * $queue-item-size);

@@ -1,11 +1,13 @@
 <script lang="ts">
+    import { mode } from "../stores/mode";
+    import { deckColors } from "../stores/colors";
+
     export let id: string;
     export let label: string;  
-    export let expanded: boolean;  
-    export let current: string;
+    export let expanded: boolean;
 </script>
 
-<a class="tab" class:selected={current === id} on:click={() => (current = id)} href="/{id}">
+<a class="tab" class:selected={$mode === id} on:click={() => {$mode = id}} style="--full-light: {$deckColors.fullLight};">
     <div class="tab-icon">
         <div class="tab-icon-inner">
             <slot></slot>
@@ -18,7 +20,7 @@
 
 <style lang="scss">
     
-    @import "../../static/vars.scss";
+    @import "../static/vars.scss";
     .tab {
 		display: flex;
 		flex-direction: row;
@@ -45,6 +47,9 @@
 	    &.selected {
             background-color: $gray-c;
             font-weight: bold;
+            border-left-width: $margin-size;
+			border-left-style: solid;
+			border-left-color: var(--full-light);
         }
         &:hover {
             background-color: $gray-d;
