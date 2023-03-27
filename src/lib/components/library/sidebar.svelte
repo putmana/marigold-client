@@ -1,5 +1,5 @@
 <script lang="ts">
-    import Tab from "./tab.svelte";
+    import Tab from "./subcomponents/sidebar/tab.svelte";
 
     let expanded = false;
 
@@ -16,22 +16,19 @@
 </script>
 
 <div class="sidebar" class:expanded={expanded} on:mouseenter="{expand}" on:mouseleave="{collapse}">
-    <Tab id="playlist-view" label="PLAYLISTS" expanded={expanded}>
+    <Tab id="PLAYLIST" label="PLAYLIST" expanded={expanded}>
         <i class="bi bi-music-note-list"></i>
     </Tab>
-    <Tab id="album-view" label="ALBUMS" expanded={expanded}> 
+    <Tab id="ALBUM" label="ALBUM" expanded={expanded}> 
         <i class="bi bi-vinyl"></i>
     </Tab>
-    <Tab id="artist-view" label="ARTISTS" expanded={expanded}>
+    <Tab id="ARTIST" label="ARTIST" expanded={expanded}>
         <i class="bi bi-person"></i>
-    </Tab>
-    <Tab id="search-view" label="SEARCH" expanded={expanded}>
-        <i class="bi bi-file-music"></i>
     </Tab>
 </div>
 
 <style lang="scss">
-    @import "../static/vars.scss";
+    @import "/src/lib/static/vars.scss";
 
     .sidebar {
         position: relative;

@@ -1,13 +1,14 @@
 <script lang="ts">
-    import { mode } from "../stores/mode";
-    import { deckColors } from "../stores/colors";
 
-    export let id: string;
+    import { deckColors } from "../../../../stores/colors";
+    import { mode } from "../../../../stores/mode";
+
+    export let id: ContentType;
     export let label: string;  
     export let expanded: boolean;
 </script>
 
-<a class="tab" class:selected={$mode === id} on:click={() => {$mode = id}} style="--full-light: {$deckColors.fullLight};">
+<a class="tab" class:selected={$mode.content_type === id} on:click={() => {$mode.content_type = id}} style="--full-light: {$deckColors.fullLight};">
     <div class="tab-icon">
         <div class="tab-icon-inner">
             <slot></slot>
@@ -20,7 +21,7 @@
 
 <style lang="scss">
     
-    @import "../static/vars.scss";
+    @import "/src/lib/static/vars.scss";
     .tab {
 		display: flex;
 		flex-direction: row;

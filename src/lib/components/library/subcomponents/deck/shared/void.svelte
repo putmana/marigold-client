@@ -1,8 +1,9 @@
 <script lang="ts">
-    export let text: string = " ";
+    export let text: string = "";
+    export let type: "PRIMARY" | "ERROR" = "PRIMARY";
 </script>
 
-<div class="void">
+<div class="void {type}">
     <div class="icon">
         <i class="bi bi-flower1"></i>
     </div>
@@ -31,6 +32,9 @@
         .text {
             opacity: 20%;
             font-weight: bold;
+        }
+        .error {
+            background-image: linear-gradient(to right, $error-a, $error-b);
         }
     }
 </style>

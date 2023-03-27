@@ -1,16 +1,17 @@
 <script lang="ts">
     import { onMount } from "svelte";
-    import ColorEngine from "../../../scripts/color_engine";
-    import { shuffleTracks } from "../../../scripts/shuffle";
-    import { formatArtists, formatTime } from "../../../scripts/utils";
-    import { playerColors } from "../../../stores/colors";
-    import QueueBox from "./queue-box.svelte";
-    import ScrubBar from "./scrub-bar.svelte";
+    import ColorEngine from "../../scripts/color_engine";
+    import { shuffleTracks } from "../../scripts/shuffle";
+    import { formatArtists, formatTime } from "../../scripts/utils";
+    import { playerColors } from "../../stores/colors";
+    import QueueBox from "../library-view/old/queue-box.svelte";
+    import ScrubBar from "../library-view/old/scrub-bar.svelte";
 
     export let queue: Queue;
     export let repeat: string;
     export let shuffle: boolean;
     export let unique: Symbol;
+    export let shuffleMap: Map<number, number>;
     
     // <---- BIND VALUES ---->
     let player: HTMLAudioElement;
@@ -92,6 +93,20 @@
     }
 
     // <---- SHUFFLE FUNCTIONS ---->
+    function enableShuffle() {
+        shuffle = true;
+        const shuffled = shuffleTracks(queue.tracks, queue.position)
+        queue.tracks = shuffled.list
+        queue.position = 0
+        shuffleMap = shuffled.shuffleMap
+        console.log(shuffleMap)
+    }
+
+    function disableShuffle() {
+        queue.tracks = queue.source
+        queue.position = 
+        shuffle = false;
+    }
 
     // <---- BUTTON FUNCTIONS ---->
     function scrubToTime(e) {
@@ -128,7 +143,7 @@
     }
 
     function toggleShuffle() {
-        console.log("SHUFFLE TOGGLED");
+        (shuffle) ? disableShuffle() : enableShuffle();
     }
 
     // <---- LIFECYCLE FUNCTIONS ---->

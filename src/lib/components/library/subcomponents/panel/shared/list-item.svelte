@@ -1,18 +1,28 @@
 <script lang="ts">
-    export let playlist: Playlist;
+    import { mode } from "../../../../../stores/mode";
+    import { deckColors } from "../../../../../stores/colors";
 
-    import { current } from "../../../stores/view-playlists";
-    import { deckColors } from "../../../stores/colors";
+    export let id: string;
+    export let title: string;
+    export let artists: string;
+    export let cover: string;
+
+    $: current = $mode.content_id
+
+    
 
 </script>
 
-<a class="list" class:selected={$current === playlist.id} style="--main-light: {$deckColors.mainLight}" on:click={() => {$current = playlist.id}}>
+<a class="list" class:selected={$mode.content_id == id} style="--main-light: {$deckColors.mainLight}" on:click={() => {$mode.content_id = id}}>
     <div class="art">
-        <img class="art-image" src={playlist.cover.path}>
+        <img class="art-image" src={cover}>
     </div>
     <div class="text">
         <div class="text-title">
-            {playlist.title}
+            {title}
+        </div>
+        <div class="text-artist">
+            {artists}
         </div>
     </div>
 </a>
@@ -38,6 +48,10 @@
             display: flex;
             flex-direction: column;
             margin-left: calc(6 * $margin-size);
+            .text-artist {
+                font-size: smaller;
+                opacity: 70%;
+            }
         }
         &:hover {
             background-image: linear-gradient(to left, $gray-f, $gray-e);

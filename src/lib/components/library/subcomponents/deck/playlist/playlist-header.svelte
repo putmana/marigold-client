@@ -44,7 +44,6 @@
     @import '/src/lib/static/vars.scss';
     .track-header {
 		display: flex;
-		flex-grow: 1;
 		flex-direction: row;
 		align-items: center;
 		height: $track-header-size;

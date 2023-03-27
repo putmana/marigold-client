@@ -1,19 +1,19 @@
 <script lang="ts">
-    import { playerColors } from '../stores/colors'
-    import { queue, queueLoaded, unique, repeat, shuffle } from '../stores/player'
-    import AudioPlayer from './library-view/subcomponents/audio-player.svelte';
+    import { playerColors } from '../../stores/colors'
+    import { queue, ready, unique, repeat, shuffle, shuffleMap } from '../../stores/player'
+    import AudioPlayer from '../library-view/subcomponents/audio-player.svelte';
 </script>
 
 <div class="player" style="--main-light: {$playerColors.mainLight}; --main-dark: {$playerColors.mainDark}">
-    {#if $queueLoaded}
-        <AudioPlayer bind:queue={$queue} bind:repeat={$repeat} bind:shuffle={$shuffle} bind:unique={$unique}/>
+    {#if $ready}
+        <AudioPlayer bind:queue={$queue} bind:repeat={$repeat} bind:shuffle={$shuffle} bind:shuffleMap={$shuffleMap} bind:unique={$unique}/>
     {/if}
 </div>
 
 
 
 <style lang="scss">
-    @import "../static/vars.scss";
+    @import "/src/lib/static/vars.scss";
     .player {
         z-index: 2;
         height: $player-size;

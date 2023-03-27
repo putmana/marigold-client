@@ -6,6 +6,13 @@ declare global {
 		// interface Platform {}
 	}
 
+    type ContentType = "PLAYLIST" | "ALBUM" | "ARTIST"
+
+    type DeckContent = {
+        content_type: ContentType,
+        content_id: string | false // the ID of the artist/album/playlist currently being displayed
+    }
+
     type Artist = {
         id: string;
         name: string;
@@ -61,9 +68,9 @@ declare global {
         name: string;
     }
     
-    type Queue = {
-        position: number,
-        tracks: Track[]
+    type QueuedTrack = {
+        id: symbol,
+        track: Track
     }
 }
 

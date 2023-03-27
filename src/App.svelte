@@ -1,28 +1,25 @@
 <script lang="ts">
-  import Sidebar from "./lib/components/sidebar.svelte";
-  import Player from "./lib/components/player.svelte";
-    import PlaylistView from "./lib/components/library-view/playlist-view.svelte";
-    import AlbumView from "./lib/components/library-view/album-view.svelte";
 
+  import Deck from "./lib/components/library/deck.svelte";
+  import Panel from "./lib/components/library/panel.svelte";
+  import Sidebar from "./lib/components/library/sidebar.svelte";
   import { mode } from "./lib/stores/mode";
-    import Void from "./lib/components/library-view/subcomponents/void.svelte";
-    import AudioCycler from "./lib/components/library-view/subcomponents/audio-cycler.svelte";
 
-  $: console.log("MODE CHANGED:" + $mode); 
+  $: console.log("MODE CHANGED:" + $mode.content_type); 
 </script>
 
 <div class="app-wrapper">
   <div class="app-container">
+      <!---- SIDEBAR ---->
       <Sidebar/>
-      {#if $mode === "playlist-view"}
-        <PlaylistView/>
-      {:else if $mode === "album-view"}
-        <AlbumView/>
-      {:else}
-        <Void text="there's nothing here"/>
-      {/if}
+
+      <!---- PANEL ---->
+      <Panel/>
+
+      <!---- DECK ---->
+      <Deck/>
+
   </div>
-  <Player/>
 </div>
 
 <style lang="scss">

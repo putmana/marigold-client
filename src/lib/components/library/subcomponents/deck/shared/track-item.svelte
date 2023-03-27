@@ -1,26 +1,27 @@
 <script lang="ts">
-    import { playerColors } from "../../../stores/colors";
+    import { deckColors } from "../../../../../stores/colors";
     import { createEventDispatcher } from "svelte";
-    import { formatArtists } from "../../../scripts/utils";
+    import { formatArtists } from "../../../../../scripts/utils";
 
     export let track: Track;
     export let position: number;
-    export let current: number;
     export let showArt = true;
 
     const dispatch = createEventDispatcher();
 
-    let skipHere = () => {
-        dispatch('skiptotrack', {
-            index: position
-        });
+    let queueThisTrack = () => {
+        dispatch('queuethistrack')
+    }
+    
+    let queueThisList = () => {
+        dispatch('queuethislist')
     }
 
 </script>
-<div class="track" on:click={skipHere} class:playing={current === position} style="--full-light: {$playerColors.fullLight};">
+<div class="track" on:click={queueThisList} style="--hover-light: {$deckColors.hoverLight}; --hover-dark: {$deckColors.hoverDark}">
     <div class="number">
         <span class="number-text">
-            {position + 1}
+            {position}
         </span>
     </div>
     {#if showArt}
@@ -45,18 +46,20 @@
 		flex-grow: 1;
 		flex-direction: row;
 		align-items: center;
-		height: $queue-item-size;
-        max-height: $queue-item-size;
+		height: $track-item-size;
+        max-height: $track-item-size;
 		border-radius: $margin-size;
+        margin-left: $margin-size;
+        margin-right: $margin-size;
         border-width: 1px;
         border-style: solid;
         border-color: transparent;
-        transition: background-color $hover-fade-time ease-in-out;
+        transition: background-color $hover-fade-time ease;
         .number {
 			display: flex;
 			align-items: center;
-			height: $queue-item-size;
-			width: $queue-item-size - $margin-size;
+			height: $track-item-size;
+			width: $track-item-size;
 			.number-text {
 				width: inherit;
 				text-align: center;
@@ -69,43 +72,20 @@
         }
         .art {
             margin-right: calc(4 * $margin-size);
-            min-height: calc($queue-item-art-size);
+            min-height: calc($track-item-art-size);
             .art-image {
                 margin: none;
-                height: calc($queue-item-art-size);
-                width: calc($queue-item-art-size);
+                height: calc($track-item-art-size);
+                width: calc($track-item-art-size);
                 border-style: solid;
                 border-color: $border-color;
                 border-width: 1px;
                 vertical-align: middle;
             }
         }
-        &::before {
-            content: "";
-            width: 0;
-            height: 0;
-            background-color: var(--full-light);
-            border-radius: $margin-size;
-            margin-left: $margin-size;
-            transition: width $hover-fade-time ease, height $hover-fade-time ease;
-        }
         &:hover {
             background-color: $hover-color;
             border-color: $border-color;
-        }
-        &.playing {
-            font-weight: bold;
-            background-color: $selected-color;
-            border-color: $border-color;
-            &:hover {
-                background-color: $hover-color;
-                border-color: $border-color;
-            }
-            &::before {
-                content: "";
-                width: $margin-size;
-                height: $queue-item-art-size;
-            }
         }
     }
 </style>

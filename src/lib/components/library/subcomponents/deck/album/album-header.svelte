@@ -1,7 +1,6 @@
 <script lang="ts">
-    import { formatArtists, formatTime } from "../../../scripts/utils";
-
-
+    import { formatTime, formatArtists } from "../../../../../scripts/utils";
+	
     export let album: Album;
     export let count: number;
     export let duration: number = 0;
@@ -41,7 +40,6 @@
     @import '/src/lib/static/vars.scss';
     .track-header {
 		display: flex;
-		flex-grow: 1;
 		flex-direction: row;
 		align-items: center;
 		height: $track-header-size;
