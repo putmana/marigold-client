@@ -1,13 +1,13 @@
 <script lang="ts">
     import { formatArtists } from "../../../../../scripts/utils";
-    import ListHeader from "../../../../library-view/old/list-header.svelte";
+    import ListHeader from "../../../subcomponents/panel/shared/list-header.svelte";
     import ListItem from "../shared/list-item.svelte";
     import Loader from "../shared/loader.svelte";
     
     $: playlists = loadPlaylists()
 
     async function loadPlaylists() {
-        return await fetch('http://localhost/api/playlist')
+        return await fetch('https://marigoldapi_s.ptmn.io/api/playlist/')
             .then((response) => {
                 return response.json()
             }).then((data) => {

@@ -68,9 +68,24 @@ declare global {
         name: string;
     }
     
-    type QueuedTrack = {
-        id: symbol,
-        track: Track
+    type QueueStage = {
+        // START: Stop the currently playing tracks and start a fresh queue with the provided tracks 
+        // ADD: Manually add a track or list of tracks to the queue
+        // REORDER: Reorder the tracks in the queue to match the order of the provided tracks
+        // DIE: Clear the current queue and do not play anything
+        flag: "START" | "ADD" | "REORDER" | "DIE" 
+        // Marked true once the Stage has been processed by the controller
+        seen: boolean;
+        // The list of tracks to be played
+        tracks?: QueueTrack[];
+        // The position to start playing from
+        position?: number;
+    }
+
+    type QueueTrack = {
+        id: string;
+        source: "AUTO" | "MANUAL";
+        track: Track;
     }
 }
 

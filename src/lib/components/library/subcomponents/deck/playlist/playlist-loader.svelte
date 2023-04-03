@@ -7,12 +7,15 @@
     import { onDestroy } from "svelte";
     import TrackItem from "../shared/track-item.svelte";
     import PlaylistHeader from "./playlist-header.svelte";
+    import { calculateDuration } from "../../../../../scripts/utils";
+    import { queueStage } from "../../../../../stores/player";
+    import { addToQueue, startQueue } from "../../../../../scripts/queue";
     
     $: playlist = loadPlaylists($mode.content_id)
 
     async function loadPlaylists(id: string | boolean) {
         if (!id) { return false }
-        return await fetch('http://localhost/api/playlist/' + id)
+        return await fetch('https://marigoldapi_s.ptmn.io/api/playlist/' + id)
             .then((response) => {
                 return response.json()
             }).then((data) => {
@@ -28,6 +31,14 @@
         $mode.content_id = false;
     })
 
+    function queueThisList(tracks: Track[], position: number) {
+        $queueStage = startQueue(tracks, position)
+    }
+
+    function queueThisTrack(track: Track) {
+        $queueStage = addToQueue([track])
+    }
+
 </script>
 
 {#await playlist}
@@ -37,9 +48,9 @@
         <Void text="No playlist selected"/>
     {:else}
         <TrackList>
-            <PlaylistHeader playlist={playlist.info} count={playlist.tracks.length}/>
+            <PlaylistHeader playlist={playlist.info} count={playlist.tracks.length} duration={calculateDuration(playlist.tracks)}/>
             {#each playlist.tracks as track, index}
-                <TrackItem track={track} position={index + 1}/>
+                <TrackItem track={track} position={index + 1} on:queuethislist={() => queueThisList(playlist.tracks, index)} on:queuethistrack={() => queueThisTrack(track)}/>
             {/each}
         </TrackList>
     {/if}

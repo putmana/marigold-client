@@ -27,17 +27,30 @@ export function formatTime(secs: number, long: boolean = false, displaySecs: boo
     let formatted = ""
 
     if (long) { // x hours x mins x secs
-        if (h != 0) formatted += h.toString() + " hours " 
-        if (m != 0) formatted += m.toString() + " mins "
-        if (s != 0 && displaySecs) formatted += s.toString() + " secs"
+        if (h != 0) formatted += h.toString() + " " + pluralize("hour", h) + " "
+        if (m != 0) formatted += m.toString() + " " + pluralize("min", m) + " "
+        if (s != 0 && displaySecs) formatted += s.toString() + " " + pluralize("sec", s)
     } else { // x:xx:xx
         if (h != 0) formatted += h.toString() + ":" // leaves off hours if hours = 0.
         formatted += ((m < 10 && h != 0) ? "0" + m.toString() : m.toString()) + ((displaySecs) ? ":" : "")
         if (displaySecs) formatted += ((s < 10) ? "0" + s.toString() : s.toString())
-    
     }
 
     return formatted
 
 }
 
+// <---- CALCULATE DURATION OF LIST OF TRACKS ---->
+export function calculateDuration(tracks: Track[]): number {
+    let duration = 0;
+    tracks.forEach((track: Track) => {
+        duration += track.duration;
+    })
+    return duration
+}
+
+// <---- PLURALIZE A WORD BASED ON A COUNT ---->
+export function pluralize(word: string, count: number, suffix: string = "s") {
+    if (count == 1) return word;
+    return word + suffix;
+}

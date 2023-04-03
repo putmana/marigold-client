@@ -1,19 +1,24 @@
-import { derived, writable, type Writable } from "svelte/store";
+import { derived, writable, type Readable, type Writable } from "svelte/store";
 
-export const previous: Writable<Map<symbol, Track[]>> = writable()
+export const position: Writable<number> = writable(0)
 
-export const playing: Writable<Track> = writable();
+export const tracksPlayed: Writable<QueueTrack[]> = writable([])
+export const tracksQueued: Writable<QueueTrack[]> = writable([])
+export const tracksManual: Writable<QueueTrack[]> = writable([])
+export const currentTrack: Writable<QueueTrack> = writable()
 
-export const nextFromUser: Writable<Track[]> = writable([])
-
-export const nextFromList: Writable<Track[]> = writable([])
-
-export const ready = derived(
-    [nextFromUser, nextFromList],
-    ([$nextFromUser, $nextFromList]) => {
-        if ($nextFromList.length > 0 || $nextFromUser.length > 0) {
-            return true
-        }
-        return false
-    }
+export const tracksAll: Readable<QueueTrack[]> = derived(
+    [tracksPlayed, currentTrack, tracksManual, tracksQueued],
+    ([$tracksPlayed, $currentTrack, $tracksManual, $tracksQueued]) => [...$tracksPlayed, $currentTrack, ...$tracksManual, ...$tracksQueued]
 )
+
+export const paused: Writable<boolean> = writable(true)
+export const shuffle: Writable<boolean> = writable(false)
+export const repeat: Writable<"OFF" | "ONE" | "ALL"> = writable("OFF")
+
+export const queueStage: Writable<QueueStage> = writable({
+    flag: "DIE",
+    seen: false
+});
+
+export const queueBoxVisible: Writable<boolean> = writable(false)

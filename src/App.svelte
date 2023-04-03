@@ -2,6 +2,7 @@
 
   import Deck from "./lib/components/library/deck.svelte";
   import Panel from "./lib/components/library/panel.svelte";
+    import Player from "./lib/components/library/player.svelte";
   import Sidebar from "./lib/components/library/sidebar.svelte";
   import { mode } from "./lib/stores/mode";
 
@@ -20,6 +21,7 @@
       <Deck/>
 
   </div>
+  <Player/>
 </div>
 
 <style lang="scss">

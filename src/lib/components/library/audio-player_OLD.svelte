@@ -4,8 +4,6 @@
     import { shuffleTracks } from "../../scripts/shuffle";
     import { formatArtists, formatTime } from "../../scripts/utils";
     import { playerColors } from "../../stores/colors";
-    import QueueBox from "../library-view/old/queue-box.svelte";
-    import ScrubBar from "../library-view/old/scrub-bar.svelte";
 
     export let queue: Queue;
     export let repeat: string;

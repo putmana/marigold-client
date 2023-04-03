@@ -1,9 +1,9 @@
 <script lang="ts">
-    import { formatTime, formatArtists } from "../../../../../scripts/utils";
+    import { formatTime, formatArtists, pluralize } from "../../../../../scripts/utils";
 	
     export let album: Album;
     export let count: number;
-    export let duration: number = 0;
+	export let duration: number;
 
 </script>
 <div class="track-header">
@@ -20,11 +20,11 @@
             </span>
             <b>&#x2022</b>
             <span class="text-count">
-                {count} tracks
+                {count} {pluralize("track", count)}
             </span>
             <b>&#x2022</b>
             <span class="text-duration">
-                {formatTime(duration, true)}
+                {formatTime(duration, true, false)}
             </span>
         </div>
         <div class="text-description">

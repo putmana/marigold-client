@@ -1,12 +1,13 @@
 <script lang="ts">
     import { playerColors } from '../../stores/colors'
-    import Controller from './subcomponents/player/controller/controller.svelte';
-    import QueueBox from './subcomponents/player/queue-box/queue-box.svelte';
+    import { queue, ready, unique, repeat, shuffle, shuffleMap } from '../../stores/player'
+    import AudioPlayer from '../library-view/subcomponents/audio-player.svelte';
 </script>
 
 <div class="player" style="--main-light: {$playerColors.mainLight}; --main-dark: {$playerColors.mainDark}">
-    <Controller/>
-    <QueueBox/>
+    {#if $ready}
+        <AudioPlayer bind:queue={$queue} bind:repeat={$repeat} bind:shuffle={$shuffle} bind:shuffleMap={$shuffleMap} bind:unique={$unique}/>
+    {/if}
 </div>
 
 

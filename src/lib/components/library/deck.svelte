@@ -7,7 +7,7 @@
     import Void from './subcomponents/deck/shared/void.svelte';
 </script>
 
-<div transition:fly="{{x: 200, duration: 200}}" class="deck" class:loaded={$mode.content_id != false} style="--background-light: {$deckColors.backgroundLight}; --background-dark: {$deckColors.backgroundDark}">
+<div transition:fly="{{x: 200, duration: 200}}" class="deck" style="--background-light: {$deckColors.backgroundLight}; --background-dark: {$deckColors.backgroundDark}">
     {#if $mode.content_type === "PLAYLIST"}
         <PlaylistLoader />
     {:else if $mode.content_type === "ALBUM"}
@@ -28,9 +28,6 @@
         transition: width 0.2s ease;
         overflow-y: scroll;
         max-height: calc(100vh - $player-size);
-        &.loaded {
-            
-        }   
     }
     
 </style>

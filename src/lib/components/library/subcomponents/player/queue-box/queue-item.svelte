@@ -1,54 +1,24 @@
 <script lang="ts">
-    import { deckColors } from "../../../../../stores/colors";
+    import { playerColors } from "../../../../../stores/colors";
     import { createEventDispatcher } from "svelte";
     import { formatArtists } from "../../../../../scripts/utils";
-    import Panel from "../../../panel.svelte";
 
     export let track: Track;
-    export let position: number;
+    export let id: string;
+    export let position: "PREV" | "PLAYING" | "MANUAL" | "NEXT";
     export let showArt = true;
 
-    let shiftDown = false;
-
     const dispatch = createEventDispatcher();
-    
-    function handleKeyDown(e) {
-        if (e.key === "Shift") {
-            shiftDown = true;
-        }
-    }
 
-    function handleKeyUp(e) {
-        if (e.key === "Shift") {
-            shiftDown = false;
-        }
-    }
-
-    function handleClick(e) {
-        if (shiftDown) {
-            queueThisTrack()
-        } else {
-            queueThisList()
-        }
-    }
-
-    let queueThisList = () => {
-        dispatch('queuethislist')
-    }
-
-    let queueThisTrack = () => {
-        dispatch('queuethistrack')
+    let skipHere = () => {
+        dispatch('skiphere', {
+            id: id
+        });
+        console.log("CLICKED", id)
     }
 
 </script>
-<svelte:window on:keydown={handleKeyDown} on:keyup={handleKeyUp} />
-
-<div class="track" on:click={handleClick} style="--hover-light: {$deckColors.hoverLight}; --hover-dark: {$deckColors.hoverDark}">
-    <div class="number">
-        <span class="number-text">
-            {position}
-        </span>
-    </div>
+<div class="track" on:click={skipHere} class:playing={position === "PLAYING"} style="--full-light: {$playerColors.fullLight};">
     {#if showArt}
         <div class="art">
             <img class="art-image" src="{track.cover.path}">
@@ -71,20 +41,18 @@
 		flex-grow: 1;
 		flex-direction: row;
 		align-items: center;
-		height: $track-item-size;
-        max-height: $track-item-size;
+		height: $queue-item-size;
+        margin-bottom: $margin-size;
 		border-radius: $margin-size;
-        margin-left: $margin-size;
-        margin-right: $margin-size;
         border-width: 1px;
         border-style: solid;
         border-color: transparent;
-        transition: background-color $hover-fade-time ease;
+        transition: background-color $hover-fade-time ease-in-out;
         .number {
 			display: flex;
 			align-items: center;
-			height: $track-item-size;
-			width: $track-item-size;
+			height: $queue-item-size;
+			width: $queue-item-size - $margin-size;
 			.number-text {
 				width: inherit;
 				text-align: center;
@@ -96,21 +64,43 @@
             opacity: 70%;
         }
         .art {
+            margin-left: calc(2 * $margin-size);
             margin-right: calc(4 * $margin-size);
-            min-height: calc($track-item-art-size);
+            min-height: calc($queue-item-art-size);
             .art-image {
                 margin: none;
-                height: calc($track-item-art-size);
-                width: calc($track-item-art-size);
+                height: calc($queue-item-art-size);
+                width: calc($queue-item-art-size);
                 border-style: solid;
                 border-color: $border-color;
                 border-width: 1px;
                 vertical-align: middle;
             }
         }
+        &::before {
+            content: "";
+            width: 0;
+            height: 0;
+            background-color: var(--full-light);
+            border-radius: $margin-size;
+            margin-left: $margin-size;
+            transition: width $hover-fade-time ease, height $hover-fade-time ease;
+        }
         &:hover {
             background-color: $hover-color;
             border-color: $border-color;
+        }
+        &.playing {
+            font-weight: bold;
+            &:hover {
+                background-color: $hover-color;
+                border-color: $border-color;
+            }
+            &::before {
+                content: "";
+                width: $margin-size;
+                height: $queue-item-art-size;
+            }
         }
     }
 </style>

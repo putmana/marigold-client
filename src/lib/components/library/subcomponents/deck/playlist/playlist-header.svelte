@@ -1,14 +1,13 @@
 <script lang="ts">
+    import { formatTime, pluralize } from "../../../../../scripts/utils";
+
+
+
     export let playlist: Playlist;
     export let count: number;
-    export let duration: number = 2582;
+	export let duration: number;
 
-    let formattedDuration = () => {
-        let h = Math.floor(duration / 60);
-        let m = Math.floor(duration % 60);
-		
-        return ((h) > 0 ? +h + " hr " : "") + (+m +" min")
-    }
+
 </script>
 <div class="track-header">
     <div class="text">
@@ -24,11 +23,11 @@
             </span>
             <b>&#x2022</b>
             <span class="text-count">
-                {count} tracks
+                {count} {pluralize("track", count)}
             </span>
             <b>&#x2022</b>
             <span class="text-duration">
-                {formattedDuration()}
+                {formatTime(duration, true, false)}
             </span>
         </div>
         <div class="text-description">
