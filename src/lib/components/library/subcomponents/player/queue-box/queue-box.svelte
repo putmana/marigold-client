@@ -4,10 +4,10 @@
     import QueueItem from "./queue-item.svelte";
     import { quintOut } from 'svelte/easing'
     import { flip } from 'svelte/animate'
-
     import { queueBoxVisible, tracksPlayed, tracksQueued, tracksManual, tracksAll, currentTrack, repeat, queueStage } from "../../../../../stores/player";
     import { getQueueTrackPosition, reorderQueue } from "../../../../../scripts/queue";
 
+    // <---- ANIMATION ---->
     const [send, receive] = crossfade({
         duration: d => Math.sqrt(d * 200),
 
@@ -26,15 +26,16 @@
         }
     })
 
+    // <---- EVENT HANDLERS ---->
     function skipToTrack(e) {
         let id = e.detail.id
         $queueStage = reorderQueue($tracksAll, getQueueTrackPosition($tracksAll, id))
         console.log("SKIP TO TRACK", e)
     }
+
+    // <---- BINDS ---->
     $: manual = [...$tracksManual]
     $: next = ($repeat === "ALL") ? [...$tracksQueued, ...$tracksPlayed] : [...$tracksQueued]
-
-
     $: hasManual = (manual.length > 0)
     $: hasNext = (next.length > 0)
 

@@ -8,6 +8,7 @@
     export let position: "PREV" | "PLAYING" | "MANUAL" | "NEXT";
     export let showArt = true;
 
+    // <---- EVENT DISPATCHER ---->
     const dispatch = createEventDispatcher();
 
     let skipHere = () => {

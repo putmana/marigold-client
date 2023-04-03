@@ -25,27 +25,24 @@
     // The original sorted list of tracks from the selected album or playlist
     let prevTracks: QueueTrack[] = []; 
     // Previously played tracks in the current session
-
     let playingTrack: QueueTrack; 
     // The currently playing track
-
     let nextTracks: QueueTrack[] = []; 
     // The tracks that are up next in the queue
-
     let manualTracks: QueueTrack[] = []; 
     // Tracks manually added to the queue by the user
 
+    // <---- DISPLAY VALUES ---->
     $: title = (ready) ? playingTrack.track.title : ""
     $: artists = (ready) ? formatArtists(playingTrack.track.artists) : ""
-
     $: player.src = (ready) ? playingTrack.track.path : ""
     $: cover = (ready) ? playingTrack.track.cover.path : ""
     
-
     // <---- BIND UPDATES ---->
     $: (paused) ? player.pause() : player.play();
     $: if (ended) ($repeat === "ONE") ? restart() : skipNext();
 
+    // <---- SHUFFLE FUNCTIONS ---->
     function shuffleTracks() {
         let hat: QueueTrack[] = [...prevTracks, ...nextTracks]
         let shuffled: QueueTrack[] = []
@@ -78,14 +75,13 @@
         }
     }
 
-    // <---- LISTENERS ---->
-
+    // <---- QUEUE UPDATE LISTENER ---->
     $: if (!$queueStage.seen) {
         processStage()
         store()
     }
 
-    
+    // <---- QUEUE UPDATE HANDLER ---->
     function processStage() {
         ready = true;
 
@@ -127,15 +123,13 @@
 
 
     
-
-    // <---- CONTROL FUNCTIONS ---->
+    // <---- UPDATE FUNCTIONS ---->
     function store() {
         $tracksQueued = nextTracks;
         $tracksPlayed = prevTracks;
         $currentTrack = playingTrack;
         $tracksManual = manualTracks;
     }
-
     function reload() {
         reloader = Symbol()
         player.load()
@@ -143,26 +137,23 @@
         store()
     }
 
+    // <---- CONTROL FUNCTIONS ---->
     function play() {
         paused = false;
         store()
     }
-
     function pause() {
         paused = true;
         store()
     }
-
     function playPause() {
         paused = !paused
         store()
     }
-
     function restart() {
         time = 0
         store()
     }
-
     function skipNext() {
         if (playingTrack.source === "AUTO") prevTracks.push(playingTrack)
         paused = false;
@@ -179,7 +170,6 @@
         }
         reload()
     }
-
     function skipPrev() {
         if (playingTrack.source === "AUTO") nextTracks.splice(0, 0, playingTrack)
         paused = false;
@@ -196,10 +186,12 @@
         reload()
     }
 
+    // <---- EVENT HANDLER ---->
     function handleScrub(e) {
         time = e.detail.time;
     }
 
+    // <---- TOGGLE FUNCTIONS ---->
     function toggleShuffle() {
         if (ready) {
             if ($shuffle) {
@@ -212,11 +204,9 @@
             store()
         }
     }
-
     function toggleQueueBox() {
         $queueBoxVisible = !$queueBoxVisible;
     }
-
     function toggleRepeat() {
         if ($repeat === "ALL") {
             $repeat = "ONE"
