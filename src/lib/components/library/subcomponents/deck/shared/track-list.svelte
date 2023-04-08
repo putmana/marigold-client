@@ -1,8 +1,8 @@
 <script lang="ts">
-    import { deckColors } from "../../../../../stores/colors";
+    import { deckPalette } from "../../../../../stores/colors";
 </script>
 
-<div class="tracklist" style="--main-light: {$deckColors.mainLight}; --main-dark: {$deckColors.mainDark}">
+<div class="tracklist" style="--main-light: {$deckPalette.main.light}; --main-dark: {$deckPalette.main.dark}">
     <slot></slot>
 </div>
 <div class="footer">
@@ -13,23 +13,22 @@
     .tracklist {
         display: flex;
         flex-direction: column;
+        background-color: var(--main-light);
+        margin: $margin-size;
         background-image: linear-gradient(to right, var(--main-light), var(--main-dark));
+        overflow-x: hidden;
+        overflow-y: auto;
         &::after {
             content: "";
-            height: $margin-size;
+            width: calc(100% - 2 * $margin-size);
+            align-self: center;
+            height: calc(2 * $margin-size);
             background-color: linear-gradient(to right, var(--main-light), var(--main-dark));
-            border-bottom-style: solid;
-            border-bottom-width: 1px;
-            border-bottom-color: $border-color;
+            border-bottom: 1px solid $border-color;
+            margin-bottom: $track-item-size;
         }
     }
-    .footer {
-        flex-grow: 1;
-        box-shadow: inset 0 0 calc($shadow-size * 2) $shadow-color;
-        border-left-style: solid;
-        border-left-width: 1px;
-        border-left-color: $gray-d;
-    }
+    
     
     
 </style>

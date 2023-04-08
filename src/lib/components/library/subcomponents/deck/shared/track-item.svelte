@@ -1,8 +1,7 @@
 <script lang="ts">
-    import { deckColors } from "../../../../../stores/colors";
+    import { deckPalette } from "../../../../../stores/colors";
     import { createEventDispatcher } from "svelte";
     import { formatArtists } from "../../../../../scripts/utils";
-    import Panel from "../../../panel.svelte";
 
     export let track: Track;
     export let position: number;
@@ -43,7 +42,7 @@
 </script>
 <svelte:window on:keydown={handleKeyDown} on:keyup={handleKeyUp} />
 
-<div class="track" on:click={handleClick} style="--hover-light: {$deckColors.hoverLight}; --hover-dark: {$deckColors.hoverDark}">
+<div class="track" on:click={handleClick} style="--hover-light: {$deckPalette.bright.light}; --hover-dark: {$deckPalette.bright.dark}">
     <div class="number">
         <span class="number-text">
             {position}
@@ -72,7 +71,7 @@
 		flex-direction: row;
 		align-items: center;
 		height: $track-item-size;
-        max-height: $track-item-size;
+        max-height: $track-item-size;   
 		border-radius: $margin-size;
         margin-left: $margin-size;
         margin-right: $margin-size;

@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { formatArtists } from "../../../../../scripts/utils";
     import ListHeader from "../../../subcomponents/panel/shared/list-header.svelte";
     import ListItem from "../shared/list-item.svelte";
     import Loader from "../shared/loader.svelte";

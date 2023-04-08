@@ -1,10 +1,11 @@
 <script lang="ts">
     import { onMount } from "svelte";
     import ColorEngine from "../../../../../scripts/color_engine";
+    import { buildPalette } from "../../../../../scripts/palette";
     import { getQueueTrackPosition } from "../../../../../scripts/queue";
     import { formatArtists, formatTime } from "../../../../../scripts/utils";
-    import { playerColors } from "../../../../../stores/colors";
-    import { currentTrack, tracksQueued, tracksPlayed, queueStage, position, repeat, shuffle, tracksManual, queueBoxVisible } from "../../../../../stores/player";
+    import { playerColors, playerPalette } from "../../../../../stores/colors";
+    import { currentTrack, tracksQueued, tracksPlayed, queueStage, position, repeat, shuffle, tracksManual, queueBoxVisible, queueReady } from "../../../../../stores/player";
     import { current } from "../../../../../stores/view-albums";
     import ScrubBar from "./scrub-bar.svelte";
 
@@ -18,7 +19,7 @@
     let ended = false;
     let reloader: Symbol = Symbol();
     let src = "";
-    let cover = "";
+    let cover: string;
     
     // <---- INTERNAL VALUES ---->
     let sourceTracks: QueueTrack[] = []; 
@@ -36,7 +37,7 @@
     $: title = (ready) ? playingTrack.track.title : ""
     $: artists = (ready) ? formatArtists(playingTrack.track.artists) : ""
     $: player.src = (ready) ? playingTrack.track.path : ""
-    $: cover = (ready) ? playingTrack.track.cover.path : ""
+    $: cover = (ready) ? playingTrack.track.cover.path : "./img/mg/covers/default.png"
     
     // <---- BIND UPDATES ---->
     $: (paused) ? player.pause() : player.play();
@@ -110,6 +111,9 @@
             playingTrack = $queueStage.tracks[$queueStage.position]
             reload()
 
+        } else if ($queueStage.flag === "REORDER_MANUAL") {
+            manualTracks = $queueStage.tracks;
+            
         } else if ($queueStage.flag === "DIE") {
             prevTracks = []
             nextTracks = []
@@ -129,11 +133,13 @@
         $tracksPlayed = prevTracks;
         $currentTrack = playingTrack;
         $tracksManual = manualTracks;
+        $queueReady = ready;
     }
     function reload() {
         reloader = Symbol()
         player.load()
         $playerColors = new ColorEngine(playingTrack.track.cover.color);
+        $playerPalette = buildPalette(playingTrack.track.cover.color);
         store()
     }
 
@@ -152,7 +158,7 @@
     }
     function restart() {
         time = 0
-        store()
+        reload()
     }
     function skipNext() {
         if (playingTrack.source === "AUTO") prevTracks.push(playingTrack)
@@ -218,78 +224,76 @@
     }
 
 </script>
-
-<div class="info">
-    <div class="art">
-        <img class="art-image" src={cover} alt={title + " art"}>
-    </div>
-    <div class="text">
-        <div class="text-title">
-            {title}
-        </div>
-        <div class="text-artist">
-            {artists}
-        </div>
-    </div>
+<div class="scrub">
+    <ScrubBar bind:currentTime={time} bind:duration={duration} disabled={!ready} on:timechange={handleScrub}/>
 </div>
-<div class="controls">
-    <div class="button-section">
-        <div class="time">
-            {formatTime(time)}
+<div class="main">
+    <div class="info">
+        <div class="art">
+            <img class="art-image" src={cover} alt={title + " art"}>
         </div>
+        <div class="text">
+            <div class="text-title">
+                {title}
+            </div>
+            <div class="text-artist">
+                {artists}
+            </div>
+        </div>
+    </div>
+    <div class="controls" style="--full-light: {$playerColors.fullLight}">
         <div class="button-wrapper">
-            <button class="btn" on:click={skipPrev} disabled={!ready}>
+            <button class="btn selected" on:click={toggleShuffle} class:selected={$shuffle} disabled={!ready}>
+                <div class="btn-icon">
+                    <i class="bi bi-shuffle"></i>
+                </div>
+            </button>            
+            <button class="btn skip" on:click={skipPrev} disabled={!ready}>
                 <i class="bi bi-skip-start-fill"></i>
             </button>
-            <button class="btn main" on:click={playPause} disabled={!ready}>
+            <button class="btn playpause" on:click={playPause} disabled={!ready}>
                 {#if paused}
-                    <i class="bi bi-play-btn-fill"></i>
+                <i class="bi bi-play-fill"></i>
                 {:else}
-                    <i class="bi bi-pause-btn-fill"></i>
+                <i class="bi bi-pause-fill"></i>
                 {/if}
             </button>
-            <button class="btn" on:click={skipNext} disabled={!ready}>
+            <button class="btn skip" on:click={skipNext} disabled={!ready}>
                 <i class="bi bi-skip-end-fill"></i>
             </button>
+            <button class="btn selected" on:click={toggleRepeat} class:selected={$repeat !== "OFF"} disabled={!ready}>
+                {#if $repeat === "ONE"}
+                <div class="btn-icon">
+                    <i class="bi bi-repeat-1"></i>
+                </div>
+                {:else}
+                <div class="btn-icon">
+                    <i class="bi bi-repeat"></i>
+                </div>
+                {/if}
+            </button>
         </div>
-        <div class="time end">
-            {formatTime(duration)}
-        </div>
+    </div>
+    <div class="settings" style="--full-light: {$playerColors.fullLight}">
         
-    </div>
-    <div class="scrub-section">
-        <ScrubBar bind:currentTime={time} bind:duration={duration} disabled={!ready} on:timechange={handleScrub}/>
+        <button class="btn selected" on:click={toggleQueueBox} class:selected={$queueBoxVisible} disabled={!ready}>
+            <div class="btn-icon">
+                <i class="bi bi-list-ol"></i>
+            </div>
+        </button>
+        <div class="time">
+            <span>
+                {formatTime(time)}
+            </span>
+            /
+            <span>
+                {formatTime(duration)}
+            </span>
+        </div>
     </div>
 </div>
-<div class="settings" style="--full-light: {$playerColors.fullLight}">
-    <button class="btn selected" on:click={toggleQueueBox} class:selected={$queueBoxVisible} disabled={!ready}>
-        <div class="btn-icon">
-            <i class="bi bi-list-ol"></i>
-        </div>
-    </button>
     
-    <button class="btn selected" on:click={toggleShuffle} class:selected={$shuffle} disabled={!ready}>
-        <div class="btn-icon">
-            <i class="bi bi-shuffle"></i>
-        </div>
-    </button>
-
-    <button class="btn selected" on:click={toggleRepeat} class:selected={$repeat !== "OFF"}>
-        {#if $repeat === "ONE"}
-            <div class="btn-icon">
-                <i class="bi bi-repeat-1"></i>
-            </div>
-        {:else}
-            <div class="btn-icon">
-                <i class="bi bi-repeat"></i>
-            </div>
-        {/if}
-    </button>
-
     
-</div>
-
-
 {#key reloader}
     <audio bind:this={player} bind:currentTime={time} bind:duration bind:paused bind:ended />
 {/key}
@@ -297,135 +301,162 @@
 
 <style lang="scss">
     @import '/src/lib/static/vars.scss';
-    .info {
+    .main {
+        border-top: 1px solid $border-color;
         display: flex;
-        flex-direction: row;
-        align-items: center;
-        height: inherit;
-        flex: 2;
-        .art {
+        height: $player-size;
+        .info {
             display: flex;
-            height: inherit;
-            width: $player-size;
-            .art-image {
-                border-right-style: solid;
-                border-color: $border-color;
-                border-width: 1px;
+            flex-direction: row;
+            align-items: center;
+            flex: 2;
+            .art {
+                display: flex;
+                height: $player-size;
+                width: $player-size;
+                .art-image {
+                    border-right: 1px solid $border-color;
+                }
+            }
+            .text {
+                margin-left: calc($player-size / 4);
+                margin-right: calc($player-size / 4);
+                .text-title {
+                    font-weight: bold;
+                }
+                .text-artist {
+                    opacity: 70%;
+                    font-size: smaller;
+                }
             }
         }
-        .text {
-            margin-left: calc($player-size / 4);
-            margin-right: calc($player-size / 4);
-            .text-title {
-                font-weight: bold;
-            }
-            .text-artist {
-                opacity: 70%;
-                font-size: smaller;
-            }
-        }
-    }
-    .controls {
-        display: flex;
-        flex-direction: column;
-        flex: 3;
-        .button-section {
+        .controls {
             display: flex;
-            flex: 7;
             justify-content: center;
-            align-items: end;
-            padding-bottom: calc($margin-size);
-            justify-content: space-between;
+            align-items: center;
+            flex: 3;
             .button-wrapper {
                 display: flex;
+                align-items: center;
                 justify-content: center;
                 .btn {
-                    background-color: transparent;
-                    border: none;
+                    margin-left: $margin-size;
+                    display: flex;
+                    flex-direction: column-reverse;
+                    justify-content: center;
+                    align-items: center;
                     color: $text-color;
-                    font-size: $player-btn-size;
-                    transition: transform $hover-fade-time ease;
-                    i {
-                        vertical-align: middle;
-                    }
-                    &.main {
-                        font-size: $player-main-btn-size;
+                    background-color: transparent;
+                    width: $player-settings-btn-size;
+                    height: $player-settings-btn-size;
+                    border-width: 1px;
+                    border-style: solid;
+                    border-color: transparent;
+                    border-radius: $margin-size;
+                    transition: background-color $hover-fade-time ease, opacity $hover-fade-time ease;
+                    &::before {
+                        content: "";
+                        background-color: border;
+                        height: 0;
+                        width: 0;
+                        border-radius: $margin-size;
+                        transition: height $hover-fade-time ease, width $hover-fade-time ease;
                     }
                     &:hover:enabled {
-                        transform: scale(1.1);
+                        opacity: 100%;
+                        background-color: $hover-color;
+                        border-width: 1px;
+                        border-style: solid;
+                        border-color: $border-color;
+                    }
+                    &.selected:enabled {
+                        opacity: 100%;
+                        &::before {
+                            content: "";
+                            background-color: var(--full-light);
+                            margin-top: $margin-size;
+                            height: $margin-size;
+                            width: $font-size;
+                        }
+                        &:hover:enabled {
+                            background-color: $hover-color;
+                        }
                     }
                     &:disabled {
                         opacity: 50%;
                     }
+                    &.skip {
+                        font-size: $player-skip-btn-size;
+                    }
+                    &.playpause {
+                        font-size: $player-playpause-btn-size;
+                    }
                 }
             }
+        }
+        .settings {
+            display: flex;
+            flex-direction: row-reverse;
+            align-items: center;
+            flex: 2;
+            margin-right: calc($player-size / 4);
             .time {
-                width: calc(3 * $size);
-                &.end {
-                    text-align: end;
+                font-size: smaller;
+                margin-bottom: 1px;
+                margin-right: $margin-size;
+                span {
+                    margin-left: $margin-size;
+                    margin-right: $margin-size;
                 }
             }
-        }
-        .scrub-section {
-            display: flex;
-            align-items: center;
-            flex: 3;
-            display: flex;
-        }
-    }
-    .settings {
-        display: flex;
-        flex-direction: row-reverse;
-        align-items: center;
-        flex: 2;
-        margin-right: calc($player-size / 4);
-        .btn {
-            margin-left: $margin-size;
-            display: flex;
-            flex-direction: column-reverse;
-            justify-content: center;
-            align-items: center;
-            color: $text-color;
-            background-color: transparent;
-            width: $player-settings-btn-size;
-            height: $player-settings-btn-size;
-            border-width: 1px;
-            border-style: solid;
-            border-color: transparent;
-            border-radius: $margin-size;
-            transition: background-color $hover-fade-time ease, opacity $hover-fade-time ease;
-            &::before {
-                content: "";
-                background-color: border;
-                height: 0;
-                width: 0;
-                border-radius: $margin-size;
-                transition: height $hover-fade-time ease, width $hover-fade-time ease;
-            }
-            &:hover:enabled {
-                opacity: 100%;
-                background-color: $hover-color;
+            .btn {
+                margin-left: $margin-size;
+                display: flex;
+                flex-direction: column-reverse;
+                justify-content: center;
+                align-items: center;
+                color: $text-color;
+                background-color: transparent;
+                width: $player-settings-btn-size;
+                height: $player-settings-btn-size;
                 border-width: 1px;
                 border-style: solid;
-                border-color: $border-color;
-            }
-            &.selected:enabled {
-                opacity: 100%;
+                border-color: transparent;
+                border-radius: $margin-size;
+                transition: background-color $hover-fade-time ease, opacity $hover-fade-time ease;
                 &::before {
                     content: "";
-                    background-color: var(--full-light);
-                    margin-top: $margin-size;
-                    height: $margin-size;
-                    width: $font-size;
+                    background-color: border;
+                    height: 0;
+                    width: 0;
+                    border-radius: $margin-size;
+                    transition: height $hover-fade-time ease, width $hover-fade-time ease;
                 }
                 &:hover:enabled {
+                    opacity: 100%;
                     background-color: $hover-color;
+                    border-width: 1px;
+                    border-style: solid;
+                    border-color: $border-color;
                 }
-            }
-            &:disabled {
-                opacity: 50%;
+                &.selected:enabled {
+                    opacity: 100%;
+                    &::before {
+                        content: "";
+                        background-color: var(--full-light);
+                        margin-top: $margin-size;
+                        height: $margin-size;
+                        width: $font-size;
+                    }
+                    &:hover:enabled {
+                        background-color: $hover-color;
+                    }
+                }
+                &:disabled {
+                    opacity: 50%;
+                }
             }
         }
     }
-    
-</style>
+        
+    </style>

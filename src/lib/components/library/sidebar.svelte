@@ -3,7 +3,6 @@
 
     let expanded = false;
 
-
     function expand() {
         expanded = true;
     }

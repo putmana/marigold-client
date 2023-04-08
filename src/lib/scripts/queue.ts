@@ -52,6 +52,26 @@ export function reorderQueue(tracks: QueueTrack[], position: number): QueueStage
     }
 }
 
+export function reorderManualQueue(tracks: QueueTrack[]): QueueStage {
+    const FLAG: "REORDER_MANUAL" = "REORDER_MANUAL"
+
+    return {
+        flag: FLAG,
+        seen: false,
+        tracks: tracks,
+    }
+}
+
+export function clearManualQueue(): QueueStage {
+    const FLAG: "REORDER_MANUAL" = "REORDER_MANUAL"
+
+    return {
+        flag: FLAG,
+        seen: false,
+        tracks: [],
+    }
+}
+
 export function clearQueue(): QueueStage {
     const FLAG: "DIE" = "DIE"
 

@@ -73,7 +73,7 @@ declare global {
         // ADD: Manually add a track or list of tracks to the queue
         // REORDER: Reorder the tracks in the queue to match the order of the provided tracks
         // DIE: Clear the current queue and do not play anything
-        flag: "START" | "ADD" | "REORDER" | "DIE" 
+        flag: "START" | "ADD" | "REORDER" | "REORDER_MANUAL" | "DIE" 
         // Marked true once the Stage has been processed by the controller
         seen: boolean;
         // The list of tracks to be played
@@ -86,6 +86,21 @@ declare global {
         id: string;
         source: "AUTO" | "MANUAL";
         track: Track;
+    }
+
+    type Palette = {
+        bright: {
+            light: string;
+            dark: string;
+        }
+        main: {
+            light: string;
+            dark: string;
+        }
+        dim: {
+            light: string;
+            dark: string;
+        }
     }
 }
 

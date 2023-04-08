@@ -21,8 +21,11 @@
 		align-items: center;
 		height: $tab-size;
 		background-color: $gray-c;
-		margin-left: calc($list-item-size / 4);
+		padding-left: calc($list-item-size / 4);
 		font-weight: bold;
+        border: 1px solid $border-color;
+        border-top: none;
+        border-bottom: none;
         .label {
             flex-grow: 1;
         }

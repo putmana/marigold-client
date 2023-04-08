@@ -19,7 +19,6 @@
         flex-direction: column;
         flex-grow: 1;
         max-height: calc(100vh - $player-size);
-        box-shadow: inset 0 0 calc($shadow-size * 2) $shadow-color;
         border-left-style: solid;
         border-left-width: 1px;
         border-left-color: $gray-d;

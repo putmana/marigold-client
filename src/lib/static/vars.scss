@@ -14,6 +14,7 @@ $border-color: rgba(255, 255, 255, 0.1);
 $hover-color: rgba(255, 255, 255, 0.1);
 $selected-color: rgba(255, 255, 255, 0.05);
 $scrub-track-color: rgba(20, 20, 20, 0.5);
+$scrollbar-color: rgba(255, 255, 255, 0.2);
 
 $text-color: white;
 
@@ -29,19 +30,30 @@ $sidebar-size-collapsed: calc(2 * $size);
 $sidebar-size-expanded: calc(6 * $size);
 $panel-size: calc(12 * $size);
 
-$player-size: calc(3 * $size);
+$player-size: calc(2 * $size);
 $player-info-size: calc(12 * $size);
-$player-btn-size: calc(0.75 * $size);
-$player-main-btn-size: calc(1.25 * $size);
+$player-skip-btn-size: calc(0.75 * $size);
+$player-playpause-btn-size: calc(1.25 * $size);
 $player-settings-btn-size: calc(1.5 * $size);
 
 
 $tab-size: calc(2 * $size);
 $list-header-size: calc(2 * $size);
 $list-item-size: calc(3 * $size);
-$track-header-size: calc(8.5 * $size - $margin-size);
+$list-item-art-size: calc($list-item-size - 4 * $margin-size);
+$track-header-size: calc(12 * $size);
 $track-item-size: calc(2.5 * $size);
 $track-item-art-size: calc(3 / 4 * $track-item-size);
-$queue-box-size: calc(12 * $size);
+$queue-box-size: calc(10 * $size);
 $queue-item-size: calc(2 * $size);
 $queue-item-art-size: calc(3 / 4 * $queue-item-size);
+
+*::-webkit-scrollbar {
+    appearance: none;
+    width: $margin-size;
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: $shadow-color;
+    border-radius: $margin-size;
+}

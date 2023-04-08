@@ -1,15 +1,15 @@
 <script lang="ts">
     import { mode } from "../../../../../stores/mode";
-    import { deckColors } from "../../../../../stores/colors";
-    import ColorEngine from "../../../../../scripts/color_engine";
+    import { deckPalette, defaultColor } from "../../../../../stores/colors";
     import TrackList from "../shared/track-list.svelte";
     import Void from "../shared/void.svelte";
     import { onDestroy } from "svelte";
     import TrackItem from "../shared/track-item.svelte";
     import PlaylistHeader from "./playlist-header.svelte";
     import { calculateDuration } from "../../../../../scripts/utils";
-    import { queueStage } from "../../../../../stores/player";
+    import { queueStage, currentTrack } from "../../../../../stores/player";
     import { addToQueue, startQueue } from "../../../../../scripts/queue";
+    import { buildPalette } from "../../../../../scripts/palette";
     
     $: playlist = loadPlaylists($mode.content_id)
 
@@ -21,7 +21,7 @@
             }).then((data) => {
                 return data.data as PlaylistTracks;
             }).then((playlist) => {
-                $deckColors = new ColorEngine(playlist.info.cover.color)
+                $deckPalette = buildPalette(playlist.info.cover.color)
                 return playlist
             })
         
@@ -29,6 +29,7 @@
 
     onDestroy(() => {
         $mode.content_id = false;
+        $deckPalette = buildPalette(defaultColor)
     })
 
     function queueThisList(tracks: Track[], position: number) {
@@ -36,7 +37,12 @@
     }
 
     function queueThisTrack(track: Track) {
-        $queueStage = addToQueue([track])
+        console.log($currentTrack)
+        if ($currentTrack === null) {
+            $queueStage = startQueue([track], 0)
+        } else {
+            $queueStage = addToQueue([track])
+        }
     }
 
 </script>

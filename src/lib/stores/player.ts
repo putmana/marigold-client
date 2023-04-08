@@ -1,7 +1,7 @@
 import { derived, writable, type Readable, type Writable } from "svelte/store";
 
 export const position: Writable<number> = writable(0)
-
+export const queueReady: Writable<boolean> = writable(false)
 export const tracksPlayed: Writable<QueueTrack[]> = writable([])
 export const tracksQueued: Writable<QueueTrack[]> = writable([])
 export const tracksManual: Writable<QueueTrack[]> = writable([])

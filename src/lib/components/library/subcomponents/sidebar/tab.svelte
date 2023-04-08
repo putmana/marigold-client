@@ -23,11 +23,15 @@
     
     @import "/src/lib/static/vars.scss";
     .tab {
+        position: relative;
+        left: 1px;
+        z-index: 1;
 		display: flex;
 		flex-direction: row;
 		align-items: center;
-		height: $tab-size;
+		height: calc($tab-size - 1px);
 		transition: background-color 0.15s ease;
+        border: 1px solid transparent;
 		.tab-icon {
 			display: flex;
 			justify-content: center;
@@ -47,12 +51,13 @@
 		}
 	    &.selected {
             background-color: $gray-c;
+            border-color: $border-color;
+            border-right: none;
             font-weight: bold;
-            border-left-width: $margin-size;
-			border-left-style: solid;
-			border-left-color: var(--full-light);
+            
         }
         &:hover {
+            border-color: $border-color;
             background-color: $gray-d;
         }
     }

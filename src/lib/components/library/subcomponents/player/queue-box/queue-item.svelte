@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { playerColors } from "../../../../../stores/colors";
+    import { playerPalette } from "../../../../../stores/colors";
     import { createEventDispatcher } from "svelte";
     import { formatArtists } from "../../../../../scripts/utils";
 
@@ -8,18 +8,31 @@
     export let position: "PREV" | "PLAYING" | "MANUAL" | "NEXT";
     export let showArt = true;
 
+    export let mouseOverRemove = false;
+
     // <---- EVENT DISPATCHER ---->
     const dispatch = createEventDispatcher();
 
     let skipHere = () => {
-        dispatch('skiphere', {
-            id: id
-        });
-        console.log("CLICKED", id)
+        if (!mouseOverRemove) {
+            dispatch('skiphere', {
+                id: id
+            });
+            console.log("CLICKED", id)
+        }
+    }
+
+    let removeFromQueue = () => {
+        if (position === "MANUAL") {
+            dispatch('removefromqueue', {
+                id: id
+            });
+            console.log("REMOVED", id)
+        }
     }
 
 </script>
-<div class="track" on:click={skipHere} class:playing={position === "PLAYING"} style="--full-light: {$playerColors.fullLight};">
+<div class="track" on:click={skipHere} class:playing={position === "PLAYING"} style="--full-light: {$playerPalette.bright.light};">
     {#if showArt}
         <div class="art">
             <img class="art-image" src="{track.cover.path}">
@@ -32,7 +45,17 @@
         <div class="text-artist">
             {formatArtists(track.artists)}
         </div> 
+        
     </div>
+    {#if position === "MANUAL"}
+        <button 
+        class="btn" 
+        on:mouseenter={() => mouseOverRemove = true}
+        on:mouseleave={() => mouseOverRemove = false}
+        on:click={removeFromQueue}>
+            <i class="bi bi-trash3"></i>
+        </button>
+    {/if}
 </div>
 
 <style lang="scss">
@@ -44,6 +67,8 @@
 		align-items: center;
 		height: $queue-item-size;
         margin-bottom: $margin-size;
+        margin-left: $margin-size;
+        margin-right: $margin-size;
 		border-radius: $margin-size;
         border-width: 1px;
         border-style: solid;
@@ -78,6 +103,36 @@
                 vertical-align: middle;
             }
         }
+        .btn {
+            opacity: 0%;
+            font-family: inherit;
+            float: inline-end;
+            margin-left: auto;
+            margin-right: $margin-size;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: $text-color;
+            background-color: transparent;
+            min-width: calc($size);
+            min-height: calc($size);
+            border-width: 1px;
+            border-style: solid;
+            border-color: transparent;
+            border-radius: $margin-size;
+            transition: background-color $hover-fade-time ease, opacity $hover-fade-time ease;
+
+            &:hover:enabled {
+                opacity: 100%;
+                background-color: $hover-color;
+                border-width: 1px;
+                border-style: solid;
+                border-color: $border-color;
+            }
+            &:disabled {
+                opacity: 50%;
+            }
+        }
         &::before {
             content: "";
             width: 0;
@@ -90,6 +145,9 @@
         &:hover {
             background-color: $hover-color;
             border-color: $border-color;
+            .btn {
+                opacity: 100%;
+            }
         }
         &.playing {
             font-weight: bold;
@@ -103,5 +161,6 @@
                 height: $queue-item-art-size;
             }
         }
+        
     }
 </style>

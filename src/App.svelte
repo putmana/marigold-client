@@ -4,24 +4,30 @@
   import Panel from "./lib/components/library/panel.svelte";
     import Player from "./lib/components/library/player.svelte";
   import Sidebar from "./lib/components/library/sidebar.svelte";
+    import QueueBox from "./lib/components/library/subcomponents/player/queue-box/queue-box.svelte";
   import { mode } from "./lib/stores/mode";
 
   $: console.log("MODE CHANGED:" + $mode.content_type); 
 </script>
 
 <div class="app-wrapper">
+
   <div class="app-container">
-      <!---- SIDEBAR ---->
-      <Sidebar/>
+    <!---- SIDEBAR ---->
+    <Sidebar/>
+    <!---- PANEL ---->
+    <Panel/>
+    <!---- DECK ---->
+    <Deck/>
 
-      <!---- PANEL ---->
-      <Panel/>
+    <QueueBox/>
 
-      <!---- DECK ---->
-      <Deck/>
 
   </div>
+
   <Player/>
+
+  
 </div>
 
 <style lang="scss">
@@ -38,15 +44,16 @@
       position: fixed;
       display: flex;
       flex-direction: column;
-      height: 100%;
-      left: 0;
-      right: 0;
       bottom: 0;
-      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
   }
   .app-container {
       display: flex;
-      flex-direction: row;
       flex-grow: 1;
+      flex-direction: row;
+      max-height: calc(100vh - $player-size - $margin-size);
   }
+  
 </style>

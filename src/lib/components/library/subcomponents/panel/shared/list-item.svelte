@@ -1,6 +1,6 @@
 <script lang="ts">
     import { mode } from "../../../../../stores/mode";
-    import { deckColors } from "../../../../../stores/colors";
+    import { deckPalette } from "../../../../../stores/colors";
 
     export let id: string;
     export let title: string;
@@ -13,7 +13,7 @@
 
 </script>
 
-<a class="list" class:selected={$mode.content_id == id} style="--main-light: {$deckColors.mainLight}" on:click={() => {$mode.content_id = id}}>
+<a class="list" class:selected={$mode.content_id == id} style="--main-light: {$deckPalette.main.light}; --bright-light: {$deckPalette.bright.light}" on:click={() => {$mode.content_id = id}}>
     <div class="art">
         <img class="art-image" src={cover}>
     </div>
@@ -31,17 +31,25 @@
     @import "/src/lib/static/vars.scss";
     .list {
         display: flex;
+        position: relative;
+        
 		flex-direction: row;
-        background-image: linear-gradient(to left, $gray-d, $gray-c);
 		height: $list-item-size;
 		align-items: center;
+        border: 1px solid transparent;
+        border-right-color: $border-color;
+        border-left-color: $border-color;
+        transition: border-radius $hover-fade-time ease, margin $hover-fade-time ease, background-color $hover-fade-time ease;
         .art {
-            margin-left: $margin-size;
-            height: calc($list-item-size - 2 * $margin-size);
-            width: calc($list-item-size - 2 * $margin-size);
+            margin-left: calc(2 * $margin-size);
+            height: $list-item-art-size;
+            width: $list-item-art-size;
             .art-image {
                 height: inherit;
                 width: inherit;
+                border-width: 1px;
+                border-style: solid;
+                border-color: $border-color;
             }
         }
         .text {
@@ -54,16 +62,20 @@
             }
         }
         &:hover {
-            background-image: linear-gradient(to left, $gray-f, $gray-e);
+            background-color: $hover-color;
+            border-color: $border-color;
+            z-index: 2;
+           
         }
         &.selected {
-            background-image: linear-gradient(to left, var(--main-light), $gray-c);
+            background-color: var(--main-light);
             font-weight: bold;
-            &:hover {
-                background-image: linear-gradient(to left, var(--main-light), $gray-e);
-            }
+            border-color: $border-color;
+            border-right: none;
+            z-index: 2;
         }
     }
+
     a {
         color: $text-color;
         text-decoration: none;

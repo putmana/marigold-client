@@ -74,9 +74,7 @@
     <div class="scrub-track">
         {#if !disabled}
         <div class="scrub-progress" style="width: {width}%; --highlight-light: {$playerColors.hoverLight}">
-            <div class="scrub-thumb">
-
-            </div>
+            <div class="scrub-thumb"/>
         </div>
         {/if}
     </div>
@@ -86,33 +84,35 @@
 <style lang="scss">
     @import '/src/lib/static/vars.scss';
         .scrub-wrapper {
-            padding-bottom: calc(3 * $margin-size);
             width: 100%;
-            
+            position: relative;
+            z-index: 3;
             .scrub-track {
                 display: flex;
                 align-items: center;
                 background-color: $scrub-track-color;
-                height: $margin-size;
-                border-radius: $margin-size;
+                height: calc($margin-size - 1px);
                 transition: height $hover-fade-time ease;
             }
             .scrub-progress {
+                position: relative;
                 display: flex;
                 flex-direction: row-reverse;
                 align-items: center;
                 background-color: var(--highlight-light);
                 min-width: calc(2 * $margin-size);
-                height: inherit;
-                border-radius: $margin-size;
+                height: $margin-size;
                 transition: background-color $hover-fade-time ease, height $hover-fade-time ease;
             }
             .scrub-thumb {
+                position: relative;
+                z-index: 20;
+                left: calc(1/2 * $margin-size);
                 background-color: $text-color;
                 width: $margin-size;
                 height: $margin-size;
                 border-radius: $margin-size;
-                transition: height $hover-fade-time ease, width $hover-fade-time ease;
+                transition: height $hover-fade-time ease, width $hover-fade-time ease, left $hover-fade-time ease;
             }
 
             &:hover {
@@ -120,16 +120,14 @@
                     background-color: var(--highlight-light);
                 }
                 .scrub-thumb {
+                    position: relative;
+                    left: calc($margin-size);
                     width: calc(2 * $margin-size);
                     height: calc(2 * $margin-size);
                 }
             }
             &.expanded {
-                .scrub-track {
-                    height: calc(2 * $margin-size);
-                }
                 .scrub-progress {
-                    height: calc(2 * $margin-size);
                     background-color: var(--highlight-light);
                 }
                 .scrub-thumb {
