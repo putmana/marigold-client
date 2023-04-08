@@ -74,17 +74,6 @@
         border-style: solid;
         border-color: transparent;
         transition: background-color $hover-fade-time ease-in-out;
-        .number {
-			display: flex;
-			align-items: center;
-			height: $queue-item-size;
-			width: $queue-item-size - $margin-size;
-			.number-text {
-				width: inherit;
-				text-align: center;
-				font-size: larger;
-			}
-		}
         .text-artist {
             font-size: smaller;
             opacity: 70%;

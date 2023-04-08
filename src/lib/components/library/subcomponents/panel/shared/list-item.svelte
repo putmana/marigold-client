@@ -34,7 +34,7 @@
         position: relative;
         
 		flex-direction: row;
-		height: $list-item-size;
+		height: calc($list-item-size + $margin-size * 4);
 		align-items: center;
         border: 1px solid transparent;
         border-right-color: $border-color;
@@ -55,7 +55,7 @@
         .text {
             display: flex;
             flex-direction: column;
-            margin-left: calc(6 * $margin-size);
+            margin-left: calc(4 * $margin-size);
             .text-artist {
                 font-size: smaller;
                 opacity: 70%;

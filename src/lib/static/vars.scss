@@ -28,7 +28,7 @@ $shadow-size: 30px;
 
 $sidebar-size-collapsed: calc(2 * $size);
 $sidebar-size-expanded: calc(6 * $size);
-$panel-size: calc(12 * $size);
+$panel-size: calc(10 * $size);
 
 $player-size: calc(2 * $size);
 $player-info-size: calc(12 * $size);
@@ -39,8 +39,8 @@ $player-settings-btn-size: calc(1.5 * $size);
 
 $tab-size: calc(2 * $size);
 $list-header-size: calc(2 * $size);
-$list-item-size: calc(3 * $size);
-$list-item-art-size: calc($list-item-size - 4 * $margin-size);
+$list-item-size: calc(2 * $size);
+$list-item-art-size: calc(2 * $size);
 $track-header-size: calc(12 * $size);
 $track-item-size: calc(2.5 * $size);
 $track-item-art-size: calc(3 / 4 * $track-item-size);
