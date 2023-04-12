@@ -67,17 +67,14 @@
     @import '/src/lib/static/vars.scss';
     .track {
         display: flex;
-		flex-grow: 1;
+
 		flex-direction: row;
+        min-height: calc($track-item-size + $margin-size * 4);
 		align-items: center;
-		height: $track-item-size;
-        max-height: $track-item-size;   
+        border: 1px solid transparent;
 		border-radius: $margin-size;
         margin-left: $margin-size;
         margin-right: $margin-size;
-        border-width: 1px;
-        border-style: solid;
-        border-color: transparent;
         transition: background-color $hover-fade-time ease;
         .number {
 			display: flex;

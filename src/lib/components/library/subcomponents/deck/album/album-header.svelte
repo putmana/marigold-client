@@ -69,10 +69,6 @@
 				margin-top: $margin-size;
 				opacity: 70%;
 			}
-			.text-description {
-				margin-top: $margin-size;
-				opacity: 70%;
-			}
 		}
 		.art {
 			width: calc($track-header-size - 2 * $track-item-size);

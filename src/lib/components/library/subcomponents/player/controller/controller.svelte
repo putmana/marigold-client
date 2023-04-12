@@ -4,7 +4,7 @@
     import { buildPalette } from "../../../../../scripts/palette";
     import { getQueueTrackPosition } from "../../../../../scripts/queue";
     import { formatArtists, formatTime } from "../../../../../scripts/utils";
-    import { playerColors, playerPalette } from "../../../../../stores/colors";
+    import { playerPalette } from "../../../../../stores/colors";
     import { currentTrack, tracksQueued, tracksPlayed, queueStage, position, repeat, shuffle, tracksManual, queueBoxVisible, queueReady } from "../../../../../stores/player";
     import { current } from "../../../../../stores/view-albums";
     import ScrubBar from "./scrub-bar.svelte";
@@ -138,7 +138,6 @@
     function reload() {
         reloader = Symbol()
         player.load()
-        $playerColors = new ColorEngine(playingTrack.track.cover.color);
         $playerPalette = buildPalette(playingTrack.track.cover.color);
         store()
     }
@@ -241,7 +240,7 @@
             </div>
         </div>
     </div>
-    <div class="controls" style="--full-light: {$playerColors.fullLight}">
+    <div class="controls" style="--full-light: {$playerPalette.bright.light}">
         <div class="button-wrapper">
             <button class="btn selected" on:click={toggleShuffle} class:selected={$shuffle} disabled={!ready}>
                 <div class="btn-icon">
@@ -274,7 +273,7 @@
             </button>
         </div>
     </div>
-    <div class="settings" style="--full-light: {$playerColors.fullLight}">
+    <div class="settings" style="--full-light: {$playerPalette.bright.light}">
         
         <button class="btn selected" on:click={toggleQueueBox} class:selected={$queueBoxVisible} disabled={!ready}>
             <div class="btn-icon">

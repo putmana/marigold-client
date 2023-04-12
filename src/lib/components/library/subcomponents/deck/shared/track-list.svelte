@@ -22,7 +22,7 @@
             content: "";
             width: calc(100% - 2 * $margin-size);
             align-self: center;
-            height: calc(2 * $margin-size);
+            min-height: calc(2 * $margin-size);
             background-color: linear-gradient(to right, var(--main-light), var(--main-dark));
             border-bottom: 1px solid $border-color;
             margin-bottom: $track-item-size;

@@ -1,7 +1,7 @@
 <script lang="ts">
     import { createEventDispatcher } from "svelte";
     import { clamp } from "../../../../../scripts/utils";
-    import { playerColors } from "../../../../../stores/colors";
+    import { playerPalette } from "../../../../../stores/colors";
     
     export let active = false;
     export let currentTime = 0;
@@ -73,7 +73,7 @@
 <div class="scrub-wrapper" bind:this={wrapper} class:expanded={expanded} on:mousedown={startScrub} class:disabled>
     <div class="scrub-track">
         {#if !disabled}
-        <div class="scrub-progress" style="width: {width}%; --highlight-light: {$playerColors.hoverLight}">
+        <div class="scrub-progress" style="width: {width}%; --highlight-light: {$playerPalette.bright.light}">
             <div class="scrub-thumb"/>
         </div>
         {/if}

@@ -34,7 +34,7 @@
         position: relative;
         
 		flex-direction: row;
-		height: calc($list-item-size + $margin-size * 4);
+		min-height: calc($list-item-size + $margin-size * 4);
 		align-items: center;
         border: 1px solid transparent;
         border-right-color: $border-color;

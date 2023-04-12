@@ -1,32 +1,34 @@
 <script lang="ts">
 
-  import Deck from "./lib/components/library/deck.svelte";
+  import Authenticator from "./lib/components/library/authenticator.svelte";
+import Deck from "./lib/components/library/deck.svelte";
   import Panel from "./lib/components/library/panel.svelte";
     import Player from "./lib/components/library/player.svelte";
   import Sidebar from "./lib/components/library/sidebar.svelte";
     import QueueBox from "./lib/components/library/subcomponents/player/queue-box/queue-box.svelte";
+    import { auth } from "./lib/stores/auth";
   import { mode } from "./lib/stores/mode";
 
   $: console.log("MODE CHANGED:" + $mode.content_type); 
 </script>
 
+
 <div class="app-wrapper">
-
-  <div class="app-container">
-    <!---- SIDEBAR ---->
-    <Sidebar/>
-    <!---- PANEL ---->
-    <Panel/>
-    <!---- DECK ---->
-    <Deck/>
-
-    <QueueBox/>
-
-
-  </div>
-
-  <Player/>
-
+  {#if $auth}
+    <div class="app-container">
+      <!---- SIDEBAR ---->
+      <Sidebar/>
+      <!---- PANEL ---->
+      <Panel/>
+      <!---- DECK ---->
+      <Deck/>
+      <!--- QUEUE BOX --->
+      <QueueBox/>
+    </div>
+    <Player/>
+  {:else}
+    <Authenticator/>
+  {/if}
   
 </div>
 

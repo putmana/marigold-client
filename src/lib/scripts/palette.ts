@@ -11,6 +11,17 @@ const SAT_LIGHT = 30
 const SAT_DARK = 30
 
 
+export function randomPalette(): Palette {
+    function randColor(): number[] {
+        return [
+            Math.floor(Math.random() * 256),
+            Math.floor(Math.random() * 256),
+            Math.floor(Math.random() * 256)
+        ]
+    }
+    return buildPalette(buildMgColor(randColor(), randColor()));
+}
+
 export function buildPalette(mgColor: string): Palette {
 
     const parsed = parseMgColor(mgColor)
@@ -47,12 +58,16 @@ export function buildPalette(mgColor: string): Palette {
 function parseMgColor(mgColor: string): [number[], number[]] {
 
     let colors = mgColor.split("&")
-    let light = RGBtoHSV(colors[0].split(".").map((val) => parseInt(val)))
-    let dark = RGBtoHSV(colors[1].split(".").map((val) => parseInt(val)))
+    let light = RGBtoHSL(colors[0].split(".").map((val) => parseInt(val)))
+    let dark = RGBtoHSL(colors[1].split(".").map((val) => parseInt(val)))
     console.log("HSL", light)
     console.log("HSL", dark)
 
     return [light, dark]
+}
+
+function buildMgColor(light: number[], dark: number[]): string {
+    return light[0] + "." + light[1] + "." + light[2] + "&" + dark[0] + "." + dark[1] + "." + dark[2]
 }
 
 function buildCssColor(color: number[]): string {
