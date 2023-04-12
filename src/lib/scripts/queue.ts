@@ -37,7 +37,8 @@ export function addToQueue(tracks: Track[]): QueueStage {
     return {
         flag: FLAG,
         seen: false,
-        tracks: queued
+        tracks: queued,
+        position: 0
     }
 }
 
@@ -59,6 +60,7 @@ export function reorderManualQueue(tracks: QueueTrack[]): QueueStage {
         flag: FLAG,
         seen: false,
         tracks: tracks,
+        position: 0
     }
 }
 
@@ -69,6 +71,7 @@ export function clearManualQueue(): QueueStage {
         flag: FLAG,
         seen: false,
         tracks: [],
+        position: 0
     }
 }
 
@@ -77,7 +80,9 @@ export function clearQueue(): QueueStage {
 
     return {
         flag: FLAG,
-        seen: false
+        seen: false,
+        tracks: [],
+        position: 0
     }
 }
 

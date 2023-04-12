@@ -54,3 +54,12 @@ export function pluralize(word: string, count: number, suffix: string = "s") {
     if (count == 1) return word;
     return word + suffix;
 }
+
+export function sumDuration(tracks: Track[]) {
+    let dur = 0;
+    tracks.forEach((track: Track) => {
+        dur += track.duration;
+    })
+
+    return dur;
+}

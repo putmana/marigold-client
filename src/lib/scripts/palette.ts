@@ -90,10 +90,8 @@ function RGBtoHSL(rgb: number[]): number[] {
     const s = max === min ? 0 : l > 0.5 ? (max - min) / (2 - max - min) : (max - min) / (max + min);
 
     // Calculate the hue
-    let h: number;
-    if (max === min) {
-        h = 0;
-    } else {
+    let h = 0;
+    if (max !== min) {
         switch (max) {
             case r:
                 h = ((g - b) / (max - min)) + (g < b ? 6 : 0);
@@ -111,42 +109,4 @@ function RGBtoHSL(rgb: number[]): number[] {
     // Return the HSL color value as an array
     return [Math.round(h), Math.round(s * 100), Math.round(l * 100)];
 }
-
-function RGBtoHSV(rgb: number[]): number[] {
-    // Convert RGB to the range of 0-1
-    const r = rgb[0] / 255;
-    const g = rgb[1] / 255;
-    const b = rgb[2] / 255;
-  
-    // Find the max and min values
-    const max = Math.max(r, g, b);
-    const min = Math.min(r, g, b);
-  
-    // Calculate the value and saturation
-    const v = max;
-    const s = max === 0 ? 0 : (max - min) / max;
-  
-    // Calculate the hue
-    let h: number;
-    if (max === min) {
-      h = 0;
-    } else {
-      switch (max) {
-        case r:
-          h = ((g - b) / (max - min)) + (g < b ? 6 : 0);
-          break;
-        case g:
-          h = ((b - r) / (max - min)) + 2;
-          break;
-        case b:
-          h = ((r - g) / (max - min)) + 4;
-          break;
-      }
-      h *= 60;
-    }
-  
-    // Return the HSV color value as an array
-    return [Math.round(h), Math.round(s * 100), Math.round(v * 100)];
-  }
-  
   

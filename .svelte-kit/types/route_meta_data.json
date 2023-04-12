@@ -1,3 +1,16 @@
 {
-	"/": []
+	"/": [],
+	"/auth": [],
+	"/auth/login": [],
+	"/auth/register": [],
+	"/listen": [],
+	"/listen/albums": [],
+	"/listen/albums/[id]": [
+		"src/routes/listen/albums/[id]/+page.ts"
+	],
+	"/listen/artists": [],
+	"/listen/playlists": [],
+	"/listen/playlists/[id]": [
+		"src/routes/listen/playlists/[id]/+page.ts"
+	]
 }

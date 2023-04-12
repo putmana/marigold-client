@@ -10,4 +10,5 @@ node_modules
 .output
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
-test
+static/public/audio/test
+static/public/img/test
