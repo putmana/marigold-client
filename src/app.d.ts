@@ -58,6 +58,22 @@ declare global {
 		}
 	}
 
+    type NewAlbum = {
+        title: string;
+        artists?: Artist[];
+        newArtists?: NewArtist[];
+        category: string;
+        year: string;
+    }
+
+    type TrackUpload = {
+        title: string;
+        artists?: Artist[];
+        newArtists?: NewArtist[];
+        album?: Album;
+        newAlbum?: NewAlbum;
+    }
+
     type AlbumTracks = {
         info: Album;
         tracks: Track[];
@@ -65,6 +81,10 @@ declare global {
 
     type Artist = {
         id: string;
+        name: string;
+    }
+
+    type NewArtist = {
         name: string;
     }
     
@@ -101,6 +121,29 @@ declare global {
             light: string;
             dark: string;
         }
+    }
+
+    type User = {
+        username: string;
+        email: string;
+    }
+
+    // <---- FORM VERIFICATION RETURN TYPE ---->
+    type Audit = {
+        pass: boolean;
+        issues: Issue[];
+    }
+
+    type Issue = {
+        category: string;
+        message: string;
+    }
+
+    type SearchItem = {
+        id: string;
+        label: string;
+        sublabel?: string;
+        image?: string;
     }
 }
 

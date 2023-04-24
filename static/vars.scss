@@ -1,3 +1,6 @@
+$font: "jaf-bernina-sans-narrow", sans-serif;
+
+
 $gray-a: rgb(20, 20, 20);
 $gray-b: rgb(50, 50, 50);
 $gray-c: rgb(70, 70, 70);
@@ -6,6 +9,10 @@ $gray-e: rgb(100, 100, 100);
 $gray-f: rgb(135, 135, 135);
 $gray-g: rgb(200, 200, 200);
 
+$infobox-color-info: hsla(220, 50%, 35%, 0.8);
+$infobox-color-warning: hsla(40, 50%, 35%, 0.8);
+$infobox-color-error: hsla(0, 50%, 35%, 0.8);
+
 $error-a: hsl(0, 100%, 10%);
 $error-b: hsl(0, 100%, 20%);
 
@@ -13,6 +20,7 @@ $shadow-color: rgba(20, 20, 20, 0.5);
 $border-color: rgba(255, 255, 255, 0.1);
 $border-color-hover: rgba(255, 255, 255, 0.2);
 $border-color-focus: rgba(255, 255, 255, 0.4);
+$border-color-error: rgba(255, 0, 0, 0.8);
 $hover-color: rgba(255, 255, 255, 0.1);
 $selected-color: rgba(255, 255, 255, 0.05);
 $scrub-track-color: rgba(20, 20, 20, 0.5);
@@ -20,6 +28,7 @@ $scrollbar-color: rgba(255, 255, 255, 0.2);
 $auth-text-color: rgba(255, 255, 255, 0.5);
 $auth-input-color: rgba(0, 0, 0, 0.2);
 $auth-input-color-focus: rgba(0, 0, 0, 0.4);
+$auth-input-color-error: rgba(40, 0, 0, 0.4);
 $button-color: rgba(255, 255, 255, 0.15);
 $button-color-focus: rgba(255, 255, 255, 0.3);
 $button-color-text: rgba(255, 255, 255, 0.8);
@@ -60,6 +69,14 @@ $auth-header-size: calc(8 * $size);
 $auth-logo-size: calc(2 * $size);
 $auth-input-size: calc(10 * $size);
 
+$upload-form-size: calc(12 * $size);
+
+$searcher-size: calc(10 * $size);
+$searcher-item-size: calc(2 * $size);
+$searcher-item-art-size: calc(3 / 4 * $searcher-item-size);
+
+$banner-size: calc(4 * $margin-size + 15.5px);
+
 *::-webkit-scrollbar {
     appearance: none;
     width: $margin-size;
@@ -70,25 +87,4 @@ $auth-input-size: calc(10 * $size);
     border-radius: $margin-size;
 }
 
-.btn-primary {
-    width: 100%;
-    color: $button-color-text;
-    padding: calc(2 * $margin-size);
-    border: 1px solid $border-color;
-    border-radius: $margin-size;
-    background-color: $button-color;
-    font-weight: bold;
-    text-transform: uppercase;
-    transition: background-color $hover-fade-time ease;
-    &:hover {
-        background-color: $button-color-focus;
-        border: 1px solid $border-color-hover;
-    }
-    &:focus, &:focus-visible {
-        appearance: none;
-        outline: none;
-        background-color: $button-color-focus;
-        border: 1px solid $border-color-focus;
-        outline: var(--main-light) solid 2px;
-    }
-}
+

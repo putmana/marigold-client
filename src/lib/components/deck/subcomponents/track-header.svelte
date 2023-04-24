@@ -1,12 +1,21 @@
 <script lang="ts">
-    import { formatTime, formatArtists, pluralize } from "$lib/scripts/utils";
+    import { goto } from "$app/navigation";
+    import { formatTime, pluralize } from "$lib/scripts/utils";
+    import { createEventDispatcher } from "svelte";
 	
+	export let id: string;
     export let title: string;
     export let artists: string;
     export let category: string;
     export let count: number;
 	export let duration: number;
     export let cover: string;
+
+	const dispatch = createEventDispatcher();
+
+	function queueThisList() {
+		dispatch("queuethislist");
+	}
 
 </script>
 <div class="track-header">
@@ -18,7 +27,7 @@
         <div class="text-info">
 			<span class="text-artist">
 				{artists}
-s			</span>
+			</span>
 			<b>&#x2022</b>
             <span class="text-subcategory">
                 {category}
@@ -31,8 +40,11 @@ s			</span>
             <span class="text-duration">
                 {formatTime(duration, true, false)}
             </span>
-
         </div>
+		<div class="buttons">
+			<button class="btn btn-primary" on:click={queueThisList}><i class="bi bi-play-fill"></i> PLAY</button>
+			<a class="btn btn-primary" href="./{id}/edit"><i class="bi bi-pencil-fill"></i></a>
+		</div>
     </div>
     <div class="art">
         <img class="art-image" src={cover}>
@@ -49,6 +61,7 @@ s			</span>
     
 <style lang="scss">
     @import '/static/vars.scss';
+	@import '/static/buttons.scss';
     .track-header {
 		display: flex;
 		flex-direction: row;
@@ -71,6 +84,9 @@ s			</span>
 			.text-info {
 				margin-top: $margin-size;
 				opacity: 70%;
+			}
+			.buttons {
+				margin-top: calc(4 * $margin-size);
 			}
 		}
 		.art {

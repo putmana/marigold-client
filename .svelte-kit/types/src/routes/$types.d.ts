@@ -9,7 +9,7 @@ type OutputDataShape<T> = MaybeWithVoid<Omit<App.PageData, RequiredKeys<T>> & Pa
 type EnsureDefined<T> = T extends null | undefined ? {} : T;
 type OptionalUnion<U extends Record<string, any>, A extends keyof U = U extends U ? keyof U : never> = U extends unknown ? { [P in Exclude<A, keyof U>]?: never } & U : never;
 export type Snapshot<T = any> = Kit.Snapshot<T>;
-type LayoutRouteId = RouteId | "/auth/login" | "/auth/register" | "/listen" | "/listen/albums" | "/listen/albums/[id]" | "/listen/artists" | "/listen/playlists" | "/listen/playlists/[id]" | null
+type LayoutRouteId = RouteId | "/auth/login" | "/auth/register" | "/listen" | "/listen/albums" | "/listen/albums/[id]" | "/listen/albums/[id]/edit" | "/listen/artists" | "/listen/playlists" | "/listen/playlists/[id]" | "/upload" | null
 type LayoutParams = RouteParams & { id?: string }
 type LayoutParentData = EnsureDefined<{}>;
 

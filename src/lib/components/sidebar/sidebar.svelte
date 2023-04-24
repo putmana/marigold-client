@@ -1,7 +1,16 @@
 <script lang="ts">
+    import { goto } from "$app/navigation";
+    import { UNAUTHORIZED_TOKEN } from "$lib/config/mg.config";
+    import { getUser } from "$lib/scripts/api/api-user";
+    import { logoutUser } from "$lib/scripts/api/auth/api-login";
+    import { token } from "$lib/stores/auth";
     import Tab from "./subcomponents/tab.svelte";
 
     let expanded = false;
+
+    let username = getUser($token).catch(error => {
+        return "INVALID USER"
+    })
 
     function expand() {
         expanded = true;
@@ -15,15 +24,26 @@
 </script>
 
 <div class="sidebar" class:expanded={expanded} on:mouseenter="{expand}" on:mouseleave="{collapse}">
-    <Tab route="/listen/playlists" label="PLAYLIST" expanded={expanded}>
+    <Tab route="/listen/playlists" label="PLAYLISTS" expanded={expanded}>
         <i class="bi bi-music-note-list"></i>
     </Tab>
-    <Tab route="/listen/albums" label="ALBUM" expanded={expanded}> 
+    <Tab route="/listen/albums" label="ALBUMS" expanded={expanded}> 
         <i class="bi bi-vinyl"></i>
     </Tab>
-    <Tab route="/listen/artists" label="ARTIST" expanded={expanded}>
+    <Tab route="/listen/artists" label="ARTISTS" expanded={expanded}>
         <i class="bi bi-person"></i>
     </Tab>
+    <Tab route="/upload" label="UPLOAD" expanded={expanded}>
+        <i class="bi bi-cloud-upload"></i>
+    </Tab>
+    {#await username}
+    {:then username}
+    <Tab route="/auth/login" label={username} expanded={expanded}>
+        <i class="bi bi-box-arrow-left"></i>
+    </Tab>
+    {:catch error}
+        {error}
+    {/await}
 </div>
 
 <style lang="scss">

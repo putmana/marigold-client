@@ -1,5 +1,25 @@
 <script lang="ts">
-    export const ssr = false;
+    import { goto } from "$app/navigation";
+    import { verifyToken } from "$lib/scripts/api/api-verify-token";
+    import { token } from "$lib/stores/auth";
+    import { onMount } from "svelte";
+
+    export const prerender = true;
+
+    async function checkToken(token: string) {
+        await (verifyToken(token)).then(valid => {
+            if (valid) {
+                goto('/listen')
+            } else {
+                goto('/auth/login')
+            }
+        })
+    }
+
+    onMount(() => checkToken($token));
+
+
+
 </script>
 
 

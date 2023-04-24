@@ -15,20 +15,25 @@ export const nodes = [
 	() => import('./nodes/11'),
 	() => import('./nodes/12'),
 	() => import('./nodes/13'),
-	() => import('./nodes/14')
+	() => import('./nodes/14'),
+	() => import('./nodes/15'),
+	() => import('./nodes/16'),
+	() => import('./nodes/17')
 ];
 
 export const server_loads = [];
 
 export const dictionary = {
-		"/auth/login": [7,[2]],
-		"/auth/register": [8,[2]],
-		"/listen": [9,[3]],
-		"/listen/albums": [10,[3,4]],
-		"/listen/albums/[id]": [11,[3,4]],
-		"/listen/artists": [12,[3,5]],
-		"/listen/playlists": [13,[3,6]],
-		"/listen/playlists/[id]": [14,[3,6]]
+		"/auth/login": [8,[2]],
+		"/auth/register": [9,[2]],
+		"/listen": [10,[3]],
+		"/listen/albums": [11,[3,4]],
+		"/listen/albums/[id]": [12,[3,4]],
+		"/listen/albums/[id]/edit": [13,[3,4]],
+		"/listen/artists": [14,[3,5]],
+		"/listen/playlists": [15,[3,6]],
+		"/listen/playlists/[id]": [16,[3,6]],
+		"/upload": [17,[7]]
 	};
 
 export const hooks = {

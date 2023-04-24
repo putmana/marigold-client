@@ -19,7 +19,7 @@
     let title: string = "";
     let artists: string = "";
     let src: string = "";
-    let cover: string = "./img/mg/covers/default.png";
+    let cover: string = "/public/img/mg/covers/default.png";
     
     // <---- INTERNAL VALUES ---->
     let sourceTracks: QueueTrack[] = []; 

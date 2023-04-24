@@ -60,8 +60,6 @@ function parseMgColor(mgColor: string): [number[], number[]] {
     let colors = mgColor.split("&")
     let light = RGBtoHSL(colors[0].split(".").map((val) => parseInt(val)))
     let dark = RGBtoHSL(colors[1].split(".").map((val) => parseInt(val)))
-    console.log("HSL", light)
-    console.log("HSL", dark)
 
     return [light, dark]
 }
@@ -75,7 +73,6 @@ function buildCssColor(color: number[]): string {
 }
 
 function RGBtoHSL(rgb: number[]): number[] {
-    console.log("RGB", rgb)
     // Convert RGB to the range of 0-1
     const r = rgb[0] / 255;
     const g = rgb[1] / 255;

@@ -8,9 +8,13 @@
 	"/listen/albums/[id]": [
 		"src/routes/listen/albums/[id]/+page.ts"
 	],
+	"/listen/albums/[id]/edit": [
+		"src/routes/listen/albums/[id]/edit/+page.ts"
+	],
 	"/listen/artists": [],
 	"/listen/playlists": [],
 	"/listen/playlists/[id]": [
 		"src/routes/listen/playlists/[id]/+page.ts"
-	]
+	],
+	"/upload": []
 }

@@ -1,8 +1,13 @@
 <script lang="ts">
     import { crossfade } from "svelte/transition";
     import { quintOut } from 'svelte/easing'
-    import { flip } from 'svelte/animate'
     import { randomPalette } from "$lib/scripts/palette";
+    import { onMount } from "svelte";
+    import { token } from "$lib/stores/auth";
+    import { goto } from "$app/navigation";
+    import { verifyToken } from "$lib/scripts/api/api-verify-token";
+    import { UNAUTHORIZED_TOKEN } from "$lib/config/mg.config";
+    import { logoutUser } from "$lib/scripts/api/auth/api-login";
 
     const [send, receive] = crossfade({
         duration: d => Math.sqrt(d * 600),
@@ -23,6 +28,17 @@
     })
 
     let colors: Palette = randomPalette()
+
+    onMount(() => {
+        verifyToken($token).then(valid => {
+            if (valid) {
+                logoutUser($token)
+                $token = UNAUTHORIZED_TOKEN
+            }
+        })
+        
+    })
+
 
 </script>
 

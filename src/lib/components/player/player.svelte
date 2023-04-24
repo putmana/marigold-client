@@ -1,8 +1,12 @@
 <script lang="ts">
-    import { playerPalette } from "$lib/stores/colors"
+    import { defaultColor, playerPalette } from "$lib/stores/colors"
+    import { onDestroy } from "svelte";
     import Controller from "./subcomponents/controller.svelte";
+    import { buildPalette } from "$lib/scripts/palette";
 
-    
+    onDestroy(() => {
+        $playerPalette = buildPalette(defaultColor)
+    })
 
 
 </script>

@@ -4,6 +4,12 @@
 form {
     width: $auth-input-size;
     margin-bottom: $auth-logo-size;
+    color: $auth-text-color;
+}
+
+.banners {
+    width: $auth-input-size;
+    margin-bottom: calc(6 * $margin-size);
 }
 
 .watermark {
@@ -53,6 +59,31 @@ form {
             border: 1px solid var(--bright-light);
             outline: var(--bright-light) solid 2px;
         }
+        &.issue {
+            outline-color: $border-color-error;
+            border-color: $border-color-error;
+        }
+    }
+    .warning {
+        font-size: smaller;
+        font-weight: bold;
+        margin-left: calc(2 * $margin-size);
+        margin-top: calc(2 * $margin-size);
+        margin-bottom: $margin-size;
+        p {
+            color: $border-color-error;
+            margin: 0;
+            margin-top: $margin-size;
+        }
+        
+    }
+
+    .helper {
+        font-size: smaller;
+        margin-left: calc(2 * $margin-size);
+        p {
+            margin: 0;
+        }
     }
 }
 
@@ -75,5 +106,31 @@ form {
             outline: var(--main-light) solid 2px;
             color: var(--main-light);
         }
+    }
+}
+
+.btn-primary {
+    width: 100%;
+    color: $button-color-text;
+    padding: calc(2 * $margin-size);
+    border: 1px solid $border-color;
+    border-radius: $margin-size;
+    background-color: $button-color;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: background-color $hover-fade-time ease;
+    &:hover:enabled {
+        background-color: $button-color-focus;
+        border: 1px solid $border-color-hover;
+    }
+    &:focus:enabled, &:focus-visible:enabled {
+        appearance: none;
+        outline: none;
+        background-color: $button-color-focus;
+        border: 1px solid $border-color-focus;
+        outline: var(--main-light) solid 2px;
+    }
+    &:disabled {
+        opacity: 50%;
     }
 }

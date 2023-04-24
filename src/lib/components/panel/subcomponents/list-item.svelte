@@ -9,7 +9,7 @@
 
 </script>
 
-<a class="list" href={route} class:selected={$page.url.pathname == route} style="--main-light: {$deckPalette.main.light}; --bright-light: {$deckPalette.bright.light}">
+<a class="list" href={route} class:selected={$page.url.pathname.includes(route)} style="--main-light: {$deckPalette.main.light}; --bright-light: {$deckPalette.bright.light}">
     <div class="art">
         <img class="art-image" src={cover}>
     </div>
