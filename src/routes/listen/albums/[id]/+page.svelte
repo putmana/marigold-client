@@ -33,10 +33,10 @@
     }
 
 </script>
-<Deck>
-    {#await album}
-        <Void text="loading..."/>
-    {:then album}
+{#await album}
+    <Void text="loading..."/>
+{:then album}
+    <Deck>
         <TrackHeader 
             id={album.info.id}
             title={album.info.title}
@@ -50,7 +50,7 @@
         {#each album.tracks as track, index}
             <TrackItem track={track} position={index + 1} showArt={false} on:queuethislist={() => queueThisList(album.tracks, index)} on:queuethistrack={() => queueThisTrack(track)}/>
         {/each}
-    {:catch error}
-        <Void text={error}/>
-    {/await}
-</Deck>
+    </Deck>
+{:catch error}
+    <Void text={error}/>
+{/await}

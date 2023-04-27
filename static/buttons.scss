@@ -28,13 +28,7 @@ $btn-outline-color-hover: rgb(255, 255, 255, 0.3);
     outline: $btn-outline-color solid 1px;
     box-sizing: border-box;
 
-    &:hover {
-        outline: $btn-outline-color-hover solid 1px;
-    }
-
-    &:focus, :focus-visible {
-        outline: $btn-outline-color-hover solid 3px;
-    }
+    
 
     &.btn-primary {
         background-color: $btn-primary-background-color;
@@ -48,5 +42,20 @@ $btn-outline-color-hover: rgb(255, 255, 255, 0.3);
         &:hover {
             background-color: $btn-secondary-background-color-hover;
         }
+    }
+    &.btn-seamless {
+        outline-color: transparent;
+        background-color: transparent;
+        &:hover {
+            background-color: $btn-secondary-background-color-hover;
+        }
+    }
+
+    &:hover {
+        outline: $btn-outline-color-hover solid 1px;
+    }
+
+    &:focus, :focus-visible {
+        outline: $btn-outline-color-hover solid 3px;
     }
 }

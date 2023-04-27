@@ -22,6 +22,7 @@
         flex-direction: column;
         flex-grow: 1;
         transition: width $hover-fade-time ease;
+        padding-bottom: calc(4 * $size);
     }
     
 </style>

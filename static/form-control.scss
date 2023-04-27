@@ -16,7 +16,6 @@ $input-outline-color-hover: rgba(255, 255, 255, 0.3);
         &.text {
             font-size: 10pt;
             text-transform: uppercase;
-            margin-top: $margin-size;
             margin-bottom: $margin-size;
             padding-left: $margin-size;
             opacity: 70%;
@@ -52,22 +51,20 @@ $input-outline-color-hover: rgba(255, 255, 255, 0.3);
                     opacity: 100%;
                 }
             }
-
-            
-
         }
     }
     input[type=text], input[type=email] {
-        margin-bottom: calc(2 * $margin-size);
+        font-family: $font;
+        font-size: 10pt;
         width: 100%;
         color: $input-text-color;
         padding: calc(2 * $margin-size);
-        box-sizing: border-box;
         border: 0px solid transparent;
         border-radius: $margin-size;
         background-color: $input-background-color;
         outline: $input-outline-color solid 1px;
         transition: all $hover-fade-time ease;
+        box-sizing: border-box;
         &::placeholder {
             color: $input-placeholder-color;
         }

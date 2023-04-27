@@ -56,3 +56,33 @@ export async function getAlbumTracks(token: string, id: string): Promise<AlbumTr
 
     return album;
 }
+
+export async function updateAlbum(token: string, info: Album, tracks: Track[], newTracks: NewTrack[]): Promise<Boolean> {
+    let res: boolean = await verifyToken(token).then(valid => {
+        let ALBUM_ID_URL = ALBUM_URL + "/" + info.id
+        if (!valid) {
+            throw new Error("BAD TOKEN")
+        } else {
+            return fetch(ALBUM_ID_URL, {
+                method: "POST",
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                },
+                body: JSON.stringify({
+                    info: info,
+                    tracks: tracks,
+                    newTracks: newTracks
+                })
+            }).then(response => {
+                if (!response.ok) {
+                    console.error("BAD RESPONSE", response)
+                    return false;
+                } else {
+                    return true;
+                }
+            })
+        }
+    })
+
+    return res;
+}

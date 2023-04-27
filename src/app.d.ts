@@ -58,22 +58,6 @@ declare global {
 		}
 	}
 
-    type NewAlbum = {
-        title: string;
-        artists?: Artist[];
-        newArtists?: NewArtist[];
-        category: string;
-        year: string;
-    }
-
-    type TrackUpload = {
-        title: string;
-        artists?: Artist[];
-        newArtists?: NewArtist[];
-        album?: Album;
-        newAlbum?: NewAlbum;
-    }
-
     type AlbumTracks = {
         info: Album;
         tracks: Track[];
@@ -86,6 +70,13 @@ declare global {
 
     type NewArtist = {
         name: string;
+    }
+
+    type NewTrack = {
+        temp_id: string;
+        title: string;
+        artists: string;
+        path: string;
     }
     
     type QueueStage = {
@@ -144,6 +135,13 @@ declare global {
         label: string;
         sublabel?: string;
         image?: string;
+    }
+
+    type EditAlbumRequest = {
+        id: string;
+        title?: string;
+        tracks?: Track[];
+        newTracks?: NewTrack[];
     }
 }
 

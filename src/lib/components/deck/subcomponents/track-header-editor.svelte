@@ -1,5 +1,7 @@
 <script lang="ts">
     import { goto } from "$app/navigation";
+    import { formatArtists } from "$lib/scripts/utils";
+    import { createEventDispatcher } from "svelte";
 
     export let id: string;
     export let title: string;
@@ -9,15 +11,26 @@
 	export let duration: number;
     export let cover: string;
 
+    const dispatch = createEventDispatcher();
+
+    function saveChanges() {
+        dispatch('save')
+    }
+
 </script>
     <form class="track-header form-control">
         <div class="text">
-            <label class="text" for="title">title</label>
-            <input id="title" type="text" class="text-title" placeholder="title" bind:value={title}>
-            <label class="text" for="artist">artists</label>
-            <input id="artist" type="text" class="text-artist" placeholder="artists" value={artists}>
-            <div>
-                <input type="submit" value="Save" class="btn btn-primary">
+            <div class="text-input">
+                <label class="text" for="title">title</label>
+                <input id="title" type="text" class="text-title" placeholder="title" bind:value={title}>
+            </div>
+            <div class="text-input">
+                <label class="text" for="artist">artists</label>
+                <input id="artist" type="text" class="text-artist" placeholder="artists" value={artists}>
+            </div>
+            
+            <div class="button-input">
+                <button class="btn btn-primary" on:click={saveChanges}>Save</button>
                 <a class="btn btn-secondary" href="./">Cancel</a>
             </div>
         </div>
@@ -63,6 +76,12 @@
 				opacity: 70%;
 			}
 		}
+        .text-input {
+            margin-bottom: calc(2 * $margin-size);
+        }
+        .button-input {
+            margin-top: calc(2 * $margin-size);
+        }
 		.art {
 			width: calc($track-header-size - 2 * $track-item-size);
 			height: calc($track-header-size - 2 * $track-item-size);

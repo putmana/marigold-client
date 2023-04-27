@@ -30,15 +30,9 @@
     <Tab route="/listen/albums" label="ALBUMS" expanded={expanded}> 
         <i class="bi bi-vinyl"></i>
     </Tab>
-    <Tab route="/listen/artists" label="ARTISTS" expanded={expanded}>
-        <i class="bi bi-person"></i>
-    </Tab>
-    <Tab route="/upload" label="UPLOAD" expanded={expanded}>
-        <i class="bi bi-cloud-upload"></i>
-    </Tab>
     {#await username}
     {:then username}
-    <Tab route="/auth/login" label={username} expanded={expanded}>
+    <Tab route="/auth/login" label="LOGOUT" expanded={expanded}>
         <i class="bi bi-box-arrow-left"></i>
     </Tab>
     {:catch error}
