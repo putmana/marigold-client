@@ -1,14 +1,11 @@
-const BRIGHT_LIGHT = 60
-const BRIGHT_DARK = 60
+const BRIGHT_LIGHT = 80 / 100
+const BRIGHT_DARK = 80 / 100
 
-const MAIN_LIGHT = 35
-const MAIN_DARK = 20
+const MAIN_LIGHT = 50 / 100
+const MAIN_DARK = 30 / 100
 
-const DIM_LIGHT = 15
-const DIM_DARK = 10
-
-const SAT_LIGHT = 30
-const SAT_DARK = 30
+const DIM_LIGHT = 30 / 100
+const DIM_DARK = 30 / 100
 
 
 export function randomPalette(): Palette {
@@ -29,16 +26,20 @@ export function buildPalette(mgColor: string): Palette {
     const l = parsed[0]
     const d = parsed[1]
 
-    const lb = [l[0], Math.min(l[1], SAT_LIGHT), BRIGHT_LIGHT]
-    const db = [d[0], Math.min(d[1], SAT_DARK), BRIGHT_DARK]
+    const lb = [l[0], l[1], BRIGHT_LIGHT] 
+    const db = [d[0], d[1], BRIGHT_DARK]
 
-    const lm = [l[0], Math.min(l[1], SAT_LIGHT), MAIN_LIGHT]
-    const dm = [d[0], Math.min(d[1], SAT_DARK), MAIN_DARK]
+    const lm = [l[0], l[1], MAIN_LIGHT] 
+    const dm = [d[0], d[1], Math.min(d[2], MAIN_DARK)]
 
-    const ld = [l[0], Math.min(l[1], SAT_LIGHT), DIM_LIGHT]
-    const dd = [d[0], Math.min(d[1], SAT_DARK), DIM_DARK]
 
-    return {
+    const ld = [l[0], l[1], DIM_LIGHT] 
+    const dd = [d[0], d[1], DIM_DARK] 
+
+
+    console.log("HSV", lb, db, lm, dm, ld, dd)
+
+    const pal = {
         bright: {
             light: buildCssColor(lb),
             dark: buildCssColor(db)
@@ -52,15 +53,19 @@ export function buildPalette(mgColor: string): Palette {
             dark: buildCssColor(dd)
         } 
     }
+    console.log(pal)
+    return pal;
 }
 
 // Returns two arrays of numbers, containing HSL colors
 function parseMgColor(mgColor: string): [number[], number[]] {
 
     let colors = mgColor.split("&")
-    let light = RGBtoHSL(colors[0].split(".").map((val) => parseInt(val)))
-    let dark = RGBtoHSL(colors[1].split(".").map((val) => parseInt(val)))
+    let light = RGBtoHSV(colors[0].split(".").map((val) => parseInt(val)))
+    let dark = RGBtoHSV(colors[1].split(".").map((val) => parseInt(val)))
 
+    console.log("LIGHT PARSE", light)
+    console.log("DARK PARSE", dark)
     return [light, dark]
 }
 
@@ -69,41 +74,88 @@ function buildMgColor(light: number[], dark: number[]): string {
 }
 
 function buildCssColor(color: number[]): string {
-    return "hsl("+color[0]+", "+color[1]+"%, "+color[2]+"%)"; 
+    color = HSVtoRGB(color)
+    return "rgb("+color[0]+", "+color[1]+", "+color[2]+")"; 
 }
 
-function RGBtoHSL(rgb: number[]): number[] {
+function RGBtoHSV(rgb: number[]): number[] {
     // Convert RGB to the range of 0-1
     const r = rgb[0] / 255;
     const g = rgb[1] / 255;
     const b = rgb[2] / 255;
-
+  
     // Find the max and min values
     const max = Math.max(r, g, b);
     const min = Math.min(r, g, b);
-
-    // Calculate the lightness and saturation
-    const l = (max + min) / 2;
-    const s = max === min ? 0 : l > 0.5 ? (max - min) / (2 - max - min) : (max - min) / (max + min);
-
+  
+    // Calculate the value and saturation
+    const v = max;
+    const s = max === 0 ? 0 : (max - min) / max;
+  
     // Calculate the hue
-    let h = 0;
-    if (max !== min) {
+    let h: number = 0;
+    if (max === min) {
+        h = 0;
+    } else {
         switch (max) {
             case r:
-                h = ((g - b) / (max - min)) + (g < b ? 6 : 0);
-                break;
+            h = ((g - b) / (max - min)) + (g < b ? 6 : 0);
+            break;
             case g:
-                h = ((b - r) / (max - min)) + 2;
-                break;
+            h = ((b - r) / (max - min)) + 2;
+            break;
             case b:
-                h = ((r - g) / (max - min)) + 4;
-                break;
+            h = ((r - g) / (max - min)) + 4;
+            break;
         }
         h *= 60;
     }
+  
+    // Return the HSV color value as an array
+    return [Math.round(h), Math.round(s * 100)/100, Math.round(v * 100)/100];
+}
 
-    // Return the HSL color value as an array
-    return [Math.round(h), Math.round(s * 100), Math.round(l * 100)];
+function HSVtoRGB(hsv: number[]): number[] {
+
+    const [h, s, v] = hsv;
+
+    let [r, g, b] = [0, 0, 0];
+
+    const M = 255 * v;
+    const m = M * (1 - s);
+    const z = (M - m) * (1 - Math.abs(((h / 60) % 2) - 1));
+
+    if (h >= 0 && h < 60) {
+        r = M
+        g = z + m
+        b = m
+    } else if (h >= 60 && h < 120) {
+        r = z + m
+        g = M
+        b = m
+    } else if (h >= 120 && h < 180) {
+        r = m
+        g = M
+        b = z + m
+    } else if (h >= 180 && h < 240) {
+        r = m
+        g = z + m
+        b = M
+    } else if (h >= 240 && h < 300) {
+        r = z + m
+        g = m
+        b = M
+    } else if (h >= 300 && h < 360) {
+        r = M
+        g = m
+        b = z + m
+    }
+
+    return [r, g, b]
 }
   
+  
+  
+
+    
+    
