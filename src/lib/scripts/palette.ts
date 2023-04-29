@@ -1,11 +1,13 @@
-const BRIGHT_LIGHT = 80 / 100
-const BRIGHT_DARK = 80 / 100
+const BRIGHT_LIGHT = 0.80
+const BRIGHT_DARK = 0.80
 
-const MAIN_LIGHT = 50 / 100
-const MAIN_DARK = 30 / 100
+const MAIN_LIGHT = 0.50
+const MAIN_DARK = 0.30
 
-const DIM_LIGHT = 30 / 100
-const DIM_DARK = 30 / 100
+const DIM_LIGHT = 0.30
+const DIM_DARK = 0.20
+
+const SAT_LIMIT = 0.45
 
 
 export function randomPalette(): Palette {
@@ -26,15 +28,15 @@ export function buildPalette(mgColor: string): Palette {
     const l = parsed[0]
     const d = parsed[1]
 
-    const lb = [l[0], l[1], BRIGHT_LIGHT] 
-    const db = [d[0], d[1], BRIGHT_DARK]
+    const lb = [l[0], Math.min(l[1], SAT_LIMIT), BRIGHT_LIGHT] 
+    const db = [d[0], Math.min(d[1], SAT_LIMIT), BRIGHT_DARK]
 
-    const lm = [l[0], l[1], MAIN_LIGHT] 
-    const dm = [d[0], d[1], Math.min(d[2], MAIN_DARK)]
+    const lm = [l[0], Math.min(l[1], SAT_LIMIT), MAIN_LIGHT] 
+    const dm = [d[0], Math.min(d[1], SAT_LIMIT), MAIN_DARK]
 
 
-    const ld = [l[0], l[1], DIM_LIGHT] 
-    const dd = [d[0], d[1], DIM_DARK] 
+    const ld = [l[0], Math.min(l[1], SAT_LIMIT), DIM_LIGHT] 
+    const dd = [d[0], Math.min(d[1], SAT_LIMIT), DIM_DARK] 
 
 
     console.log("HSV", lb, db, lm, dm, ld, dd)
