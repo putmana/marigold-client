@@ -1,10 +1,11 @@
 <script lang="ts">
+
     import { goto } from "$app/navigation";
     import { verifyToken } from "$lib/scripts/api/api-verify-token";
     import { token } from "$lib/stores/auth";
     import { onMount } from "svelte";
 
-    export const prerender = true;
+    
 
     async function checkToken(token: string) {
         await (verifyToken(token)).then(valid => {
