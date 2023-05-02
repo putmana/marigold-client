@@ -1,5 +1,6 @@
 import { API_VERSION, BASE_API_URL } from "$lib/config/mg.config";
 import { verifyToken } from "./api-verify-token";
+import { parseAlbumData, parseAlbumTracksData } from "./parse";
 
 const ALBUM_URL = BASE_API_URL + API_VERSION + "/album"
 
@@ -19,8 +20,8 @@ export async function getAllAlbums(token: string): Promise<Album[]> {
                     console.error("BAD RESPONSE", response)
                     throw new Error("BAD RESPONSE")
                 } else {
-                    return response.json().then(data => {
-                        return data.data as Album[]
+                    return response.json().then(response => {
+                        return response.data.map(resource => parseAlbumData(resource))
                     })
                 }
             })
@@ -46,8 +47,8 @@ export async function getAlbumTracks(token: string, id: string): Promise<AlbumTr
                     console.error("BAD RESPONSE", response)
                     throw new Error("BAD RESPONSE")
                 } else {
-                    return response.json().then(data => {
-                        return data.data as AlbumTracks
+                    return response.json().then(response => {
+                        return parseAlbumTracksData(response.data);
                     })
                 }
             })
