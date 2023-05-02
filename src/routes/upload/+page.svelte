@@ -18,7 +18,7 @@ import { UNAUTHORIZED_TOKEN } from "$lib/config/mg.config";
 <section class="step current">
     <div class="content-box">
         {#await albums}
-
+            <p>loading...</p>
         {:then albums}
             <AlbumChooser albums={albums} />
         {:catch error}
