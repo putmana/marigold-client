@@ -1,46 +1,20 @@
 {
-	"/": [
-		"src/routes/+layout.ts"
-	],
-	"/auth": [
-		"src/routes/+layout.ts"
-	],
-	"/auth/login": [
-		"src/routes/+layout.ts"
-	],
-	"/auth/register": [
-		"src/routes/+layout.ts"
-	],
-	"/listen": [
-		"src/routes/+layout.ts",
-		"src/routes/+layout.ts"
-	],
-	"/listen/albums": [
-		"src/routes/+layout.ts",
-		"src/routes/+layout.ts"
-	],
+	"/": [],
+	"/auth": [],
+	"/auth/login": [],
+	"/auth/register": [],
+	"/listen": [],
+	"/listen/albums": [],
 	"/listen/albums/[id]": [
-		"src/routes/listen/albums/[id]/+page.ts",
-		"src/routes/+layout.ts"
+		"src/routes/listen/albums/[id]/+page.ts"
 	],
 	"/listen/albums/[id]/edit": [
-		"src/routes/listen/albums/[id]/edit/+page.ts",
-		"src/routes/+layout.ts"
+		"src/routes/listen/albums/[id]/edit/+page.ts"
 	],
-	"/listen/artists": [
-		"src/routes/+layout.ts",
-		"src/routes/+layout.ts"
-	],
-	"/listen/playlists": [
-		"src/routes/+layout.ts",
-		"src/routes/+layout.ts"
-	],
+	"/listen/artists": [],
+	"/listen/playlists": [],
 	"/listen/playlists/[id]": [
-		"src/routes/listen/playlists/[id]/+page.ts",
-		"src/routes/+layout.ts"
+		"src/routes/listen/playlists/[id]/+page.ts"
 	],
-	"/upload": [
-		"src/routes/+layout.ts",
-		"src/routes/+layout.ts"
-	]
+	"/upload": []
 }
