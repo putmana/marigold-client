@@ -7,10 +7,10 @@
 
     let issues: Issue[] = [];
 
-    let username = "alkesta";
-    let email = "adam.putman@outlook.com";
-    let password = "Tagetes11!";
-    let confirmPassword = "Tagetes11!";
+    let username = "";
+    let email = "";
+    let password = "";
+    let confirmPassword = "";
 
     $: genericIssues = issues.filter(issue => 
         issue.category === registerIssue.generic
@@ -36,22 +36,12 @@
     $: issues = issues;
 
     async function handleSubmit() {
-        if (issues.length === 0) {
-            await register(username, email, password).then((response: RegisterReciept) => {
-                if (response.success) {
-                    goto('/auth/login')
-                } else {
-                    issues = [
-                        ...issues,
-                        ...response.issues ?? []
-                    ]
-                    console.log(issues)
-                }
-                
-            }).catch(issues => {
-                
-            })
-        }
+        issues = [
+            {
+                category: registerIssue.generic,
+                message: "Registration disabled for demo"
+            }
+        ]
     }
 
     
@@ -73,7 +63,7 @@
 </div>
 <form on:submit|preventDefault={handleSubmit}>
     <div class="input">
-        <input class="input-text" class:issue={usernameIssues.length > 0 && username.length > 0} type="username" placeholder="username" bind:value={username} maxlength=32>
+        <input class="input-text" class:issue={usernameIssues.length > 0 && username.length > 0} type="username" placeholder="username" bind:value={username} maxlength=32 disabled>
         <div class="warning">
             {#if username.length > 0}
                 {#each usernameIssues as issue}
@@ -83,7 +73,7 @@
         </div>
     </div>
     <div class="input">
-        <input class="input-text" class:issue={emailIssues.length > 0 && email.length > 0 } type="email" placeholder="email address" bind:value={email}>
+        <input class="input-text" class:issue={emailIssues.length > 0 && email.length > 0 } type="email" placeholder="email address" bind:value={email} disabled>
         {#if email.length > 0}
             <div class="warning">
                 {#each emailIssues as issue}
@@ -93,7 +83,7 @@
         {/if}
     </div>
     <div class="input">
-        <input class="input-text" class:issue={(passwordIssues.length > 0 || confirmPasswordIssues.length > 0) && password.length > 0} type="password" placeholder="password" bind:value={password} maxlength=200>
+        <input class="input-text" class:issue={(passwordIssues.length > 0 || confirmPasswordIssues.length > 0) && password.length > 0} type="password" placeholder="password" bind:value={password} maxlength=200 disabled>
         {#if password.length > 0}
             <div class="warning">
                 {#each confirmPasswordIssues as issue}
@@ -111,7 +101,7 @@
         {/if}
     </div>
     <div class="input">
-        <input class="input-text" class:issue={confirmPasswordIssues.length > 0} type="password" placeholder="confirm password" bind:value={confirmPassword}>
+        <input class="input-text" class:issue={confirmPasswordIssues.length > 0} type="password" placeholder="confirm password" bind:value={confirmPassword} disabled>
         <div class="warning">
             {#each confirmPasswordIssues as issue}
                 <p>{issue.message}</p>
@@ -119,7 +109,7 @@
         </div>
     </div>
     <div class="input">
-        <input class="btn-primary" type="submit" value="REGISTER" disabled={issues.length > 0}>
+        <input class="btn-primary" type="submit" value="Disabled for demo" disabled={issues.length > 0}>
     </div>
     <div class="subtitle">
         Have an account?

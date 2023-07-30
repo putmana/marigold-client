@@ -5,8 +5,11 @@
     import { loginUser } from "$lib/scripts/api/auth/api-login";
     import { token } from "$lib/stores/auth";
 
-    let email = "";
-    let password = "";
+    const DEMO_EMAIL = "demo@ptmn.io";
+    const DEMO_PASS = "password";
+
+    let email = DEMO_EMAIL;
+    let password = DEMO_PASS;
 
     let errors: string[] = [];
 
@@ -21,12 +24,12 @@
             if (error.message == "BAD CREDENTIALS") {
                 let message = "Invalid email or password"
                 errors = [...errors, message]
-                password = ""
+                password = DEMO_PASS
             } else {
-                let message = "ERROR: " + error.message;
+                let message = "ERROR: " + error.message
                 errors = [...errors, message]
-                email = ""
-                password = ""
+                email = DEMO_EMAIL
+                password = DEMO_PASS
             }
         })
     }
@@ -44,15 +47,15 @@
         <i class="bi bi-flower1"></i>
     </div>
     <div class="text">
-        login
+        login (demo)
     </div>
 </div>
 <form on:submit|preventDefault={handleSubmit}>
     <div class="input">
-        <input class="input-text" name="email" type="email" placeholder="email address" bind:value={email} required>
+        <input class="input-text" name="email" type="email" placeholder="email address" bind:value={email} required disabled>
     </div>
     <div class="input">
-        <input class="input-text" name="password" type="password" placeholder="password" bind:value={password} required>
+        <input class="input-text" name="password" type="password" placeholder="password" bind:value={password} required disabled>
     </div>
     <div class="input">
         <input class="btn-primary" type="submit" value="LOG IN">
