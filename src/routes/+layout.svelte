@@ -23,7 +23,6 @@
 
 </script>
 
-
 <div class="app-wrapper">
     <slot></slot>
 </div>

@@ -32,8 +32,5 @@
             opacity: 20%;
             font-weight: bold;
         }
-        .error {
-            background-image: linear-gradient(to right, $error-a, $error-b);
-        }
     }
 </style>
