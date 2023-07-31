@@ -43,7 +43,6 @@
         </div>
 		<div class="buttons">
 			<button class="btn btn-primary" on:click={queueThisList}><i class="bi bi-play-fill"></i> PLAY</button>
-			<a class="btn btn-primary" href="./{id}/edit"><i class="bi bi-pencil-fill"></i></a>
 		</div>
     </div>
     <div class="art">
