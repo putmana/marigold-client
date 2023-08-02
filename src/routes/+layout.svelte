@@ -31,12 +31,16 @@
         <p>
             Demo for Marigold is not currently compatible with mobile displays.
         </p>
+        <a class="btn btn-primary" href="https://ptmn.io/">
+            Go Back To Portfolio
+        </a>
     </div>
     <slot></slot>
 </div>
 
 <style lang="scss">
     @import "/static/vars.scss";
+    @import "/static/buttons.scss";
     :global(body) {
         background-color: $gray-d;
         color: $text-color;
