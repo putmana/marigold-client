@@ -24,6 +24,14 @@
 </script>
 
 <div class="app-wrapper">
+    <div class="overlay">
+        <div class="logo">
+            <i class="bi bi-flower1"></i>
+        </div>
+        <p>
+            Demo for Marigold is not currently compatible with mobile displays.
+        </p>
+    </div>
     <slot></slot>
 </div>
 
@@ -45,5 +53,31 @@
         left: 0;
         width: 100%;
         height: 100vh;
+    }
+    .overlay {
+        display: none;
+    }
+    @media (max-width: 1000px) {
+        .overlay {
+            background-color: $gray-c;
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            width: 100vw;
+            height: 100vh;
+            box-sizing: content-box;
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            font-weight: bold;
+            .logo {
+                font-size: 48pt;
+                opacity: 60%;
+            }
+            p {
+                padding: 20px;
+            }
+        }
     }
 </style>
