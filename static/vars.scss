@@ -1,6 +1,5 @@
 $font: "jaf-bernina-sans-narrow", sans-serif;
 
-
 $gray-a: rgb(20, 20, 20);
 $gray-b: rgb(50, 50, 50);
 $gray-c: rgb(70, 70, 70);
@@ -53,7 +52,6 @@ $player-skip-btn-size: calc(0.75 * $size);
 $player-playpause-btn-size: calc(1.25 * $size);
 $player-settings-btn-size: calc(1.5 * $size);
 
-
 $tab-size: calc(2 * $size);
 $list-header-size: calc(2 * $size);
 $list-item-size: calc(2 * $size);
@@ -78,13 +76,11 @@ $searcher-item-art-size: calc(3 / 4 * $searcher-item-size);
 $banner-size: calc(4 * $margin-size + 15.5px);
 
 *::-webkit-scrollbar {
-    appearance: none;
-    width: $margin-size;
+	appearance: none;
+	width: $margin-size;
 }
 
 *::-webkit-scrollbar-thumb {
-    background-color: $shadow-color;
-    border-radius: $margin-size;
+	background-color: $shadow-color;
+	border-radius: $margin-size;
 }
-
-

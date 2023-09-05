@@ -1,122 +1,145 @@
 <script lang="ts">
-    import { goto } from "$app/navigation";
-    import InfoBanner from "$lib/components/misc/info-banner.svelte";
-    import { register, type RegisterReciept } from "$lib/scripts/api/auth/api-register";
-    import { auditRegister, registerIssue } from "$lib/scripts/audit/auth/audit-register";
+	import { goto } from "$app/navigation"
+	import InfoBanner from "$lib/components/misc/info-banner.svelte"
+	import { register, type RegisterReciept } from "$lib/scripts/api/auth/api-register"
+	import { auditRegister, registerIssue } from "$lib/scripts/audit/auth/audit-register"
 
+	let issues: Issue[] = []
 
-    let issues: Issue[] = [];
+	let username = ""
+	let email = ""
+	let password = ""
+	let confirmPassword = ""
 
-    let username = "";
-    let email = "";
-    let password = "";
-    let confirmPassword = "";
+	$: genericIssues = issues.filter((issue) => issue.category === registerIssue.generic)
 
-    $: genericIssues = issues.filter(issue => 
-        issue.category === registerIssue.generic
-    )
+	$: usernameIssues = issues.filter((issue) => issue.category === registerIssue.username)
 
-    $: usernameIssues = issues.filter(issue => 
-        issue.category === registerIssue.username
-    )
+	$: emailIssues = issues.filter((issue) => issue.category === registerIssue.email)
 
-    $: emailIssues = issues.filter(issue => 
-        issue.category === registerIssue.email
-    )
+	$: passwordIssues = issues.filter((issue) => issue.category === registerIssue.password)
 
-    $: passwordIssues = issues.filter(issue => 
-        issue.category === registerIssue.password
-    )
+	$: confirmPasswordIssues = issues.filter(
+		(issue) => issue.category === registerIssue.confirmPassword
+	)
 
-    $: confirmPasswordIssues = issues.filter(issue => 
-        issue.category === registerIssue.confirmPassword
-    )
+	$: issues = auditRegister(username, email, password, confirmPassword)
+	$: issues = issues
 
-    $: issues = auditRegister(username, email, password, confirmPassword)
-    $: issues = issues;
-
-    async function handleSubmit() {
-        issues = [
-            {
-                category: registerIssue.generic,
-                message: "Registration disabled for demo"
-            }
-        ]
-    }
-
-    
+	async function handleSubmit() {
+		issues = [
+			{
+				category: registerIssue.generic,
+				message: "Registration disabled for demo"
+			}
+		]
+	}
 </script>
 
 <div class="banners">
-    {#each genericIssues as issue}
-        <InfoBanner message={issue.message} style="error"/>
-    {/each}
+	{#each genericIssues as issue}
+		<InfoBanner message={issue.message} style="error" />
+	{/each}
 </div>
 
 <div class="watermark">
-    <div class="logo">
-        <i class="bi bi-flower1"></i>
-    </div>
-    <div class="text">
-        register
-    </div>
+	<div class="logo">
+		<i class="bi bi-flower1"></i>
+	</div>
+	<div class="text">register</div>
 </div>
 <form on:submit|preventDefault={handleSubmit}>
-    <div class="input">
-        <input class="input-text" class:issue={usernameIssues.length > 0 && username.length > 0} type="username" placeholder="username" bind:value={username} maxlength=32 disabled>
-        <div class="warning">
-            {#if username.length > 0}
-                {#each usernameIssues as issue}
-                    <p>{issue.message}</p>
-                {/each}
-            {/if}
-        </div>
-    </div>
-    <div class="input">
-        <input class="input-text" class:issue={emailIssues.length > 0 && email.length > 0 } type="email" placeholder="email address" bind:value={email} disabled>
-        {#if email.length > 0}
-            <div class="warning">
-                {#each emailIssues as issue}
-                    <p>{issue.message}</p>
-                {/each}
-            </div>
-        {/if}
-    </div>
-    <div class="input">
-        <input class="input-text" class:issue={(passwordIssues.length > 0 || confirmPasswordIssues.length > 0) && password.length > 0} type="password" placeholder="password" bind:value={password} maxlength=200 disabled>
-        {#if password.length > 0}
-            <div class="warning">
-                {#each confirmPasswordIssues as issue}
-                    <p>{issue.message}</p>
-                {/each}
-                {#if passwordIssues.length > 0}
-                    <p>Password must contain:</p>
-                {/if}
-            </div>
-            <div class="helper">
-                {#each passwordIssues as issue}
-                    <p>{issue.message}</p>
-                {/each}
-            </div>
-        {/if}
-    </div>
-    <div class="input">
-        <input class="input-text" class:issue={confirmPasswordIssues.length > 0} type="password" placeholder="confirm password" bind:value={confirmPassword} disabled>
-        <div class="warning">
-            {#each confirmPasswordIssues as issue}
-                <p>{issue.message}</p>
-            {/each}
-        </div>
-    </div>
-    <div class="input">
-        <input class="btn-primary" type="submit" value="Disabled for demo" disabled={issues.length > 0}>
-    </div>
-    <div class="subtitle">
-        Have an account?
-        <a href="/auth/login">Log in</a>
-    </div>
+	<div class="input">
+		<input
+			class="input-text"
+			class:issue={usernameIssues.length > 0 && username.length > 0}
+			type="username"
+			placeholder="username"
+			bind:value={username}
+			maxlength="32"
+			disabled
+		/>
+		<div class="warning">
+			{#if username.length > 0}
+				{#each usernameIssues as issue}
+					<p>{issue.message}</p>
+				{/each}
+			{/if}
+		</div>
+	</div>
+	<div class="input">
+		<input
+			class="input-text"
+			class:issue={emailIssues.length > 0 && email.length > 0}
+			type="email"
+			placeholder="email address"
+			bind:value={email}
+			disabled
+		/>
+		{#if email.length > 0}
+			<div class="warning">
+				{#each emailIssues as issue}
+					<p>{issue.message}</p>
+				{/each}
+			</div>
+		{/if}
+	</div>
+	<div class="input">
+		<input
+			class="input-text"
+			class:issue={(passwordIssues.length > 0 || confirmPasswordIssues.length > 0) &&
+				password.length > 0}
+			type="password"
+			placeholder="password"
+			bind:value={password}
+			maxlength="200"
+			disabled
+		/>
+		{#if password.length > 0}
+			<div class="warning">
+				{#each confirmPasswordIssues as issue}
+					<p>{issue.message}</p>
+				{/each}
+				{#if passwordIssues.length > 0}
+					<p>Password must contain:</p>
+				{/if}
+			</div>
+			<div class="helper">
+				{#each passwordIssues as issue}
+					<p>{issue.message}</p>
+				{/each}
+			</div>
+		{/if}
+	</div>
+	<div class="input">
+		<input
+			class="input-text"
+			class:issue={confirmPasswordIssues.length > 0}
+			type="password"
+			placeholder="confirm password"
+			bind:value={confirmPassword}
+			disabled
+		/>
+		<div class="warning">
+			{#each confirmPasswordIssues as issue}
+				<p>{issue.message}</p>
+			{/each}
+		</div>
+	</div>
+	<div class="input">
+		<input
+			class="btn-primary"
+			type="submit"
+			value="Disabled for demo"
+			disabled={issues.length > 0}
+		/>
+	</div>
+	<div class="subtitle">
+		Have an account?
+		<a href="/auth/login">Log in</a>
+	</div>
 </form>
 
 <style lang="scss">
-    @import '../style.scss';
+	@import "../style.scss";
 </style>

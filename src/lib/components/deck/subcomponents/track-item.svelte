@@ -1,82 +1,86 @@
 <script lang="ts">
-    import { deckPalette } from "$lib/stores/colors"; 
-    import { createEventDispatcher } from "svelte";
-    import { formatArtists } from "$lib/scripts/utils";
+	import { deckPalette } from "$lib/stores/colors"
+	import { createEventDispatcher } from "svelte"
+	import { formatArtists } from "$lib/scripts/utils"
 
-    export let track: Track;
-    export let position: number;
-    export let showArt = true;
+	export let track: Track
+	export let position: number
+	export let showArt = true
 
-    let shiftDown = false;
+	let shiftDown = false
 
-    const dispatch = createEventDispatcher();
-    
-    function handleKeyDown(e: KeyboardEvent) {
-        if (e.key === "Shift") {
-            shiftDown = true;
-        }
-    }
+	const dispatch = createEventDispatcher()
 
-    function handleKeyUp(e: KeyboardEvent) {
-        if (e.key === "Shift") {
-            shiftDown = false;
-        }
-    }
+	function handleKeyDown(e: KeyboardEvent) {
+		if (e.key === "Shift") {
+			shiftDown = true
+		}
+	}
 
-    function handleClick(e: MouseEvent) {
-        if (shiftDown) {
-            queueThisTrack()
-        } else {
-            queueThisList()
-        }
-    }
+	function handleKeyUp(e: KeyboardEvent) {
+		if (e.key === "Shift") {
+			shiftDown = false
+		}
+	}
 
-    let queueThisList = () => {
-        dispatch('queuethislist')
-    }
+	function handleClick(e: MouseEvent) {
+		if (shiftDown) {
+			queueThisTrack()
+		} else {
+			queueThisList()
+		}
+	}
 
-    let queueThisTrack = () => {
-        dispatch('queuethistrack')
-    }
+	let queueThisList = () => {
+		dispatch("queuethislist")
+	}
 
+	let queueThisTrack = () => {
+		dispatch("queuethistrack")
+	}
 </script>
+
 <svelte:window on:keydown={handleKeyDown} on:keyup={handleKeyUp} />
 
-<div class="track" on:click={handleClick} style="--hover-light: {$deckPalette.bright.light}; --hover-dark: {$deckPalette.bright.dark}">
-    <div class="number">
-        <span class="number-text">
-            {position}
-        </span>
-    </div>
-    {#if showArt}
-        <div class="art">
-            <img class="art-image" src="{track.cover.path}">
-        </div>
-    {/if}
-    <div class="text">
-        <div class="text-title">
-            {track.title}
-        </div>
-        <div class="text-artist">
-            {formatArtists(track.artists)}
-        </div> 
-    </div>
+<div
+	class="track"
+	on:click={handleClick}
+	style="--hover-light: {$deckPalette.bright.light}; --hover-dark: {$deckPalette.bright.dark}"
+>
+	<div class="number">
+		<span class="number-text">
+			{position}
+		</span>
+	</div>
+	{#if showArt}
+		<div class="art">
+			<img class="art-image" src={track.cover.path} />
+		</div>
+	{/if}
+	<div class="text">
+		<div class="text-title">
+			{track.title}
+		</div>
+		<div class="text-artist">
+			{formatArtists(track.artists)}
+		</div>
+	</div>
 </div>
 
 <style lang="scss">
-    @import '/static/vars.scss';
-    .track {
-        display: flex;
+	@import "/static/vars.scss";
+	.track {
+		display: flex;
 
 		flex-direction: row;
-        min-height: calc($track-item-size + $margin-size * 4);
+		min-height: calc($track-item-size + $margin-size * 4);
 		align-items: center;
-        border: 1px solid transparent;
+		border: 1px solid transparent;
 		border-radius: $margin-size;
-        margin-left: calc(2 * $margin-size);
-        margin-right: calc(2 * $margin-size);
-        transition: background-color $hover-fade-time ease;
-        .number {
+		margin-left: calc(2 * $margin-size);
+		margin-right: calc(2 * $margin-size);
+		transition: background-color $hover-fade-time ease;
+		.number {
 			display: flex;
 			align-items: center;
 			height: $track-item-size;
@@ -87,26 +91,26 @@
 				font-size: larger;
 			}
 		}
-        .text-artist {
-            font-size: smaller;
-            opacity: 70%;
-        }
-        .art {
-            margin-right: calc(4 * $margin-size);
-            min-height: calc($track-item-art-size);
-            .art-image {
-                margin: none;
-                height: calc($track-item-art-size);
-                width: calc($track-item-art-size);
-                border-style: solid;
-                border-color: $border-color;
-                border-width: 1px;
-                vertical-align: middle;
-            }
-        }
-        &:hover {
-            background-color: $hover-color;
-            border-color: $border-color;
-        }
-    }
+		.text-artist {
+			font-size: smaller;
+			opacity: 70%;
+		}
+		.art {
+			margin-right: calc(4 * $margin-size);
+			min-height: calc($track-item-art-size);
+			.art-image {
+				margin: none;
+				height: calc($track-item-art-size);
+				width: calc($track-item-art-size);
+				border-style: solid;
+				border-color: $border-color;
+				border-width: 1px;
+				vertical-align: middle;
+			}
+		}
+		&:hover {
+			background-color: $hover-color;
+			border-color: $border-color;
+		}
+	}
 </style>

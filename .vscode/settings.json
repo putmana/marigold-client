@@ -1,3 +1,6 @@
 {
-    "workbench.colorTheme": "Monokai Pro (Filter Ristretto)"
+    "workbench.colorTheme": "Monokai Pro (Filter Ristretto)",
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+	"editor.formatOnSave": true,
+	"editor.formatOnPaste": false
 }

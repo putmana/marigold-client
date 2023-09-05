@@ -1,4 +1,4 @@
-@import '/static/vars.scss';
+@import "/static/vars.scss";
 
 $btn-text-color: rgba(255, 255, 255, 0.8);
 
@@ -11,51 +11,48 @@ $btn-secondary-background-color-hover: rgba(255, 255, 255, 0.1);
 $btn-outline-color: rgba(255, 255, 255, 0.2);
 $btn-outline-color-hover: rgb(255, 255, 255, 0.3);
 
-
-
 .btn {
-    font-family: $font;
-    font-size: 10pt;
-    text-decoration: none;
-    color: $btn-text-color;
-    border-radius: $margin-size;
-    padding: calc(2 * $margin-size);
-    border: 0px solid transparent;
-    text-transform: uppercase;
-    font-weight: bold;
-    transition: all $hover-fade-time ease;
-    margin-right: $margin-size;
-    outline: $btn-outline-color solid 1px;
-    box-sizing: border-box;
+	font-family: $font;
+	font-size: 10pt;
+	text-decoration: none;
+	color: $btn-text-color;
+	border-radius: $margin-size;
+	padding: calc(2 * $margin-size);
+	border: 0px solid transparent;
+	text-transform: uppercase;
+	font-weight: bold;
+	transition: all $hover-fade-time ease;
+	margin-right: $margin-size;
+	outline: $btn-outline-color solid 1px;
+	box-sizing: border-box;
 
-    
+	&.btn-primary {
+		background-color: $btn-primary-background-color;
+		&:hover {
+			background-color: $btn-primary-background-color-hover;
+		}
+	}
 
-    &.btn-primary {
-        background-color: $btn-primary-background-color;
-        &:hover {
-            background-color: $btn-primary-background-color-hover;
-        }
-    }
+	&.btn-secondary {
+		background-color: $btn-secondary-background-color;
+		&:hover {
+			background-color: $btn-secondary-background-color-hover;
+		}
+	}
+	&.btn-seamless {
+		outline-color: transparent;
+		background-color: transparent;
+		&:hover {
+			background-color: $btn-secondary-background-color-hover;
+		}
+	}
 
-    &.btn-secondary {
-        background-color: $btn-secondary-background-color;
-        &:hover {
-            background-color: $btn-secondary-background-color-hover;
-        }
-    }
-    &.btn-seamless {
-        outline-color: transparent;
-        background-color: transparent;
-        &:hover {
-            background-color: $btn-secondary-background-color-hover;
-        }
-    }
+	&:hover {
+		outline: $btn-outline-color-hover solid 1px;
+	}
 
-    &:hover {
-        outline: $btn-outline-color-hover solid 1px;
-    }
-
-    &:focus, :focus-visible {
-        outline: $btn-outline-color-hover solid 3px;
-    }
+	&:focus,
+	:focus-visible {
+		outline: $btn-outline-color-hover solid 3px;
+	}
 }

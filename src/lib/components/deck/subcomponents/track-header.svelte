@@ -1,67 +1,66 @@
 <script lang="ts">
-    import { goto } from "$app/navigation";
-    import { formatTime, pluralize } from "$lib/scripts/utils";
-    import { createEventDispatcher } from "svelte";
-	
-	export let id: string;
-    export let title: string;
-    export let artists: string;
-    export let category: string;
-    export let count: number;
-	export let duration: number;
-    export let cover: string;
+	import { goto } from "$app/navigation"
+	import { formatTime, pluralize } from "$lib/scripts/utils"
+	import { createEventDispatcher } from "svelte"
 
-	const dispatch = createEventDispatcher();
+	export let id: string
+	export let title: string
+	export let artists: string
+	export let category: string
+	export let count: number
+	export let duration: number
+	export let cover: string
+
+	const dispatch = createEventDispatcher()
 
 	function queueThisList() {
-		dispatch("queuethislist");
+		dispatch("queuethislist")
 	}
-
 </script>
+
 <div class="track-header">
-    <div class="text">
-        <div class="text-title">
-            {title}
-        </div>
-        
-        <div class="text-info">
+	<div class="text">
+		<div class="text-title">
+			{title}
+		</div>
+
+		<div class="text-info">
 			<span class="text-artist">
 				{artists}
 			</span>
 			<b>&#x2022</b>
-            <span class="text-subcategory">
-                {category}
-            </span>
-            <b>&#x2022</b>
-            <span class="text-count">
-                {count} {pluralize("track", count)}
-            </span>
-            <b>&#x2022</b>
-            <span class="text-duration">
-                {formatTime(duration, true, false)}
-            </span>
-        </div>
-		<div class="buttons">
-			<button class="btn btn-primary" on:click={queueThisList}><i class="bi bi-play-fill"></i> PLAY</button>
+			<span class="text-subcategory">
+				{category}
+			</span>
+			<b>&#x2022</b>
+			<span class="text-count">
+				{count}
+				{pluralize("track", count)}
+			</span>
+			<b>&#x2022</b>
+			<span class="text-duration">
+				{formatTime(duration, true, false)}
+			</span>
 		</div>
-    </div>
-    <div class="art">
-        <img class="art-image" src={cover}>
-    </div>
+		<div class="buttons">
+			<button class="btn btn-primary" on:click={queueThisList}
+				><i class="bi bi-play-fill"></i> PLAY</button
+			>
+		</div>
+	</div>
+	<div class="art">
+		<img class="art-image" src={cover} />
+	</div>
 </div>
 <div class="separator">
-	<div class="number">
-		#
-	</div>
-	<div class="title">
-		TITLE
-	</div>
+	<div class="number">#</div>
+	<div class="title">TITLE</div>
 </div>
-    
+
 <style lang="scss">
-    @import '/static/vars.scss';
-	@import '/static/buttons.scss';
-    .track-header {
+	@import "/static/vars.scss";
+	@import "/static/buttons.scss";
+	.track-header {
 		display: flex;
 		flex-direction: row;
 		align-items: center;
@@ -103,7 +102,7 @@
 		}
 	}
 	.separator {
-		min-height: calc(1/2 * $track-item-size);
+		min-height: calc(1 / 2 * $track-item-size);
 		align-self: center;
 		border-bottom: 1px solid $border-color;
 		margin-bottom: calc(2 * $margin-size);
@@ -120,4 +119,3 @@
 		}
 	}
 </style>
-
