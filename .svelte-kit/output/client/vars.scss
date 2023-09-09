@@ -1,0 +1,90 @@
+$font: "jaf-bernina-sans-narrow", sans-serif;
+
+
+$gray-a: rgb(20, 20, 20);
+$gray-b: rgb(50, 50, 50);
+$gray-c: rgb(70, 70, 70);
+$gray-d: rgb(85, 85, 85);
+$gray-e: rgb(100, 100, 100);
+$gray-f: rgb(135, 135, 135);
+$gray-g: rgb(200, 200, 200);
+
+$infobox-color-info: hsla(220, 50%, 35%, 0.8);
+$infobox-color-warning: hsla(40, 50%, 35%, 0.8);
+$infobox-color-error: hsla(0, 50%, 35%, 0.8);
+
+$error-a: hsl(0, 100%, 10%);
+$error-b: hsl(0, 100%, 20%);
+
+$shadow-color: rgba(20, 20, 20, 0.5);
+$border-color: rgba(255, 255, 255, 0.1);
+$border-color-hover: rgba(255, 255, 255, 0.2);
+$border-color-focus: rgba(255, 255, 255, 0.4);
+$border-color-error: rgba(255, 0, 0, 0.8);
+$hover-color: rgba(255, 255, 255, 0.1);
+$selected-color: rgba(255, 255, 255, 0.05);
+$scrub-track-color: rgba(20, 20, 20, 0.5);
+$scrollbar-color: rgba(255, 255, 255, 0.2);
+$auth-text-color: rgba(255, 255, 255, 0.5);
+$auth-input-color: rgba(0, 0, 0, 0.2);
+$auth-input-color-focus: rgba(0, 0, 0, 0.4);
+$auth-input-color-error: rgba(40, 0, 0, 0.4);
+$button-color: rgba(255, 255, 255, 0.15);
+$button-color-focus: rgba(255, 255, 255, 0.3);
+$button-color-text: rgba(255, 255, 255, 0.8);
+
+$text-color: white;
+
+$hover-fade-time: 0.15s;
+
+$size: 30px;
+$font-size: 12pt;
+$margin-size: 5px;
+$border-size: 1px;
+$shadow-size: 30px;
+
+$sidebar-size-collapsed: calc(2 * $size);
+$sidebar-size-expanded: calc(6 * $size);
+$panel-size: calc(10 * $size);
+
+$player-size: calc(2 * $size);
+$player-info-size: calc(12 * $size);
+$player-skip-btn-size: calc(0.75 * $size);
+$player-playpause-btn-size: calc(1.25 * $size);
+$player-settings-btn-size: calc(1.5 * $size);
+
+
+$tab-size: calc(2 * $size);
+$list-header-size: calc(2 * $size);
+$list-item-size: calc(2 * $size);
+$list-item-art-size: calc(2 * $size);
+$track-header-size: calc(12 * $size - 3 * $margin-size - 2px);
+$track-item-size: calc(2 * $size);
+$track-item-art-size: calc(2 * $size);
+$queue-box-size: calc(10 * $size);
+$queue-item-size: calc(2 * $size);
+$queue-item-art-size: calc(3 / 4 * $queue-item-size);
+
+$auth-header-size: calc(8 * $size);
+$auth-logo-size: calc(2 * $size);
+$auth-input-size: calc(10 * $size);
+
+$upload-form-size: calc(12 * $size);
+
+$searcher-size: calc(10 * $size);
+$searcher-item-size: calc(2 * $size);
+$searcher-item-art-size: calc(3 / 4 * $searcher-item-size);
+
+$banner-size: calc(4 * $margin-size + 15.5px);
+
+*::-webkit-scrollbar {
+    appearance: none;
+    width: $margin-size;
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: $shadow-color;
+    border-radius: $margin-size;
+}
+
+

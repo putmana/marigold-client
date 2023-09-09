@@ -1,0 +1,90 @@
+@import '/static/vars.scss';
+
+$input-size: calc(10 * $size);
+
+$input-text-color: rgb(255, 255, 255);
+$input-placeholder-color: rgba(255, 255, 255, 0.2);
+
+$input-background-color: rgba(0, 0, 0, 0.2);
+$input-background-color-hover: rgba(0, 0, 0, 0.3);
+
+$input-outline-color: rgba(255, 255, 255, 0.2);
+$input-outline-color-hover: rgba(255, 255, 255, 0.3);
+
+.form-control {
+    label {
+        &.text {
+            font-size: 10pt;
+            text-transform: uppercase;
+            margin-bottom: $margin-size;
+            padding-left: $margin-size;
+            opacity: 70%;
+            display: block;
+        }
+        &.image {
+            outline: 1px solid $input-outline-color;
+            border-radius: $margin-size;
+            img {
+                border-radius: $margin-size;
+                position: absolute;
+                width: inherit;
+            }
+            .overlay {
+                font-weight: bold;
+                text-transform: uppercase;
+                display: flex;
+                border-radius: $margin-size;
+                justify-content: center;
+                align-items: center;
+                background-color: $input-background-color-hover;
+                width: 100%;
+                height: 100%;
+                position: relative;
+                opacity: 0;
+                backdrop-filter: blur(calc(2 * $margin-size)) saturate(50%);
+                transition: all $hover-fade-time ease;
+            }
+
+            &:hover {
+                outline: 1px solid $input-outline-color-hover;
+                .overlay {
+                    opacity: 100%;
+                }
+            }
+        }
+    }
+    input[type=text], input[type=email] {
+        font-family: $font;
+        font-size: 10pt;
+        width: 100%;
+        color: $input-text-color;
+        padding: calc(2 * $margin-size);
+        border: 0px solid transparent;
+        border-radius: $margin-size;
+        background-color: $input-background-color;
+        outline: $input-outline-color solid 1px;
+        transition: all $hover-fade-time ease;
+        box-sizing: border-box;
+        &::placeholder {
+            color: $input-placeholder-color;
+        }
+        &:hover {
+            background-color: $input-background-color-hover;
+            outline: 1px solid $input-outline-color-hover;
+        }
+        &:focus, &:focus-visible {
+            background-color: $input-background-color-hover;
+            outline: 3px solid $input-outline-color-hover;
+        }
+        &.issue {
+            outline-color: $border-color-error;
+            border-color: $border-color-error;
+        }
+    }
+    input[type=file] {
+        display: none;
+    }
+    input[type=submit] {
+        margin-top: calc(5 * $margin-size);
+    }
+}

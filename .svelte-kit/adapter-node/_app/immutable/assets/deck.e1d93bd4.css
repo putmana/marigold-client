@@ -1,0 +1,1 @@
+.svelte-1uh8xaw::-webkit-scrollbar{appearance:none;width:5px}.svelte-1uh8xaw::-webkit-scrollbar-thumb{background-color:#14141480;border-radius:5px}.deck.svelte-1uh8xaw{position:relative;display:flex;overflow-y:scroll;background-image:linear-gradient(to right,var(--main-light),var(--main-dark));flex-direction:column;flex-grow:1;transition:width .15s ease;padding-bottom:120px}
