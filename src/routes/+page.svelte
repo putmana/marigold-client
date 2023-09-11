@@ -1,4 +1,14 @@
 <script lang="ts">
-	let text="Hello world!"
+	import Nav from "$lib/components/nav/nav.svelte"
+
+	let text = "Hello world!"
 </script>
-<h1>{text}</h1>
+
+
+<style lang="scss">
+	@use "/src/style/colors";
+	@use "/src/style/mixins";
+	
+
+</style>
+	

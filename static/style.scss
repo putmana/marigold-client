@@ -1,33 +1,3 @@
-@import '/static/vars.scss';
-
-input[type=text] {
-    &.form-control {
-        width: 100%;
-        color: $text-color;
-        padding: calc(2 * $margin-size);
-        box-sizing: border-box;
-        border: 1px solid $border-color;
-        border-radius: $margin-size;
-        background-color: $auth-input-color;
-        transition: all $hover-fade-time ease;
-        &::placeholder {
-            color: $border-color-hover;
-        }
-        &:hover {
-            background-color: $auth-input-color-focus;
-            border: 1px solid $border-color-hover;
-        }
-        &:focus, &:focus-visible {
-            appearance: none;
-            outline: none;
-            background-color: $auth-input-color-focus;
-            border: 1px solid var(--bright-light);
-            outline: var(--bright-light) solid 2px;
-        }
-        &.issue {
-            outline-color: $border-color-error;
-            border-color: $border-color-error;
-        }
-    }
+button {
+    background-color: red;
 }
-

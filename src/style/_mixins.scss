@@ -1,0 +1,30 @@
+@use "colors";
+
+@mixin animate {
+	transition: 0.1s all ease-out;
+}
+
+@mixin interactive {
+	outline: 2px solid transparent;
+	outline-offset: 2px;
+
+	&:focus-visible {
+		outline-color: colors.$border-hover;
+	}
+}
+
+@mixin clickable {
+	@include interactive;
+	@include animate;
+	border: 1px solid transparent;
+	cursor: pointer;
+
+	&:hover {
+		background-color: colors.$hover;
+		border-color: colors.$border-hover;
+	}
+}
+
+@mixin rounded {
+	border-radius: 5px;
+}
