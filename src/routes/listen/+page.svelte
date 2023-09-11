@@ -11,7 +11,7 @@
 			<NavBtn label="albums" icon_path="public/icons/regular-albums.svg"/>
 			<NavBtn label="artists" icon_path="public/icons/regular-artists.svg"/>
 		</Nav>
-		<Finder />
+		<Finder></Finder>
 	</section>
 
 	<section class="library">

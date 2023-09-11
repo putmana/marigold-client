@@ -1,5 +1,5 @@
 <script lang="ts">
-	
+	export let tracks: Track[] 
 </script>
 
 <section class="wrapper">
