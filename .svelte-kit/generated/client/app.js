@@ -16,7 +16,7 @@ export const dictionary = {
 		"/": [2],
 		"/auth/login": [3],
 		"/auth/register": [4],
-		"/listen": [~5],
+		"/listen": [5],
 		"/settings": [6]
 	};
 

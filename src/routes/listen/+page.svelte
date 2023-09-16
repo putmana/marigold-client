@@ -1,7 +1,8 @@
 <script lang="ts">
-	import Finder from "$lib/components/finder/finder.svelte"
+	import Albums from "$lib/modes/albums/albums.svelte";
 	import NavBtn from "$lib/components/nav/nav-btn/nav-btn.svelte"
 	import Nav from "$lib/components/nav/nav.svelte"
+
 </script>
 
 <main class="wrapper">
@@ -11,12 +12,12 @@
 			<NavBtn label="albums" icon_path="public/icons/regular-albums.svg"/>
 			<NavBtn label="artists" icon_path="public/icons/regular-artists.svg"/>
 		</Nav>
-		<Finder></Finder>
 	</section>
 
 	<section class="library">
-
+		<Albums></Albums>
 	</section>
+
 
 </main>
 <style lang="scss">
