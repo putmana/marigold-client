@@ -1,19 +1,39 @@
 <script lang="ts">
-	export let tracks: Track[] 
+	export let title: string;
 </script>
 
-<section class="wrapper">
+<aside class="wrapper">
+	<header class="header">
+		<h1>{title}</h1>
+	</header>
+
 	<slot />
-</section>
+
+</aside>
 
 <style lang="scss">
 	@use '/src/style/colors';
 	@use '/src/style/mixins';
+	@use '/src/style/sizes';
 
 	.wrapper {
 		background-color: colors.$gray-c;
-		border: 1px solid colors.$border;
 		display: flex;
+		flex-direction: column;
 		flex-grow: 1;
 	}
+
+	.header {
+		display: flex;
+		align-items: center;
+		height: sizes.$nav-width;
+		margin: 0;
+		padding-left: 15px;
+		padding-right: 15px;
+
+		h1 {
+			text-transform: uppercase;
+			font-size: inherit;
+		}
+	} 
 </style>

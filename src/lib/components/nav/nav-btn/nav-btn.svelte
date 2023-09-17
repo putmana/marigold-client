@@ -23,6 +23,7 @@
 		width: sizes.$nav-width;
 		height: sizes.$nav-width;
 
+		box-sizing: content-box;
 		.icon {
 			height: calc(sizes.$nav-width / 3);
 		}

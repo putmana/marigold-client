@@ -2,7 +2,13 @@
 	import Albums from "$lib/modes/albums/albums.svelte";
 	import NavBtn from "$lib/components/nav/nav-btn/nav-btn.svelte"
 	import Nav from "$lib/components/nav/nav.svelte"
+	
+	import { loginUser } from "$lib/modes/login/login"
+	import { onMount } from "svelte"
 
+	onMount(async() => {
+		loginUser()
+	})
 </script>
 
 <main class="wrapper">
@@ -12,10 +18,10 @@
 			<NavBtn label="albums" icon_path="public/icons/regular-albums.svg"/>
 			<NavBtn label="artists" icon_path="public/icons/regular-artists.svg"/>
 		</Nav>
+		<Albums></Albums>
 	</section>
 
 	<section class="library">
-		<Albums></Albums>
 	</section>
 
 

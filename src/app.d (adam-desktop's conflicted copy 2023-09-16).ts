@@ -4,21 +4,9 @@ declare global {
 		// stuff goes here maybe
 	}
 
-	export type Cover = {
-		full: string
-		large: string
-		small: string
-	}
-
 	export type Color = {
 		light: string
 		dark: string
-	}
-
-	export type Palette = {
-		bright: Color
-		main: Color
-		dark: Color
 	}
 
 	export type User = {
@@ -27,13 +15,14 @@ declare global {
 		email: string
 	}
 
+
 	export type Playlist = {
 		id: string
 		title: string
 		description: string
 		duration: number
-		cover: Cover
-		palette: Palette
+		cover: string
+		color: Color
 		tracks: Track[]
 	}
 
@@ -46,8 +35,8 @@ declare global {
 		}
 		duration: number
 		year: string
-		cover: Cover 
-		palette: Palette
+		cover: string
+		color: Color
 		tracks: Track[]
 	}
 
@@ -59,8 +48,8 @@ declare global {
 			name: string
 		} 
 		duration: number
-		cover: Cover 
-		palette: Palette
+		cover: string 
+		color: Color
 		file: string
 	}
 }

@@ -1,5 +1,5 @@
-import { pb } from "$lib/scripts/database/pocketbase"
-import { parseColor } from "$lib/scripts/color-engine/color-engine"
+import { pb, getCoverURLs } from "$lib/scripts/database/pocketbase"
+import { buildPalette } from "$lib/scripts/color-engine/color-engine"
 
 const FIELDS = [
 	"id",
@@ -25,12 +25,17 @@ const EXPAND = [
 ]
 
 export async function loadAlbums(): Promise<Album[]> {
+	
 	const results = await pb.collection('albums').getFullList({
 		fields: FIELDS.toString(),
 		expand: EXPAND.toString()
 	})
 
+	const fileToken = await pb.files.getToken()
+
 	const albums: Album[] = results.map(album => {
+		const cover = getCoverURLs(album.expand?.cover.id, album.expand?.cover.file, fileToken)
+
 		const tracks: Track[] = album.expand?.tracks.map(track => {
 			return {
 				id: track.id,
@@ -40,8 +45,8 @@ export async function loadAlbums(): Promise<Album[]> {
 					name: album.expand?.artist.name + track.featuring,
 				},
 				duration: parseInt(track.duration),
-				cover: album.expand?.cover.file,
-				color: parseColor(album.expand?.cover.color),
+				cover: cover, 
+				palette: buildPalette(album.expand?.cover.color),
 				file: track.file,
 			}
 		})
@@ -57,8 +62,8 @@ export async function loadAlbums(): Promise<Album[]> {
 			},
 			duration: duration, 
 			year: album.year,
-			cover: album.expand?.cover.file,
-			color: parseColor(album.expand?.cover.color),
+			cover: cover,
+			palette: buildPalette(album.expand?.cover.color),
 			tracks: tracks
 		}
 	})
