@@ -10,30 +10,30 @@ export const pb = new PocketBase(URL)
 export const user = writable(pb.authStore.model)
 
 pb.authStore.onChange(() => {
-	user.set(pb.authStore.model)
+        user.set(pb.authStore.model)
 })
 
 export function getFileURL(
-	collection: string, 
-	id: string, 
-	filename: string,
-	token: string,
+        collection: string,
+        id: string,
+        filename: string,
+        token: string,
 ): string {
-	token = `?token=${token}`
-	return `${URL}/api/files/${collection}/${id}/${filename}${token}`
+        token = `?token=${token}`
+        return `${URL}/api/files/${collection}/${id}/${filename}${token}`
 }
 
 export function getCoverURLs(
-	id: string,
-	filename: string,
-	token: string
+        id: string,
+        filename: string,
+        token: string
 ): Cover {
-	const baseURL = getFileURL("covers", id, filename, token)
+        const baseURL = getFileURL("covers", id, filename, token)
 
-	return {
-		full: baseURL,
-		large: `${baseURL}&thumb=${THUMB_SIZE_LARGE}x${THUMB_SIZE_LARGE}`,
-		small: `${baseURL}&thumb=${THUMB_SIZE_SMALL}x${THUMB_SIZE_SMALL}`,
-	}
+        return {
+                full: baseURL,
+                large: `${baseURL}&thumb=${THUMB_SIZE_LARGE}x${THUMB_SIZE_LARGE}`,
+                small: `${baseURL}&thumb=${THUMB_SIZE_SMALL}x${THUMB_SIZE_SMALL}`,
+        }
 }
 

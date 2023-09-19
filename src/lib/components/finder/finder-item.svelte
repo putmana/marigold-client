@@ -1,23 +1,29 @@
 <script lang="ts">
 	import { current } from "./finder"
 
-	export let id: string;
-	export let title: string;
-	export let author: string;
-	export let cover: Cover;
-	export let palette: Palette;
+	export let id: string
+	export let title: string
+	export let author: string
+	export let cover: Cover
+	export let palette: Palette
 
 	function selectItem() {
-		if ($current != id) $current = id;
+		if ($current != id) $current = id
 	}
 
-	$: selected = ($current == id) ? true : false
+	$: selected = $current == id ? true : false
 </script>
 
-<button class="wrapper" class:selected on:click={selectItem} style="--main-light: {palette.main.light}; --border-light: {palette.border.light}; --border-dark: {palette.border.dark}">
+<button
+	class="wrapper"
+	class:selected
+	on:click={selectItem}
+	style="--main-light: {palette.main.light}; --border-light: {palette.border
+		.light}; --border-dark: {palette.border.dark}"
+>
 	<span class="cover">
-		<img src={cover.full} alt={`Cover for ${title}`}>
-	</span>	
+		<img src={cover.full} alt={`Cover for ${title}`} />
+	</span>
 	<span class="info">
 		<h2>{title}</h2>
 		<h3>{author}</h3>
@@ -25,9 +31,9 @@
 </button>
 
 <style lang="scss">
-	@use '/src/style/colors';
-	@use '/src/style/mixins';
-	@use '/src/style/sizes';
+	@use "/src/style/colors";
+	@use "/src/style/mixins";
+	@use "/src/style/sizes";
 
 	.wrapper {
 		@include mixins.clickable;
@@ -48,7 +54,6 @@
 			img {
 				height: inherit;
 			}
-
 		}
 		.info {
 			display: flex;
@@ -56,13 +61,14 @@
 			justify-content: center;
 			align-items: flex-start;
 			margin-left: 20px;
-			h2, h3 {
+			h2,
+			h3 {
 				margin-top: 2px;
 				margin-bottom: 2px;
 				font-weight: normal;
 				font-size: inherit;
 				opacity: 80%;
-			} 
+			}
 			h3 {
 				font-size: small;
 			}
@@ -77,13 +83,13 @@
 			background-color: var(--main-light);
 			border: 1px solid var(--border-light);
 			border-right-width: 0px;
-			
+
 			.info {
-				h2, h3 {
+				h2,
+				h3 {
 					opacity: 100%;
 				}
 			}
 		}
 	}
-
 </style>

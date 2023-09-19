@@ -51,7 +51,7 @@ export function buildPalette(mgColor: string): Palette {
 			light: buildCssColor(lm),
 			dark: buildCssColor(dm)
 		},
-		dim: {
+		dark: {
 			light: buildCssColor(ld),
 			dark: buildCssColor(dd)
 		}, 
