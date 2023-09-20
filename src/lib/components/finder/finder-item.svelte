@@ -38,19 +38,20 @@
 	.wrapper {
 		@include mixins.clickable;
 
+		position: relative !important;
 		height: 70px;
 		margin: 5px;
 		border-radius: 5px;
 		padding-left: 10px;
 		display: flex;
 		align-items: center;
-		box-sizing: content-box;
+		box-sizing: border-box;
 
 		.cover {
 			height: 60px;
 			width: 60px;
 			box-sizing: content-box;
-			border: 1px solid var(--border-dark);
+			border: 1px solid colors.$border-hover;
 			img {
 				height: inherit;
 			}
@@ -83,12 +84,27 @@
 			background-color: var(--main-light);
 			border: 1px solid var(--border-light);
 			border-right-width: 0px;
+			margin: 0;
 
+			.cover {
+				border: 1px solid var(--border-light);
+			}
 			.info {
 				h2,
 				h3 {
 					opacity: 100%;
 				}
+			}
+			&::after {
+				content: "";
+				box-sizing: border-box;
+				border-top: 1px solid var(--border-light);
+				border-bottom: 1px solid var(--border-light);
+				background-color: var(--main-light);
+				position: absolute;
+				height: inherit;
+				width: 2px;
+				right: -1px;
 			}
 		}
 	}

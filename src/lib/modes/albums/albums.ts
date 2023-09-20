@@ -2,7 +2,10 @@ import type { RecordModel } from "pocketbase"
 import { pb, getCoverURLs, getFileURL } from "$lib/scripts/database/pocketbase"
 import { buildPalette } from "$lib/scripts/color-engine/color-engine"
 
-export async function fetchAlbums(): Promise<RecordModel[]> {
+export async function fetchAlbums(): Promise<{
+        token: string,
+        records: RecordModel[]
+}> {
         // Set up the options for the record request
         const EXPAND = [
                 "artist",
@@ -26,6 +29,8 @@ export async function fetchAlbums(): Promise<RecordModel[]> {
                 "expand.cover.color",
                 "expand.cover.file",
         ]
+        // Generate a file access token for the user
+        const token = await pb.files.getToken()
 
         // Fetch the records from the database
         const records = await pb.collection('albums').getFullList({
@@ -33,11 +38,11 @@ export async function fetchAlbums(): Promise<RecordModel[]> {
                 expand: EXPAND.toString()
         })
 
-        return records
-}
+        return {
+                token: token,
+                records: records
+        }
 
-export async function getUserToken(): Promise<string> {
-        return await pb.files.getToken()
 }
 
 // Parse album information and return a list of Album objects

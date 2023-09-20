@@ -1,17 +1,10 @@
 <script lang="ts">
 	import FinderItem from "$lib/components/finder/finder-item.svelte"
 	import Finder from "$lib/components/finder/finder.svelte"
-	import { fetchAlbums, getUserToken, parseAlbums } from "./albums"
-	import { onMount } from "svelte"
+	import { fetchAlbums, parseAlbums } from "./albums"
 
-	let token = ""
-
-	$: albums = fetchAlbums().then((albums) => {
-		return parseAlbums(albums, token)
-	})
-
-	onMount(async () => {
-		token = await getUserToken()
+	$: albums = fetchAlbums().then((data) => {
+		return parseAlbums(data.records, data.token)
 	})
 </script>
 

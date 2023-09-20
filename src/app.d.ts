@@ -4,6 +4,8 @@ declare global {
                 // stuff goes here maybe
         }
 
+        export type Mode = "ALBUMS" | "ARTISTS" | "PLAYLISTS"
+
         export type Cover = {
                 full: string
                 large: string

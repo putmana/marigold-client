@@ -1,5 +1,4 @@
 <script lang="ts">
-
 </script>
 
 <section class="wrapper">
@@ -12,9 +11,7 @@
 	@use "/src/style/sizes";
 
 	.wrapper {
-		background-color: colors.$gray-b;		
+		background-color: colors.$gray-b;
 		width: sizes.$nav-width;
-		border-right: 1px solid colors.$border;
 	}
-
 </style>
