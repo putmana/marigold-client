@@ -19,7 +19,7 @@
 		background-color: colors.$gray-c;
 		display: flex;
 		flex-direction: column;
-		flex-grow: 1;
+		width: calc(100vw - sizes.$nav-width);
 		border-left: 1px solid colors.$border;
 		box-sizing: border-box;
 	}
@@ -35,6 +35,12 @@
 		h1 {
 			text-transform: uppercase;
 			font-size: inherit;
+		}
+	}
+
+	@media (min-width: sizes.$screen-lg) {
+		.wrapper {
+			width: calc(sizes.$screen-sm - sizes.$nav-width);
 		}
 	}
 </style>

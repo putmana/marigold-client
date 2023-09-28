@@ -13,6 +13,7 @@ const SAT_LIMIT = 0.45
 const BORDER_OPACITY_LIGHT = 0.70
 const BORDER_OPACITY_DARK = 0.30
 
+export const defaultColor = buildPalette("50.50.50&50.50.50")
 
 export function randomPalette(): Palette {
         function randColor(): number[] {

@@ -2,7 +2,7 @@
 	import "../style/global.scss"
 </script>
 
-	<slot />
+<slot />
 
 <style lang="scss">
 	@use "/src/style/colors";

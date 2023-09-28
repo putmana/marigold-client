@@ -1,0 +1,42 @@
+<script lang="ts">
+	let hidden = true
+
+	function onKeyDown(e) {
+		if (e.key == "h") {
+			hidden = !hidden
+
+			e.preventDefault()
+		}
+	}
+</script>
+
+<main class="wrapper" class:hidden>
+	<h5>test</h5>
+</main>
+
+<svelte:window on:keydown={onKeyDown} />
+
+<style lang="scss">
+	@use "/src/style/sizes";
+
+	.wrapper {
+		background-color: red;
+		opacity: 50%;
+	}
+
+	@media (max-width: sizes.$screen-lg) {
+		.wrapper {
+			position: fixed;
+			width: 100vw;
+			height: 100vh;
+			&.hidden {
+				transform: translateX(100vw);
+			}
+		}
+	}
+	@media (min-width: sizes.$screen-lg) {
+		.wrapper {
+			flex-grow: 1;
+		}
+	}
+</style>

@@ -1,17 +1,20 @@
 <script lang="ts">
-	import { current } from "./finder"
+	import { createEventDispatcher } from "svelte"
+
+	const dispatch = createEventDispatcher()
 
 	export let id: string
 	export let title: string
 	export let author: string
 	export let cover: Cover
 	export let palette: Palette
+	export let selected: boolean
 
 	function selectItem() {
-		if ($current != id) $current = id
+		dispatch("select", {
+			id: id
+		})
 	}
-
-	$: selected = $current == id ? true : false
 </script>
 
 <button
@@ -83,7 +86,6 @@
 			padding-left: 15px;
 			background-color: var(--main-light);
 			border: 1px solid var(--border-light);
-			border-right-width: 0px;
 			margin: 0;
 
 			.cover {
@@ -95,16 +97,21 @@
 					opacity: 100%;
 				}
 			}
-			&::after {
-				content: "";
-				box-sizing: border-box;
-				border-top: 1px solid var(--border-light);
-				border-bottom: 1px solid var(--border-light);
-				background-color: var(--main-light);
-				position: absolute;
-				height: inherit;
-				width: 2px;
-				right: -1px;
+
+			@media (min-width: sizes.$screen-lg) {
+				border-right-width: 0px;
+
+				&::after {
+					content: "";
+					box-sizing: border-box;
+					border-top: 1px solid var(--border-light);
+					border-bottom: 1px solid var(--border-light);
+					background-color: var(--main-light);
+					position: absolute;
+					height: inherit;
+					width: 2px;
+					right: -1px;
+				}
 			}
 		}
 	}

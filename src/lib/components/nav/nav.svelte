@@ -1,9 +1,9 @@
 <script lang="ts">
 </script>
 
-<section class="wrapper">
+<nav class="wrapper">
 	<slot />
-</section>
+</nav>
 
 <style lang="scss">
 	@use "/src/style/colors";
