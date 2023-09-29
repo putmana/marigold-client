@@ -65,6 +65,7 @@ declare global {
                 cover: Cover
                 palette: Palette
                 file: string
+                index: number
         }
 }
 export { }
