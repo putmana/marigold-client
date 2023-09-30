@@ -25,3 +25,16 @@
 	}
 }
 
+@mixin button {
+	@include clickable;
+	font-weight: 700;
+	text-transform: uppercase;
+	font-size: smaller;
+	box-sizing: border-box;
+	width: max-content;
+	padding: 12px;
+	background-color: colors.$border;
+	border: 1px solid colors.$border;
+	border-radius: 5px;
+}
+

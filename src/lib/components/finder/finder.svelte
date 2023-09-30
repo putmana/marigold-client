@@ -40,7 +40,8 @@
 
 	@media (min-width: sizes.$screen-lg) {
 		.wrapper {
-			width: calc(sizes.$screen-sm - sizes.$nav-width);
+			min-width: calc(sizes.$screen-sm - sizes.$nav-width);
+			max-width: calc(sizes.$screen-sm - sizes.$nav-width);
 		}
 	}
 </style>

@@ -5,14 +5,23 @@
 	import Finder from "$lib/components/finder/finder.svelte"
 	import Lister from "$lib/components/lister/lister.svelte"
 
-	import { albums, selectedAlbumID, fetchAlbums, parseAlbums } from "./albums"
+	import { albums, selectedAlbumID } from "$lib/scripts/library/library"
+	import { fetchAlbums, parseAlbums } from "./albums"
 	import { defaultColor } from "$lib/scripts/color-engine/color-engine"
 	import { pb } from "$lib/scripts/database/pocketbase"
+	import ListerHeader from "$lib/components/lister/lister-header.svelte"
 
 	let hidden = true
 
 	$: current = $albums.find((album) => album.id === $selectedAlbumID)
 	$: color = current ? current.palette : defaultColor
+
+	// Load the initial albums
+	onMount(() => {
+		fetchAlbums().then((data) => {
+			$albums = parseAlbums(data.records, data.token)
+		})
+	})
 
 	// Refresh albums if database entries change
 	pb.collection("albums").subscribe("*", () => {
@@ -21,16 +30,14 @@
 		})
 	})
 
-	// Component Functions
-	onMount(async () => {
-		$albums = await fetchAlbums().then((data) => {
-			return parseAlbums(data.records, data.token)
-		})
-	})
-
+	// Component functions
 	function selectAlbum(album: Album) {
 		$selectedAlbumID = album.id
 		hidden = false
+	}
+
+	function formatDescription(album: Album) {
+		return album.artist.name
 	}
 </script>
 
@@ -51,8 +58,11 @@
 </Finder>
 <Lister bind:hidden bind:color>
 	{#if current}
-		{#each current.tracks as track}
-			<h3>{track.title}</h3>
-		{/each}
+		<ListerHeader
+			title={current.title}
+			cover={current.cover}
+			color={current.palette}
+			description={formatDescription(current)}
+		/>
 	{/if}
 </Lister>

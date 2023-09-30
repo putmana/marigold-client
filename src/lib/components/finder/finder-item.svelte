@@ -25,7 +25,7 @@
 		.light}; --border-dark: {palette.border.dark}"
 >
 	<span class="cover">
-		<img src={cover.full} alt={`Cover for ${title}`} />
+		<img src={cover.small} alt={`Cover for ${title}`} />
 	</span>
 	<span class="info">
 		<h2>{title}</h2>
