@@ -9,5 +9,7 @@
 	:global(body) {
 		background-color: colors.$gray-a;
 		margin: 0;
+		position: fixed;
+		inset: 0 0 0 0;
 	}
 </style>

@@ -5,7 +5,7 @@
 	export let description: string
 </script>
 
-<header class="wrapper" style="--border-light: {color.border.light}">
+<header class="wrapper" style="--border-dark: {color.border.dark}">
 	<section class="info">
 		<h1 class="title">{title}</h1>
 		<p class="description">{description}</p>
@@ -27,8 +27,8 @@
 		display: flex;
 		flex-direction: column-reverse;
 		box-sizing: border-box;
-		padding: 30px;
-		gap: 30px;
+		padding: 20px;
+		gap: 20px;
 	}
 
 	.info {
@@ -59,7 +59,7 @@
 		flex-grow: 1;
 		justify-content: center;
 		.img-wrapper {
-			border: 1px solid var(--border-light);
+			border: 1px solid var(--border-dark);
 			max-width: 320px;
 			max-height: 320px;
 			img {

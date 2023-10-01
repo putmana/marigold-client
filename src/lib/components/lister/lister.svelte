@@ -30,6 +30,9 @@
 		display: flex;
 		flex-direction: column;
 		box-sizing: border-box;
+		padding: 10px;
+		padding-bottom: 180px;
+		overflow-y: scroll;
 	}
 
 	@media (max-width: sizes.$screen-lg) {

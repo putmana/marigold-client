@@ -10,6 +10,7 @@
 	import { defaultColor } from "$lib/scripts/color-engine/color-engine"
 	import { pb } from "$lib/scripts/database/pocketbase"
 	import ListerHeader from "$lib/components/lister/lister-header.svelte"
+	import ListerItem from "$lib/components/lister/lister-item.svelte"
 
 	let hidden = true
 
@@ -64,5 +65,8 @@
 			color={current.palette}
 			description={formatDescription(current)}
 		/>
+		{#each current.tracks as track}
+			<ListerItem {track} showCover={true} />
+		{/each}
 	{/if}
 </Lister>
