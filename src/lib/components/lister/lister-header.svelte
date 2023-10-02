@@ -24,11 +24,6 @@
 			<img src={cover.large} alt={`cover for ${title}`} />
 		</div>
 	</section>
-	<section class="topbar">
-		<button class="back-btn" on:click={closeFinder}
-			><img class="icon" alt="back button icon" src={"public/icons/back.svg"} /></button
-		>
-	</section>
 </header>
 
 <style lang="scss">
@@ -41,21 +36,8 @@
 		flex-direction: column-reverse;
 		box-sizing: border-box;
 		padding: 20px;
+		padding-top: 0px;
 		gap: 20px;
-	}
-
-	.topbar {
-		.back-btn {
-			@include mixins.clickable;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			border-radius: 5px;
-			.icon {
-				height: 20px;
-				width: 20px;
-			}
-		}
 	}
 
 	.info {
@@ -104,9 +86,7 @@
 			gap: 60px;
 			flex-wrap: wrap-reverse;
 		}
-		.topbar {
-			display: none;
-		}
+
 		.cover {
 			flex-grow: 0;
 			.img-wrapper {
