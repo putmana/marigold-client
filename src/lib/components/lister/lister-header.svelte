@@ -1,20 +1,33 @@
 <script lang="ts">
+	import { createEventDispatcher } from "svelte"
+
+	const dispatch = createEventDispatcher()
+
 	export let title: string
 	export let cover: Cover
 	export let color: Palette
 	export let description: string
+
+	function closeFinder() {
+		dispatch("close")
+	}
 </script>
 
 <header class="wrapper" style="--border-dark: {color.border.dark}">
 	<section class="info">
 		<h1 class="title">{title}</h1>
 		<p class="description">{description}</p>
-		<button class="play-btn">Play</button>
+		<button class="play-btn">play</button>
 	</section>
 	<section class="cover">
 		<div class="img-wrapper">
-			<img src={cover.large} alt={`Cover for ${title}`} />
+			<img src={cover.large} alt={`cover for ${title}`} />
 		</div>
+	</section>
+	<section class="topbar">
+		<button class="back-btn" on:click={closeFinder}
+			><img class="icon" alt="back button icon" src={"public/icons/back.svg"} /></button
+		>
 	</section>
 </header>
 
@@ -29,6 +42,20 @@
 		box-sizing: border-box;
 		padding: 20px;
 		gap: 20px;
+	}
+
+	.topbar {
+		.back-btn {
+			@include mixins.clickable;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			border-radius: 5px;
+			.icon {
+				height: 20px;
+				width: 20px;
+			}
+		}
 	}
 
 	.info {
@@ -76,6 +103,9 @@
 			padding: 60px;
 			gap: 60px;
 			flex-wrap: wrap-reverse;
+		}
+		.topbar {
+			display: none;
 		}
 		.cover {
 			flex-grow: 0;

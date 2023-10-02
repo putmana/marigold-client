@@ -1,9 +1,20 @@
 <script lang="ts">
+	import { createEventDispatcher } from "svelte"
+
+	const dispatch = createEventDispatcher()
+
 	export let track: Track
 	export let showCover = true
+
+	function playTrack() {
+		dispatch("play", {
+			id: track.id,
+			index: track.index
+		})
+	}
 </script>
 
-<button class="wrapper" style={`--border-dark: ${track.palette.border.dark}`}>
+<button class="wrapper" style={`--border-dark: ${track.palette.border.dark}`} on:click={playTrack}>
 	<h1 class="index">{track.index}</h1>
 	{#if showCover}
 		<span class="cover">
@@ -71,8 +82,8 @@
 				width: 60px;
 			}
 			.cover {
-				height: 60px;
-				width: 60px;
+				height: 40px;
+				width: 40px;
 			}
 		}
 	}

@@ -32,9 +32,17 @@
 	})
 
 	// Component functions
+	function hideFinder() {
+		hidden = true
+	}
+
+	function showFinder() {
+		hidden = false
+	}
+
 	function selectAlbum(album: Album) {
 		$selectedAlbumID = album.id
-		hidden = false
+		showFinder()
 	}
 
 	function formatDescription(album: Album) {
@@ -64,6 +72,7 @@
 			cover={current.cover}
 			color={current.palette}
 			description={formatDescription(current)}
+			on:close={hideFinder}
 		/>
 		{#each current.tracks as track}
 			<ListerItem {track} showCover={true} />
