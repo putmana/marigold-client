@@ -1,16 +1,12 @@
 declare global {
 
-        namespace App {
+        namespace app {
                 // stuff goes here maybe
         }
 
-        export type Mode = "ALBUMS" | "ARTISTS" | "PLAYLISTS"
+        export type mode = "albums" | "artists" | "playlists"
 
-        export type Cover = {
-                full: string
-                large: string
-                small: string
-        }
+
 
         export type Color = {
                 light: string
@@ -30,42 +26,56 @@ declare global {
                 email: string
         }
 
+        export type Album = {
+                id: string
+                title: string
+                description: string
+                year: string
+                artistID: string
+                coverID: string
+                orderedTracks: OrderedTrack[]
+        }
+
+        export type Artist = {
+                id: string
+                name: string
+                albumIDs: string[]
+        }
+
+        export type Cover = {
+                id: string
+                palette: Palette
+                fileLarge: string
+                fileSmall: string
+        }
+
         export type Playlist = {
                 id: string
                 title: string
                 description: string
-                duration: number
-                cover: Cover
-                palette: Palette
-                tracks: Track[]
-        }
-
-        export type Album = {
-                id: string
-                title: string
-                artist: {
-                        id: string
-                        name: string
-                }
-                duration: number
-                year: string
-                cover: Cover
-                palette: Palette
-                tracks: Track[]
+                coverID: string
+                orderedTracks: OrderedTrack[]
         }
 
         export type Track = {
                 id: string
                 title: string
-                artist: {
-                        id: string
-                        name: string
-                }
-                duration: number
-                cover: Cover
-                palette: Palette
+                duration: string
                 file: string
+                albumID: string
+        }
+
+        export type IndexedTrack = {
+                id: string
                 index: number
+        }
+
+        type Library = {
+                albums: Map<string, Album>
+                artists: Map<string, Artist>
+                covers: Map<string, Cover>
+                playlists: Map<string, Playlist>
+                tracks: Map<string, Track>
         }
 }
 export { }

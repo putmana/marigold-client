@@ -1,9 +1,17 @@
-import { writable, type Writable } from "svelte/store";
+import { loadAlbums } from "./albums"
+import { loadArtists } from "./artists"
+import { loadCovers } from "./covers"
+import { loadPlaylists } from "./playlists"
+import { loadTracks } from "./tracks"
 
-const NONE = "none"
+export async function loadLibrary(): Promise<Library> {
+        const library: Library = {
+                albums: await loadAlbums(),
+                artists: await loadArtists(),
+                covers: await loadCovers(),
+                playlists: await loadPlaylists(),
+                tracks: await loadTracks(),
+        }
 
-export const albums: Writable<Album[]> = writable([])
-export const selectedAlbumID: Writable<string> = writable(NONE)
-
-export const playlists: Writable<Playlist[]> = writable([])
-export const selectedPlaylistID: Writable<string> = writable(NONE)
+        return library
+}

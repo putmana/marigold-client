@@ -2,8 +2,6 @@ import PocketBase from 'pocketbase'
 import { writable } from 'svelte/store'
 
 const URL = "http://127.0.0.1:8090"
-const THUMB_SIZE_LARGE = 500
-const THUMB_SIZE_SMALL = 100
 
 export const pb = new PocketBase(URL)
 
@@ -23,17 +21,15 @@ export function getFileURL(
         return `${URL}/api/files/${collection}/${id}/${filename}${token}`
 }
 
-export function getCoverURLs(
+export function getThumbURL(
+        collection: string,
         id: string,
         filename: string,
-        token: string
-): Cover {
-        const baseURL = getFileURL("covers", id, filename, token)
+        token: string,
+        thumbSize: number
+): string {
+        const baseURL = getFileURL(collection, id, filename, token)
 
-        return {
-                full: baseURL,
-                large: `${baseURL}&thumb=${THUMB_SIZE_LARGE}x${THUMB_SIZE_LARGE}`,
-                small: `${baseURL}&thumb=${THUMB_SIZE_SMALL}x${THUMB_SIZE_SMALL}`,
-        }
+        return `${baseURL}&thumb=${thumbSize}x${thumbSize}`
 }
 

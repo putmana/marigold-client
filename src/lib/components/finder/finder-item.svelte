@@ -1,14 +1,19 @@
 <script lang="ts">
+	import { defaultColor } from "$lib/scripts/color-engine/color-engine"
+	import { artists, covers } from "$lib/scripts/stores/LibraryStore"
 	import { createEventDispatcher } from "svelte"
 
 	const dispatch = createEventDispatcher()
 
 	export let id: string
 	export let title: string
-	export let author: string
-	export let cover: Cover
-	export let palette: Palette
+	export let artistID: string | null = null
+	export let coverID: string
 	export let selected: boolean
+
+	$: cover = $covers.get(coverID)
+	$: palette = cover.palette ?? defaultColor
+	$: artistName = artistID ? $artists.get(artistID).name : null
 
 	function selectItem() {
 		dispatch("select", {
@@ -25,11 +30,13 @@
 		.light}; --border-dark: {palette.border.dark}"
 >
 	<span class="cover">
-		<img src={cover.small} alt={`Cover for ${title}`} />
+		<img src={cover.fileSmall} alt={`Cover for ${title}`} />
 	</span>
 	<span class="info">
 		<h2>{title}</h2>
-		<h3>{author}</h3>
+		{#if artistName}
+			<h3>{artistName}</h3>
+		{/if}
 	</span>
 </button>
 

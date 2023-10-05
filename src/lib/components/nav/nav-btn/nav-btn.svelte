@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { mode } from "$lib/modes/mode"
+	import { mode, type Mode } from "$lib/modes/mode"
 	export let label: string
 	export let iconPath: string
 	export let tab: Mode

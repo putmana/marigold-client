@@ -52,6 +52,7 @@
 		.list {
 			padding: 10px;
 			display: flex;
+			flex-grow: 1;
 			flex-direction: column;
 			padding-bottom: 180px;
 			overflow-y: scroll;

@@ -1,66 +1,41 @@
 <script lang="ts">
-	import { onMount } from "svelte"
-
-	import FinderItem from "$lib/components/finder/finder-item.svelte"
 	import Finder from "$lib/components/finder/finder.svelte"
+	import FinderItem from "$lib/components/finder/finder-item.svelte"
 	import Lister from "$lib/components/lister/lister.svelte"
-
-	import { albums, selectedAlbumID } from "$lib/scripts/library/library"
-	import { fetchAlbums, parseAlbums } from "./albums"
-	import { defaultColor } from "$lib/scripts/color-engine/color-engine"
-	import { pb } from "$lib/scripts/database/pocketbase"
+	import { albums, artists, covers, selectedAlbumID } from "$lib/scripts/stores/LibraryStore"
 	import ListerHeader from "$lib/components/lister/lister-header.svelte"
 	import ListerItem from "$lib/components/lister/lister-item.svelte"
+	import { defaultColor } from "$lib/scripts/color-engine/color-engine"
 
 	let hidden = true
 
-	$: current = $albums.find((album) => album.id === $selectedAlbumID)
-	$: color = current ? current.palette : defaultColor
-
-	// Load the initial albums
-	onMount(() => {
-		fetchAlbums().then((data) => {
-			$albums = parseAlbums(data.records, data.token)
-		})
-	})
-
-	// Refresh albums if database entries change
-	pb.collection("albums").subscribe("*", () => {
-		fetchAlbums().then((data) => {
-			$albums = parseAlbums(data.records, data.token)
-		})
-	})
-
-	// Component functions
-	function hideFinder() {
-		hidden = true
-	}
+	$: current = $albums.get($selectedAlbumID)
+	$: color = $covers.get(current?.coverID)?.palette ?? defaultColor
 
 	function showFinder() {
 		hidden = false
 	}
 
-	function selectAlbum(album: Album) {
-		$selectedAlbumID = album.id
+	function selectAlbum(albumID: string) {
+		$selectedAlbumID = albumID
 		showFinder()
 	}
 
 	function formatDescription(album: Album) {
-		return album.artist.name
+		return $artists.get(album.artistID).name
 	}
 </script>
 
 <Finder title="Albums">
-	{#each $albums as album}
+	{#each [...$albums] as [albumID, album]}
 		<FinderItem
-			id={album.id}
+			id={albumID}
 			title={album.title}
-			author={album.artist.name}
-			cover={album.cover}
-			palette={album.palette}
-			selected={album.id == $selectedAlbumID}
+			artistID={album.artistID}
+			coverID={album.coverID}
+			selected={albumID == $selectedAlbumID}
 			on:select={() => {
-				selectAlbum(album)
+				selectAlbum(albumID)
 			}}
 		/>
 	{/each}
@@ -69,13 +44,11 @@
 	{#if current}
 		<ListerHeader
 			title={current.title}
-			cover={current.cover}
-			color={current.palette}
+			coverID={current.coverID}
 			description={formatDescription(current)}
-			on:close={hideFinder}
 		/>
-		{#each current.tracks as track}
-			<ListerItem {track} showCover={true} />
+		{#each current.orderedTracks as orderedTrack}
+			<ListerItem {orderedTrack} showCover={false} />
 		{/each}
 	{/if}
 </Lister>

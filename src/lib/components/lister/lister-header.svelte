@@ -1,16 +1,12 @@
 <script lang="ts">
-	import { createEventDispatcher } from "svelte"
-
-	const dispatch = createEventDispatcher()
+	import { covers } from "$lib/scripts/stores/LibraryStore"
 
 	export let title: string
-	export let cover: Cover
-	export let color: Palette
 	export let description: string
+	export let coverID: string
 
-	function closeFinder() {
-		dispatch("close")
-	}
+	$: cover = $covers.get(coverID)
+	$: color = cover.palette
 </script>
 
 <header class="wrapper" style="--border-dark: {color.border.dark}">
@@ -21,7 +17,7 @@
 	</section>
 	<section class="cover">
 		<div class="img-wrapper">
-			<img src={cover.large} alt={`cover for ${title}`} />
+			<img src={cover.fileLarge} alt={`cover for ${title}`} />
 		</div>
 	</section>
 </header>
@@ -38,6 +34,8 @@
 		padding: 20px;
 		padding-top: 0px;
 		gap: 20px;
+		border-bottom: 1px solid colors.$border;
+		margin-bottom: 10px;
 	}
 
 	.info {

@@ -21,6 +21,7 @@
 		flex-direction: column;
 		width: calc(100vw - sizes.$nav-width);
 		border-left: 1px solid colors.$border;
+		border-top: 1px solid colors.$border;
 		box-sizing: border-box;
 	}
 
