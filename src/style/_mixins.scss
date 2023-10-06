@@ -6,10 +6,11 @@
 
 @mixin interactive {
 	outline: 2px solid transparent;
-	outline-offset: -2px;
+	outline-offset: -4px;
 
 	&:focus-visible {
 		outline-color: white;
+		background-color: colors.$hover;
 	}
 }
 
@@ -22,6 +23,9 @@
 	&:hover {
 		background-color: colors.$hover;
 		border-color: colors.$border-hover;
+	}
+	&:active {
+		background-color: colors.$active;
 	}
 }
 
