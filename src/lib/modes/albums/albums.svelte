@@ -6,6 +6,7 @@
 	import ListerHeader from "$lib/components/lister/lister-header.svelte"
 	import ListerItem from "$lib/components/lister/lister-item.svelte"
 	import { defaultColor } from "$lib/scripts/color-engine/color-engine"
+	import { playerController } from "$lib/scripts/stores/PlayerStore"
 
 	let hidden = true
 
@@ -23,6 +24,11 @@
 
 	function formatDescription(album: Album) {
 		return $artists.get(album.artistID).name
+	}
+
+	function startQueue(index: number) {
+		const trackIDs = current.orderedTracks.map((track) => track.id)
+		playerController.startQueue(trackIDs, index)
 	}
 </script>
 
@@ -47,8 +53,14 @@
 			coverID={current.coverID}
 			description={formatDescription(current)}
 		/>
-		{#each current.orderedTracks as orderedTrack}
-			<ListerItem {orderedTrack} showCover={false} />
+		{#each current.orderedTracks as orderedTrack, index}
+			<ListerItem
+				{orderedTrack}
+				showCover={false}
+				on:play={() => {
+					startQueue(index)
+				}}
+			/>
 		{/each}
 	{/if}
 </Lister>

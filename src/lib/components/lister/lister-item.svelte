@@ -1,11 +1,6 @@
 <script lang="ts">
-	import {
-		albums,
-		artists,
-		covers,
-		selectedTrackID,
-		tracks
-	} from "$lib/scripts/stores/LibraryStore"
+	import { albums, artists, covers, tracks } from "$lib/scripts/stores/LibraryStore"
+	import { playerController } from "$lib/scripts/stores/PlayerStore"
 	import { createEventDispatcher } from "svelte"
 
 	const dispatch = createEventDispatcher()
@@ -13,21 +8,45 @@
 	export let orderedTrack: IndexedTrack
 	export let showCover = true
 
+	let shiftDown = false
+
 	$: track = $tracks.get(orderedTrack.id)
 	$: album = $albums.get(track.albumID)
 	$: artist = $artists.get(album.artistID)
 	$: cover = $covers.get(album.coverID)
 
+	function handleKeyDown(e: KeyboardEvent) {
+		if (e.key === "Shift") shiftDown = true
+	}
+
+	function handleKeyUp(e: KeyboardEvent) {
+		if (e.key === "Shift") shiftDown = false
+	}
+
+	function handleClick() {
+		if (shiftDown) {
+			addTrackToQueue()
+		} else {
+			playTrack()
+		}
+	}
+
 	function playTrack() {
-		$selectedTrackID = track.id
-		dispatch("play", {
-			id: orderedTrack.id,
-			index: orderedTrack.index
-		})
+		dispatch("play")
+	}
+
+	function addTrackToQueue() {
+		playerController.addTracksToQueue([track.id])
 	}
 </script>
 
-<button class="wrapper" style={`--border-dark: ${cover.palette.border.dark}`} on:click={playTrack}>
+<svelte:window on:keydown={handleKeyDown} on:keyup={handleKeyUp} />
+
+<button
+	class="wrapper"
+	style={`--border-dark: ${cover.palette.border.dark}`}
+	on:click={handleClick}
+>
 	<h1 class="index">{orderedTrack.index}</h1>
 	{#if showCover}
 		<span class="cover">
