@@ -141,7 +141,6 @@ export function createPlayerControllerStore() {
                 }))
         }
 
-        // Skip forward or backwards by a specific number of tracks
         function skipNext() {
                 skipToIndex(get(currentTrackIndex) + 1)
         }

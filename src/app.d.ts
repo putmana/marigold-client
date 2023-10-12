@@ -6,20 +6,6 @@ declare global {
 
         export type mode = "albums" | "artists" | "playlists"
 
-
-
-        export type Color = {
-                light: string
-                dark: string
-        }
-
-        export type Palette = {
-                bright: Color
-                main: Color
-                dark: Color
-                border: Color
-        }
-
         export type User = {
                 id: string
                 username: string
@@ -44,7 +30,7 @@ declare global {
 
         export type Cover = {
                 id: string
-                palette: Palette
+                palette: string
                 fileLarge: string
                 fileSmall: string
         }

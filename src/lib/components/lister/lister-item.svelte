@@ -42,11 +42,7 @@
 
 <svelte:window on:keydown={handleKeyDown} on:keyup={handleKeyUp} />
 
-<button
-	class="wrapper"
-	style={`--border-dark: ${cover.palette.border.dark}`}
-	on:click={handleClick}
->
+<button class="wrapper" style={cover.palette} on:click={handleClick}>
 	<h1 class="index">{orderedTrack.index}</h1>
 	{#if showCover}
 		<span class="cover">
@@ -86,7 +82,7 @@
 			margin-right: 20px;
 			height: 40px;
 			width: 40px;
-			border: 1px solid var(--border-dark);
+			border: 1px solid var(--secondary-border);
 			img {
 				height: inherit;
 			}

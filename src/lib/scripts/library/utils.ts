@@ -13,4 +13,3 @@ export function shuffleArray(arr: Array<any>) {
         }
         return arr;
 }
-

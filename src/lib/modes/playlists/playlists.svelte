@@ -6,12 +6,11 @@
 	import ListerItem from "$lib/components/lister/lister-item.svelte"
 
 	import { covers, playlists, selectedPlaylistID } from "$lib/scripts/stores/LibraryStore"
-	import { defaultColor } from "$lib/scripts/color-engine/color-engine"
 
 	let hidden = true
 
 	$: current = $playlists.get($selectedPlaylistID)
-	$: color = $covers.get(current?.coverID)?.palette ?? defaultColor
+	$: color = $covers.get(current?.coverID)?.palette ?? ""
 
 	function showFinder() {
 		hidden = false

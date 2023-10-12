@@ -1,4 +1,5 @@
 @use "colors";
+@use "sizes";
 
 @mixin animate {
 	transition: 0.1s all ease-out;
@@ -42,3 +43,14 @@
 	border-radius: 5px;
 }
 
+@mixin mobile-only {
+	@media (max-width: calc(sizes.$screen-lg - 1px)) {
+		@content;
+	}
+}
+
+@mixin desktop-only {
+	@media (min-width: sizes.$screen-lg) {
+		@content;
+	}
+}

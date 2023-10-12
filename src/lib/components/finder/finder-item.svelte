@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { defaultColor } from "$lib/scripts/color-engine/color-engine"
 	import { artists, covers } from "$lib/scripts/stores/LibraryStore"
 	import { createEventDispatcher } from "svelte"
 
@@ -12,7 +11,6 @@
 	export let selected: boolean
 
 	$: cover = $covers.get(coverID)
-	$: palette = cover.palette ?? defaultColor
 	$: artistName = artistID ? $artists.get(artistID).name : null
 
 	function selectItem() {
@@ -22,13 +20,7 @@
 	}
 </script>
 
-<button
-	class="wrapper"
-	class:selected
-	on:click={selectItem}
-	style="--main-light: {palette.main.light}; --border-light: {palette.border
-		.light}; --border-dark: {palette.border.dark}"
->
+<button class="wrapper" class:selected on:click={selectItem} style={cover.palette}>
 	<span class="cover">
 		<img src={cover.fileSmall} alt={`Cover for ${title}`} />
 	</span>
@@ -91,12 +83,12 @@
 			border-radius: 0px;
 			height: 90px;
 			padding-left: 15px;
-			background-color: var(--main-light);
-			border: 1px solid var(--border-light);
+			background-color: var(--primary-medium);
+			border: 1px solid var(--primary-border);
 			margin: 0;
 
 			.cover {
-				border: 1px solid var(--border-light);
+				border: 1px solid var(--primary-border);
 			}
 			.info {
 				h2,
@@ -111,9 +103,9 @@
 				&::after {
 					content: "";
 					box-sizing: border-box;
-					border-top: 1px solid var(--border-light);
-					border-bottom: 1px solid var(--border-light);
-					background-color: var(--main-light);
+					border-top: 1px solid var(--primary-border);
+					border-bottom: 1px solid var(--primary-border);
+					background-color: var(--primary-medium);
 					position: absolute;
 					height: inherit;
 					width: 2px;

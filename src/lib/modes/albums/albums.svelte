@@ -5,13 +5,12 @@
 	import { albums, artists, covers, selectedAlbumID } from "$lib/scripts/stores/LibraryStore"
 	import ListerHeader from "$lib/components/lister/lister-header.svelte"
 	import ListerItem from "$lib/components/lister/lister-item.svelte"
-	import { defaultColor } from "$lib/scripts/color-engine/color-engine"
 	import { playerController } from "$lib/scripts/stores/PlayerStore"
 
 	let hidden = true
 
 	$: current = $albums.get($selectedAlbumID)
-	$: color = $covers.get(current?.coverID)?.palette ?? defaultColor
+	$: color = $covers.get(current?.coverID)?.palette ?? ""
 
 	function showFinder() {
 		hidden = false

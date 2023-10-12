@@ -6,10 +6,9 @@
 	export let coverID: string
 
 	$: cover = $covers.get(coverID)
-	$: color = cover.palette
 </script>
 
-<header class="wrapper" style="--border-dark: {color.border.dark}">
+<header class="wrapper" style={cover.palette}>
 	<section class="info">
 		<h1 class="title">{title}</h1>
 		<p class="description">{description}</p>
@@ -66,7 +65,7 @@
 		flex-grow: 1;
 		justify-content: center;
 		.img-wrapper {
-			border: 1px solid var(--border-dark);
+			border: 1px solid var(--secondary-border);
 			max-width: 320px;
 			max-height: 320px;
 			img {
