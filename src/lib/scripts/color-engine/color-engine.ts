@@ -35,7 +35,7 @@ export function buildPalette(dbColors: string) {
 }
 
 function limitChroma(c: LCH, max: number) {
-        c.C = max
+        c.C = Math.min(c.C, max)
         return c
 }
 

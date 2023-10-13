@@ -1,0 +1,19 @@
+export function formatPlayerTime(time: number) {
+        time = Math.round(time)
+
+        const lzero = (x: number) => {
+                return x < 10 ? `0${x}` : `${x}`
+        }
+
+        const secs = time % 60
+        const mins = Math.floor(time / 60)
+        const hours = Math.floor(mins / 60)
+
+
+
+        if (hours > 0) {
+                return `${hours}:${lzero(mins)}:${lzero(secs)}`
+        }
+
+        return `${mins}:${lzero(secs)}`
+}

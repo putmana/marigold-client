@@ -66,8 +66,8 @@
 		justify-content: center;
 		.img-wrapper {
 			border: 1px solid var(--secondary-border);
-			max-width: 320px;
-			max-height: 320px;
+			max-width: 200px;
+			max-height: 200px;
 			img {
 				width: 100%;
 				height: 100%;

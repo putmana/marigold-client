@@ -26,7 +26,7 @@ const EMPTY_PLAYER_STATE: PlayerState = {
 
         paused: true,
 
-        repeat: "ALL",
+        repeat: "OFF",
         shuffled: false,
 
         currentTrack: {
@@ -40,11 +40,13 @@ const EMPTY_PLAYER_STATE: PlayerState = {
 }
 
 export function createPlayerControllerStore() {
-        const { subscribe, update }: Writable<PlayerState> = writable(EMPTY_PLAYER_STATE)
+        const { subscribe, update, set }: Writable<PlayerState> = writable(EMPTY_PLAYER_STATE)
 
         function startQueue(trackIDs: string[], currentTrackPosition: number) {
 
-                console.log("QUEUE STARTED")
+                // Reset the queue to prevent any weird errors from happening
+                resetQueue()
+
                 // Map the array of TrackIds to an array of QueuedTrack objects
                 const sourceTracks = trackIDs.map(trackID => {
                         return { key: uuid(), trackID: trackID }
@@ -168,6 +170,10 @@ export function createPlayerControllerStore() {
                 }))
         }
 
+        function resetQueue() {
+                set(EMPTY_PLAYER_STATE)
+        }
+
         return {
                 subscribe,
                 startQueue,
@@ -177,6 +183,7 @@ export function createPlayerControllerStore() {
                 skipNext,
                 skipPrev,
                 skipToIndex,
+                resetQueue,
         }
 }
 
@@ -228,4 +235,9 @@ export const atQueueStart = derived(
 export const repeatQueue = derived(
         (playerController),
         ($playerController) => $playerController.repeat
+)
+
+export const shuffleQueue = derived(
+        (playerController),
+        ($playerController) => $playerController.shuffled
 )
