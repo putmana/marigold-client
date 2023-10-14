@@ -39,7 +39,6 @@
 
 	function handleKeyDown(e: KeyboardEvent) {
 		if (e.key === "k") {
-			console.log(audio.duration, audio.currentTime)
 			currentTime = audio.duration - 10
 			e.preventDefault()
 		}
@@ -92,18 +91,15 @@
 	function togglerepeat() {
 		if (repeat === "OFF") {
 			repeat = "ALL"
-			console.log(repeat)
 			return
 		}
 
 		if (repeat === "ALL") {
 			repeat = "ONE"
-			console.log(repeat)
 			return
 		}
 
 		repeat = "OFF"
-		console.log(repeat)
 	}
 </script>
 

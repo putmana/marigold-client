@@ -3,7 +3,6 @@ export type LAB = { L: number, A: number, B: number }
 export type LCH = { L: number, C: number, H: number }
 
 export function RGB_to_OKLCH(c: RGB): LCH {
-        console.log(RGB_to_OKLAB(c))
         return OKLAB_to_OKLCH(RGB_to_OKLAB(c))
 }
 
