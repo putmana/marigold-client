@@ -4,6 +4,12 @@
 	import { albums, artists, covers, tracks } from "$lib/scripts/stores/LibraryStore"
 	import { formatPlayerTime } from "$lib/scripts/utils"
 
+	const ICON_PLAY = "public/icons/play.svg"
+	const ICON_PAUSE = "public/icons/pause.svg"
+
+	const ICON_REPEAT_ALL = "public/icons/repeat.svg"
+	const ICON_REPEAT_ONE = "public/icons/repeat-one.svg"
+
 	export let trackID: string
 	export let paused: boolean
 	export let shuffle: boolean
@@ -28,6 +34,9 @@
 	$: s_currentTime = formatPlayerTime(currentTime)
 	$: s_duration = formatPlayerTime(duration)
 	$: formattedTime = `${s_currentTime}  /  ${s_duration}`
+
+	$: playpauseIcon = paused ? ICON_PLAY : ICON_PAUSE
+	$: repeatIcon = repeat == "ONE" ? ICON_REPEAT_ONE : ICON_REPEAT_ALL
 
 	function playpause() {
 		dispatch("playpause")
@@ -69,22 +78,14 @@
 				<img src="public/icons/skip-prev.svg" alt="Previous Track" />
 			</button>
 			<button class="btn" on:click={playpause}>
-				{#if paused}
-					<img class="larger" src="public/icons/play.svg" alt="Play" />
-				{:else}
-					<img class="larger" src="public/icons/pause.svg" alt="Pause" />
-				{/if}
+				<img class="larger" src={playpauseIcon} alt="Play" />
 			</button>
 			<button class="btn hide-on-mobile" on:click={skipnext}>
 				<img src="public/icons/skip-next.svg" alt="Next Track" />
 			</button>
 
 			<button class="btn hide-on-mobile" on:click={togglerepeat} class:toggled={repeatEnabled}>
-				{#if repeat === "ONE"}
-					<img class="smaller" src="public/icons/repeat-one.svg" alt="Repeat" />
-				{:else}
-					<img class="smaller" src="public/icons/repeat.svg" alt="Repeat" />
-				{/if}
+				<img class="smaller" src={repeatIcon} alt="Repeat" />
 			</button>
 		</section>
 		<section class="options hide-on-mobile">
@@ -104,17 +105,17 @@
 
 	.wrapper {
 		position: fixed;
-		background-image: linear-gradient(to left, var(--primary-medium), var(--secondary-dark));
 
 		@include mixins.desktop-only {
 			inset: auto 0px 0px 0px;
+			background-image: linear-gradient(to left, var(--primary-medium), var(--secondary-dark));
 			box-shadow: 0px 0px 50px colors.$shadow;
 		}
 
 		@include mixins.mobile-only {
-			inset: auto 10px 40px 10px;
+			inset: auto 10px 60px 10px;
 			border-radius: 5px;
-
+			background-image: linear-gradient(to left, var(--primary-medium), var(--secondary-medium));
 			box-shadow: 0px 60px 60px 60px colors.$shadow-dark;
 		}
 
