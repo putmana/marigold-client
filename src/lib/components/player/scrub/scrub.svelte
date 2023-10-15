@@ -22,25 +22,49 @@
 
 	$: scrubTime = duration * (scrubPercent / 100)
 
-	function startScrub(e: MouseEvent) {
-		scrubbing = true
-		updateScrub(e)
+	function handleTouchStart(e: TouchEvent) {
+		startScrub(e.touches[0].pageX)
+		if (e.cancelable) e.preventDefault()
 	}
 
-	function updateScrub(e: MouseEvent) {
+	function handleTouchMove(e: TouchEvent) {
+		updateScrub(e.touches[0].pageX)
+	}
+
+	function handleTouchEnd(e: TouchEvent) {
+		endScrub()
+		e.preventDefault()
+	}
+
+	function handleMouseDown(e: MouseEvent) {
+		startScrub(e.clientX)
+		e.preventDefault()
+	}
+
+	function handleMouseMove(e: MouseEvent) {
+		updateScrub(e.clientX)
+		e.preventDefault()
+	}
+
+	function handleMouseUp(e: MouseEvent) {
+		endScrub()
+		e.preventDefault()
+	}
+
+	function startScrub(xPos: number) {
+		scrubbing = true
+		updateScrub(xPos)
+	}
+
+	function updateScrub(xPos: number) {
 		if (scrubbing) {
-			const mouseX = e.clientX
 			const box = hitbox.getBoundingClientRect()
-
-			const percent = ((mouseX - box.left) / box.width) * 100
-
+			const percent = ((xPos - box.left) / box.width) * 100
 			scrubPercent = clamp(percent, 0, 100)
 		}
 	}
 
-	function endScrub(e: MouseEvent) {
-		updateScrub(e)
-
+	function endScrub() {
 		if (scrubbing) {
 			dispatch("scrub", {
 				time: scrubTime
@@ -51,10 +75,20 @@
 	}
 </script>
 
-<svelte:window on:mousemove={updateScrub} on:mouseup={endScrub} />
+<svelte:window
+	on:mousemove={handleMouseMove}
+	on:mouseup={handleMouseUp}
+	on:touchmove={handleTouchMove}
+/>
 
 <div class="wrapper" class:contained style={`--scrub-position: ${progress}%; ${palette}`}>
-	<div class="hitbox" bind:this={hitbox} on:mousedown={startScrub}>
+	<div
+		class="hitbox"
+		bind:this={hitbox}
+		on:mousedown={handleMouseDown}
+		on:touchstart={handleTouchStart}
+		on:touchend={handleTouchEnd}
+	>
 		<div class="track">
 			<div class="progress">
 				<div class="thumb" />
@@ -87,6 +121,7 @@
 				width: 100%;
 				box-sizing: border-box;
 				border-top: 1px solid colors.$border-hover;
+				border-bottom: 1px solid colors.$border-hover;
 
 				.progress {
 					position: relative;

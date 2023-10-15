@@ -107,18 +107,6 @@
 	@use "/src/style/colors";
 	@use "/src/style/mixins";
 
-	.test {
-		position: absolute;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		padding: 10px;
-		width: 500px;
-		height: 50px;
-		inset: 100px auto auto 100px;
-		background-color: black;
-	}
-
 	.wrapper {
 		position: fixed;
 
@@ -133,6 +121,12 @@
 			border-radius: 5px;
 			background-image: linear-gradient(to left, var(--primary-medium), var(--secondary-medium));
 			box-shadow: 0px 60px 60px 60px colors.$shadow-dark;
+		}
+
+		.scrub {
+			@include mixins.mobile-only {
+				display: none;
+			}
 		}
 
 		.inner-wrapper {
