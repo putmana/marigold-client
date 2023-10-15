@@ -3,6 +3,7 @@
 	import { createEventDispatcher } from "svelte"
 	import { albums, artists, covers, tracks } from "$lib/scripts/stores/LibraryStore"
 	import { formatPlayerTime } from "$lib/scripts/utils"
+	import Scrub from "../scrub/scrub.svelte"
 
 	const ICON_PLAY = "public/icons/play.svg"
 	const ICON_PAUSE = "public/icons/pause.svg"
@@ -60,6 +61,9 @@
 </script>
 
 <footer class="wrapper" style={cover.palette} transition:fly={{ duration: 300, y: 60 }}>
+	<div class="scrub">
+		<Scrub {currentTime} {duration} palette={cover.palette} on:scrub />
+	</div>
 	<div class="inner-wrapper">
 		<section class="info">
 			<div class="cover">
@@ -103,6 +107,18 @@
 	@use "/src/style/colors";
 	@use "/src/style/mixins";
 
+	.test {
+		position: absolute;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		padding: 10px;
+		width: 500px;
+		height: 50px;
+		inset: 100px auto auto 100px;
+		background-color: black;
+	}
+
 	.wrapper {
 		position: fixed;
 
@@ -127,10 +143,6 @@
 			@include mixins.mobile-only {
 				border: 1px solid colors.$border-bright;
 				border-radius: 5px;
-			}
-
-			@include mixins.desktop-only {
-				border-top: 1px solid colors.$border-hover;
 			}
 
 			.info {

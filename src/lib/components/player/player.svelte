@@ -101,6 +101,10 @@
 
 		repeat = "OFF"
 	}
+
+	function scrub(e) {
+		currentTime = e.detail.time
+	}
 </script>
 
 <svelte:window on:keydown={handleKeyDown} />
@@ -120,6 +124,7 @@
 			on:skipnext={skipnext}
 			on:toggleshuffle={toggleshuffle}
 			on:togglerepeat={togglerepeat}
+			on:scrub={scrub}
 		/>
 	{/if}
 {/if}

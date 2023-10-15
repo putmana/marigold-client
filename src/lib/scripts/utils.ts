@@ -9,11 +9,13 @@ export function formatPlayerTime(time: number) {
         const mins = Math.floor(time / 60)
         const hours = Math.floor(mins / 60)
 
-
-
         if (hours > 0) {
                 return `${hours}:${lzero(mins)}:${lzero(secs)}`
         }
 
         return `${mins}:${lzero(secs)}`
+}
+
+export function clamp(x: number, min: number, max: number) {
+        return Math.min(Math.max(min, x), max)
 }
