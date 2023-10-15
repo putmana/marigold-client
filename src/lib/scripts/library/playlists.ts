@@ -29,8 +29,6 @@ async function fetchPlaylists(): Promise<RecordModel[]> {
                 expand: EXPAND.toString(),
         })
 
-        console.log(records)
-
         return records
 }
 

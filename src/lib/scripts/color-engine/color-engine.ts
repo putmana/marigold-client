@@ -29,8 +29,6 @@ export function buildPalette(dbColors: string) {
         secondary = limitChroma(secondary, MAX_SECONDARY_CHROMA)
 
         const css = generateVars(primary, SWATCHES, "primary") + generateVars(secondary, SWATCHES, "secondary")
-
-        console.log(css)
         return css
 }
 
