@@ -68,6 +68,7 @@
 			border: 1px solid var(--secondary-border);
 			max-width: 200px;
 			max-height: 200px;
+			box-shadow: 0px 0px 10px colors.$shadow;
 			img {
 				width: 100%;
 				height: 100%;
