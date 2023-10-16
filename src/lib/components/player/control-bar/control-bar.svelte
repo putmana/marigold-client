@@ -4,6 +4,7 @@
 	import { albums, artists, covers, tracks } from "$lib/scripts/stores/LibraryStore"
 	import { formatPlayerTime } from "$lib/scripts/utils"
 	import Scrub from "../scrub/scrub.svelte"
+	import type { RepeatMode } from "$lib/scripts/stores/PlayerStore"
 
 	const ICON_PLAY = "public/icons/play.svg"
 	const ICON_PAUSE = "public/icons/pause.svg"
@@ -12,12 +13,13 @@
 	const ICON_REPEAT_ONE = "public/icons/repeat-one.svg"
 
 	export let trackID: string
+	export let shuffleEnabled: boolean
+	export let repeatMode: RepeatMode
 	export let paused: boolean
-	export let shuffle: boolean
-	export let repeat: "OFF" | "ONE" | "ALL"
-	export let repeatEnabled = false
 	export let currentTime: number
 	export let duration: number
+	export let atStart: boolean
+	export let atEnd: boolean
 
 	let dispatch = createEventDispatcher()
 
@@ -25,19 +27,14 @@
 	$: album = $albums.get(track.albumID)
 	$: artist = $artists.get(album.artistID)
 	$: cover = $covers.get(album.coverID)
-
-	$: if (repeat === "ALL" || repeat === "ONE") {
-		repeatEnabled = true
-	} else {
-		repeatEnabled = false
-	}
+	$: repeatEnabled = repeatMode === "OFF" ? false : true
 
 	$: s_currentTime = formatPlayerTime(currentTime)
 	$: s_duration = formatPlayerTime(duration)
 	$: formattedTime = `${s_currentTime}  /  ${s_duration}`
 
 	$: playpauseIcon = paused ? ICON_PLAY : ICON_PAUSE
-	$: repeatIcon = repeat == "ONE" ? ICON_REPEAT_ONE : ICON_REPEAT_ALL
+	$: repeatIcon = repeatMode == "ONE" ? ICON_REPEAT_ONE : ICON_REPEAT_ALL
 
 	function playpause() {
 		dispatch("playpause")
@@ -75,7 +72,7 @@
 			</div>
 		</section>
 		<section class="controls">
-			<button class="btn hide-on-mobile" on:click={toggleshuffle} class:toggled={shuffle}>
+			<button class="btn hide-on-mobile" on:click={toggleshuffle} class:toggled={shuffleEnabled}>
 				<img class="smaller" src="public/icons/shuffle.svg" alt="Shuffle" />
 			</button>
 			<button class="btn hide-on-mobile" on:click={skipprev}>

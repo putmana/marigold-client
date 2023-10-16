@@ -2,13 +2,15 @@
 	import { tracks } from "$lib/scripts/stores/LibraryStore"
 	import {
 		atQueueEnd,
+		atQueueStart,
 		currentTrack,
 		initialized,
 		nextTracks,
 		playerController,
 		prevTracks,
-		repeatQueue,
-		shuffleQueue
+		queueRepeatMode,
+		queueSessionKey,
+		queueShuffleEnabled
 	} from "$lib/scripts/stores/PlayerStore"
 
 	import ControlBar from "./control-bar/control-bar.svelte"
@@ -19,22 +21,26 @@
 	let maximized = false
 	let currentTime = 0
 	let duration = 0
-	let repeat: "OFF" | "ONE" | "ALL" = "OFF"
 
 	let audio: HTMLAudioElement
-	let playingTrack = $currentTrack
+	let trackSessionKey = ""
 
-	$: shuffle = $shuffleQueue
+	$: shuffleEnabled = $queueShuffleEnabled
+	$: repeatMode = $queueRepeatMode
+	$: trackID = $currentTrack
+	$: atStart = $atQueueStart
+	$: atEnd = $atQueueEnd
 
-	// Only update the currentply playing track if the key changes to prevent Svelte from restarting the audio when unrelated parts of the PlayerStore change
-	$: if (playingTrack.key != $currentTrack.key) {
-		playingTrack = $currentTrack
-	}
-
+	// Only update the currently playing track if the key changes to prevent Svelte from restarting the audio when unrelated parts of the PlayerStore change
 	$: if ($initialized) {
-		file = $tracks.get(playingTrack.trackID).file
-		audio.load()
-		audio.autoplay = true
+		if (trackSessionKey != $queueSessionKey) {
+			trackSessionKey = $queueSessionKey
+			file = $tracks.get($currentTrack).file
+			audio.load()
+			audio.autoplay = true
+		}
+	} else {
+		file = ""
 	}
 
 	function handleKeyDown(e: KeyboardEvent) {
@@ -53,6 +59,12 @@
 	}
 
 	function skipprev() {
+		// Restart the current track if more than two seconds in
+		if (currentTime > 2) {
+			currentTime = 0
+			return
+		}
+
 		playerController.skipPrev()
 	}
 
@@ -61,45 +73,15 @@
 	}
 
 	function autoskip() {
-		if ($atQueueEnd && repeat === "ALL") {
-			skiptoindex(0)
-			return
-		}
-
-		if ($atQueueEnd && repeat === "OFF") {
-			playerController.resetQueue()
-			return
-		}
-
-		if (repeat === "ONE") {
-			currentTime = 0
-			paused = false
-			return
-		}
-
-		skipnext()
+		playerController.autoSkipNext()
 	}
 
 	function toggleshuffle() {
-		if ($shuffleQueue) {
-			playerController.unshuffleTracks()
-		} else {
-			playerController.shuffleTracks()
-		}
+		playerController.toggleShuffle()
 	}
 
 	function togglerepeat() {
-		if (repeat === "OFF") {
-			repeat = "ALL"
-			return
-		}
-
-		if (repeat === "ALL") {
-			repeat = "ONE"
-			return
-		}
-
-		repeat = "OFF"
+		playerController.toggleRepeat()
 	}
 
 	function scrub(e) {
@@ -113,12 +95,14 @@
 		<Immersion />
 	{:else}
 		<ControlBar
+			{trackID}
 			{paused}
-			{shuffle}
-			{repeat}
+			{shuffleEnabled}
+			{repeatMode}
 			{currentTime}
 			{duration}
-			trackID={playingTrack.trackID}
+			{atStart}
+			{atEnd}
 			on:playpause={playpause}
 			on:skipprev={skipprev}
 			on:skipnext={skipnext}
