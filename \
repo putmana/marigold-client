@@ -24,6 +24,9 @@
 	@use "/src/style/mixins";
 	@use "/src/style/colors";
 	.wrapper {
+		position: relative;
+		z-index: 1;
+		box-shadow: 0px 0px 50px colors.$shadow;
 		display: flex;
 		flex-direction: column;
 		box-sizing: border-box;
@@ -34,7 +37,7 @@
 			position: sticky;
 			top: 0;
 			background-color: var(--primary-medium);
-
+			box-shadow: 0px 10px 5px -6px var(--primary-medium);
 			.back-btn {
 				@include mixins.clickable;
 				display: flex;
@@ -63,9 +66,7 @@
 			width: 100vw;
 			height: 100vh;
 			transition: all 0.3s ease-out;
-			.list {
-				background-image: linear-gradient(to bottom, var(--primary-medium), var(--secondary-dark));
-			}
+			background-image: linear-gradient(to bottom, var(--primary-medium), var(--secondary-dark));
 			&.hidden {
 				transform: translateX(100vw);
 			}

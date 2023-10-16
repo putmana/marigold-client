@@ -40,7 +40,7 @@
 	.wrapper {
 		@include mixins.clickable;
 
-		position: relative !important;
+		position: relative;
 		height: 70px;
 		margin: 5px;
 		border-radius: 5px;

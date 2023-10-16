@@ -120,8 +120,6 @@
 				height: 5px;
 				width: 100%;
 				box-sizing: border-box;
-				border-top: 1px solid colors.$border-hover;
-				border-bottom: 1px solid colors.$border-hover;
 
 				.progress {
 					position: relative;

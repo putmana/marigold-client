@@ -5,6 +5,8 @@
 	import { formatPlayerTime } from "$lib/scripts/utils"
 	import Scrub from "../scrub/scrub.svelte"
 	import type { RepeatMode } from "$lib/scripts/stores/PlayerStore"
+	import ListerItem from "$lib/components/lister/lister-item.svelte"
+	import Queue from "$lib/components/queue/queue.svelte"
 
 	const ICON_PLAY = "public/icons/play.svg"
 	const ICON_PAUSE = "public/icons/pause.svg"
@@ -18,8 +20,8 @@
 	export let paused: boolean
 	export let currentTime: number
 	export let duration: number
-	export let atStart: boolean
-	export let atEnd: boolean
+
+	let showQueue = false
 
 	let dispatch = createEventDispatcher()
 
@@ -54,6 +56,10 @@
 
 	function togglerepeat() {
 		dispatch("togglerepeat")
+	}
+
+	function togglequeue() {
+		showQueue = !showQueue
 	}
 </script>
 
@@ -93,12 +99,19 @@
 			<div class="time">
 				{formattedTime}
 			</div>
-			<button class="btn hide-on-mobile">
+			<button class="btn hide-on-mobile" on:click={togglequeue} class:toggled={showQueue}>
 				<img class="smaller" src="public/icons/queue.svg" alt="Queue" />
 			</button>
 		</section>
 	</div>
 </footer>
+{#if showQueue}
+	<div class="queuebox" style={cover.palette} transition:fly={{ duration: 300, x: 300 }}>
+		<div class="inner-wrapper">
+			<Queue />
+		</div>
+	</div>
+{/if}
 
 <style lang="scss">
 	@use "/src/style/colors";
@@ -121,6 +134,8 @@
 		}
 
 		.scrub {
+			border-bottom: 1px solid colors.$border-hover;
+
 			@include mixins.mobile-only {
 				display: none;
 			}
@@ -215,6 +230,7 @@
 
 		display: flex;
 		flex-direction: column;
+
 		justify-content: center;
 		align-items: center;
 
@@ -251,6 +267,28 @@
 				width: 15px;
 				height: 5px;
 			}
+		}
+	}
+
+	.queuebox {
+		position: fixed;
+		inset: auto 10px 75px auto;
+		background-image: linear-gradient(to left, var(--primary-medium), var(--secondary-dark));
+		background-size: 100vw;
+		background-position: right;
+		box-shadow: 0px 0px 50px colors.$shadow;
+		border-radius: 5px;
+
+		.inner-wrapper {
+			display: flex;
+			flex-direction: column;
+			overflow-y: scroll;
+			height: 425px;
+			width: 350px;
+			border: 1px solid colors.$border-hover;
+			border-radius: 5px;
+			box-sizing: border-box;
+			padding: 5px;
 		}
 	}
 </style>

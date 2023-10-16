@@ -28,8 +28,6 @@
 	$: shuffleEnabled = $queueShuffleEnabled
 	$: repeatMode = $queueRepeatMode
 	$: trackID = $currentTrack
-	$: atStart = $atQueueStart
-	$: atEnd = $atQueueEnd
 
 	// Only update the currently playing track if the key changes to prevent Svelte from restarting the audio when unrelated parts of the PlayerStore change
 	$: if ($initialized) {
@@ -101,8 +99,6 @@
 			{repeatMode}
 			{currentTime}
 			{duration}
-			{atStart}
-			{atEnd}
 			on:playpause={playpause}
 			on:skipprev={skipprev}
 			on:skipnext={skipnext}
