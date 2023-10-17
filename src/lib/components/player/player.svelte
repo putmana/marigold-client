@@ -43,7 +43,7 @@
 
 	function handleKeyDown(e: KeyboardEvent) {
 		if (e.key === "k") {
-			currentTime = audio.duration - 10
+			maximized = !maximized
 			e.preventDefault()
 		}
 	}
@@ -85,12 +85,34 @@
 	function scrub(e) {
 		currentTime = e.detail.time
 	}
+
+	function minimize() {
+		maximized = false
+	}
+
+	function maximize() {
+		maximized = true
+	}
 </script>
 
 <svelte:window on:keydown={handleKeyDown} />
 {#if $initialized}
 	{#if maximized}
-		<Immersion />
+		<Immersion
+			{trackID}
+			{paused}
+			{shuffleEnabled}
+			{repeatMode}
+			{currentTime}
+			{duration}
+			on:playpause={playpause}
+			on:skipprev={skipprev}
+			on:skipnext={skipnext}
+			on:toggleshuffle={toggleshuffle}
+			on:togglerepeat={togglerepeat}
+			on:scrub={scrub}
+			on:minimize={minimize}
+		/>
 	{:else}
 		<ControlBar
 			{trackID}
@@ -105,6 +127,7 @@
 			on:toggleshuffle={toggleshuffle}
 			on:togglerepeat={togglerepeat}
 			on:scrub={scrub}
+			on:maximize={maximize}
 		/>
 	{/if}
 {/if}

@@ -155,6 +155,7 @@
 			}
 		}
 		&.contained {
+			border-radius: 5px;
 			.hitbox {
 				.track {
 					border-radius: 5px;

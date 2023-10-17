@@ -5,7 +5,6 @@
 	import { formatPlayerTime } from "$lib/scripts/utils"
 	import Scrub from "../scrub/scrub.svelte"
 	import type { RepeatMode } from "$lib/scripts/stores/PlayerStore"
-	import ListerItem from "$lib/components/lister/lister-item.svelte"
 	import Queue from "$lib/components/queue/queue.svelte"
 
 	const ICON_PLAY = "public/icons/play.svg"
@@ -61,6 +60,10 @@
 	function togglequeue() {
 		showQueue = !showQueue
 	}
+
+	function maximize() {
+		dispatch("maximize")
+	}
 </script>
 
 <footer class="wrapper" style={cover.palette} transition:fly={{ duration: 300, y: 60 }}>
@@ -68,7 +71,7 @@
 		<Scrub {currentTime} {duration} palette={cover.palette} on:scrub />
 	</div>
 	<div class="inner-wrapper">
-		<section class="info">
+		<button class="info" on:click={maximize}>
 			<div class="cover">
 				<img src={cover.fileLarge} alt={`Cover art for ${album.title}`} />
 			</div>
@@ -76,7 +79,7 @@
 				<h1 class="title">{track.title}</h1>
 				<h2 class="artist">{artist.name}</h2>
 			</div>
-		</section>
+		</button>
 		<section class="controls">
 			<button class="btn hide-on-mobile" on:click={toggleshuffle} class:toggled={shuffleEnabled}>
 				<img class="smaller" src="public/icons/shuffle.svg" alt="Shuffle" />
@@ -152,6 +155,7 @@
 			}
 
 			.info {
+				@include mixins.clickable;
 				display: flex;
 				gap: 15px;
 
@@ -165,11 +169,11 @@
 
 				.cover {
 					height: inherit;
-					border-right: 1px solid colors.$border-hover;
+					width: 60px;
 					box-sizing: border-box;
 					img {
+						border-right: 1px solid colors.$border-hover;
 						height: 100%;
-						width: 100%;
 					}
 				}
 				.details {

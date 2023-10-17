@@ -8,15 +8,19 @@
 	} from "$lib/scripts/stores/PlayerStore"
 	import QueueItem from "./queue-item.svelte"
 
+	export let showNow = true
+
 	$: upNext = $queueRepeatMode === "ALL" ? [...$nextTracks, ...$prevTracks] : [...$nextTracks]
 </script>
 
 {#if $initialized}
 	<div class="wrapper">
-		<section class="now">
-			<h1 class="queue-label">Now Playing</h1>
-			<QueueItem trackID={$currentTrack} />
-		</section>
+		{#if showNow}
+			<section class="now">
+				<h1 class="queue-label">Now Playing</h1>
+				<QueueItem trackID={$currentTrack} />
+			</section>
+		{/if}
 		{#if upNext.length > 0}
 			<section class="next">
 				<h1 class="queue-label">Up Next</h1>
