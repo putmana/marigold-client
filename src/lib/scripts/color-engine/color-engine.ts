@@ -1,5 +1,5 @@
-import { RGB_to_OKLCH, type LCH } from "./oklab"
-import { crushRGB } from "./utils"
+import { RGB_to_OKLCH, type LCH, OKLCH_to_RGB } from "./oklab"
+import { crushRGB, inflateRGB } from "./utils"
 
 type Swatch = {
         name: string,
@@ -56,7 +56,18 @@ function parseDatabaseColors(dbColors: string) {
 
 function generateVars(color: LCH, swatches: Swatch[], prefix: string): string {
         const vars = swatches.map(swatch => {
-                return `--${prefix}-${swatch.name}: oklch(${swatch.lightness} ${color.C} ${color.H} / ${swatch.opacity});`
+                const lch: LCH = {
+                        L: swatch.lightness,
+                        C: color.C,
+                        H: color.H,
+                }
+                const rgb = inflateRGB(OKLCH_to_RGB(lch))
+
+                const css_rgb = `rgb(${rgb.R}, ${rgb.G}, ${rgb.B}, ${swatch.opacity})`
+                const css_oklch = `oklch(${swatch.lightness} ${color.C} ${color.H} / ${swatch.opacity})`
+
+                return `--${prefix}-${swatch.name}: ${css_rgb};`
+
         })
 
         return vars.join('')

@@ -57,8 +57,8 @@ export function OKLAB_to_OKLCH(c: LAB): LCH {
 export function OKLCH_to_OKLAB(c: LCH): LAB {
         return {
                 L: c.L,
-                A: c.C * Math.cos(c.H),
-                B: c.C * Math.sin(c.H),
+                A: c.C * Math.cos(c.H * Math.PI / 180),
+                B: c.C * Math.sin(c.H * Math.PI / 180),
         }
 }
 
