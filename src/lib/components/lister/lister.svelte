@@ -74,7 +74,12 @@
 
 	@media (min-width: sizes.$screen-lg) {
 		.wrapper {
-			background-image: linear-gradient(to right, var(--primary-medium), var(--secondary-dark));
+			background-image: linear-gradient(
+				to right,
+				var(--primary-medium),
+				var(--primary-dark),
+				var(--secondary-dark)
+			);
 			flex-grow: 1;
 			border-left: 1px solid var(--primary-border);
 		}

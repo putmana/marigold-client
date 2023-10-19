@@ -122,15 +122,26 @@
 		position: fixed;
 		inset: 0px 0px 0px 0px;
 		display: flex;
-		background-image: linear-gradient(to right, var(--primary-medium), var(--secondary-dark));
 
 		@include mixins.desktop-only {
+			background-image: linear-gradient(
+				to right,
+				var(--primary-medium),
+				var(--primary-dark),
+				var(--secondary-dark)
+			);
 		}
 
 		@include mixins.mobile-only {
 			flex-direction: column;
 			overflow-y: scroll;
 			scroll-snap-type: y proximity;
+			background-image: linear-gradient(
+				to bottom,
+				var(--primary-medium),
+				var(--primary-dark),
+				var(--secondary-dark)
+			);
 		}
 
 		.stage {

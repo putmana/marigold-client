@@ -125,7 +125,12 @@
 
 		@include mixins.desktop-only {
 			inset: auto 0px 0px 0px;
-			background-image: linear-gradient(to left, var(--primary-medium), var(--secondary-dark));
+			background-image: linear-gradient(
+				to left,
+				var(--primary-medium),
+				var(--primary-dark),
+				var(--secondary-dark)
+			);
 			box-shadow: 0px 0px 50px colors.$shadow;
 		}
 
@@ -276,7 +281,12 @@
 	.queuebox {
 		position: fixed;
 		inset: auto 10px 75px auto;
-		background-image: linear-gradient(to left, var(--primary-medium), var(--secondary-dark));
+		background-image: linear-gradient(
+			to left,
+			var(--primary-medium),
+			var(--primary-dark),
+			var(--secondary-dark)
+		);
 		background-size: 100vw;
 		background-position: right;
 		box-shadow: 0px 0px 50px colors.$shadow;

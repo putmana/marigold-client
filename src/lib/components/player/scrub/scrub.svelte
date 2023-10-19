@@ -105,7 +105,7 @@
 		align-items: center;
 		height: 5px;
 		width: 100%;
-		background-image: linear-gradient(to left, var(--primary-verydark), var(--secondary-verydark));
+		background-color: colors.$shadow;
 
 		.hitbox {
 			position: absolute;

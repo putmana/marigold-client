@@ -8,8 +8,8 @@ type Swatch = {
         opacity: number,
 }
 
-const MAX_PRIMARY_CHROMA = 0.07
-const MAX_SECONDARY_CHROMA = 0.04
+const MAX_PRIMARY_CHROMA = 0.06
+const MAX_SECONDARY_CHROMA = 0.05
 
 const MIN_PRIMARY_LIGHTNESS = 0.50
 const MIN_SECONDARY_LIGHTNESS = 0.40
@@ -21,7 +21,7 @@ const SWATCHES: Swatch[] = [
         { name: "light", lightness: 0.15, opacity: 1 },
         { name: "medium", lightness: 0.00, opacity: 1 },
         { name: "dark", lightness: -0.10, opacity: 1 },
-        { name: "verydark", lightness: -0.30, opacity: 1 },
+        { name: "verydark", lightness: -0.20, opacity: 1 },
         { name: "border", lightness: 0.15, opacity: 0.7 },
 ]
 
