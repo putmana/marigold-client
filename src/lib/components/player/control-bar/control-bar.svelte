@@ -170,7 +170,6 @@
 				.cover {
 					height: inherit;
 					width: 60px;
-					box-sizing: border-box;
 					img {
 						border-right: 1px solid colors.$border-hover;
 						height: 100%;

@@ -7,5 +7,6 @@
 	"/listen": [
 		"src/routes/listen/+page.ts"
 	],
+	"/palette": [],
 	"/settings": []
 }

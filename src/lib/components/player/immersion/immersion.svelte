@@ -122,7 +122,7 @@
 		position: fixed;
 		inset: 0px 0px 0px 0px;
 		display: flex;
-		background-image: linear-gradient(to left, var(--primary-medium), var(--secondary-dark));
+		background-image: linear-gradient(to right, var(--primary-medium), var(--secondary-dark));
 
 		@include mixins.desktop-only {
 		}
@@ -305,4 +305,3 @@
 		}
 	}
 </style>
-

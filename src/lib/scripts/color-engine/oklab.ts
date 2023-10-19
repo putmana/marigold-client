@@ -1,3 +1,5 @@
+import { crushRGB, inflateRGB } from "./utils"
+
 export type RGB = { R: number, G: number, B: number }
 export type LAB = { L: number, A: number, B: number }
 export type LCH = { L: number, C: number, H: number }
@@ -11,7 +13,7 @@ export function OKLCH_to_RGB(c: LCH): RGB {
 }
 
 export function RGB_to_OKLAB(c: RGB): LAB {
-        const lc = linearizeRGB(c)
+        const lc = linearizeRGB(crushRGB(c))
 
         const l = 0.4122214708 * lc.R + 0.5363325363 * lc.G + 0.0514459929 * lc.B
         const m = 0.2119034982 * lc.R + 0.6806995451 * lc.G + 0.1073969566 * lc.B
@@ -43,22 +45,22 @@ export function OKLAB_to_RGB(c: LAB): RGB {
                 B: -0.0041960863 * l - 0.7034186147 * m + 1.7076147010 * s,
         }
 
-        return unlinearizeRGB(lc)
+        return inflateRGB(unlinearizeRGB(lc))
 }
 
 export function OKLAB_to_OKLCH(c: LAB): LCH {
         return {
                 L: c.L,
                 C: Math.sqrt(c.A ** 2 + c.B ** 2),
-                H: Math.atan2(c.B, c.A) * 180 / Math.PI,
+                H: Math.atan2(c.B, c.A) * 180 / Math.PI - 180
         }
 }
 
 export function OKLCH_to_OKLAB(c: LCH): LAB {
         return {
                 L: c.L,
-                A: c.C * Math.cos(c.H * Math.PI / 180),
-                B: c.C * Math.sin(c.H * Math.PI / 180),
+                A: c.C * Math.cos((c.H - 180) * Math.PI / 180),
+                B: c.C * Math.sin((c.H - 180) * Math.PI / 180),
         }
 }
 
