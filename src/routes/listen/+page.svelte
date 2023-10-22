@@ -1,29 +1,20 @@
 <script lang="ts">
-	import { onMount } from "svelte"
-
+	import Auth from "$lib/modes/auth/auth.svelte"
 	import NavBtn from "$lib/components/nav/nav-btn/nav-btn.svelte"
 	import Nav from "$lib/components/nav/nav.svelte"
-
 	import Albums from "$lib/modes/albums/albums.svelte"
 	import Playlists from "$lib/modes/playlists/playlists.svelte"
-
 	import Player from "$lib/components/player/player.svelte"
 
 	import { user } from "$lib/scripts/database/pocketbase"
-	import { mode } from "$lib/modes/mode"
-
-	import { loginUser } from "$lib/modes/login/login"
+	import { mode } from "$lib/scripts/stores/ModeStore"
 	import { library } from "$lib/scripts/stores/LibraryStore"
-
-	onMount(async () => {
-		if (!$user) {
-			await loginUser()
-		}
-	})
+	import Settings from "$lib/modes/settings/settings.svelte"
+	import AuthLogout from "$lib/modes/auth/auth-logout.svelte"
 </script>
 
-{#if user}
-	{#await library.init()}
+{#if $user}
+	{#await library.load()}
 		<h1>Loading...</h1>
 	{:then}
 		<div class="wrapper">
@@ -31,17 +22,20 @@
 				<NavBtn tab={"PLAYLISTS"} label="playlists" iconPath="public/icons/regular-playlists.svg" />
 				<NavBtn tab={"ALBUMS"} label="albums" iconPath="public/icons/regular-albums.svg" />
 				<NavBtn tab={"ARTISTS"} label="artists" iconPath="public/icons/regular-artists.svg" />
+				<NavBtn tab={"SETTINGS"} label="settings" iconPath="public/icons/settings.svg" />
 			</Nav>
 			{#if $mode === "ALBUMS"}
 				<Albums />
 			{:else if $mode === "PLAYLISTS"}
 				<Playlists />
+			{:else if $mode === "SETTINGS"}
+				<AuthLogout />
 			{/if}
 			<Player />
 		</div>
 	{/await}
 {:else}
-	<h1>Logging in user...</h1>
+	<Auth />
 {/if}
 
 <style lang="scss">

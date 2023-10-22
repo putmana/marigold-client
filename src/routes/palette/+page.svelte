@@ -5,7 +5,7 @@
 	let colors = []
 
 	onMount(async () => {
-		colors = await getPalette("public/images/eyelid_movies.jpeg")
+		colors = await getPalette("public/images/two_time.jpg")
 	})
 </script>
 

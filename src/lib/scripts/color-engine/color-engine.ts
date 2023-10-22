@@ -1,11 +1,16 @@
-import { clamp } from "../utils"
-import { RGB_to_OKLCH, type LCH, OKLCH_to_RGB } from "./oklab"
+import { clamp, randomInteger } from "../utils"
+import { RGB_to_OKLCH, type LCH, OKLCH_to_RGB, type RGB } from "./oklab"
 import { crushRGB, inflateRGB } from "./utils"
 
 type Swatch = {
         name: string,
         lightness: number,
         opacity: number,
+}
+
+type Colorset = {
+        primary: RGB,
+        secondary: RGB,
 }
 
 const MAX_PRIMARY_CHROMA = 0.06
@@ -25,11 +30,27 @@ const SWATCHES: Swatch[] = [
         { name: "border", lightness: 0.15, opacity: 0.7 },
 ]
 
-export function buildPalette(dbColors: string) {
-        const parsed = parseDatabaseColors(dbColors)
+export function getRandomPalette() {
+        const colors = {
+                primary: {
+                        R: randomInteger(0, 255),
+                        G: randomInteger(0, 255),
+                        B: randomInteger(0, 255),
+                },
+                secondary: {
+                        R: randomInteger(0, 255),
+                        G: randomInteger(0, 255),
+                        B: randomInteger(0, 255),
+                }
+        }
+        console.log(colors)
 
-        let primary = RGB_to_OKLCH(parsed.primary)
-        let secondary = RGB_to_OKLCH(parsed.secondary)
+        return buildPalette(colors)
+}
+
+export function buildPalette(colors: Colorset) {
+        let primary = RGB_to_OKLCH(colors.primary)
+        let secondary = RGB_to_OKLCH(colors.secondary)
 
         primary = limitChroma(primary, MAX_PRIMARY_CHROMA)
         primary = clampLightness(primary, MIN_PRIMARY_LIGHTNESS, MAX_PRIMARY_LIGHTNESS)
@@ -50,7 +71,7 @@ function clampLightness(c: LCH, min: number, max: number) {
         return c
 }
 
-function parseDatabaseColors(dbColors: string) {
+export function parseDatabaseColors(dbColors: string) {
         const colors = dbColors.split("&")
         const p = colors[0].split(".").map(x => parseInt(x))
         const s = colors[1].split(".").map(x => parseInt(x))

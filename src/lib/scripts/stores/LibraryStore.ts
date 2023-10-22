@@ -1,5 +1,6 @@
 import { writable, derived, type Writable } from "svelte/store"
 import { loadLibrary } from "$lib/scripts/library/library"
+import { playerController } from "./PlayerStore"
 
 const EMPTY_LIBRARY: Library = {
         albums: new Map(),
@@ -12,14 +13,19 @@ const EMPTY_LIBRARY: Library = {
 export function createLibrary() {
         const { subscribe, set }: Writable<Library> = writable(EMPTY_LIBRARY)
 
+        async function load() {
+                const library = await (loadLibrary())
+                set(library)
+        }
+
+        function clear() {
+                playerController.resetQueue()
+        }
+
         return {
                 subscribe,
-
-                init: async () => {
-                        await loadLibrary().then(library => {
-                                set(library)
-                        })
-                }
+                load,
+                clear,
         }
 }
 

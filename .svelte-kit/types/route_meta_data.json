@@ -2,8 +2,6 @@
 	"/": [
 		"src/routes/+page.ts"
 	],
-	"/auth/login": [],
-	"/auth/register": [],
 	"/listen": [
 		"src/routes/listen/+page.ts"
 	],

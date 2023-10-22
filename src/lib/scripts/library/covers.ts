@@ -1,6 +1,6 @@
 import type { RecordModel } from "pocketbase"
 import { getThumbURL, pb } from "$lib/scripts/database/pocketbase"
-import { buildPalette } from "$lib/scripts/color-engine/color-engine"
+import { buildPalette, parseDatabaseColors } from "$lib/scripts/color-engine/color-engine"
 
 // Sizes of cover art thumbnails
 const THUMB_SIZE_LARGE = 500
@@ -34,11 +34,14 @@ function parseCovers(records: RecordModel[], fileToken: string): CoverMap {
                         const fileLarge = getThumbURL("covers", coverRecord.id, coverRecord.file, fileToken, THUMB_SIZE_LARGE)
                         const fileSmall = getThumbURL("covers", coverRecord.id, coverRecord.file, fileToken, THUMB_SIZE_SMALL)
 
+                        const colors = parseDatabaseColors(coverRecord.color)
+                        const palette = buildPalette(colors)
+
                         return [
                                 coverRecord.id,
                                 {
                                         id: coverRecord.id,
-                                        palette: buildPalette(coverRecord.color),
+                                        palette: palette,
                                         fileLarge: fileLarge,
                                         fileSmall: fileSmall,
                                 }

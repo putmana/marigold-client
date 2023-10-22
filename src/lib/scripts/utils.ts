@@ -19,3 +19,10 @@ export function formatPlayerTime(time: number) {
 export function clamp(x: number, min: number, max: number) {
         return Math.min(Math.max(min, x), max)
 }
+
+export function randomInteger(min: number, max: number) {
+        const range = (max - min)
+        const rnd = Math.floor(Math.random() * range) - min
+
+        return rnd
+}

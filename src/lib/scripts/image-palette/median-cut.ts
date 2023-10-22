@@ -7,19 +7,6 @@ export function quantize(buckets: bucket[]) {
         return buckets.reduce((carr, bucket) => {
                 // MEDIAN
                 return [...carr, bucket.pixels[Math.floor(bucket.pixels.length / 2)]]
-
-                // MEAN
-                return [...carr, [
-                        bucket.pixels
-                                .map(c => c[0])
-                                .reduce((a, b) => a + b) / bucket.pixels.length,
-                        bucket.pixels
-                                .map(c => c[1])
-                                .reduce((a, b) => a + b) / bucket.pixels.length,
-                        bucket.pixels
-                                .map(c => c[2])
-                                .reduce((a, b) => a + b) / bucket.pixels.length,
-                ]]
         }, [])
 }
 

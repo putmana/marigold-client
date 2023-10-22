@@ -25,9 +25,9 @@
 	let dispatch = createEventDispatcher()
 
 	$: track = $tracks.get(trackID)
-	$: album = $albums.get(track.albumID)
-	$: artist = $artists.get(album.artistID)
-	$: cover = $covers.get(album.coverID)
+	$: album = $albums.get(track?.albumID)
+	$: artist = $artists.get(album?.artistID)
+	$: cover = $covers.get(album?.coverID)
 	$: repeatEnabled = repeatMode === "OFF" ? false : true
 
 	$: s_currentTime = formatPlayerTime(currentTime)
