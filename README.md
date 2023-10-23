@@ -1,5 +1,6 @@
 # Marigold
-The stylish music locker meant to enhance your music listening experience
+## The stylish music locker meant to enhance your music listening experience
+
 ![Screenshot of Marigold](./static/public/images/screenshot.jpeg)
 
 ## Marigold is currently under development!
