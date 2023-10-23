@@ -2,9 +2,10 @@
 	import Finder from "$lib/components/finder/finder.svelte"
 	import FinderItem from "$lib/components/finder/finder-item.svelte"
 	import Lister from "$lib/components/lister/lister.svelte"
-	import { albums, artists, covers, selectedAlbumID } from "$lib/scripts/stores/LibraryStore"
 	import ListerHeader from "$lib/components/lister/lister-header.svelte"
 	import ListerItem from "$lib/components/lister/lister-item.svelte"
+
+	import { albums, artists, covers, selectedAlbumID } from "$lib/scripts/stores/LibraryStore"
 	import { playerController } from "$lib/scripts/stores/PlayerStore"
 
 	let hidden = true
