@@ -1,11 +1,33 @@
-## Marigold Client
+# Marigold
+The stylish music locker meant to enhance your music listening experience
+![Screenshot of Marigold](./static/public/images/screenshot.jpeg)
 
-A music app for those who want the convenience of streaming with the control of an MP3 player
+## Marigold is currently under development!
+This means that Marigold is NOT READY for use yet. Security flaws, explosive bugs, and many sad faces may be encountered if you try to actually use it in its current state. In fact, the only way to currently use Marigold is to download and host it yourself (instructions coming soon...)
 
-## Marigold is being rewritten.
-#### I am currently rewriting the app from the ground up. My goals in doing so are as follows:
-- **Maintainability** - Marigold was originally written quickly, with the goal of getting it ready for a college presentation. As a result, the original code was a little bit... spaghetti.
-- **Accessibility** - The rewrite of Marigold will have a focus on semantic HTML, fully featured keyboard navigation, and ALT text for screen reader support
-- **Migration to PocketBase** - When I originally created Marigold, I made a large, heavy back-end API using Laravel and MySQL. I'm now moving the app to PocketBase in order to make it more portable.
-- **Modularity** - As mentioned before, Marigold was a bit of a spaghetti mess. I'm planning on making the new version much more modular (particularly the SCSS).
-- **An Excuse to Use Neovim** - It gives me an excuse to use Neovim and set it up for a SvelteKit/TypeScript development enviornment
+## Development Plans
+### THINGS DONE:
+[X] Full rewrite for increased maintainability
+[X] Migration to PocketBase
+[X] Fully responsive UI
+[X] Color palette generator built from scratch using OKLAB color space
+[X] Immersive listening mode
+[X] User accounts
+
+### TOP PRIORITY:
+[ ] File uploading
+[ ] Editor mode - Creating and modifying albums, playlists, artists, etc...
+[ ] New portfolio demo
+
+### SOON:
+[ ] File metadata integration (your music tags work with Marigold)
+[ ] Downloading your entire library
+[ ] Support for various stream qualities with FFMPEG
+[ ] Desktop application with Tauri
+
+### SOMEDAY:
+[ ] iOS app
+[ ] Android app
+
+### PIPE DREAM:
+[ ] Integration with a music vendor (i.e., Bandcamp) to make it easy to buy and port songs directly into Marigold
