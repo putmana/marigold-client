@@ -7,27 +7,27 @@ This means that Marigold is NOT READY for use yet. Security flaws, explosive bug
 
 ## Development Plans
 ### THINGS DONE:
-[X] Full rewrite for increased maintainability
-[X] Migration to PocketBase
-[X] Fully responsive UI
-[X] Color palette generator built from scratch using OKLAB color space
-[X] Immersive listening mode
-[X] User accounts
+- [x] Full rewrite for increased maintainability
+- [x] Migration to PocketBase
+- [x] Fully responsive UI
+- [x] Color palette generator built from scratch using OKLAB color space
+- [x] Immersive listening mode
+- [x] User accounts
 
 ### TOP PRIORITY:
-[ ] File uploading
-[ ] Editor mode - Creating and modifying albums, playlists, artists, etc...
-[ ] New portfolio demo
+- [ ] File uploading
+- [ ] Editor mode - Creating and modifying albums, playlists, artists, etc...
+- [ ] New portfolio demo
 
 ### SOON:
-[ ] File metadata integration (your music tags work with Marigold)
-[ ] Downloading your entire library
-[ ] Support for various stream qualities with FFMPEG
-[ ] Desktop application with Tauri
+- [ ] File metadata integration (your music tags work with Marigold)
+- [ ] Downloading your entire library
+- [ ] Support for various stream qualities with FFMPEG
+- [ ] Desktop application with Tauri
 
 ### SOMEDAY:
-[ ] iOS app
-[ ] Android app
+- [ ] iOS app
+- [ ] Android app
 
 ### PIPE DREAM:
-[ ] Integration with a music vendor (i.e., Bandcamp) to make it easy to buy and port songs directly into Marigold
+- [ ] Integration with a music vendor (i.e., Bandcamp) to make it easy to buy and port songs directly into Marigold
