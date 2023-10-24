@@ -1,8 +1,5 @@
+import type { RGB, LAB, LCH } from "./types"
 import { crushRGB, inflateRGB } from "./utils"
-
-export type RGB = { R: number, G: number, B: number }
-export type LAB = { L: number, A: number, B: number }
-export type LCH = { L: number, C: number, H: number }
 
 export function RGB_to_OKLCH(c: RGB): LCH {
         return OKLAB_to_OKLCH(RGB_to_OKLAB(c))

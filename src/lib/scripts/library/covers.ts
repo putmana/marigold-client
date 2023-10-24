@@ -1,12 +1,16 @@
 import type { RecordModel } from "pocketbase"
 import { getThumbURL, pb } from "$lib/scripts/database/pocketbase"
-import { buildPalette, parseDatabaseColors } from "$lib/scripts/color-engine/color-engine"
+import { type Colorset, buildPalette } from "$lib/scripts/color-engine/color-engine"
+import { generateDatabaseColors, parseDatabaseColors } from "../color-engine/database"
 
 // Sizes of cover art thumbnails
 const THUMB_SIZE_LARGE = 500
 const THUMB_SIZE_SMALL = 100
 
 type CoverMap = Map<string, Cover>
+type CoverData = {
+        color: Colorset
+}
 
 export async function loadCovers(): Promise<CoverMap> {
         const coverRecords = await fetchCovers()
@@ -26,6 +30,18 @@ async function fetchCovers(): Promise<RecordModel[]> {
         })
 
         return records
+}
+
+export async function createCover(coverData: CoverData, file: File) {
+
+        // Create a FormData object and append the necessary fields
+        const formData = new FormData()
+        formData.append('file', file)
+        formData.append('color', generateDatabaseColors(coverData.color))
+
+        // Create the cover object
+        await pb.collection('covers').create(formData)
+
 }
 
 function parseCovers(records: RecordModel[], fileToken: string): CoverMap {

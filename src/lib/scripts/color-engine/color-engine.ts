@@ -1,14 +1,32 @@
 import { clamp, randomInteger } from "../utils"
-import { RGB_to_OKLCH, type LCH, OKLCH_to_RGB, type RGB } from "./oklab"
+import { RGB_to_OKLCH, OKLCH_to_RGB } from "./oklab"
 import { crushRGB, inflateRGB } from "./utils"
 
-type Swatch = {
+export type RGB = {
+        R: number,
+        G: number,
+        B: number,
+}
+
+export type LAB = {
+        L: number,
+        A: number,
+        B: number,
+}
+
+export type LCH = {
+        L: number,
+        C: number,
+        H: number,
+}
+
+export type Swatch = {
         name: string,
         lightness: number,
         opacity: number,
 }
 
-type Colorset = {
+export type Colorset = {
         primary: RGB,
         secondary: RGB,
 }
@@ -71,19 +89,7 @@ function clampLightness(c: LCH, min: number, max: number) {
         return c
 }
 
-export function parseDatabaseColors(dbColors: string) {
-        const colors = dbColors.split("&")
-        const p = colors[0].split(".").map(x => parseInt(x))
-        const s = colors[1].split(".").map(x => parseInt(x))
 
-        let primary = { R: p[0], G: p[1], B: p[2] }
-        let secondary = { R: s[0], G: s[1], B: s[2] }
-
-        return {
-                primary: primary,
-                secondary: secondary,
-        }
-}
 
 function generateVars(color: LCH, swatches: Swatch[], prefix: string): string {
         const vars = swatches.map(swatch => {

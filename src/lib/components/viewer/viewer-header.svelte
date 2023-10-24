@@ -1,18 +1,30 @@
 <script lang="ts">
+	import { createEventDispatcher } from "svelte"
 	import { covers } from "$lib/scripts/stores/LibraryStore"
+
+	const dispatch = createEventDispatcher()
 
 	export let title: string
 	export let description: string
 	export let coverID: string
 
 	$: cover = $covers.get(coverID)
+
+	function openEditor() {
+		dispatch("edit")
+	}
 </script>
 
 <header class="wrapper" style={cover.palette}>
 	<section class="info">
 		<h1 class="title">{title}</h1>
 		<p class="description">{description}</p>
-		<button class="play-btn">play</button>
+		<div class="header-btns">
+			<button class="play-btn"> <img src="public/icons/play.svg" alt="Play icon" /> play</button>
+			<button class="play-btn" on:click={openEditor}
+				><img src="public/icons/edit.svg" alt="Edit icon" /></button
+			>
+		</div>
 	</section>
 	<section class="cover">
 		<div class="img-wrapper">
@@ -54,9 +66,16 @@
 			opacity: 80%;
 			margin: 0;
 		}
-		.play-btn {
-			@include mixins.button;
+		.header-btns {
 			margin-top: 10px;
+
+			button {
+				@include mixins.button;
+				img {
+					width: 10px;
+					height: 10px;
+				}
+			}
 		}
 	}
 

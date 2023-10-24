@@ -9,7 +9,7 @@
 	import { user } from "$lib/scripts/database/pocketbase"
 	import { mode } from "$lib/scripts/stores/ModeStore"
 	import { library } from "$lib/scripts/stores/LibraryStore"
-	import Settings from "$lib/modes/settings/settings.svelte"
+
 	import AuthLogout from "$lib/modes/auth/auth-logout.svelte"
 </script>
 

@@ -1,5 +1,4 @@
-import { type LCH, RGB_to_OKLAB, type LAB, RGB_to_OKLCH, OKLCH_to_RGB } from "../color-engine/oklab"
-import { crushRGB } from "../color-engine/utils"
+import { RGB_to_OKLCH, OKLCH_to_RGB } from "../color-engine/oklab"
 import { getQuantizedColors } from "./median-cut"
 
 async function loadImage(url: string): Promise<HTMLImageElement> {

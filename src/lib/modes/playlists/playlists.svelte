@@ -1,65 +1,27 @@
 <script lang="ts">
 	import Finder from "$lib/components/finder/finder.svelte"
-	import FinderItem from "$lib/components/finder/finder-item.svelte"
-	import Lister from "$lib/components/lister/lister.svelte"
-	import ListerHeader from "$lib/components/lister/lister-header.svelte"
-	import ListerItem from "$lib/components/lister/lister-item.svelte"
+	import Viewer from "$lib/components/viewer/viewer.svelte"
+	import PlaylistFinder from "./playlist-finder.svelte"
+	import PlaylistViewer from "./playlist-viewer.svelte"
 
-	import { covers, playlists, selectedPlaylistID } from "$lib/scripts/stores/LibraryStore"
-	import { playerController } from "$lib/scripts/stores/PlayerStore"
+	import { selectedPlaylistID } from "$lib/scripts/stores/LibraryStore"
+	import { editing } from "$lib/scripts/stores/EditStore"
 
 	let hidden = true
-
-	$: current = $playlists.get($selectedPlaylistID)
-	$: color = $covers.get(current?.coverID)?.palette ?? ""
+	let color = ""
 
 	function showFinder() {
 		hidden = false
 	}
-
-	function selectPlaylist(playlistID: string) {
-		$selectedPlaylistID = playlistID
-		showFinder()
-	}
-
-	function formatDescription(playlist: Playlist) {
-		return playlist.description
-	}
-
-	function startQueue(index: number) {
-		const trackIDs = current.orderedTracks.map((track) => track.id)
-		playerController.startQueue(trackIDs, index)
-	}
 </script>
 
 <Finder title="Playlists">
-	{#each [...$playlists] as [playlistID, playlist]}
-		<FinderItem
-			id={playlistID}
-			title={playlist.title}
-			coverID={playlist.coverID}
-			selected={playlistID === $selectedPlaylistID}
-			on:select={() => {
-				selectPlaylist(playlistID)
-			}}
-		/>
-	{/each}
+	<PlaylistFinder bind:currentPlaylistID={$selectedPlaylistID} on:select={showFinder} />
 </Finder>
-<Lister bind:hidden bind:color>
-	{#if current}
-		<ListerHeader
-			title={current.title}
-			coverID={current.coverID}
-			description={formatDescription(current)}
-		/>
-		{#each current.orderedTracks as orderedTrack, index}
-			<ListerItem
-				{orderedTrack}
-				showCover={true}
-				on:play={() => {
-					startQueue(index)
-				}}
-			/>
-		{/each}
+<Viewer bind:hidden {color}>
+	{#if $editing}
+		...
+	{:else}
+		<PlaylistViewer bind:color currentPlaylistID={$selectedPlaylistID} />
 	{/if}
-</Lister>
+</Viewer>

@@ -6,6 +6,12 @@ declare global {
 
         export type mode = "albums" | "artists" | "playlists"
 
+        export interface DatabaseAction<T> {
+                result: T,
+                success: boolean,
+                message?: string,
+        }
+
         export type User = {
                 id: string
                 username: string
