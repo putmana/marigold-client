@@ -13,12 +13,17 @@ export async function loadArtists(): Promise<ArtistMap> {
 
 async function fetchArtists(): Promise<RecordModel[]> {
         const EXPAND = [
-                "albums(artist)"
+                "albums_artists(artist)",
+                "artists_tracks(artist)",
+
         ]
         const FIELDS = [
                 "id",
                 "name",
-                "expand.albums(artist).id",
+                "expand.albums_artists(artist).id",
+                'expand.albums_artists(artist).priority',
+                "expand.artists_tracks(artist).id",
+                "expand.artists_tracks(artist).priority",
         ]
 
         const records = await pb.collection('artists').getFullList({
@@ -51,12 +56,24 @@ export async function updateArtist(artistID: string, artistData: ArtistData): Pr
 function parseArtists(records: RecordModel[]): ArtistMap {
         return new Map<string, Artist>(
                 records.map((artistRecord: RecordModel) => {
+
+                        // Only returns albums where the artist is the PRIMARY artist 
+                        const albumIDs: string[] = artistRecord.expand["albums_artists(artist)"]
+                                .filter((relationRecord: RecordModel) => relationRecord.priority === 1)
+                                .map((relationRecord: RecordModel) => { return relationRecord.id })
+
+                        // Only returns tracks where the artist is the PRIMARY artist
+                        const trackIDs: string[] = artistRecord.expand["artists_tracks(artist)"]
+                                .filter((relationRecord: RecordModel) => relationRecord.priority === 1)
+                                .map((relationRecord: RecordModel) => { return relationRecord.id })
+
                         return [
                                 artistRecord.id,
                                 {
                                         id: artistRecord.id,
                                         name: artistRecord.name,
-                                        albumIDs: artistRecord.expand["albums(artist)"]
+                                        albumIDs: albumIDs,
+                                        trackIDs: trackIDs,
                                 }
                         ]
                 })

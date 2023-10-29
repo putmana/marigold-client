@@ -10,6 +10,10 @@
 
 	$: cover = $covers.get(coverID)
 
+	function play() {
+		dispatch("play")
+	}
+
 	function openEditor() {
 		dispatch("edit")
 	}
@@ -20,7 +24,9 @@
 		<h1 class="title">{title}</h1>
 		<p class="description">{description}</p>
 		<div class="header-btns">
-			<button class="play-btn"> <img src="public/icons/play.svg" alt="Play icon" /> play</button>
+			<button class="play-btn" on:click={play}>
+				<img src="public/icons/play.svg" alt="Play icon" /> play</button
+			>
 			<button class="play-btn" on:click={openEditor}
 				><img src="public/icons/edit.svg" alt="Edit icon" /></button
 			>

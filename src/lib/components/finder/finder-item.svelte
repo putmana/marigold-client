@@ -1,17 +1,16 @@
 <script lang="ts">
-	import { artists, covers } from "$lib/scripts/stores/LibraryStore"
+	import { covers } from "$lib/scripts/stores/LibraryStore"
 	import { createEventDispatcher } from "svelte"
 
 	const dispatch = createEventDispatcher()
 
 	export let id: string
 	export let title: string
-	export let artistID: string | null = null
+	export let artists: string | null = null
 	export let coverID: string
 	export let selected: boolean
 
 	$: cover = $covers.get(coverID)
-	$: artistName = artistID ? $artists.get(artistID).name : null
 
 	function selectItem() {
 		dispatch("select", {
@@ -26,8 +25,8 @@
 	</span>
 	<span class="info">
 		<h2>{title}</h2>
-		{#if artistName}
-			<h3>{artistName}</h3>
+		{#if artists}
+			<h3>{artists}</h3>
 		{/if}
 	</span>
 </button>

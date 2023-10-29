@@ -9,6 +9,7 @@ type TrackData = {
         userID: string,
         featuring: string,
         index: number,
+        orderedArtists: OrderedArtist[],
 }
 
 export async function loadTracks(): Promise<TrackMap> {
@@ -18,15 +19,22 @@ export async function loadTracks(): Promise<TrackMap> {
 }
 
 export async function fetchTracks(): Promise<RecordModel[]> {
+        const EXPAND = [
+                "artists_tracks(track)",
+        ]
+
         const FIELDS = [
                 "id",
                 "title",
                 "duration",
                 "file",
                 "album",
+                "expand.artists_tracks(track).artist",
+                "expand.artists_tracks(track).priority",
         ]
 
         const records = await pb.collection('tracks').getFullList({
+                expand: EXPAND.toString(),
                 fields: FIELDS.toString(),
         })
 
@@ -67,7 +75,16 @@ async function updateTrack(trackID: string, trackData: TrackData) {
 function parseTracks(records: RecordModel[], fileToken: string): TrackMap {
         return new Map<string, Track>(
                 records.map((trackRecord: RecordModel) => {
+
+                        const orderedArtists: OrderedArtist[] = trackRecord.expand["artists_tracks(track)"].map((relationRecord: RecordModel) => {
+                                return {
+                                        id: relationRecord.artist,
+                                        priority: relationRecord.priority,
+                                }
+                        })
+
                         const file = getFileURL("tracks", trackRecord.id, trackRecord.file, fileToken)
+
                         return [
                                 trackRecord.id,
                                 {
@@ -76,6 +93,7 @@ function parseTracks(records: RecordModel[], fileToken: string): TrackMap {
                                         duration: trackRecord.duration,
                                         file: file,
                                         albumID: trackRecord.album,
+                                        orderedArtists: orderedArtists
                                 }
                         ]
                 })

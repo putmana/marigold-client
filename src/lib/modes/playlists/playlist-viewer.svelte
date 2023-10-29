@@ -22,6 +22,10 @@
 		title={playlist.title}
 		coverID={playlist.coverID}
 		description={playlist.description}
+		on:play={() => {
+			startQueue(0)
+		}}
+		on:edit
 	/>
 
 	{#each playlist.orderedTracks as orderedTrack, index}

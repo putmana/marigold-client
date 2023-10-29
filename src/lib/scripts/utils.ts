@@ -16,6 +16,10 @@ export function formatPlayerTime(time: number) {
         return `${mins}:${lzero(secs)}`
 }
 
+export function formatArtists(artists: Artist[]) {
+        return artists.map(artist => artist?.name ?? "").join(", ")
+}
+
 export function clamp(x: number, min: number, max: number) {
         return Math.min(Math.max(min, x), max)
 }

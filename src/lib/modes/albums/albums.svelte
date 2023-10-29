@@ -13,6 +13,15 @@
 	function showFinder() {
 		hidden = false
 	}
+
+	function openEditor() {
+		$editing = true
+		console.log("EDITOR OPENED")
+	}
+
+	function closeEditor() {
+		$editing = false
+	}
 </script>
 
 <Finder title="Albums">
@@ -22,6 +31,6 @@
 	{#if $editing}
 		...
 	{:else}
-		<AlbumViewer bind:color currentAlbumID={$selectedAlbumID} />
+		<AlbumViewer bind:color currentAlbumID={$selectedAlbumID} on:edit={openEditor} />
 	{/if}
 </Viewer>

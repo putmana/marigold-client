@@ -2,7 +2,7 @@
 	import { fly } from "svelte/transition"
 	import { createEventDispatcher } from "svelte"
 	import { albums, artists, covers, tracks } from "$lib/scripts/stores/LibraryStore"
-	import { formatPlayerTime } from "$lib/scripts/utils"
+	import { formatArtists, formatPlayerTime } from "$lib/scripts/utils"
 	import Scrub from "../scrub/scrub.svelte"
 	import type { RepeatMode } from "$lib/scripts/stores/PlayerStore"
 	import Queue from "$lib/components/queue/queue.svelte"
@@ -24,10 +24,11 @@
 
 	let dispatch = createEventDispatcher()
 
-	$: track = $tracks.get(trackID)
-	$: album = $albums.get(track.albumID)
-	$: artist = $artists.get(album.artistID)
-	$: cover = $covers.get(album.coverID)
+	$: _track = $tracks.get(trackID)
+	$: _album = $albums.get(_track.albumID)
+	$: _cover = $covers.get(_album.coverID)
+	$: _artists = _track.orderedArtists.map((artist) => $artists.get(artist.id))
+
 	$: repeatEnabled = repeatMode === "OFF" ? false : true
 
 	$: s_currentTime = formatPlayerTime(currentTime)
@@ -62,19 +63,19 @@
 	}
 </script>
 
-<div class="wrapper" style={cover.palette} transition:fly={{ duration: 200, y: 300 }}>
+<div class="wrapper" style={_cover.palette} transition:fly={{ duration: 200, y: 300 }}>
 	<button class="btn close-btn" on:click={minimize}>
 		<img class="smaller" src="public/icons/close.svg" alt="Close" />
 	</button>
 	<main class="stage">
 		<section class="cover">
-			<img src={cover.fileLarge} alt={`Cover art for ${album.title}`} />
+			<img src={_cover.fileLarge} alt={`Cover art for ${_album.title}`} />
 		</section>
 		<section class="info">
 			<div class="details">
-				<h1>{track.title}</h1>
+				<h1>{_track.title}</h1>
 
-				<h2>{artist.name}</h2>
+				<h2>{formatArtists(_artists)}</h2>
 			</div>
 			<div class="controls">
 				<div class="scrub">
@@ -82,7 +83,7 @@
 						<p>{formatPlayerTime(currentTime)}</p>
 						<p>{formatPlayerTime(duration)}</p>
 					</div>
-					<Scrub {currentTime} {duration} palette={cover.palette} contained={true} on:scrub />
+					<Scrub {currentTime} {duration} palette={_cover.palette} contained={true} on:scrub />
 				</div>
 				<div class="buttons">
 					<button

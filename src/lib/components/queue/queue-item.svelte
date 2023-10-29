@@ -1,24 +1,25 @@
 <script lang="ts">
 	import { albums, artists, covers, tracks } from "$lib/scripts/stores/LibraryStore"
+	import { formatArtists } from "$lib/scripts/utils"
 
 	export let trackID: string
 
-	$: track = $tracks.get(trackID)
-	$: album = $albums.get(track.albumID)
-	$: artist = $artists.get(album.artistID)
-	$: cover = $covers.get(album.coverID)
+	$: _track = $tracks.get(trackID)
+	$: _album = $albums.get(_track.albumID)
+	$: _cover = $covers.get(_album.coverID)
+	$: _artists = _track.orderedArtists.map((artist) => $artists.get(artist.id))
 </script>
 
 <button class="wrapper">
 	<span class="cover">
-		<img src={cover.fileSmall} alt={`cover for ${track.title}`} />
+		<img src={_cover.fileSmall} alt={`cover for ${_track.title}`} />
 	</span>
 	<span class="info">
 		<h3 class="title">
-			{track.title}
+			{_track.title}
 		</h3>
 		<h4 class="artist">
-			{artist.name}
+			{formatArtists(_artists)}
 		</h4>
 	</span>
 </button>

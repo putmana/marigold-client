@@ -1,19 +1,20 @@
 <script lang="ts">
 	import { albums, artists, covers, tracks } from "$lib/scripts/stores/LibraryStore"
 	import { playerController } from "$lib/scripts/stores/PlayerStore"
+	import { formatArtists } from "$lib/scripts/utils"
 	import { createEventDispatcher } from "svelte"
 
 	const dispatch = createEventDispatcher()
 
-	export let orderedTrack: IndexedTrack
+	export let orderedTrack: OrderedTrack
 	export let showCover = true
 
 	let shiftDown = false
 
-	$: track = $tracks.get(orderedTrack.id)
-	$: album = $albums.get(track.albumID)
-	$: artist = $artists.get(album.artistID)
-	$: cover = $covers.get(album.coverID)
+	$: _track = $tracks.get(orderedTrack.id)
+	$: _album = $albums.get(_track.albumID)
+	$: _cover = $covers.get(_album.coverID)
+	$: _artists = _track.orderedArtists.map((artist) => $artists.get(artist.id))
 
 	function handleKeyDown(e: KeyboardEvent) {
 		if (e.key === "Shift") shiftDown = true
@@ -36,22 +37,22 @@
 	}
 
 	function addTrackToQueue() {
-		playerController.addTracksToQueue([track.id])
+		playerController.addTracksToQueue([_track.id])
 	}
 </script>
 
 <svelte:window on:keydown={handleKeyDown} on:keyup={handleKeyUp} />
 
-<button class="wrapper" style={cover.palette} on:click={handleClick}>
+<button class="wrapper" style={_cover.palette} on:click={handleClick}>
 	<h1 class="index">{orderedTrack.index}</h1>
 	{#if showCover}
 		<span class="cover">
-			<img src={cover.fileSmall} alt={`cover for ${track.title}`} />
+			<img src={_cover.fileSmall} alt={`cover for ${_track.title}`} />
 		</span>
 	{/if}
 	<span class="info">
-		<h3 class="title">{track.title}</h3>
-		<h4 class="artist">{artist.name}</h4>
+		<h3 class="title">{_track.title}</h3>
+		<h4 class="artist">{formatArtists(_artists)}</h4>
 	</span>
 </button>
 

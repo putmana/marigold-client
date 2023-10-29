@@ -2,7 +2,7 @@
 	import { fly } from "svelte/transition"
 	import { createEventDispatcher } from "svelte"
 	import { albums, artists, covers, tracks } from "$lib/scripts/stores/LibraryStore"
-	import { formatPlayerTime } from "$lib/scripts/utils"
+	import { formatArtists, formatPlayerTime } from "$lib/scripts/utils"
 	import Scrub from "../scrub/scrub.svelte"
 	import type { RepeatMode } from "$lib/scripts/stores/PlayerStore"
 	import Queue from "$lib/components/queue/queue.svelte"
@@ -24,10 +24,11 @@
 
 	let dispatch = createEventDispatcher()
 
-	$: track = $tracks.get(trackID)
-	$: album = $albums.get(track?.albumID)
-	$: artist = $artists.get(album?.artistID)
-	$: cover = $covers.get(album?.coverID)
+	$: _track = $tracks.get(trackID)
+	$: _album = $albums.get(_track?.albumID)
+	$: _cover = $covers.get(_album?.coverID)
+	$: _artists = _track.orderedArtists.map((artist) => $artists.get(artist.id))
+
 	$: repeatEnabled = repeatMode === "OFF" ? false : true
 
 	$: s_currentTime = formatPlayerTime(currentTime)
@@ -66,18 +67,18 @@
 	}
 </script>
 
-<footer class="wrapper" style={cover.palette} transition:fly={{ duration: 300, y: 60 }}>
+<footer class="wrapper" style={_cover.palette} transition:fly={{ duration: 300, y: 60 }}>
 	<div class="scrub">
-		<Scrub {currentTime} {duration} palette={cover.palette} on:scrub />
+		<Scrub {currentTime} {duration} palette={_cover.palette} on:scrub />
 	</div>
 	<div class="inner-wrapper">
 		<button class="info" on:click={maximize}>
 			<div class="cover">
-				<img src={cover.fileLarge} alt={`Cover art for ${album.title}`} />
+				<img src={_cover.fileLarge} alt={`Cover art for ${_album.title}`} />
 			</div>
 			<div class="details">
-				<h1 class="title">{track.title}</h1>
-				<h2 class="artist">{artist.name}</h2>
+				<h1 class="title">{_track.title}</h1>
+				<h2 class="artist">{formatArtists(_artists)}</h2>
 			</div>
 		</button>
 		<section class="controls">
@@ -109,7 +110,7 @@
 	</div>
 </footer>
 {#if showQueue}
-	<div class="queuebox" style={cover.palette} transition:fly={{ duration: 300, x: 300 }}>
+	<div class="queuebox" style={_cover.palette} transition:fly={{ duration: 300, x: 300 }}>
 		<div class="inner-wrapper">
 			<Queue />
 		</div>

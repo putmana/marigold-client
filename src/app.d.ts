@@ -23,8 +23,8 @@ declare global {
                 title: string
                 description: string
                 year: string
-                artistID: string
                 coverID: string
+                orderedArtists: OrderedArtist[]
                 orderedTracks: OrderedTrack[]
         }
 
@@ -32,6 +32,7 @@ declare global {
                 id: string
                 name: string
                 albumIDs: string[]
+                trackIDs: string[]
         }
 
         export type Cover = {
@@ -55,11 +56,17 @@ declare global {
                 duration: string
                 file: string
                 albumID: string
+                orderedArtists: OrderedArtist[]
         }
 
-        export type IndexedTrack = {
+        export type OrderedTrack = {
                 id: string
                 index: number
+        }
+
+        export type OrderedArtist = {
+                id: string
+                priority: number
         }
 
         type Library = {

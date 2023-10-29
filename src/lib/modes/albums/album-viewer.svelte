@@ -18,7 +18,15 @@
 </script>
 
 {#if album}
-	<ViewerHeader title={album.title} coverID={album.coverID} description={album.description} />
+	<ViewerHeader
+		title={album.title}
+		coverID={album.coverID}
+		description={""}
+		on:play={() => {
+			startQueue(0)
+		}}
+		on:edit
+	/>
 
 	{#each album.orderedTracks as orderedTrack, index}
 		<ViewerTrack

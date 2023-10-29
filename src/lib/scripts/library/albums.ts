@@ -3,7 +3,7 @@ import { pb } from "$lib/scripts/database/pocketbase"
 import { sortIndexedTracks } from "./utils"
 
 type AlbumMap = Map<string, Album>
-type AlbumData = {
+export type AlbumData = {
         title: string
         description: string
         year: string
@@ -18,7 +18,8 @@ export async function loadAlbums(): Promise<AlbumMap> {
 
 async function fetchAlbums(): Promise<RecordModel[]> {
         const EXPAND = [
-                "tracks(album)"
+                "tracks(album)",
+                "albums_artists(album)",
         ]
 
         const FIELDS = [
@@ -26,8 +27,9 @@ async function fetchAlbums(): Promise<RecordModel[]> {
                 "title",
                 "description",
                 "year",
-                "artist",
                 "cover",
+                "expand.albums_artists(album).artist",
+                "expand.albums_artists(album).priority",
                 "expand.tracks(album).id",
                 "expand.tracks(album).index",
         ]
@@ -55,7 +57,7 @@ async function createAlbum(albumData: AlbumData): Promise<string> {
 }
 
 // Updates the specified album record, then returns the record ID
-async function updateAlbum(albumID: string, albumData: AlbumData): Promise<string> {
+export async function updateAlbum(albumID: string, albumData: AlbumData): Promise<string> {
         await pb.collection('albums').update(albumID, {
                 "title": albumData.title,
                 "artist": albumData.artistID,
@@ -71,14 +73,22 @@ function parseAlbums(records: RecordModel[]): AlbumMap {
         return new Map<string, Album>(
                 records.map((albumRecord: RecordModel) => {
 
-                        const indexedTracks: IndexedTrack[] = albumRecord.expand["tracks(album)"].map((trackRecord: RecordModel) => {
+                        const orderedTracks: OrderedTrack[] = albumRecord.expand["tracks(album)"].map((trackRecord: RecordModel) => {
                                 return {
                                         id: trackRecord.id,
                                         index: trackRecord.index
                                 }
                         })
 
-                        const orderedTracks = sortIndexedTracks(indexedTracks)
+                        const orderedArtists: OrderedArtist[] = albumRecord.expand["albums_artists(album)"].map((relationRecord: RecordModel) => {
+                                return {
+                                        id: relationRecord.artist,
+                                        priority: relationRecord.priority,
+                                }
+                        })
+
+                        orderedArtists.sort((a, b) => a.priority - b.priority)
+                        orderedTracks.sort((a, b) => a.index - b.index)
 
                         return [
                                 albumRecord.id,
@@ -86,9 +96,9 @@ function parseAlbums(records: RecordModel[]): AlbumMap {
                                         id: albumRecord.id,
                                         title: albumRecord.title,
                                         description: albumRecord.description,
-                                        year: albumRecord.description,
-                                        artistID: albumRecord.artist,
+                                        year: albumRecord.year,
                                         coverID: albumRecord.cover,
+                                        orderedArtists: orderedArtists,
                                         orderedTracks: orderedTracks,
                                 }
                         ]

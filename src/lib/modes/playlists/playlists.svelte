@@ -13,6 +13,15 @@
 	function showFinder() {
 		hidden = false
 	}
+
+	function openEditor() {
+		$editing = true
+		console.log("EDITOR OPENED")
+	}
+
+	function closeEditor() {
+		$editing = false
+	}
 </script>
 
 <Finder title="Playlists">
@@ -22,6 +31,6 @@
 	{#if $editing}
 		...
 	{:else}
-		<PlaylistViewer bind:color currentPlaylistID={$selectedPlaylistID} />
+		<PlaylistViewer bind:color currentPlaylistID={$selectedPlaylistID} on:edit={openEditor} />
 	{/if}
 </Viewer>
