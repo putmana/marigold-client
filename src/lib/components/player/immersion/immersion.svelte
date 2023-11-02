@@ -63,7 +63,7 @@
 	}
 </script>
 
-<div class="wrapper" style={_cover.palette} transition:fly={{ duration: 200, y: 300 }}>
+<div class="wrapper" style={_cover.palette.toCSS()} transition:fly={{ duration: 200, y: 300 }}>
 	<button class="btn close-btn" on:click={minimize}>
 		<img class="smaller" src="public/icons/close.svg" alt="Close" />
 	</button>
@@ -125,24 +125,14 @@
 		display: flex;
 
 		@include mixins.desktop-only {
-			background-image: linear-gradient(
-				to right,
-				var(--primary-medium),
-				var(--primary-dark),
-				var(--secondary-dark)
-			);
+			background-image: linear-gradient(to right, var(--primary-medium), var(--secondary-dark));
 		}
 
 		@include mixins.mobile-only {
 			flex-direction: column;
 			overflow-y: scroll;
 			scroll-snap-type: y proximity;
-			background-image: linear-gradient(
-				to bottom,
-				var(--primary-medium),
-				var(--primary-dark),
-				var(--secondary-dark)
-			);
+			background-image: linear-gradient(to bottom, var(--primary-medium), var(--secondary-dark));
 		}
 
 		.stage {
@@ -155,11 +145,10 @@
 			min-height: 100vh;
 
 			.cover {
-				border: 1px solid var(--primary-border);
-				box-shadow: 0px 0px 50px colors.$shadow;
+				box-shadow: 0px 0px 30px colors.$shadow;
 
 				@include mixins.desktop-only {
-					width: 400px;
+					width: 350px;
 				}
 
 				@include mixins.mobile-only {

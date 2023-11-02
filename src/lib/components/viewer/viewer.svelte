@@ -1,6 +1,8 @@
 <script lang="ts">
+	import { Palette } from "$lib/scripts/color-engine/palette"
+
 	export let hidden: boolean
-	export let color: string
+	export let palette: Palette = Palette.gray
 
 	// Hide the finder on mobile displays
 	function hide() {
@@ -8,7 +10,7 @@
 	}
 </script>
 
-<main class="wrapper" class:hidden style={color}>
+<main class="wrapper" class:hidden style={palette.toCSS()}>
 	<section class="topbar">
 		<button class="back-btn" on:click={hide}
 			><img class="icon" alt="back button icon" src={"public/icons/back.svg"} /></button
@@ -74,12 +76,7 @@
 
 	@media (min-width: sizes.$screen-lg) {
 		.wrapper {
-			background-image: linear-gradient(
-				to right,
-				var(--primary-medium),
-				var(--primary-dark),
-				var(--secondary-dark)
-			);
+			background-image: linear-gradient(to right, var(--primary-medium), var(--secondary-dark));
 			flex-grow: 1;
 			border-left: 1px solid var(--primary-border);
 		}

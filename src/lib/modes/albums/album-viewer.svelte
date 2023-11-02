@@ -1,26 +1,28 @@
 <script lang="ts">
-	import { albums, covers } from "$lib/scripts/stores/LibraryStore"
-	import { playerController } from "$lib/scripts/stores/PlayerStore"
-
 	import ViewerHeader from "$lib/components/viewer/viewer-header.svelte"
 	import ViewerTrack from "$lib/components/viewer/viewer-track.svelte"
 
-	export let currentAlbumID: string
-	export let color: string
+	import { albums, covers } from "$lib/scripts/stores/LibraryStore"
+	import { playerController } from "$lib/scripts/stores/PlayerStore"
+	import { Palette } from "$lib/scripts/color-engine/palette"
 
-	$: album = $albums.get(currentAlbumID) ?? undefined
-	$: color = $covers.get(album?.coverID)?.palette ?? ""
+	export let currentAlbumID: string
+	export let palette: Palette
+
+	$: _album = $albums.get(currentAlbumID) ?? undefined
+
+	$: palette = $covers.get(_album?.coverID)?.palette ?? Palette.gray
 
 	function startQueue(index: number) {
-		const trackIDs = album.orderedTracks.map((track) => track.id)
+		const trackIDs = _album.orderedTracks.map((track) => track.id)
 		playerController.startQueue(trackIDs, index)
 	}
 </script>
 
-{#if album}
+{#if _album}
 	<ViewerHeader
-		title={album.title}
-		coverID={album.coverID}
+		title={_album.title}
+		coverID={_album.coverID}
 		description={""}
 		on:play={() => {
 			startQueue(0)
@@ -28,7 +30,7 @@
 		on:edit
 	/>
 
-	{#each album.orderedTracks as orderedTrack, index}
+	{#each _album.orderedTracks as orderedTrack, index}
 		<ViewerTrack
 			{orderedTrack}
 			showCover={false}

@@ -1,10 +1,11 @@
 <script lang="ts">
 	import { createEventDispatcher } from "svelte"
 	import { clamp } from "$lib/scripts/utils"
+	import type { Palette } from "$lib/scripts/color-engine/palette"
 
 	export let duration: number
 	export let currentTime: number
-	export let palette: string
+	export let palette: Palette
 	export let contained = false
 	export let progress = 0
 	export let scrubPercent = 0
@@ -81,7 +82,7 @@
 	on:touchmove={handleTouchMove}
 />
 
-<div class="wrapper" class:contained style={`--scrub-position: ${progress}%; ${palette}`}>
+<div class="wrapper" class:contained style={`--scrub-position: ${progress}%; ${palette.toCSS()}`}>
 	<div
 		class="hitbox"
 		bind:this={hitbox}

@@ -1,5 +1,7 @@
+import { Palette } from "../color-engine/palette"
 import { RGB_to_OKLCH, OKLCH_to_RGB } from "../color-engine/oklab"
 import { getQuantizedColors } from "./median-cut"
+import { Color } from "../color-engine/color"
 
 async function loadImage(url: string): Promise<HTMLImageElement> {
         return new Promise((resolve, reject) => {
@@ -38,7 +40,7 @@ export async function resizeImage(img: HTMLImageElement, width: number, height: 
 
 const SAMPLE_RATE = 1
 const IMAGE_SIZE = 200
-export async function getPalette(imgURL: string) {
+export async function getPalette(imgURL: string): Promise<Palette> {
         const img = await loadImage(imgURL)
 
         const canvas = new OffscreenCanvas(IMAGE_SIZE, IMAGE_SIZE)
@@ -65,7 +67,7 @@ export async function getPalette(imgURL: string) {
         return getDominantColors(pixels)
 }
 
-function getDominantColors(pixels: number[][]) {
+function getPrimaryColor(pixels: number[][]): Color {
         const colors = getQuantizedColors(pixels, 1)
                 .map(c => RGB_to_OKLCH({
                         R: c[0],
@@ -73,7 +75,22 @@ function getDominantColors(pixels: number[][]) {
                         B: c[2],
                 }))
                 .sort((a, b) => a.L - b.L)
+                .reverse()
                 .map(c => OKLCH_to_RGB(c))
 
-        return colors
+        return Color.fromRGB(colors[0])
+}
+
+function getDominantColors(pixels: number[][]): Palette {
+        const colors = getQuantizedColors(pixels, 1)
+                .map(c => RGB_to_OKLCH({
+                        R: c[0],
+                        G: c[1],
+                        B: c[2],
+                }))
+                .sort((a, b) => a.L - b.L)
+                .reverse()
+                .map(c => OKLCH_to_RGB(c))
+
+        return Palette.fromRGB(colors[0], colors[1])
 }

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { getPalette, resizeImage } from "$lib/scripts/image-palette/image-palette"
+	import { getPalette } from "$lib/scripts/image-palette/image-palette"
 	import { onMount } from "svelte"
 
 	let colors = []

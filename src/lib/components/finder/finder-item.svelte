@@ -19,7 +19,7 @@
 	}
 </script>
 
-<button class="wrapper" class:selected on:click={selectItem} style={cover.palette}>
+<button class="wrapper" class:selected on:click={selectItem} style={cover.palette.toCSS()}>
 	<span class="cover">
 		<img src={cover.fileSmall} alt={`Cover for ${title}`} />
 	</span>

@@ -1,13 +1,9 @@
 <script lang="ts">
 	import { tracks } from "$lib/scripts/stores/LibraryStore"
 	import {
-		atQueueEnd,
-		atQueueStart,
 		currentTrack,
 		initialized,
-		nextTracks,
 		playerController,
-		prevTracks,
 		queueRepeatMode,
 		queueSessionKey,
 		queueShuffleEnabled
@@ -82,7 +78,7 @@
 		playerController.toggleRepeat()
 	}
 
-	function scrub(e) {
+	function scrub(e: CustomEvent) {
 		currentTime = e.detail.time
 	}
 

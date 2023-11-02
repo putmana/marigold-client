@@ -1,34 +1,35 @@
 <script lang="ts">
-	import { playlists, covers } from "$lib/scripts/stores/LibraryStore"
-	import { playerController } from "$lib/scripts/stores/PlayerStore"
-
 	import ViewerHeader from "$lib/components/viewer/viewer-header.svelte"
 	import ViewerTrack from "$lib/components/viewer/viewer-track.svelte"
 
-	export let currentPlaylistID: string
-	export let color: string
+	import { playlists, covers } from "$lib/scripts/stores/LibraryStore"
+	import { playerController } from "$lib/scripts/stores/PlayerStore"
+	import { Palette } from "$lib/scripts/color-engine/palette"
 
-	$: playlist = $playlists.get(currentPlaylistID) ?? undefined
-	$: color = $covers.get(playlist?.coverID)?.palette ?? ""
+	export let currentPlaylistID: string
+	export let palette: Palette
+
+	$: _playlist = $playlists.get(currentPlaylistID) ?? undefined
+	$: palette = $covers.get(_playlist?.coverID)?.palette ?? Palette.gray
 
 	function startQueue(index: number) {
-		const trackIDs = playlist.orderedTracks.map((track) => track.id)
+		const trackIDs = _playlist.orderedTracks.map((track) => track.id)
 		playerController.startQueue(trackIDs, index)
 	}
 </script>
 
-{#if playlist}
+{#if _playlist}
 	<ViewerHeader
-		title={playlist.title}
-		coverID={playlist.coverID}
-		description={playlist.description}
+		title={_playlist.title}
+		coverID={_playlist.coverID}
+		description={_playlist.description}
 		on:play={() => {
 			startQueue(0)
 		}}
 		on:edit
 	/>
 
-	{#each playlist.orderedTracks as orderedTrack, index}
+	{#each _playlist.orderedTracks as orderedTrack, index}
 		<ViewerTrack
 			{orderedTrack}
 			on:play={() => {

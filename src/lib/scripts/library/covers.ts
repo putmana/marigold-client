@@ -1,15 +1,22 @@
 import type { RecordModel } from "pocketbase"
 import { getThumbURL, pb } from "$lib/scripts/database/pocketbase"
-import { type Colorset, buildPalette } from "$lib/scripts/color-engine/color-engine"
-import { generateDatabaseColors, parseDatabaseColors } from "../color-engine/database"
+import { Palette } from "../color-engine/palette"
 
 // Sizes of cover art thumbnails
 const THUMB_SIZE_LARGE = 500
 const THUMB_SIZE_SMALL = 100
 
 type CoverMap = Map<string, Cover>
-type CoverData = {
-        color: Colorset
+
+interface ICreateCovor {
+        palette: Palette
+        file: File
+}
+
+interface IUpdateCovor {
+        id: string
+        palette?: Palette
+        file?: File
 }
 
 export async function loadCovers(): Promise<CoverMap> {
@@ -32,16 +39,32 @@ async function fetchCovers(): Promise<RecordModel[]> {
         return records
 }
 
-export async function createCover(coverData: CoverData, file: File) {
-
+export async function createCover(coverData: ICreateCovor): Promise<string> {
         // Create a FormData object and append the necessary fields
         const formData = new FormData()
-        formData.append('file', file)
-        formData.append('color', generateDatabaseColors(coverData.color))
+
+        formData.append('file', coverData.file)
+        formData.append('user', pb.authStore.model.id)
+        formData.append('color', coverData.palette.toString())
 
         // Create the cover object
-        await pb.collection('covers').create(formData)
+        const record = await pb.collection('covers').create(formData)
 
+        return record.id
+
+}
+
+export async function updateCover(coverData: IUpdateCovor): Promise<string> {
+        const formData = new FormData()
+
+        if (coverData.file) formData.append('file', coverData.file)
+        if (coverData.palette) formData.append('color', coverData.palette.toString())
+
+        console.log(coverData)
+
+        const record = await pb.collection('covers').update(coverData.id, formData)
+
+        return record.id
 }
 
 function parseCovers(records: RecordModel[], fileToken: string): CoverMap {
@@ -49,9 +72,7 @@ function parseCovers(records: RecordModel[], fileToken: string): CoverMap {
                 records.map((coverRecord: RecordModel) => {
                         const fileLarge = getThumbURL("covers", coverRecord.id, coverRecord.file, fileToken, THUMB_SIZE_LARGE)
                         const fileSmall = getThumbURL("covers", coverRecord.id, coverRecord.file, fileToken, THUMB_SIZE_SMALL)
-
-                        const colors = parseDatabaseColors(coverRecord.color)
-                        const palette = buildPalette(colors)
+                        const palette = Palette.parsePaletteString(coverRecord.color)
 
                         return [
                                 coverRecord.id,

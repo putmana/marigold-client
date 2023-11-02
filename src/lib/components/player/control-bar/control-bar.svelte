@@ -67,7 +67,7 @@
 	}
 </script>
 
-<footer class="wrapper" style={_cover.palette} transition:fly={{ duration: 300, y: 60 }}>
+<footer class="wrapper" style={_cover.palette.toCSS()} transition:fly={{ duration: 300, y: 60 }}>
 	<div class="scrub">
 		<Scrub {currentTime} {duration} palette={_cover.palette} on:scrub />
 	</div>
@@ -110,7 +110,7 @@
 	</div>
 </footer>
 {#if showQueue}
-	<div class="queuebox" style={_cover.palette} transition:fly={{ duration: 300, x: 300 }}>
+	<div class="queuebox" style={_cover.palette.toCSS()} transition:fly={{ duration: 300, x: 300 }}>
 		<div class="inner-wrapper">
 			<Queue />
 		</div>
@@ -126,13 +126,8 @@
 
 		@include mixins.desktop-only {
 			inset: auto 0px 0px 0px;
-			background-image: linear-gradient(
-				to left,
-				var(--primary-medium),
-				var(--primary-dark),
-				var(--secondary-dark)
-			);
-			box-shadow: 0px 0px 50px colors.$shadow;
+			background-image: linear-gradient(to left, var(--primary-medium), var(--secondary-dark));
+			box-shadow: 0px 0px 30px colors.$shadow;
 		}
 
 		@include mixins.mobile-only {
@@ -282,12 +277,7 @@
 	.queuebox {
 		position: fixed;
 		inset: auto 10px 75px auto;
-		background-image: linear-gradient(
-			to left,
-			var(--primary-medium),
-			var(--primary-dark),
-			var(--secondary-dark)
-		);
+		background-image: linear-gradient(to left, var(--primary-medium), var(--secondary-dark));
 		background-size: 100vw;
 		background-position: right;
 		box-shadow: 0px 0px 50px colors.$shadow;

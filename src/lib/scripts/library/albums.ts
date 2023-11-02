@@ -1,6 +1,5 @@
 import type { RecordModel } from "pocketbase"
 import { pb } from "$lib/scripts/database/pocketbase"
-import { sortIndexedTracks } from "./utils"
 
 type AlbumMap = Map<string, Album>
 export type AlbumData = {

@@ -19,7 +19,7 @@
 	}
 </script>
 
-<header class="wrapper" style={cover.palette}>
+<header class="wrapper" style={cover.palette.toCSS()}>
 	<section class="info">
 		<h1 class="title">{title}</h1>
 		<p class="description">{description}</p>
@@ -90,10 +90,9 @@
 		flex-grow: 1;
 		justify-content: center;
 		.img-wrapper {
-			border: 1px solid var(--secondary-border);
 			max-width: 200px;
 			max-height: 200px;
-			box-shadow: 0px 0px 10px colors.$shadow;
+			box-shadow: 0px 0px 30px colors.$shadow;
 			img {
 				width: 100%;
 				height: 100%;

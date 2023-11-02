@@ -6,7 +6,7 @@
 	import Playlists from "$lib/modes/playlists/playlists.svelte"
 	import Player from "$lib/components/player/player.svelte"
 
-	import { user } from "$lib/scripts/database/pocketbase"
+	import { pb, user } from "$lib/scripts/database/pocketbase"
 	import { mode } from "$lib/scripts/stores/ModeStore"
 	import { library } from "$lib/scripts/stores/LibraryStore"
 

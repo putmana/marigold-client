@@ -1,9 +1,9 @@
 <script lang="ts">
-	import { getRandomPalette } from "$lib/scripts/color-engine/color-engine"
+	import { Palette } from "$lib/scripts/color-engine/palette"
 	import AuthLogin from "./auth-login.svelte"
 	import AuthRegister from "./auth-register.svelte"
 
-	const palette = getRandomPalette()
+	const palette = Palette.random()
 
 	let registerMode = false
 
@@ -16,7 +16,7 @@
 	}
 </script>
 
-<main class="wrapper" style={palette}>
+<main class="wrapper" style={palette.toCSS()}>
 	<img class="logo" src="public/images/logo.png" alt="Marigold logo" />
 	{#if registerMode}
 		<AuthRegister on:showlogin={showLogin} />

@@ -1,3 +1,5 @@
+import type { Colorset } from "$lib/scripts/color-engine/color-engine"
+
 declare global {
 
         namespace app {
@@ -28,6 +30,14 @@ declare global {
                 orderedTracks: OrderedTrack[]
         }
 
+        export type AlbumData = {
+                title: string
+                description: string
+                year: string
+                orderedArtists: OrderedArtist[]
+                orderedTracks: OrderedTrack[]
+        }
+
         export type Artist = {
                 id: string
                 name: string
@@ -37,7 +47,7 @@ declare global {
 
         export type Cover = {
                 id: string
-                palette: string
+                palette: Colorset
                 fileLarge: string
                 fileSmall: string
         }

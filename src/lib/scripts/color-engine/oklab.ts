@@ -1,4 +1,4 @@
-import type { RGB, LAB, LCH } from "./types"
+import type { RGB, LAB, LCH } from "./color-engine"
 import { crushRGB, inflateRGB } from "./utils"
 
 export function RGB_to_OKLCH(c: RGB): LCH {
