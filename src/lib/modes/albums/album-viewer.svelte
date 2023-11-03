@@ -9,9 +9,10 @@
 	export let currentAlbumID: string
 	export let palette: Palette
 
-	$: _album = $albums.get(currentAlbumID) ?? undefined
+	$: _album = $albums.get(currentAlbumID)
+	$: _cover = $covers.get(_album?.coverID)
 
-	$: palette = $covers.get(_album?.coverID)?.palette ?? Palette.gray
+	$: palette = Palette.parse(_cover?.palette)
 
 	function startQueue(index: number) {
 		const trackIDs = _album.orderedTracks.map((track) => track.id)

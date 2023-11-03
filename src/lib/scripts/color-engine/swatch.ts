@@ -24,7 +24,7 @@ export const secondarySwatches: Swatch[] = [
         { lmin: 0.75, lmax: 0.75, chroma: 0.06, opacity: 1.0, name: "secondary-verylight", },
         { lmin: 0.55, lmax: 0.60, chroma: 0.06, opacity: 1.0, name: "secondary-light", },
         { lmin: 0.40, lmax: 0.40, chroma: 0.06, opacity: 1.0, name: "secondary-medium", },
-        { lmin: 0.25, lmax: 0.35, chroma: 0.06, opacity: 1.0, name: "secondary-dark", },
+        { lmin: 0.30, lmax: 0.35, chroma: 0.06, opacity: 1.0, name: "secondary-dark", },
         { lmin: 0.10, lmax: 0.25, chroma: 0.06, opacity: 1.0, name: "secondary-verydark", },
         { lmin: 0.50, lmax: 0.65, chroma: 0.06, opacity: 0.7, name: "secondary-border", },
 ]

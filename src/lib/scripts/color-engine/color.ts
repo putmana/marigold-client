@@ -1,6 +1,6 @@
 import { clamp, randomInteger } from "../utils"
 import type { LCH, RGB } from "./color-engine"
-import { OKLCH_to_RGB, RGB_to_OKLCH } from "./oklab"
+import { HEX_to_OKLCH, OKLCH_to_HEX, OKLCH_to_RGB, RGB_to_OKLCH } from "./oklab"
 import type { Swatch } from "./swatch"
 
 export class Color {
@@ -12,6 +12,18 @@ export class Color {
 
         get RGB(): RGB {
                 return OKLCH_to_RGB(this.LCH)
+        }
+
+        set RGB(rgb: RGB) {
+                this.LCH = RGB_to_OKLCH(rgb)
+        }
+
+        get HEX(): string {
+                return OKLCH_to_HEX(this.LCH)
+        }
+
+        set HEX(hex: string): string {
+                this.LCH = HEX_to_OKLCH(hex)
         }
 
         // See swatch.ts for details on how swatches work

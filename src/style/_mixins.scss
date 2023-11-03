@@ -30,6 +30,22 @@
 	}
 }
 
+@mixin clickable-solid {
+	@include interactive;
+	@include animate;
+
+	padding: 5px;
+	background-color: colors.$border;
+	border: 1px solid colors.$border;
+	cursor: pointer;
+
+	&:hover {
+		background-color: colors.$hover;
+		border-color: colors.$border-hover;
+	}
+	
+}
+
 @mixin button {
 	@include clickable;
 	color: white;

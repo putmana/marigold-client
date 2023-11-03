@@ -72,7 +72,7 @@ function parseCovers(records: RecordModel[], fileToken: string): CoverMap {
                 records.map((coverRecord: RecordModel) => {
                         const fileLarge = getThumbURL("covers", coverRecord.id, coverRecord.file, fileToken, THUMB_SIZE_LARGE)
                         const fileSmall = getThumbURL("covers", coverRecord.id, coverRecord.file, fileToken, THUMB_SIZE_SMALL)
-                        const palette = Palette.parsePaletteString(coverRecord.color)
+                        const palette = coverRecord.color
 
                         return [
                                 coverRecord.id,

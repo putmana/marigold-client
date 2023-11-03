@@ -36,15 +36,17 @@ export class Palette {
                 return new Palette(Color.fromRGB(primary), Color.fromRGB(secondary))
         }
 
-        static parsePaletteString(paletteString: string): Palette {
+        static parse(string: string | undefined): Palette {
+                if (!string) return this.gray
+
                 try {
-                        const colors: Color[] = paletteString
+                        const colors: Color[] = string
                                 .split("&")
                                 .map(c => Color.parseColorString(c))
 
                         return new Palette(colors[0], colors[1])
                 } catch {
-                        console.error(`Failed to parse color palette string: ${paletteString}`)
+                        console.error(`Failed to parse color palette string: ${string}`)
 
                         return this.gray
                 }

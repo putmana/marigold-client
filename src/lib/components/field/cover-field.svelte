@@ -2,9 +2,10 @@
 	import { updateCover } from "$lib/scripts/library/covers"
 	import { covers } from "$lib/scripts/stores/LibraryStore"
 	import { Palette } from "$lib/scripts/color-engine/palette"
-
-	import ImageInput from "../image-input/image-input.svelte"
 	import { getPalette } from "$lib/scripts/image-palette/image-palette"
+
+	import ImageInput from "../input/image-input.svelte"
+	import PaletteInput from "../input/palette-input.svelte"
 
 	export let currentCoverID: string = ""
 
@@ -20,13 +21,17 @@
 
 		_id = _cover?.id ?? ""
 		_src = _cover?.fileLarge ?? ""
-		_palette = _cover?.palette ?? Palette.gray
+		_palette = Palette.parse(_cover?.palette)
 		_file = undefined
 	}
 
 	async function handleImageChange(e: CustomEvent) {
 		_src = e.detail.url
 		_file = e.detail.file
+		await autoPickPalette()
+	}
+
+	async function autoPickPalette() {
 		_palette = await getPalette(_src)
 	}
 
@@ -41,28 +46,16 @@
 	}
 </script>
 
-<ImageInput id="cover" src={_src} label="Cover" on:change={handleImageChange} required />
-
-<div class="palette" style={_palette.toCSS()}>
-	<span class="p" />
-	<span class="s" />
+<div class="wrapper">
+	<ImageInput id="cover" src={_src} label="Cover" on:change={handleImageChange} required />
+	<PaletteInput bind:palette={_palette} on:autopick={autoPickPalette} />
 </div>
 
 <style lang="scss">
-	.palette {
+	.wrapper {
 		display: flex;
-		width: 500px;
-		height: 40px;
-		background-image: linear-gradient(to right, var(--primary-medium), var(--secondary-dark));
-		span {
-			height: 20px;
-			flex-grow: 1;
-		}
-		.p {
-			background-color: var(--primary-initial);
-		}
-		.s {
-			background-color: var(--secondary-initial);
-		}
+		flex-direction: column;
+		align-items: center;
+		gap: 10px;
 	}
 </style>

@@ -1,12 +1,22 @@
 import type { RGB, LAB, LCH } from "./color-engine"
 import { crushRGB, inflateRGB } from "./utils"
 
+const BLACK: RGB = { R: 0, G: 0, B: 0 }
+
 export function RGB_to_OKLCH(c: RGB): LCH {
         return OKLAB_to_OKLCH(RGB_to_OKLAB(c))
 }
 
 export function OKLCH_to_RGB(c: LCH): RGB {
         return OKLAB_to_RGB(OKLCH_to_OKLAB(c))
+}
+
+export function HEX_to_OKLCH(c: string): LCH {
+        return RGB_to_OKLCH(HEX_to_RGB(c))
+}
+
+export function OKLCH_to_HEX(c: LCH): string {
+        return RGB_to_HEX(OKLCH_to_RGB(c))
 }
 
 export function RGB_to_OKLAB(c: RGB): LAB {
@@ -59,6 +69,36 @@ export function OKLCH_to_OKLAB(c: LCH): LAB {
                 A: c.C * Math.cos((c.H - 180) * Math.PI / 180),
                 B: c.C * Math.sin((c.H - 180) * Math.PI / 180),
         }
+}
+
+export function HEX_to_RGB(c: string): RGB {
+
+        try {
+                c = c.replace("#", "")
+
+                const R = parseInt(c.substring(0, 2), 16)
+                const G = parseInt(c.substring(2, 4), 16)
+                const B = parseInt(c.substring(4, 6), 16)
+
+                return { R, G, B }
+
+        } catch {
+                console.error(`Failed to parse hex color: "${c}"`)
+
+                return BLACK
+        }
+}
+
+export function RGB_to_HEX(c: RGB): string {
+        let R = c.R.toString(16)
+        let G = c.G.toString(16)
+        let B = c.B.toString(16)
+
+        R = R.length === 1 ? `0${R}` : R
+        G = G.length === 1 ? `0${G}` : G
+        B = B.length === 1 ? `0${B}` : B
+
+        return `#${R}${G}${B}`.toUpperCase()
 }
 
 function linearizeRGB(c: RGB): RGB {

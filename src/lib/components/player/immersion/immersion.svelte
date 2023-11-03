@@ -6,6 +6,7 @@
 	import Scrub from "../scrub/scrub.svelte"
 	import type { RepeatMode } from "$lib/scripts/stores/PlayerStore"
 	import Queue from "$lib/components/queue/queue.svelte"
+	import { Palette } from "$lib/scripts/color-engine/palette"
 
 	const ICON_PLAY = "public/icons/play.svg"
 	const ICON_PAUSE = "public/icons/pause.svg"
@@ -28,6 +29,8 @@
 	$: _album = $albums.get(_track.albumID)
 	$: _cover = $covers.get(_album.coverID)
 	$: _artists = _track.orderedArtists.map((artist) => $artists.get(artist.id))
+
+	$: palette = Palette.parse(_cover.palette)
 
 	$: repeatEnabled = repeatMode === "OFF" ? false : true
 
@@ -63,7 +66,7 @@
 	}
 </script>
 
-<div class="wrapper" style={_cover.palette.toCSS()} transition:fly={{ duration: 200, y: 300 }}>
+<div class="wrapper" style={palette.toCSS()} transition:fly={{ duration: 200, y: 300 }}>
 	<button class="btn close-btn" on:click={minimize}>
 		<img class="smaller" src="public/icons/close.svg" alt="Close" />
 	</button>
@@ -83,7 +86,7 @@
 						<p>{formatPlayerTime(currentTime)}</p>
 						<p>{formatPlayerTime(duration)}</p>
 					</div>
-					<Scrub {currentTime} {duration} palette={_cover.palette} contained={true} on:scrub />
+					<Scrub {currentTime} {duration} {palette} contained={true} on:scrub />
 				</div>
 				<div class="buttons">
 					<button

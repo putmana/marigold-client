@@ -8,7 +8,6 @@
 	import { library, selectedAlbumID } from "$lib/scripts/stores/LibraryStore"
 	import { editing } from "$lib/scripts/stores/EditStore"
 	import { Palette } from "$lib/scripts/color-engine/palette"
-	import { pb } from "$lib/scripts/database/pocketbase"
 
 	let hidden = true
 	let palette: Palette = Palette.gray

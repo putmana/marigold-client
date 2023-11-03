@@ -6,6 +6,7 @@
 	import Scrub from "../scrub/scrub.svelte"
 	import type { RepeatMode } from "$lib/scripts/stores/PlayerStore"
 	import Queue from "$lib/components/queue/queue.svelte"
+	import { Palette } from "$lib/scripts/color-engine/palette"
 
 	const ICON_PLAY = "public/icons/play.svg"
 	const ICON_PAUSE = "public/icons/pause.svg"
@@ -28,6 +29,8 @@
 	$: _album = $albums.get(_track?.albumID)
 	$: _cover = $covers.get(_album?.coverID)
 	$: _artists = _track.orderedArtists.map((artist) => $artists.get(artist.id))
+
+	$: palette = Palette.parse(_cover?.palette)
 
 	$: repeatEnabled = repeatMode === "OFF" ? false : true
 
@@ -67,9 +70,9 @@
 	}
 </script>
 
-<footer class="wrapper" style={_cover.palette.toCSS()} transition:fly={{ duration: 300, y: 60 }}>
+<footer class="wrapper" style={palette.toCSS()} transition:fly={{ duration: 300, y: 60 }}>
 	<div class="scrub">
-		<Scrub {currentTime} {duration} palette={_cover.palette} on:scrub />
+		<Scrub {currentTime} {duration} {palette} on:scrub />
 	</div>
 	<div class="inner-wrapper">
 		<button class="info" on:click={maximize}>
@@ -110,7 +113,7 @@
 	</div>
 </footer>
 {#if showQueue}
-	<div class="queuebox" style={_cover.palette.toCSS()} transition:fly={{ duration: 300, x: 300 }}>
+	<div class="queuebox" style={palette.toCSS()} transition:fly={{ duration: 300, x: 300 }}>
 		<div class="inner-wrapper">
 			<Queue />
 		</div>

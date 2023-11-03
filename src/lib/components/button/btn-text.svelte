@@ -1,8 +1,9 @@
 <script lang="ts">
 	export let label = "Button"
+	export let smaller = false
 </script>
 
-<button class="btn" on:click>
+<button class="btn" class:smaller on:click>
 	{label}
 </button>
 
@@ -10,5 +11,9 @@
 	@use "src/style/mixins";
 	.btn {
 		@include mixins.button;
+		&.smaller {
+			padding: 8px;
+			font-size: x-small;
+		}
 	}
 </style>

@@ -1,6 +1,7 @@
 <script lang="ts">
 	import BtnText from "$lib/components/button/btn-text.svelte"
-	import EditorCover from "$lib/components/editor/editor-cover.svelte"
+	import CoverField from "$lib/components/field/cover-field.svelte"
+
 	import { Palette } from "$lib/scripts/color-engine/palette"
 	import { albums, covers, library } from "$lib/scripts/stores/LibraryStore"
 
@@ -8,10 +9,11 @@
 	export let palette: Palette
 
 	$: _album = $albums.get(currentAlbumID)
+	$: _cover = $covers.get(_album?.coverID)
 
-	$: palette = $covers.get(_album?.coverID)?.palette ?? Palette.gray
+	$: palette = Palette.parse(_cover?.palette)
 
-	let coverField: EditorCover
+	let coverField: CoverField
 
 	async function submit() {
 		await saveAll()
@@ -25,7 +27,7 @@
 
 {#if _album}
 	<div class="wrapper">
-		<EditorCover bind:this={coverField} currentCoverID={_album.coverID} />
+		<CoverField bind:this={coverField} currentCoverID={_album.coverID} />
 		<BtnText label="Save" on:click={submit} />
 	</div>
 {/if}
