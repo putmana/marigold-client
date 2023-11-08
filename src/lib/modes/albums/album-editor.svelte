@@ -25,7 +25,7 @@
 
 	function resetFields(albumID: string) {
 		const _album = $albums.get(albumID)
-		const _cover = $covers.get(_album.coverID)
+		const _cover = $covers.get(_album?.coverID)
 
 		_id = _album?.id ?? ""
 		_title = _album?.title ?? ""
@@ -77,10 +77,14 @@
 		display: flex;
 		box-sizing: border-box;
 		border-bottom: 1px solid colors.$border;
-		margin-bottom: 10px;
+
+		@include mixins.mobile-only {
+			flex-direction: column-reverse;
+			gap: 20px;
+			padding: 20px;
+		}
 
 		@include mixins.desktop-only {
-			flex-direction: row;
 			justify-content: center;
 			padding: 60px;
 			gap: 60px;
@@ -91,7 +95,7 @@
 			display: flex;
 			flex-direction: column;
 			flex-grow: 1;
-			gap: 8px;
+			gap: 15px;
 			justify-content: center;
 
 			.btns {

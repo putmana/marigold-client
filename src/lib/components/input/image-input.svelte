@@ -65,8 +65,8 @@
 			@include mixins.clickable-solid;
 
 			@include mixins.desktop-only {
-				width: 200px;
-				height: 200px;
+				width: 210px;
+				height: 210px;
 			}
 
 			@include mixins.mobile-only {
