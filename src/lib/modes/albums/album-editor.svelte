@@ -56,8 +56,8 @@
 			<Textbox id="{_id}_artists" bind:value={_artists} label="Artists" />
 
 			<div class="btns">
-				<BtnText label="Cancel" on:click={close} />
 				<BtnText label="Save" on:click={submit} />
+				<BtnText label="Cancel" on:click={close} />
 			</div>
 		</section>
 		<section class="cover">
