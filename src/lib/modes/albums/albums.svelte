@@ -5,12 +5,21 @@
 	import AlbumViewer from "./album-viewer.svelte"
 	import AlbumEditor from "./album-editor.svelte"
 
-	import { library, selectedAlbumID } from "$lib/scripts/stores/LibraryStore"
+	import { albums, covers, selectedAlbumID } from "$lib/scripts/stores/LibraryStore"
 	import { editing } from "$lib/scripts/stores/EditStore"
 	import { Palette } from "$lib/scripts/color-engine/palette"
 
 	let hidden = true
-	let palette: Palette = Palette.gray
+	let palette = Palette.gray
+
+	$: palette = loadPalette($selectedAlbumID)
+
+	function loadPalette(albumID: string) {
+		const _album = $albums.get(albumID)
+		const _cover = $covers.get(_album?.coverID)
+
+		return Palette.parse(_cover?.palette)
+	}
 
 	function showFinder() {
 		hidden = false
@@ -31,8 +40,8 @@
 </Finder>
 <Viewer bind:hidden {palette}>
 	{#if $editing}
-		<AlbumEditor bind:palette currentAlbumID={$selectedAlbumID} />
+		<AlbumEditor currentAlbumID={$selectedAlbumID} on:close={closeEditor} />
 	{:else}
-		<AlbumViewer bind:palette currentAlbumID={$selectedAlbumID} on:edit={openEditor} />
+		<AlbumViewer currentAlbumID={$selectedAlbumID} on:edit={openEditor} />
 	{/if}
 </Viewer>

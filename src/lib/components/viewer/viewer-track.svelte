@@ -1,23 +1,22 @@
 <script lang="ts">
 	import { Palette } from "$lib/scripts/color-engine/palette"
-	import { albums, artists, covers, tracks } from "$lib/scripts/stores/LibraryStore"
+	import { albums, covers, tracks } from "$lib/scripts/stores/LibraryStore"
 	import { playerController } from "$lib/scripts/stores/PlayerStore"
-	import { formatArtists } from "$lib/scripts/utils"
 	import { createEventDispatcher } from "svelte"
 
 	const dispatch = createEventDispatcher()
 
-	export let orderedTrack: OrderedTrack
+	export let trackID: string
+	export let index: number
 	export let showCover = true
 
 	let shiftDown = false
 
-	$: _track = $tracks.get(orderedTrack.id)
-	$: _album = $albums.get(_track.albumID)
-	$: _cover = $covers.get(_album.coverID)
-	$: _artists = _track.orderedArtists.map((artist) => $artists.get(artist.id))
+	$: _track = $tracks.get(trackID)
+	$: _album = $albums.get(_track?.albumID)
+	$: _cover = $covers.get(_album?.coverID)
 
-	$: palette = Palette.parse(_cover.palette)
+	$: palette = Palette.parse(_cover?.palette)
 
 	function handleKeyDown(e: KeyboardEvent) {
 		if (e.key === "Shift") shiftDown = true
@@ -46,18 +45,20 @@
 
 <svelte:window on:keydown={handleKeyDown} on:keyup={handleKeyUp} />
 
-<button class="wrapper" style={palette.toCSS()} on:click={handleClick}>
-	<h1 class="index">{orderedTrack.index}</h1>
-	{#if showCover}
-		<span class="cover">
-			<img src={_cover.fileSmall} alt={`cover for ${_track.title}`} />
+{#if _track}
+	<button class="wrapper" style={palette.toCSS()} on:click={handleClick}>
+		<h1 class="index">{index + 1}</h1>
+		{#if showCover}
+			<span class="cover">
+				<img src={_cover?.fileSmall} alt={`cover for ${_track.title}`} />
+			</span>
+		{/if}
+		<span class="info">
+			<h3 class="title">{_track.title}</h3>
+			<h4 class="artist">{_track.artists}</h4>
 		</span>
-	{/if}
-	<span class="info">
-		<h3 class="title">{_track.title}</h3>
-		<h4 class="artist">{formatArtists(_artists)}</h4>
-	</span>
-</button>
+	</button>
+{/if}
 
 <style lang="scss">
 	@use "/src/style/sizes";

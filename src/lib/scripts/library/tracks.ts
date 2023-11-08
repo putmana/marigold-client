@@ -2,14 +2,17 @@ import type { RecordModel } from "pocketbase"
 import { getFileURL, pb } from "$lib/scripts/database/pocketbase"
 
 type TrackMap = Map<string, Track>
-type TrackData = {
-        title: string,
-        albumID: string,
-        duration: string,
-        userID: string,
-        featuring: string,
-        index: number,
-        orderedArtists: OrderedArtist[],
+
+export interface ITrackData {
+        action: "CREATE" | "UPDATE" | "DELETE"
+        id: string
+        title: string
+        artists: string
+        albumID: string
+        duration: number
+        index: number
+        src: string
+        file?: File
 }
 
 export async function loadTracks(): Promise<TrackMap> {
@@ -19,22 +22,16 @@ export async function loadTracks(): Promise<TrackMap> {
 }
 
 export async function fetchTracks(): Promise<RecordModel[]> {
-        const EXPAND = [
-                "artists_tracks(track)",
-        ]
-
         const FIELDS = [
                 "id",
                 "title",
+                "artists",
                 "duration",
                 "file",
                 "album",
-                "expand.artists_tracks(track).artist",
-                "expand.artists_tracks(track).priority",
         ]
 
         const records = await pb.collection('tracks').getFullList({
-                expand: EXPAND.toString(),
                 fields: FIELDS.toString(),
         })
 
@@ -42,47 +39,41 @@ export async function fetchTracks(): Promise<RecordModel[]> {
 }
 
 // Creates a new track record, then returns the record ID
-async function createTrack(trackData: TrackData, file: File) {
-
-        // Create a FormData object and append the necessary fields
+export async function createTrack(trackData: ITrackData) {
         const formData = new FormData()
+
         formData.append("title", trackData.title)
+        formData.append("artists", trackData.artists)
         formData.append("album", trackData.albumID)
-        formData.append("duration", trackData.duration)
+        formData.append("duration", trackData.duration.toString())
         formData.append("user", pb.authStore.model.id)
-        formData.append("featuring", trackData.featuring)
         formData.append("index", trackData.index.toString())
-        formData.append("file", file)
+        formData.append("file", trackData.file)
 
-        // Create the track object
-        const newTrack = await pb.collection('tracks').create(formData)
+        const record = await pb.collection('tracks').create(formData)
 
-        return newTrack.id
+        return record.id
 }
 
 
 // Updates the specified track record, then returns the record ID
-async function updateTrack(trackID: string, trackData: TrackData) {
-        await pb.collection('tracks').update(trackID, {
+export async function updateTrack(trackData: ITrackData) {
+        const record = await pb.collection('tracks').update(trackData.id, {
                 "title": trackData.title,
-                "featuring": trackData.featuring,
+                "artists": trackData.artists,
                 "index": trackData.index,
         })
 
-        return trackID
+        return record.id
+}
+
+export async function deleteTrack(trackData: ITrackData) {
+        await pb.collection('tracks').delete(trackData.id)
 }
 
 function parseTracks(records: RecordModel[], fileToken: string): TrackMap {
         return new Map<string, Track>(
                 records.map((trackRecord: RecordModel) => {
-
-                        const orderedArtists: OrderedArtist[] = trackRecord.expand["artists_tracks(track)"].map((relationRecord: RecordModel) => {
-                                return {
-                                        id: relationRecord.artist,
-                                        priority: relationRecord.priority,
-                                }
-                        })
-
                         const file = getFileURL("tracks", trackRecord.id, trackRecord.file, fileToken)
 
                         return [
@@ -90,10 +81,10 @@ function parseTracks(records: RecordModel[], fileToken: string): TrackMap {
                                 {
                                         id: trackRecord.id,
                                         title: trackRecord.title,
+                                        artists: trackRecord.artists,
                                         duration: trackRecord.duration,
                                         file: file,
                                         albumID: trackRecord.album,
-                                        orderedArtists: orderedArtists
                                 }
                         ]
                 })

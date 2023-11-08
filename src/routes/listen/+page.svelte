@@ -11,6 +11,10 @@
 	import { library } from "$lib/scripts/stores/LibraryStore"
 
 	import AuthLogout from "$lib/modes/auth/auth-logout.svelte"
+
+	pb.collection("albums").subscribe("*", library.load)
+	pb.collection("covers").subscribe("*", library.load)
+	pb.collection("tracks").subscribe("*", library.load)
 </script>
 
 {#if $user}
@@ -21,7 +25,6 @@
 			<Nav>
 				<NavBtn tab={"PLAYLISTS"} label="playlists" iconPath="public/icons/regular-playlists.svg" />
 				<NavBtn tab={"ALBUMS"} label="albums" iconPath="public/icons/regular-albums.svg" />
-				<NavBtn tab={"ARTISTS"} label="artists" iconPath="public/icons/regular-artists.svg" />
 				<NavBtn tab={"SETTINGS"} label="settings" iconPath="public/icons/settings.svg" />
 			</Nav>
 			{#if $mode === "ALBUMS"}

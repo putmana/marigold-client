@@ -4,7 +4,6 @@ import { playerController } from "./PlayerStore"
 
 const EMPTY_LIBRARY: Library = {
         albums: new Map(),
-        artists: new Map(),
         covers: new Map(),
         playlists: new Map(),
         tracks: new Map(),
@@ -35,10 +34,6 @@ export const albums = derived(
         library,
         ($library) => $library.albums
 )
-export const artists = derived(
-        library,
-        ($library) => $library.artists
-)
 export const covers = derived(
         library,
         ($library) => $library.covers
@@ -53,6 +48,5 @@ export const tracks = derived(
 )
 
 export const selectedAlbumID = writable("")
-export const selectedArtistID = writable("")
 export const selectedPlaylistID = writable("")
 export const selectedTrackID = writable("")

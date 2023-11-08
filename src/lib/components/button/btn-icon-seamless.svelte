@@ -14,8 +14,8 @@
 		box-sizing: content-box;
 		padding: 2px;
 		border-radius: 5px;
-		height: 20px;
-		width: 20px;
+		min-width: 20px;
+		min-height: 20px;
 		display: flex;
 		justify-content: center;
 		align-items: center;

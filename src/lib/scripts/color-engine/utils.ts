@@ -1,4 +1,4 @@
-import type { RGB } from "./oklab";
+import type { RGB } from "./color-engine";
 
 // Map RGB values from 0-255 to 0-1
 export function crushRGB(c: RGB): RGB {

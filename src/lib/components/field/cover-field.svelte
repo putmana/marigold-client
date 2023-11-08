@@ -7,14 +7,15 @@
 	import ImageInput from "../input/image-input.svelte"
 	import PaletteInput from "../input/palette-input.svelte"
 
-	export let currentCoverID: string = ""
+	export let coverID: string = ""
 
 	let _id: string = ""
-	let _src: string = ""
 	let _palette: Palette = Palette.gray
 	let _file: File | undefined
 
-	$: resetFields(currentCoverID)
+	let _src: string = ""
+
+	$: resetFields(coverID)
 
 	function resetFields(coverID: string) {
 		const _cover = $covers.get(coverID)

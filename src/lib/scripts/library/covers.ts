@@ -1,6 +1,6 @@
 import type { RecordModel } from "pocketbase"
 import { getThumbURL, pb } from "$lib/scripts/database/pocketbase"
-import { Palette } from "../color-engine/palette"
+import type { Palette } from "../color-engine/palette"
 
 // Sizes of cover art thumbnails
 const THUMB_SIZE_LARGE = 500
@@ -59,8 +59,6 @@ export async function updateCover(coverData: IUpdateCovor): Promise<string> {
 
         if (coverData.file) formData.append('file', coverData.file)
         if (coverData.palette) formData.append('color', coverData.palette.toString())
-
-        console.log(coverData)
 
         const record = await pb.collection('covers').update(coverData.id, formData)
 

@@ -22,7 +22,7 @@ export class Color {
                 return OKLCH_to_HEX(this.LCH)
         }
 
-        set HEX(hex: string): string {
+        set HEX(hex: string) {
                 this.LCH = HEX_to_OKLCH(hex)
         }
 

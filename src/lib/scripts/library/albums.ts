@@ -1,12 +1,13 @@
 import type { RecordModel } from "pocketbase"
 import { pb } from "$lib/scripts/database/pocketbase"
+import { library } from "../stores/LibraryStore"
 
 type AlbumMap = Map<string, Album>
 export type AlbumData = {
         title: string
+        artists: string
         description: string
         year: string
-        artistID: string
         coverID: string
 }
 
@@ -18,17 +19,15 @@ export async function loadAlbums(): Promise<AlbumMap> {
 async function fetchAlbums(): Promise<RecordModel[]> {
         const EXPAND = [
                 "tracks(album)",
-                "albums_artists(album)",
         ]
 
         const FIELDS = [
                 "id",
                 "title",
+                "artists",
                 "description",
                 "year",
                 "cover",
-                "expand.albums_artists(album).artist",
-                "expand.albums_artists(album).priority",
                 "expand.tracks(album).id",
                 "expand.tracks(album).index",
         ]
@@ -45,7 +44,7 @@ async function fetchAlbums(): Promise<RecordModel[]> {
 async function createAlbum(albumData: AlbumData): Promise<string> {
         const newAlbum = await pb.collection('albums').create({
                 "title": albumData.title,
-                "artist": albumData.artistID,
+                "artists": albumData.artists,
                 "year": albumData.year,
                 "description": albumData.description,
                 "user": pb.authStore.model.id,
@@ -59,7 +58,7 @@ async function createAlbum(albumData: AlbumData): Promise<string> {
 export async function updateAlbum(albumID: string, albumData: AlbumData): Promise<string> {
         await pb.collection('albums').update(albumID, {
                 "title": albumData.title,
-                "artist": albumData.artistID,
+                "artists": albumData.artists,
                 "year": albumData.year,
                 "description": albumData.description,
                 "cover": albumData.coverID,
@@ -72,33 +71,27 @@ function parseAlbums(records: RecordModel[]): AlbumMap {
         return new Map<string, Album>(
                 records.map((albumRecord: RecordModel) => {
 
-                        const orderedTracks: OrderedTrack[] = albumRecord.expand["tracks(album)"].map((trackRecord: RecordModel) => {
-                                return {
-                                        id: trackRecord.id,
-                                        index: trackRecord.index
-                                }
-                        })
+                        let trackRecords: RecordModel[] = []
 
-                        const orderedArtists: OrderedArtist[] = albumRecord.expand["albums_artists(album)"].map((relationRecord: RecordModel) => {
-                                return {
-                                        id: relationRecord.artist,
-                                        priority: relationRecord.priority,
-                                }
-                        })
+                        if (albumRecord.expand) {
+                                trackRecords = albumRecord.expand["tracks(album)"]
+                        }
 
-                        orderedArtists.sort((a, b) => a.priority - b.priority)
-                        orderedTracks.sort((a, b) => a.index - b.index)
+                        trackRecords.sort((a, b) => a.index - b.index)
+
+
+                        const tracks = trackRecords.map((trackRecord: RecordModel) => trackRecord.id)
 
                         return [
                                 albumRecord.id,
                                 {
                                         id: albumRecord.id,
                                         title: albumRecord.title,
+                                        artists: albumRecord.artists,
                                         description: albumRecord.description,
                                         year: albumRecord.year,
                                         coverID: albumRecord.cover,
-                                        orderedArtists: orderedArtists,
-                                        orderedTracks: orderedTracks,
+                                        trackIDs: tracks,
                                 }
                         ]
                 })

@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { fly } from "svelte/transition"
 	import { createEventDispatcher } from "svelte"
-	import { albums, artists, covers, tracks } from "$lib/scripts/stores/LibraryStore"
-	import { formatArtists, formatPlayerTime } from "$lib/scripts/utils"
+	import { albums, covers, tracks } from "$lib/scripts/stores/LibraryStore"
+	import { formatPlayerTime } from "$lib/scripts/utils"
 	import Scrub from "../scrub/scrub.svelte"
 	import type { RepeatMode } from "$lib/scripts/stores/PlayerStore"
 	import Queue from "$lib/components/queue/queue.svelte"
@@ -28,7 +28,6 @@
 	$: _track = $tracks.get(trackID)
 	$: _album = $albums.get(_track?.albumID)
 	$: _cover = $covers.get(_album?.coverID)
-	$: _artists = _track.orderedArtists.map((artist) => $artists.get(artist.id))
 
 	$: palette = Palette.parse(_cover?.palette)
 
@@ -81,7 +80,7 @@
 			</div>
 			<div class="details">
 				<h1 class="title">{_track.title}</h1>
-				<h2 class="artist">{formatArtists(_artists)}</h2>
+				<h2 class="artist">{_track.artists}</h2>
 			</div>
 		</button>
 		<section class="controls">

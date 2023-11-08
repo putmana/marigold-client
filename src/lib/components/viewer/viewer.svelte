@@ -56,6 +56,7 @@
 			flex-direction: column;
 			padding-bottom: 180px;
 			overflow-y: scroll;
+			gap: 10px;
 		}
 	}
 

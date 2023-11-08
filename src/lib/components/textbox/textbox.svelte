@@ -15,18 +15,13 @@
 
 	.wrapper {
 		display: flex;
+		position: relative;
 		flex-direction: column;
-		gap: 5px;
-
-		@include mixins.mobile-only {
-			min-width: 200px;
-		}
-
-		@include mixins.desktop-only {
-			min-width: 300px;
-		}
+		min-width: 200px;
 
 		.label {
+			position: absolute;
+			inset: -5px auto auto 6px;
 			padding: 0 5px;
 			opacity: 70%;
 			font-size: x-small;

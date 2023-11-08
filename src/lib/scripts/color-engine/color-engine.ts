@@ -1,6 +1,3 @@
-import { clamp, randomInteger } from "../utils"
-import { RGB_to_OKLCH, OKLCH_to_RGB } from "./oklab"
-
 export type RGB = {
         R: number,
         G: number,

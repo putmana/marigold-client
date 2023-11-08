@@ -33,6 +33,7 @@
 
 <div class="wrapper">
 	<button class="input-button" on:click={openFileBrowser}>
+		<label class="label" for={id}>{label}</label>
 		<img {src} alt="Upload preview" />
 	</button>
 	<input
@@ -59,16 +60,24 @@
 		}
 
 		.input-button {
+			position: relative;
+
 			@include mixins.clickable-solid;
 
 			@include mixins.desktop-only {
-				width: 300px;
-				height: 300px;
+				width: 200px;
+				height: 200px;
 			}
 
 			@include mixins.mobile-only {
 				height: 200px;
 				width: 200px;
+			}
+
+			label {
+				position: absolute;
+				pointer-events: none;
+				opacity: 0%;
 			}
 
 			img {

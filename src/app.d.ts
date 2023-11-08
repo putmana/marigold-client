@@ -23,11 +23,11 @@ declare global {
         export type Album = {
                 id: string
                 title: string
+                artists: string
                 description: string
                 year: string
                 coverID: string
-                orderedArtists: OrderedArtist[]
-                orderedTracks: OrderedTrack[]
+                trackIDs: string[]
         }
 
         export type AlbumData = {
@@ -36,13 +36,6 @@ declare global {
                 year: string
                 orderedArtists: OrderedArtist[]
                 orderedTracks: OrderedTrack[]
-        }
-
-        export type Artist = {
-                id: string
-                name: string
-                albumIDs: string[]
-                trackIDs: string[]
         }
 
         export type Cover = {
@@ -63,10 +56,10 @@ declare global {
         export type Track = {
                 id: string
                 title: string
-                duration: string
+                artists: string
+                duration: number
                 file: string
                 albumID: string
-                orderedArtists: OrderedArtist[]
         }
 
         export type OrderedTrack = {
@@ -81,7 +74,6 @@ declare global {
 
         type Library = {
                 albums: Map<string, Album>
-                artists: Map<string, Artist>
                 covers: Map<string, Cover>
                 playlists: Map<string, Playlist>
                 tracks: Map<string, Track>

@@ -4,7 +4,6 @@
 	import {
 		library,
 		selectedAlbumID,
-		selectedArtistID,
 		selectedPlaylistID,
 		selectedTrackID
 	} from "$lib/scripts/stores/LibraryStore"
@@ -15,7 +14,6 @@
 		library.clear()
 
 		$selectedAlbumID = ""
-		$selectedArtistID = ""
 		$selectedTrackID = ""
 		$selectedPlaylistID = ""
 

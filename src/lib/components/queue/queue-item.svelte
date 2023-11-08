@@ -1,13 +1,11 @@
 <script lang="ts">
-	import { albums, artists, covers, tracks } from "$lib/scripts/stores/LibraryStore"
-	import { formatArtists } from "$lib/scripts/utils"
+	import { albums, covers, tracks } from "$lib/scripts/stores/LibraryStore"
 
 	export let trackID: string
 
 	$: _track = $tracks.get(trackID)
 	$: _album = $albums.get(_track.albumID)
 	$: _cover = $covers.get(_album.coverID)
-	$: _artists = _track.orderedArtists.map((artist) => $artists.get(artist.id))
 </script>
 
 <button class="wrapper">
@@ -19,7 +17,7 @@
 			{_track.title}
 		</h3>
 		<h4 class="artist">
-			{formatArtists(_artists)}
+			{_track.artists}
 		</h4>
 	</span>
 </button>
