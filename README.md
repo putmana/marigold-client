@@ -3,7 +3,7 @@ A modern music locker.
 ![Screenshot of Marigold](./static/public/images/screenshot.jpeg)
 
 ## Marigold is currently under development!
-This means that Marigold is NOT READY for use yet. Security flaws, explosive bugs, and many sad faces may be encountered if you try to actually use it in its current state. In fact, the only way to currently use Marigold is to download and host it yourself (instructions coming soon...)
+Here be dragons. A demo of the application will be up soon!
 
 ## Development Plans
 ### THINGS DONE:
@@ -13,19 +13,18 @@ This means that Marigold is NOT READY for use yet. Security flaws, explosive bug
 - [x] Color palette generator built from scratch using OKLAB color space
 - [x] Immersive listening mode
 - [x] User accounts
+- [x] File uploading
 
 ### TOP PRIORITY:
-- [ ] File uploading
-- [ ] Editor mode - Creating and modifying albums, playlists, artists, etc...
 - [ ] New portfolio demo
+- [ ] File metadata integration (your music tags work with Marigold)
 
 ### SOON:
-- [ ] File metadata integration (your music tags work with Marigold)
-- [ ] Downloading your entire library
-- [ ] Support for various stream qualities with FFMPEG
 - [ ] Desktop application with Tauri
+- [ ] Downloading your entire library
 
 ### SOMEDAY:
+- [ ] Support for various stream qualities with FFMPEG
 - [ ] iOS app
 - [ ] Android app
 
