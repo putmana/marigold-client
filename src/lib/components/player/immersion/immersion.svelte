@@ -7,12 +7,12 @@
 	import type { RepeatMode } from "$lib/scripts/stores/PlayerStore"
 	import Queue from "$lib/components/queue/queue.svelte"
 	import { Palette } from "$lib/scripts/color-engine/palette"
-
-	const ICON_PLAY = "public/icons/play.svg"
-	const ICON_PAUSE = "public/icons/pause.svg"
-
-	const ICON_REPEAT_ALL = "public/icons/repeat.svg"
-	const ICON_REPEAT_ONE = "public/icons/repeat-one.svg"
+	import PlayPauseBtn from "$lib/components/controls/play-pause-btn.svelte"
+	import SkipNextBtn from "$lib/components/controls/skip-next-btn.svelte"
+	import SkipPrevBtn from "$lib/components/controls/skip-prev-btn.svelte"
+	import ToggleShuffleBtn from "$lib/components/controls/toggle-shuffle-btn.svelte"
+	import ToggleRepeatBtn from "$lib/components/controls/toggle-repeat-btn.svelte"
+	import BtnIconSeamless from "$lib/components/button/btn-icon-seamless.svelte"
 
 	export let trackID: string
 	export let shuffleEnabled: boolean
@@ -31,34 +31,8 @@
 
 	$: palette = Palette.parse(_cover.palette)
 
-	$: repeatEnabled = repeatMode === "OFF" ? false : true
-
 	$: s_currentTime = formatPlayerTime(currentTime)
 	$: s_duration = formatPlayerTime(duration)
-	$: formattedTime = `${s_currentTime}  /  ${s_duration}`
-
-	$: playpauseIcon = paused ? ICON_PLAY : ICON_PAUSE
-	$: repeatIcon = repeatMode == "ONE" ? ICON_REPEAT_ONE : ICON_REPEAT_ALL
-
-	function playpause() {
-		dispatch("playpause")
-	}
-
-	function skipnext() {
-		dispatch("skipnext")
-	}
-
-	function skipprev() {
-		dispatch("skipprev")
-	}
-
-	function toggleshuffle() {
-		dispatch("toggleshuffle")
-	}
-
-	function togglerepeat() {
-		dispatch("togglerepeat")
-	}
 
 	function minimize() {
 		dispatch("minimize")
@@ -66,55 +40,38 @@
 </script>
 
 <div class="wrapper" style={palette.toCSS()} transition:fly={{ duration: 200, y: 300 }}>
-	<button class="btn close-btn" on:click={minimize}>
-		<img class="smaller" src="public/icons/close.svg" alt="Close" />
-	</button>
-	<main class="stage">
-		<section class="cover">
-			<img src={_cover.fileLarge} alt={`Cover art for ${_album.title}`} />
-		</section>
-		<section class="info">
-			<div class="details">
-				<h1>{_track.title}</h1>
-
-				<h2>{_track.artists}</h2>
-			</div>
-			<div class="controls">
-				<div class="scrub">
-					<div class="time">
-						<p>{formatPlayerTime(currentTime)}</p>
-						<p>{formatPlayerTime(duration)}</p>
-					</div>
-					<Scrub {currentTime} {duration} {palette} contained={true} on:scrub />
+	<div class="close-btn">
+		<BtnIconSeamless src="public/icons/close.svg" on:click={minimize} />
+	</div>
+	<section class="cover">
+		<img src={_cover.fileLarge} alt={`Cover for ${_track.title}`} />
+	</section>
+	<section class="details">
+		<div class="info">
+			<h1 class="title">
+				{_track.title}
+			</h1>
+			<h2 class="artists">
+				{_track.artists}
+			</h2>
+		</div>
+		<div class="controls">
+			<div class="scrub">
+				<div class="time">
+					<span>{s_currentTime}</span>
+					<span>{s_duration}</span>
 				</div>
-				<div class="buttons">
-					<button
-						class="btn hide-on-mobile"
-						on:click={toggleshuffle}
-						class:toggled={shuffleEnabled}
-					>
-						<img class="smaller" src="public/icons/shuffle.svg" alt="Shuffle" />
-					</button>
-					<button class="btn hide-on-mobile" on:click={skipprev}>
-						<img src="public/icons/skip-prev.svg" alt="Previous Track" />
-					</button>
-					<button class="btn" on:click={playpause}>
-						<img class="larger" src={playpauseIcon} alt="Play" />
-					</button>
-					<button class="btn hide-on-mobile" on:click={skipnext}>
-						<img src="public/icons/skip-next.svg" alt="Next Track" />
-					</button>
-
-					<button class="btn hide-on-mobile" on:click={togglerepeat} class:toggled={repeatEnabled}>
-						<img class="smaller" src={repeatIcon} alt="Repeat" />
-					</button>
-				</div>
+				<Scrub {currentTime} {duration} {palette} on:scrub />
 			</div>
-		</section>
-	</main>
-	<aside class="queuebox">
-		<Queue showNow={false} />
-	</aside>
+			<div class="buttons">
+				<ToggleShuffleBtn {shuffleEnabled} on:toggleshuffle />
+				<SkipPrevBtn on:skipprev />
+				<PlayPauseBtn {paused} on:playpause />
+				<SkipNextBtn on:skipnext />
+				<ToggleRepeatBtn {repeatMode} on:togglerepeat />
+			</div>
+		</div>
+	</section>
 </div>
 
 <style lang="scss">
@@ -124,187 +81,108 @@
 	.wrapper {
 		position: fixed;
 		inset: 0px 0px 0px 0px;
+		width: 100vw;
+		height: 100vh;
 		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 60px;
 
 		@include mixins.desktop-only {
 			background-image: linear-gradient(to right, var(--primary-medium), var(--secondary-dark));
 		}
 
 		@include mixins.mobile-only {
-			flex-direction: column;
-			overflow-y: scroll;
-			scroll-snap-type: y proximity;
 			background-image: linear-gradient(to bottom, var(--primary-medium), var(--secondary-dark));
+			flex-direction: column;
 		}
 
-		.stage {
+		.close-btn {
+			position: absolute;
+			inset: 30px auto auto 30px;
+		}
+
+		.cover {
 			display: flex;
 			justify-content: center;
-			align-items: center;
+			max-width: min(80%, 350px);
+
+			img {
+				display: block;
+				max-width: 100%;
+				box-shadow: 0px 0px 20px colors.$shadow;
+			}
+		}
+
+		.details {
+			display: flex;
 			flex-direction: column;
-			gap: 50px;
-			flex-grow: 1;
-			min-height: 100vh;
+			width: 400px;
+			gap: 30px;
 
-			.cover {
-				box-shadow: 0px 0px 30px colors.$shadow;
-
-				@include mixins.desktop-only {
-					width: 350px;
-				}
-
-				@include mixins.mobile-only {
-					max-width: 320px;
-					margin: 0px 30px 0px 30px;
-				}
-				img {
-					width: 100%;
-					height: 100%;
-				}
+			@include mixins.mobile-only {
+				width: min(80%, 350px);
 			}
 
 			.info {
 				display: flex;
 				flex-direction: column;
-				justify-content: center;
 				align-items: center;
 				gap: 10px;
 
-				@include mixins.desktop-only {
-					width: 80%;
-				}
-				@include mixins.mobile-only {
-					padding: 30px;
-					width: 100%;
-					box-sizing: border-box;
-				}
+				.title {
+					margin: 0px;
 
-				.details {
-					display: flex;
-					flex-direction: column;
-					align-items: center;
-					gap: 5px;
-
-					h1 {
-						margin: 0;
-
-						@include mixins.desktop-only {
-							font-size: x-large;
-						}
-
-						@include mixins.mobile-only {
-							font-size: x-large;
-						}
+					@include mixins.desktop-only {
+						font-size: xx-large;
 					}
-					h2 {
-						margin: 0;
-						font-weight: normal;
 
-						@include mixins.desktop-only {
-							font-size: smaller;
-						}
-
-						@include mixins.mobile-only {
-							font-size: smaller;
-						}
+					@include mixins.mobile-only {
+						font-size: x-large;
 					}
 				}
 
-				.controls {
-					display: flex;
-					flex-direction: column;
-					align-items: center;
-					gap: 30px;
-					width: 100%;
+				.artists {
+					margin: 0px;
+					font-weight: normal;
+					opacity: 80%;
 
-					.buttons {
-						display: flex;
-
-						@include mixins.desktop-only {
-							gap: 15px;
-						}
+					@include mixins.desktop-only {
+						font-size: medium;
 					}
 
-					.scrub {
-						display: flex;
-						flex-direction: column;
-						gap: 10px;
-						width: 100%;
-
-						.time {
-							display: flex;
-							justify-content: space-between;
-							padding: 2px;
-							p {
-								margin: 0;
-								font-size: smaller;
-							}
-						}
+					@include mixins.mobile-only {
+						font-size: medium;
 					}
 				}
 			}
-		}
-		.queuebox {
-			@include mixins.mobile-only {
+
+			.controls {
 				display: flex;
 				flex-direction: column;
-				padding: 15px;
-				box-sizing: border-box;
+				gap: 30px;
+				align-items: center;
+
+				.scrub {
+					display: flex;
+					flex-direction: column;
+					width: 100%;
+					gap: 10px;
+
+					.time {
+						font-size: smaller;
+						display: flex;
+						justify-content: space-between;
+					}
+				}
+
+				.buttons {
+					width: 100%;
+					display: flex;
+					gap: 5px;
+					justify-content: center;
+				}
 			}
-
-			@include mixins.desktop-only {
-				display: none !important;
-			}
-		}
-	}
-
-	.btn {
-		@include mixins.clickable;
-
-		display: flex;
-		flex-direction: column;
-
-		justify-content: center;
-		align-items: center;
-
-		height: 50px;
-		width: 50px;
-
-		border-radius: 5px;
-
-		img {
-			width: 25px;
-
-			&.smaller {
-				width: 15px;
-			}
-
-			&.larger {
-				width: 35px;
-			}
-		}
-
-		&::after {
-			content: "";
-			height: 0px;
-			width: 0px;
-			border-radius: 5px;
-			background-color: var(--primary-verylight);
-			transition: all 0.2s ease-in-out;
-		}
-
-		&.toggled {
-			&::after {
-				content: "";
-				margin-top: 5px;
-				width: 15px;
-				height: 5px;
-			}
-		}
-
-		&.close-btn {
-			position: absolute;
-			inset: 10px auto auto 10px;
 		}
 	}
 </style>
