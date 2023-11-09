@@ -118,7 +118,7 @@
 			display: flex;
 			flex-direction: column;
 			width: 400px;
-			gap: 30px;
+			gap: 20px;
 
 			@include mixins.mobile-only {
 				width: min(80%, 350px);
