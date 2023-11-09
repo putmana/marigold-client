@@ -97,10 +97,6 @@
 			flex-grow: 1;
 			gap: 15px;
 			justify-content: center;
-
-			.btns {
-				margin-top: 10px;
-			}
 		}
 	}
 </style>
