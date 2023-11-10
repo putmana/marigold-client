@@ -10,16 +10,11 @@
 	import { Palette } from "$lib/scripts/color-engine/palette"
 
 	let hidden = true
-	let palette = Palette.gray
 
-	$: palette = loadPalette($selectedAlbumID)
+	$: _album = $albums.get($selectedAlbumID)
+	$: _cover = $covers.get(_album?.coverID)
 
-	function loadPalette(albumID: string) {
-		const _album = $albums.get(albumID)
-		const _cover = $covers.get(_album?.coverID)
-
-		return Palette.parse(_cover?.palette)
-	}
+	$: palette = Palette.parse(_cover?.palette)
 
 	function showFinder() {
 		hidden = false

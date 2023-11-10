@@ -79,7 +79,6 @@ function parseAlbums(records: RecordModel[]): AlbumMap {
 
                         trackRecords.sort((a, b) => a.index - b.index)
 
-
                         const tracks = trackRecords.map((trackRecord: RecordModel) => trackRecord.id)
 
                         return [

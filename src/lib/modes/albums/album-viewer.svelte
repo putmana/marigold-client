@@ -2,7 +2,7 @@
 	import ViewerHeader from "$lib/components/viewer/viewer-header.svelte"
 	import ViewerTrack from "$lib/components/viewer/viewer-track.svelte"
 
-	import { albums, covers } from "$lib/scripts/stores/LibraryStore"
+	import { albums } from "$lib/scripts/stores/LibraryStore"
 	import { playerController } from "$lib/scripts/stores/PlayerStore"
 
 	export let currentAlbumID: string

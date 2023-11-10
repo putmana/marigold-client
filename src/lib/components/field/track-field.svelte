@@ -56,21 +56,21 @@
 			<BtnIconSeamless src="public/icons/caret-down.svg" on:click={moveDown} />
 		{/if}
 	</div>
-	<span class="info">
+	<div class="info">
 		<Textbox id="{trackData.id}_title" bind:value={trackData.title} label="Title" />
 		<Textbox id="{trackData.id}_artists" bind:value={trackData.artists} label="Artists" />
 		{#if trackData.action === "CREATE"}
 			<input type="file" accept="audio/mp3, audio/flac" on:change={loadFile} />
 		{/if}
-	</span>
-	<span class="end">
+	</div>
+	<div class="end">
 		<BtnIconSeamless src="public/icons/play.svg" />
 		{#if trackData.action === "DELETE"}
 			<BtnIconSeamless src="public/icons/add.svg" on:click={restore} />
 		{:else}
 			<BtnIconSeamless src="public/icons/trash.svg" on:click={remove} />
 		{/if}
-	</span>
+	</div>
 </div>
 
 <style lang="scss">

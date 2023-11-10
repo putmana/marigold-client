@@ -4,8 +4,7 @@
 	import Textbox from "$lib/components/textbox/textbox.svelte"
 	import TrackEditor from "$lib/components/track-editor/track-editor.svelte"
 
-	import { Palette } from "$lib/scripts/color-engine/palette"
-	import { albums, covers } from "$lib/scripts/stores/LibraryStore"
+	import { albums } from "$lib/scripts/stores/LibraryStore"
 	import { createEventDispatcher } from "svelte"
 
 	const dispatch = createEventDispatcher()
@@ -19,19 +18,16 @@
 	let _title: string = ""
 	let _artists: string = ""
 	let _coverID: string = ""
-	let _palette: Palette = Palette.gray
 
 	$: resetFields(currentAlbumID)
 
 	function resetFields(albumID: string) {
 		const _album = $albums.get(albumID)
-		const _cover = $covers.get(_album?.coverID)
 
 		_id = _album?.id ?? ""
 		_title = _album?.title ?? ""
 		_artists = _album?.artists ?? ""
-		_coverID = _cover?.id ?? ""
-		_palette = Palette.parse(_cover?.palette)
+		_coverID = _album?.coverID ?? ""
 	}
 
 	function close() {

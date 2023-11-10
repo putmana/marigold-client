@@ -1,6 +1,5 @@
 import type { RecordModel } from "pocketbase"
 import { pb } from "$lib/scripts/database/pocketbase"
-import { sortIndexedTracks } from "./utils"
 
 type PlaylistMap = Map<string, Playlist>
 type PlaylistData = {
@@ -77,14 +76,17 @@ function parsePlaylists(records: RecordModel[]): PlaylistMap {
         return new Map<string, Playlist>(
                 records.map((playlistRecord: RecordModel) => {
 
-                        const indexedTracks: IndexedTrack[] = playlistRecord.expand["playlists_tracks(playlist)"].map((trackRecord: RecordModel) => {
-                                return {
-                                        id: trackRecord.track,
-                                        index: trackRecord.index,
-                                }
-                        })
+                        let trackRecords: RecordModel[] = []
 
-                        const orderedTracks = sortIndexedTracks(indexedTracks)
+                        if (playlistRecord.expand) {
+                                trackRecords = playlistRecord.expand["playlists_tracks(playlist)"]
+                        }
+
+                        console.log(trackRecords)
+
+                        trackRecords.sort((a, b) => a.index = b.index)
+
+                        const tracks = trackRecords.map((trackRecord: RecordModel) => trackRecord.track)
 
                         return [
                                 playlistRecord.id,
@@ -93,7 +95,7 @@ function parsePlaylists(records: RecordModel[]): PlaylistMap {
                                         title: playlistRecord.title,
                                         description: playlistRecord.description,
                                         coverID: playlistRecord.cover,
-                                        orderedTracks: orderedTracks,
+                                        trackIDs: tracks,
                                 }
                         ]
                 })

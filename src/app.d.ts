@@ -50,7 +50,7 @@ declare global {
                 title: string
                 description: string
                 coverID: string
-                orderedTracks: OrderedTrack[]
+                trackIDs: string[]
         }
 
         export type Track = {

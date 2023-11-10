@@ -2,19 +2,15 @@
 	import ViewerHeader from "$lib/components/viewer/viewer-header.svelte"
 	import ViewerTrack from "$lib/components/viewer/viewer-track.svelte"
 
-	import { playlists, covers } from "$lib/scripts/stores/LibraryStore"
+	import { playlists } from "$lib/scripts/stores/LibraryStore"
 	import { playerController } from "$lib/scripts/stores/PlayerStore"
-	import { Palette } from "$lib/scripts/color-engine/palette"
 
 	export let currentPlaylistID: string
-	export let palette: Palette
 
-	$: _playlist = $playlists.get(currentPlaylistID) ?? undefined
-	$: palette = $covers.get(_playlist?.coverID)?.palette ?? Palette.gray
+	$: _playlist = $playlists.get(currentPlaylistID)
 
 	function startQueue(index: number) {
-		const trackIDs = _playlist.orderedTracks.map((track) => track.id)
-		playerController.startQueue(trackIDs, index)
+		playerController.startQueue(_playlist.trackIDs, index)
 	}
 </script>
 
@@ -29,9 +25,10 @@
 		on:edit
 	/>
 
-	{#each _playlist.orderedTracks as orderedTrack, index}
+	{#each _playlist.trackIDs as trackID, index}
 		<ViewerTrack
-			{orderedTrack}
+			{trackID}
+			{index}
 			on:play={() => {
 				startQueue(index)
 			}}
