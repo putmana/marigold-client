@@ -55,7 +55,6 @@
 		padding-top: 0px;
 		gap: 20px;
 		border-bottom: 1px solid colors.$border;
-		margin-bottom: 10px;
 	}
 
 	.info {
