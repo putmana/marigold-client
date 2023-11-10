@@ -285,6 +285,10 @@
 		box-shadow: 0px 0px 50px colors.$shadow;
 		border-radius: 5px;
 
+		@include mixins.mobile-only {
+			display: none;
+		}
+
 		.inner-wrapper {
 			display: flex;
 			flex-direction: column;
