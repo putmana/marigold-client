@@ -76,7 +76,7 @@
 	}
 
 	export async function save() {
-		tracks.upsert(_tracks)
+		await tracks.upsert(_tracks)
 	}
 </script>
 

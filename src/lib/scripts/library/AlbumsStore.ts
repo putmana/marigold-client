@@ -90,7 +90,7 @@ function createAlbumsStore() {
                         .upsert(query)
                         .select()
 
-                uploadCover(album)
+                await uploadCover(album)
 
                 await fetchload()
         }

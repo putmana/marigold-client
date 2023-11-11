@@ -77,11 +77,9 @@ function createTracksStore() {
                         .upsert(query)
                         .select()
 
-                uploadFiles(tracks)
+                await uploadFiles(tracks)
 
-                const _tracks = load(data)
-
-                set(_tracks)
+                await fetchload()
 
         }
 
@@ -110,9 +108,9 @@ function createTracksStore() {
         }
 
         async function uploadFiles(tracks: TrackForm[]) {
-                tracks.filter(t => t.file)
+                const newTracks = tracks.filter(t => t.action === "INSERT" && t.file != undefined)
 
-                for (const track of tracks) {
+                for (const track of newTracks) {
                         console.log(track.file)
                         const { data, error } = await sb
                                 .storage
