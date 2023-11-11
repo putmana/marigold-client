@@ -58,19 +58,16 @@ function createTracksStore() {
 
         async function upsert(tracks: TrackForm[]) {
                 await deleteTracks(tracks)
-
-                const query = tracks
-                        .filter(track => track.action !== "DELETE")
-                        .map(track => {
-                                return {
-                                        id: track.data.id,
-                                        title: track.data.title,
-                                        artists: track.data.artists,
-                                        duration: track.data.duration,
-                                        index: track.data.index,
-                                        album_id: track.data.albumID,
-                                }
-                        })
+                const query = tracks.map(track => {
+                        return {
+                                id: track.data.id,
+                                title: track.data.title,
+                                artists: track.data.artists,
+                                duration: track.data.duration,
+                                index: track.data.index,
+                                album_id: track.data.albumID,
+                        }
+                })
 
                 const { data, error } = await sb
                         .from('tracks')
@@ -78,6 +75,7 @@ function createTracksStore() {
                         .select()
 
                 uploadFiles(tracks)
+
 
                 const _tracks = load(data)
 
@@ -90,38 +88,28 @@ function createTracksStore() {
                         .filter(track => track.action === "DELETE")
                         .map(track => track.data.id)
 
-                if (ids.length === 0) return
-
                 const { error } = await sb
                         .from('tracks')
                         .delete()
                         .in('id', ids)
-
-                await deleteFiles(ids)
-        }
-
-        async function deleteFiles(trackIDs: string[]) {
-                const files = trackIDs.map(trackID => `${get(user).id}/${trackID}`)
-
-                const { error } = await sb
-                        .storage
-                        .from('audio')
-                        .remove(files)
         }
 
         async function uploadFiles(tracks: TrackForm[]) {
-                tracks.filter(t => t.file)
+                tracks.forEach(async (track) => {
+                        if (track.file) {
+                                console.log(track.file)
+                                const { data, error } = await sb
+                                        .storage
+                                        .from('audio')
+                                        .upload(`${get(user).id}/${track.data.id}`, track.file, {
+                                                cacheControl: '3600',
+                                                upsert: true,
+                                        })
 
-                for (const track of tracks) {
-                        console.log(track.file)
-                        const { data, error } = await sb
-                                .storage
-                                .from('audio')
-                                .upload(`${get(user).id}/${track.data.id}`, track.file, {
-                                        cacheControl: '3600',
-                                        upsert: true,
-                                })
-                }
+                                console.log(data)
+                                console.error(error)
+                        }
+                })
         }
 
         function getFilePath(trackID: string) {

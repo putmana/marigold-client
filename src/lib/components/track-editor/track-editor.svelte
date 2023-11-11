@@ -64,12 +64,15 @@
 		if (_tracks[index].action === "INSERT") {
 			_tracks = _tracks.toSpliced(index, 1)
 		} else {
-			_tracks[index].action === "DELETE"
+			_tracks[index].action = "DELETE"
+			console.log("DELETED")
 		}
+		_tracks = _tracks
+		console.log(_tracks[index].action)
 	}
 
 	function restoreTrack(index: number) {
-		_tracks[index].action === "UPDATE"
+		_tracks[index].action = "UPDATE"
 	}
 
 	export async function save() {
