@@ -1,5 +1,5 @@
 import { derived, get, writable, type Readable, type Writable } from "svelte/store";
-import { shuffleArray } from "../library/utils";
+import { shuffleArray } from "../utils";
 import { v4 as uuid } from "uuid";
 
 export type RepeatMode = "OFF" | "ONE" | "ALL"

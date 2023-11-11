@@ -1,10 +1,7 @@
 <script lang="ts">
 	import type { Palette } from "$lib/scripts/color-engine/palette"
 	import { createEventDispatcher } from "svelte"
-	import BtnText from "../button/btn-text.svelte"
 	import ColorInput from "./color-input.svelte"
-	import BtnIcon from "../button/btn-icon.svelte"
-	import BtnIconSeamless from "../button/btn-icon-seamless.svelte"
 	import BtnIconRound from "../button/btn-icon-round.svelte"
 
 	const dispatch = createEventDispatcher()

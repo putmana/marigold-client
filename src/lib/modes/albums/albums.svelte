@@ -5,16 +5,16 @@
 	import AlbumViewer from "./album-viewer.svelte"
 	import AlbumEditor from "./album-editor.svelte"
 
-	import { albums, covers, selectedAlbumID } from "$lib/scripts/stores/LibraryStore"
+	import { albums, selectedAlbumID } from "$lib/scripts/library/AlbumsStore"
+
 	import { editing } from "$lib/scripts/stores/EditStore"
 	import { Palette } from "$lib/scripts/color-engine/palette"
 
 	let hidden = true
 
 	$: _album = $albums.get($selectedAlbumID)
-	$: _cover = $covers.get(_album?.coverID)
 
-	$: palette = Palette.parse(_cover?.palette)
+	$: palette = Palette.parse(_album?.palette)
 
 	function showFinder() {
 		hidden = false

@@ -1,6 +1,3 @@
-import { pb } from "$lib/scripts/database/pocketbase";
-import type { ValidationIssue } from "./validate";
-
 export type RegistrationIssues = {
         username: string[],
         email: string[],
@@ -54,16 +51,4 @@ export function validateRegistration(username: string, email: string, password: 
         }
 
         return { valid, issues }
-}
-
-export async function registerUser(username: string, email: string, password: string) {
-        const data = {
-                email: email,
-                password: password,
-                passwordConfirm: password,
-                name: username,
-        }
-
-        await pb.collection('users').create(data)
-
 }

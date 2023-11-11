@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { Palette } from "$lib/scripts/color-engine/palette"
-	import { covers } from "$lib/scripts/stores/LibraryStore"
 	import { createEventDispatcher } from "svelte"
 
 	const dispatch = createEventDispatcher()
@@ -8,12 +7,11 @@
 	export let id: string
 	export let title: string
 	export let artists: string | null = null
-	export let coverID: string
+	export let cover: string
+	export let palette: string
 	export let selected: boolean
 
-	$: _cover = $covers.get(coverID)
-
-	$: palette = Palette.parse(_cover.palette)
+	$: _palette = Palette.parse(palette)
 
 	function selectItem() {
 		dispatch("select", {
@@ -22,9 +20,9 @@
 	}
 </script>
 
-<button class="wrapper" class:selected on:click={selectItem} style={palette.toCSS()}>
+<button class="wrapper" class:selected on:click={selectItem} style={_palette.toCSS()}>
 	<span class="cover">
-		<img src={_cover.fileSmall} alt={`Cover for ${title}`} />
+		<img src={cover} alt={`Cover for ${title}`} />
 	</span>
 	<span class="info">
 		<h2>{title}</h2>

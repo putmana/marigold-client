@@ -2,7 +2,7 @@
 	import ViewerHeader from "$lib/components/viewer/viewer-header.svelte"
 	import ViewerTrack from "$lib/components/viewer/viewer-track.svelte"
 
-	import { albums } from "$lib/scripts/stores/LibraryStore"
+	import { albums } from "$lib/scripts/library/AlbumsStore"
 	import { playerController } from "$lib/scripts/stores/PlayerStore"
 
 	export let currentAlbumID: string
@@ -17,7 +17,8 @@
 {#if _album}
 	<ViewerHeader
 		title={_album.title}
-		coverID={_album.coverID}
+		cover={_album.cover}
+		palette={_album.palette}
 		description={_album.artists}
 		on:play={() => {
 			startQueue(0)

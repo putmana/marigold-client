@@ -1,16 +1,16 @@
 <script lang="ts">
-	import { albums, covers, tracks } from "$lib/scripts/stores/LibraryStore"
+	import { albums } from "$lib/scripts/library/AlbumsStore"
+	import { tracks } from "$lib/scripts/library/TracksStore"
 
 	export let trackID: string
 
 	$: _track = $tracks.get(trackID)
 	$: _album = $albums.get(_track.albumID)
-	$: _cover = $covers.get(_album.coverID)
 </script>
 
 <button class="wrapper">
 	<span class="cover">
-		<img src={_cover.fileSmall} alt={`cover for ${_track.title}`} />
+		<img src={_album.cover} alt={`cover for ${_track.title}`} />
 	</span>
 	<span class="info">
 		<h3 class="title">

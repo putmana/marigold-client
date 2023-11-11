@@ -16,10 +16,6 @@ export function formatPlayerTime(time: number) {
         return `${mins}:${lzero(secs)}`
 }
 
-export function formatArtists(artists: Artist[]) {
-        return artists.map(artist => artist?.name ?? "").join(", ")
-}
-
 export function clamp(x: number, min: number, max: number) {
         return Math.min(Math.max(min, x), max)
 }
@@ -29,4 +25,12 @@ export function randomInteger(min: number, max: number) {
         const rnd = Math.floor(Math.random() * range) - min
 
         return rnd
+}
+
+export function shuffleArray(arr: Array<any>) {
+        for (let i = arr.length - 1; i > 0; i--) {
+                const k = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[k]] = [arr[k], arr[i]];
+        }
+        return arr;
 }

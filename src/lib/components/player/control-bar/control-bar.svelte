@@ -1,7 +1,9 @@
 <script lang="ts">
 	import { fly } from "svelte/transition"
 	import { createEventDispatcher } from "svelte"
-	import { albums, covers, tracks } from "$lib/scripts/stores/LibraryStore"
+	import { albums } from "$lib/scripts/library/AlbumsStore"
+	import { tracks } from "$lib/scripts/library/TracksStore"
+
 	import { formatPlayerTime } from "$lib/scripts/utils"
 	import Scrub from "../scrub/scrub.svelte"
 	import type { RepeatMode } from "$lib/scripts/stores/PlayerStore"
@@ -27,9 +29,8 @@
 
 	$: _track = $tracks.get(trackID)
 	$: _album = $albums.get(_track?.albumID)
-	$: _cover = $covers.get(_album?.coverID)
 
-	$: palette = Palette.parse(_cover?.palette)
+	$: palette = Palette.parse(_album?.palette)
 
 	$: repeatEnabled = repeatMode === "OFF" ? false : true
 
@@ -76,7 +77,7 @@
 	<div class="inner-wrapper">
 		<button class="info" on:click={maximize}>
 			<div class="cover">
-				<img src={_cover.fileLarge} alt={`Cover art for ${_album.title}`} />
+				<img src={_album.cover} alt={`Cover art for ${_album.title}`} />
 			</div>
 			<div class="details">
 				<h1 class="title">{_track.title}</h1>

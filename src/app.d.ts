@@ -6,14 +6,6 @@ declare global {
                 // stuff goes here maybe
         }
 
-        export type mode = "albums" | "artists" | "playlists"
-
-        export interface DatabaseAction<T> {
-                result: T,
-                success: boolean,
-                message?: string,
-        }
-
         export type User = {
                 id: string
                 username: string
@@ -24,25 +16,10 @@ declare global {
                 id: string
                 title: string
                 artists: string
-                description: string
                 year: string
-                coverID: string
+                palette: string,
+                cover: string,
                 trackIDs: string[]
-        }
-
-        export type AlbumData = {
-                title: string
-                description: string
-                year: string
-                orderedArtists: OrderedArtist[]
-                orderedTracks: OrderedTrack[]
-        }
-
-        export type Cover = {
-                id: string
-                palette: Colorset
-                fileLarge: string
-                fileSmall: string
         }
 
         export type Playlist = {
@@ -58,25 +35,9 @@ declare global {
                 title: string
                 artists: string
                 duration: number
+                index: number
                 file: string
                 albumID: string
-        }
-
-        export type OrderedTrack = {
-                id: string
-                index: number
-        }
-
-        export type OrderedArtist = {
-                id: string
-                priority: number
-        }
-
-        type Library = {
-                albums: Map<string, Album>
-                covers: Map<string, Cover>
-                playlists: Map<string, Playlist>
-                tracks: Map<string, Track>
         }
 }
 export { }

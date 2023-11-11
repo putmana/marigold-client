@@ -3,8 +3,9 @@
 	import CoverField from "$lib/components/field/cover-field.svelte"
 	import Textbox from "$lib/components/textbox/textbox.svelte"
 	import TrackEditor from "$lib/components/track-editor/track-editor.svelte"
+	import { Palette } from "$lib/scripts/color-engine/palette"
 
-	import { albums } from "$lib/scripts/stores/LibraryStore"
+	import { albums, emptyAlbumForm, type AlbumForm } from "$lib/scripts/library/AlbumsStore"
 	import { createEventDispatcher } from "svelte"
 
 	const dispatch = createEventDispatcher()
@@ -14,33 +15,28 @@
 
 	export let currentAlbumID: string
 
-	let _id: string = ""
-	let _title: string = ""
-	let _artists: string = ""
-	let _coverID: string = ""
+	let _album: AlbumForm = emptyAlbumForm()
+	let _palette: Palette = Palette.gray
 
 	$: resetFields(currentAlbumID)
 
 	function resetFields(albumID: string) {
-		const _album = $albums.get(albumID)
-
-		_id = _album?.id ?? ""
-		_title = _album?.title ?? ""
-		_artists = _album?.artists ?? ""
-		_coverID = _album?.coverID ?? ""
+		_album = {
+			data: { ...$albums.get(albumID) },
+			action: "UPDATE"
+		}
+		_palette = Palette.parse(_album.data.palette)
 	}
 
 	function close() {
 		dispatch("close")
 	}
 
-	async function submit() {
-		await saveAll()
-	}
+	async function save() {
+		_album.data.palette = _palette.toString()
 
-	async function saveAll() {
-		await coverField.save()
 		await trackEditor.save()
+		await albums.upsert(_album)
 		close()
 	}
 </script>
@@ -48,20 +44,25 @@
 {#if currentAlbumID}
 	<header class="header">
 		<section class="info">
-			<Textbox id="{_id}_title" bind:value={_title} label="Title" />
-			<Textbox id="{_id}_artists" bind:value={_artists} label="Artists" />
+			<Textbox id="{_album.data.id}_title" bind:value={_album.data.title} label="Title" />
+			<Textbox id="{_album.data.id}_artists" bind:value={_album.data.artists} label="Artists" />
 
 			<div class="btns">
-				<BtnText label="Save" on:click={submit} />
+				<BtnText label="Save" on:click={save} />
 				<BtnText label="Cancel" on:click={close} />
 			</div>
 		</section>
 		<section class="cover">
-			<CoverField bind:this={coverField} coverID={_coverID} />
+			<CoverField
+				bind:this={coverField}
+				cover={_album.data.cover}
+				bind:file={_album.file}
+				bind:palette={_palette}
+			/>
 		</section>
 	</header>
 
-	<TrackEditor bind:this={trackEditor} currentAlbumID={_id} />
+	<TrackEditor bind:this={trackEditor} currentAlbumID={_album.data.id} />
 {/if}
 
 <style lang="scss">

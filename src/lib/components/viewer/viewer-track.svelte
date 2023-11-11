@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { Palette } from "$lib/scripts/color-engine/palette"
-	import { albums, covers, tracks } from "$lib/scripts/stores/LibraryStore"
+	import { albums } from "$lib/scripts/library/AlbumsStore"
+	import { tracks } from "$lib/scripts/library/TracksStore"
 	import { playerController } from "$lib/scripts/stores/PlayerStore"
 	import { createEventDispatcher } from "svelte"
 
@@ -14,9 +15,7 @@
 
 	$: _track = $tracks.get(trackID)
 	$: _album = $albums.get(_track?.albumID)
-	$: _cover = $covers.get(_album?.coverID)
-
-	$: palette = Palette.parse(_cover?.palette)
+	$: _palette = Palette.parse(_album?.palette)
 
 	function handleKeyDown(e: KeyboardEvent) {
 		if (e.key === "Shift") shiftDown = true
@@ -46,11 +45,11 @@
 <svelte:window on:keydown={handleKeyDown} on:keyup={handleKeyUp} />
 
 {#if _track}
-	<button class="wrapper" style={palette.toCSS()} on:click={handleClick}>
+	<button class="wrapper" style={_palette.toCSS()} on:click={handleClick}>
 		<h1 class="index">{index + 1}</h1>
 		{#if showCover}
 			<span class="cover">
-				<img src={_cover?.fileSmall} alt={`cover for ${_track.title}`} />
+				<img src={_album.cover} alt={`cover for ${_track.title}`} />
 			</span>
 		{/if}
 		<span class="info">

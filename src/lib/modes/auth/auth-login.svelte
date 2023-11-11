@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { createEventDispatcher } from "svelte"
-	import { loginUser } from "./login"
-	import type { ValidationIssue } from "./validate"
+	import { user } from "$lib/scripts/stores/UserStore"
 
 	const dispatch = createEventDispatcher()
 
@@ -10,9 +9,7 @@
 	let issues: string[] = []
 
 	async function login() {
-		await loginUser(email, password).catch(
-			(error) => (issues = ["Login failed. Check your email and password."])
-		)
+		user.login(email, password)
 	}
 
 	function showRegister() {

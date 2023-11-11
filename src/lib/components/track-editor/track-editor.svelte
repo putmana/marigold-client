@@ -4,21 +4,15 @@
 
 	import { v4 } from "uuid"
 
-	import {
-		createTrack,
-		updateTrack,
-		deleteTrack,
-		type ITrackData
-	} from "$lib/scripts/library/tracks"
-
-	import { albums, tracks } from "$lib/scripts/stores/LibraryStore"
+	import { albums } from "$lib/scripts/library/AlbumsStore"
+	import { tracks, type TrackForm } from "$lib/scripts/library/TracksStore"
 
 	import TrackField from "../field/track-field.svelte"
 	import BtnText from "../button/btn-text.svelte"
 
 	export let currentAlbumID: string
 
-	let _tracks: ITrackData[] = []
+	let _tracks: TrackForm[] = []
 
 	export const [send, receive] = crossfade({
 		duration: (d) => Math.sqrt(d * 200)
@@ -29,18 +23,10 @@
 	function resetFields(currentAlbumID: string) {
 		const _album = $albums.get(currentAlbumID)
 
-		_tracks = _album.trackIDs.map((trackID, index) => {
-			const _track = $tracks.get(trackID)
-
+		_tracks = _album.trackIDs.map((trackID) => {
 			return {
-				action: "UPDATE",
-				id: _track.id,
-				title: _track.title,
-				artists: _track.artists,
-				albumID: currentAlbumID,
-				duration: _track.duration,
-				index: index,
-				src: _track.file
+				data: { ...$tracks.get(trackID) },
+				action: "UPDATE"
 			}
 		})
 	}
@@ -59,56 +45,47 @@
 
 	function addTrack() {
 		const newTrack = {
-			action: "CREATE",
-			id: v4(),
-			title: "",
-			artists: "",
-			albumID: currentAlbumID,
-			duration: 1,
-			index: _tracks.length,
-			src: ""
-		} satisfies ITrackData
+			data: {
+				id: v4(),
+				title: "",
+				artists: "",
+				duration: 0,
+				index: _tracks.length,
+				albumID: currentAlbumID,
+				file: ""
+			},
+			action: "INSERT"
+		} satisfies TrackForm
 
 		_tracks = [..._tracks, newTrack]
 	}
 
 	function removeTrack(index: number) {
-		if (_tracks[index].action === "CREATE") {
+		if (_tracks[index].action === "INSERT") {
 			_tracks = _tracks.toSpliced(index, 1)
 		} else {
-			_tracks[index].action = "DELETE"
-			_tracks = _tracks
+			_tracks[index].action === "DELETE"
 		}
 	}
 
 	function restoreTrack(index: number) {
-		_tracks[index].action = "UPDATE"
-		_tracks = _tracks
+		_tracks[index].action === "UPDATE"
 	}
 
 	export async function save() {
-		_tracks.forEach(async (trackData) => {
-			switch (trackData.action) {
-				case "CREATE":
-					return createTrack(trackData)
-				case "UPDATE":
-					return updateTrack(trackData)
-				case "DELETE":
-					return deleteTrack(trackData)
-			}
-		})
+		tracks.upsert(_tracks)
 	}
 </script>
 
-{#each _tracks as trackData, index (trackData.id)}
+{#each _tracks as track, index (track.data.id)}
 	<div
-		in:receive={{ key: trackData.id }}
-		out:send={{ key: trackData.id }}
+		in:receive={{ key: track.data.id }}
+		out:send={{ key: track.data.id }}
 		animate:flip={{ duration: 200 }}
 	>
 		<TrackField
 			{index}
-			bind:trackData
+			bind:track
 			atStart={index === 0}
 			atEnd={index === _tracks.length - 1}
 			on:moveup={() => {

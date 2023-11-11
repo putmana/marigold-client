@@ -2,21 +2,53 @@
 	import Auth from "$lib/modes/auth/auth.svelte"
 	import NavBtn from "$lib/components/nav/nav-btn/nav-btn.svelte"
 	import Nav from "$lib/components/nav/nav.svelte"
-	import Albums from "$lib/modes/albums/albums.svelte"
-	import Playlists from "$lib/modes/playlists/playlists.svelte"
-	import Player from "$lib/components/player/player.svelte"
 
-	import { pb, user } from "$lib/scripts/database/pocketbase"
-	import { mode } from "$lib/scripts/stores/ModeStore"
-	import { library } from "$lib/scripts/stores/LibraryStore"
+	import Albums from "$lib/modes/albums/albums.svelte"
+	import Player from "$lib/components/player/player.svelte"
+	/*
+	import Playlists from "$lib/modes/playlists/playlists.svelte"
+
 
 	import AuthLogout from "$lib/modes/auth/auth-logout.svelte"
+	*/
 
-	pb.collection("albums").subscribe("*", library.load)
-	pb.collection("covers").subscribe("*", library.load)
-	pb.collection("tracks").subscribe("*", library.load)
+	import { user } from "$lib/scripts/stores/UserStore"
+	import { mode } from "$lib/scripts/stores/ModeStore"
+	import { onMount } from "svelte"
+	import { albums } from "$lib/scripts/library/AlbumsStore"
+	import { tracks } from "$lib/scripts/library/TracksStore"
+
+	onMount(async () => {
+		await user.init()
+	})
+
+	async function fetchload() {
+		await albums.fetchload()
+		await tracks.fetchload()
+	}
 </script>
 
+{#if $user}
+	<div class="wrapper">
+		{#await fetchload()}
+			<h1>Loading...</h1>
+		{:then}
+			<Nav>
+				<NavBtn tab={"PLAYLISTS"} label="playlists" iconPath="public/icons/regular-playlists.svg" />
+				<NavBtn tab={"ALBUMS"} label="albums" iconPath="public/icons/regular-albums.svg" />
+				<NavBtn tab={"SETTINGS"} label="settings" iconPath="public/icons/settings.svg" />
+			</Nav>
+			{#if $mode === "ALBUMS"}
+				<Albums />
+			{/if}
+			<Player />
+		{/await}
+	</div>
+{:else}
+	<Auth />
+{/if}
+
+<!---
 {#if $user}
 	{#await library.load()}
 		<h1>Loading...</h1>
@@ -34,12 +66,11 @@
 			{:else if $mode === "SETTINGS"}
 				<AuthLogout />
 			{/if}
-			<Player />
 		</div>
 	{/await}
 {:else}
-	<Auth />
 {/if}
+--->
 
 <style lang="scss">
 	@use "/src/style/sizes";

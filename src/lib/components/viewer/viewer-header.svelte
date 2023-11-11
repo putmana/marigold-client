@@ -1,17 +1,15 @@
 <script lang="ts">
 	import { createEventDispatcher } from "svelte"
-	import { covers } from "$lib/scripts/stores/LibraryStore"
 	import { Palette } from "$lib/scripts/color-engine/palette"
 
 	const dispatch = createEventDispatcher()
 
 	export let title: string
 	export let description: string
-	export let coverID: string
+	export let cover: string
+	export let palette: string
 
-	$: _cover = $covers.get(coverID)
-
-	$: palette = Palette.parse(_cover.palette)
+	$: _palette = Palette.parse(palette)
 
 	function play() {
 		dispatch("play")
@@ -22,7 +20,7 @@
 	}
 </script>
 
-<header class="wrapper" style={palette.toCSS()}>
+<header class="wrapper" style={_palette.toCSS()}>
 	<section class="info">
 		<h1 class="title">{title}</h1>
 		<p class="description">{description}</p>
@@ -37,7 +35,7 @@
 	</section>
 	<section class="cover">
 		<div class="img-wrapper">
-			<img src={_cover.fileLarge} alt={`cover for ${title}`} />
+			<img src={cover} alt={`cover for ${title}`} />
 		</div>
 	</section>
 </header>

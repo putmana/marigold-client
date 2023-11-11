@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { createEventDispatcher } from "svelte"
 
-	import { albums } from "$lib/scripts/stores/LibraryStore"
+	import { albums } from "$lib/scripts/library/AlbumsStore"
 
 	import FinderItem from "$lib/components/finder/finder-item.svelte"
 
@@ -20,7 +20,8 @@
 		id={albumID}
 		title={album.title}
 		artists={album.artists}
-		coverID={album.coverID}
+		cover={album.cover}
+		palette={album.palette}
 		selected={albumID == currentAlbumID}
 		on:select={() => {
 			selectAlbum(albumID)

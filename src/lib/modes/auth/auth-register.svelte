@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { createEventDispatcher } from "svelte"
-	import { registerUser, validateRegistration, type RegistrationIssues } from "./register"
+	import { validateRegistration, type RegistrationIssues } from "./register"
+	import { user } from "$lib/scripts/stores/UserStore"
 
 	const dispatch = createEventDispatcher()
 
@@ -23,9 +24,7 @@
 		const result = validateRegistration(username, email, password, confirm_password)
 
 		if (result.valid) {
-			await registerUser(username, email, password)
-				.then((_) => showLogin())
-				.catch((error) => (issues.generic = [error]))
+			user.register(username, email, password)
 		}
 	}
 
