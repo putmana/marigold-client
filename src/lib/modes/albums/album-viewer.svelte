@@ -3,11 +3,15 @@
 	import ViewerTrack from "$lib/components/viewer/viewer-track.svelte"
 
 	import { albums } from "$lib/scripts/library/AlbumsStore"
+	import { tracks } from "$lib/scripts/library/TracksStore"
 	import { playerController } from "$lib/scripts/stores/PlayerStore"
 
 	export let currentAlbumID: string
 
 	$: _album = $albums.get(currentAlbumID)
+	$: _tracks = _album?.trackIDs.map((trackID) => $tracks.get(trackID))
+
+	$: _tracks?.sort((a, b) => a.index - b.index)
 
 	function startQueue(index: number) {
 		playerController.startQueue(_album.trackIDs, index)
@@ -26,9 +30,9 @@
 		on:edit
 	/>
 
-	{#each _album.trackIDs as trackID, index}
+	{#each _tracks as track, index}
 		<ViewerTrack
-			{trackID}
+			{track}
 			{index}
 			showCover={false}
 			on:play={() => {

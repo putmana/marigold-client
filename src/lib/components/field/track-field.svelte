@@ -3,11 +3,11 @@
 
 	import BtnIconSeamless from "../button/btn-icon-seamless.svelte"
 	import Textbox from "../textbox/textbox.svelte"
-	import type { TrackForm } from "$lib/scripts/library/TracksStore"
+	import type { APIForm } from "$lib/scripts/api/types"
 
 	const dispatch = createEventDispatcher()
 
-	export let track: TrackForm
+	export let trackForm: APIForm<Track>
 	export let index: number
 	export let atStart: boolean
 	export let atEnd: boolean
@@ -21,13 +21,13 @@
 		if (file) {
 			reader.readAsDataURL(file)
 			reader.onload = (e) => {
-				track.data.file = e.target.result.toString()
-				track.file = input.files[0]
+				trackForm.data.file = e.target.result.toString()
+				trackForm.file = input.files[0]
 			}
 		}
 	}
 
-	$: track.data.index = index
+	$: trackForm.data.index = index
 
 	function moveUp() {
 		dispatch("moveup")
@@ -46,7 +46,7 @@
 	}
 </script>
 
-<div class="wrapper" class:deleted={track.action === "DELETE"}>
+<div class="wrapper" class:deleted={trackForm.action === "DELETE"}>
 	<div class="index">
 		{#if !atStart}
 			<BtnIconSeamless src="public/icons/caret-up.svg" on:click={moveUp} />
@@ -56,15 +56,15 @@
 		{/if}
 	</div>
 	<div class="info">
-		<Textbox id="{track.data.id}_title" bind:value={track.data.title} label="Title" />
-		<Textbox id="{track.data.id}_artists" bind:value={track.data.artists} label="Artists" />
-		{#if track.action === "INSERT"}
+		<Textbox id="{trackForm.data.id}_title" bind:value={trackForm.data.title} label="Title" />
+		<Textbox id="{trackForm.data.id}_artists" bind:value={trackForm.data.artists} label="Artists" />
+		{#if trackForm.action === "INSERT"}
 			<input type="file" accept="audio/mp3, audio/flac" on:change={loadFile} />
 		{/if}
 	</div>
 	<div class="end">
 		<BtnIconSeamless src="public/icons/play.svg" />
-		{#if track.action === "DELETE"}
+		{#if trackForm.action === "DELETE"}
 			<BtnIconSeamless src="public/icons/add.svg" on:click={restore} />
 		{:else}
 			<BtnIconSeamless src="public/icons/trash.svg" on:click={remove} />

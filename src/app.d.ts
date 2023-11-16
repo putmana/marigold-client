@@ -12,13 +12,18 @@ declare global {
                 email: string
         }
 
+        export type Cover = {
+                large: string
+                small: string
+        }
+
         export type Album = {
                 id: string
                 title: string
                 artists: string
                 year: string
-                palette: string,
-                cover: string,
+                cover: Cover
+                palette: string
                 trackIDs: string[]
         }
 
@@ -26,7 +31,8 @@ declare global {
                 id: string
                 title: string
                 description: string
-                coverID: string
+                cover: Cover
+                palette: string
                 trackIDs: string[]
         }
 

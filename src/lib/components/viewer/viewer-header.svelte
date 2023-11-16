@@ -6,7 +6,7 @@
 
 	export let title: string
 	export let description: string
-	export let cover: string
+	export let cover: Cover
 	export let palette: string
 
 	$: _palette = Palette.parse(palette)
@@ -35,7 +35,7 @@
 	</section>
 	<section class="cover">
 		<div class="img-wrapper">
-			<img src={cover} alt={`cover for ${title}`} />
+			<img src={cover.large} alt={`cover for ${title}`} />
 		</div>
 	</section>
 </header>

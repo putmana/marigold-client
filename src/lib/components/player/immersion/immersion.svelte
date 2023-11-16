@@ -45,7 +45,7 @@
 		<BtnIconSeamless src="public/icons/close.svg" on:click={minimize} />
 	</div>
 	<section class="cover">
-		<img src={_album.cover} alt={`Cover for ${_track.title}`} />
+		<img src={_album.cover.large} alt={`Cover for ${_track.title}`} />
 	</section>
 	<section class="details">
 		<div class="info">

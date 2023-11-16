@@ -5,7 +5,7 @@
 	import ImageInput from "../input/image-input.svelte"
 	import PaletteInput from "../input/palette-input.svelte"
 
-	export let cover: string = ""
+	export let cover: Cover
 	export let palette: Palette = Palette.gray
 	export let file: File | undefined = undefined
 
@@ -13,8 +13,8 @@
 
 	$: resetFields(cover)
 
-	function resetFields(src: string) {
-		_src = src
+	function resetFields(cvr: Cover) {
+		_src = cvr.large ?? ""
 	}
 
 	async function handleImageChange(e: CustomEvent) {

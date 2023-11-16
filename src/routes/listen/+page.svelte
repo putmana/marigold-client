@@ -4,27 +4,22 @@
 	import Nav from "$lib/components/nav/nav.svelte"
 
 	import Albums from "$lib/modes/albums/albums.svelte"
+	// import Playlists from "$lib/modes/playlists/playlists.svelte"
 	import Player from "$lib/components/player/player.svelte"
-	/*
-	import Playlists from "$lib/modes/playlists/playlists.svelte"
-
-
-	import AuthLogout from "$lib/modes/auth/auth-logout.svelte"
-	*/
 
 	import { user } from "$lib/scripts/stores/UserStore"
 	import { mode } from "$lib/scripts/stores/ModeStore"
-	import { onMount } from "svelte"
 	import { albums } from "$lib/scripts/library/AlbumsStore"
 	import { tracks } from "$lib/scripts/library/TracksStore"
+	import { onMount } from "svelte"
 
 	onMount(async () => {
 		await user.init()
 	})
 
 	async function fetchload() {
-		await albums.fetchload()
-		await tracks.fetchload()
+		await albums.fetch()
+		await tracks.fetch()
 	}
 </script>
 

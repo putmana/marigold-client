@@ -7,7 +7,7 @@
 	export let id: string
 	export let title: string
 	export let artists: string | null = null
-	export let cover: string
+	export let cover: Cover
 	export let palette: string
 	export let selected: boolean
 
@@ -22,7 +22,7 @@
 
 <button class="wrapper" class:selected on:click={selectItem} style={_palette.toCSS()}>
 	<span class="cover">
-		<img src={cover} alt={`Cover for ${title}`} />
+		<img src={cover.small} alt={`Cover for ${title}`} />
 	</span>
 	<span class="info">
 		<h2>{title}</h2>

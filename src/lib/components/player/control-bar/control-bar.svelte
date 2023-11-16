@@ -77,7 +77,7 @@
 	<div class="inner-wrapper">
 		<button class="info" on:click={maximize}>
 			<div class="cover">
-				<img src={_album.cover} alt={`Cover art for ${_album.title}`} />
+				<img src={_album.cover.small} alt={`Cover art for ${_album.title}`} />
 			</div>
 			<div class="details">
 				<h1 class="title">{_track.title}</h1>

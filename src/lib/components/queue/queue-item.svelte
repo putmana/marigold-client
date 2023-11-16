@@ -5,12 +5,12 @@
 	export let trackID: string
 
 	$: _track = $tracks.get(trackID)
-	$: _album = $albums.get(_track.albumID)
+	$: _cover = $albums?.get(_track.albumID).cover.small
 </script>
 
 <button class="wrapper">
 	<span class="cover">
-		<img src={_album.cover} alt={`cover for ${_track.title}`} />
+		<img src={_cover} alt={`cover for ${_track.title}`} />
 	</span>
 	<span class="info">
 		<h3 class="title">

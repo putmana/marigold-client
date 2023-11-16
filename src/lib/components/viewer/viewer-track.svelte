@@ -1,21 +1,17 @@
 <script lang="ts">
-	import { Palette } from "$lib/scripts/color-engine/palette"
 	import { albums } from "$lib/scripts/library/AlbumsStore"
-	import { tracks } from "$lib/scripts/library/TracksStore"
 	import { playerController } from "$lib/scripts/stores/PlayerStore"
 	import { createEventDispatcher } from "svelte"
 
 	const dispatch = createEventDispatcher()
 
-	export let trackID: string
+	export let track: Track
 	export let index: number
 	export let showCover = true
 
 	let shiftDown = false
 
-	$: _track = $tracks.get(trackID)
-	$: _album = $albums.get(_track?.albumID)
-	$: _palette = Palette.parse(_album?.palette)
+	$: _cover = $albums.get(track.albumID)?.cover.small ?? ""
 
 	function handleKeyDown(e: KeyboardEvent) {
 		if (e.key === "Shift") shiftDown = true
@@ -38,26 +34,24 @@
 	}
 
 	function addTrackToQueue() {
-		playerController.addTracksToQueue([_track.id])
+		playerController.addTracksToQueue([track.id])
 	}
 </script>
 
 <svelte:window on:keydown={handleKeyDown} on:keyup={handleKeyUp} />
 
-{#if _track}
-	<button class="wrapper" style={_palette.toCSS()} on:click={handleClick}>
-		<h1 class="index">{index + 1}</h1>
-		{#if showCover}
-			<span class="cover">
-				<img src={_album.cover} alt={`cover for ${_track.title}`} />
-			</span>
-		{/if}
-		<span class="info">
-			<h3 class="title">{_track.title}</h3>
-			<h4 class="artist">{_track.artists}</h4>
+<button class="wrapper" on:click={handleClick}>
+	<h1 class="index">{index + 1}</h1>
+	{#if showCover}
+		<span class="cover">
+			<img src={_cover} alt={`cover for ${track.title}`} />
 		</span>
-	</button>
-{/if}
+	{/if}
+	<span class="info">
+		<h3 class="title">{track.title}</h3>
+		<h4 class="artist">{track.artists}</h4>
+	</span>
+</button>
 
 <style lang="scss">
 	@use "/src/style/sizes";

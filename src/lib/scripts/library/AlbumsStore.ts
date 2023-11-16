@@ -1,129 +1,55 @@
 import { get, writable, type Writable } from "svelte/store"
-import { sb } from "../database/supabase"
 import { user } from "../stores/UserStore"
-import { v4 } from "uuid"
+import { AlbumAPI } from "../api/AlbumAPI"
+import type { APIForm } from "../api/types"
 
 type AlbumMap = Map<string, Album>
 
-export interface AlbumForm {
-        data: Album
-        action: "INSERT" | "UPDATE" | "DELETE"
-        file?: File
-}
-
-export function emptyAlbumForm(): AlbumForm {
-        return {
-                data: {
-                        id: v4(),
-                        title: "",
-                        artists: "",
-                        year: "",
-                        palette: "0.0.0&0.0.0",
-                        cover: "",
-                        trackIDs: [],
-                },
-                action: "INSERT",
-        }
-}
-
 function createAlbumsStore() {
-        const { subscribe, set }: Writable<AlbumMap | null> = writable(null)
-
-        async function fetchload() {
-                const data = await fetch()
-                load(data)
-        }
+        const { subscribe, set }: Writable<AlbumMap> = writable(new Map())
 
         async function fetch() {
-                const query = `
-                        id,
-                        title,
-                        artists,
-                        year,
-                        palette,
-                        tracks (
-                                id
-                        )
-                `
+                const response = await AlbumAPI.fetch(get(user).id)
 
-                const { data, error } = await sb
-                        .from('albums')
-                        .select(query)
-
-                if (error) console.error(error)
-
-                return data
-        }
-
-        function load(loaded: any): AlbumMap {
-                const _albums = new Map<string, Album>(
-                        loaded.map(data => [
-                                data.id,
-                                {
-                                        id: data.id,
-                                        title: data.title,
-                                        artists: data.artists,
-                                        year: data.year,
-                                        palette: data.palette,
-                                        cover: getCoverPath(data.id),
-                                        trackIDs: data.tracks.map(t => t.id)
-                                }
-                        ])
-                ) satisfies AlbumMap
-
-                set(_albums)
-
-                return _albums
-        }
-
-        async function upsert(album: AlbumForm) {
-                const query = {
-                        id: album.data.id,
-                        title: album.data.title,
-                        artists: album.data.artists,
-                        year: album.data.year,
-                        palette: album.data.palette,
+                if (!response.success) {
+                        console.log(response.error)
+                        return
                 }
 
-                const { data, error } = await sb
-                        .from('albums')
-                        .upsert(query)
-                        .select()
-
-                await uploadCover(album)
-
-                await fetchload()
+                set(response.result)
         }
 
-        async function uploadCover(album: AlbumForm) {
-                if (album.file) {
-                        const { data, error } = await sb
-                                .storage
-                                .from('covers')
-                                .upload(`${get(user).id}/${album.data.id}`, album.file, {
-                                        cacheControl: '3600',
-                                        upsert: true,
-                                })
+        async function upsert(albumForms: APIForm<Album>[]) {
+                // Update the albums in the database
+                const toUpsert = albumForms.filter(form => form.action !== "DELETE")
+
+                const upsertResponse = await AlbumAPI.upsert(toUpsert)
+
+                if (!upsertResponse.success) {
+                        console.log(upsertResponse.error)
+                        return
                 }
-        }
 
-        function getCoverPath(albumID: string) {
-                const { data } = sb
-                        .storage
-                        .from('covers')
-                        .getPublicUrl(`${get(user).id}/${albumID}`)
 
-                return data.publicUrl
+                // Remove deleted albums from the database
+                const toDelete = albumForms.filter(form => form.action === "DELETE")
+
+                const deleteResponse = await AlbumAPI.delete(toDelete)
+
+                if (!deleteResponse.success) {
+                        console.log(deleteResponse.error)
+                        return
+                }
+
+
+                // Update the store
+                await fetch()
         }
 
         return {
                 subscribe,
                 fetch,
-                load,
                 upsert,
-                uploadCover,
-                getCoverPath,
-                fetchload,
         }
 }
 
