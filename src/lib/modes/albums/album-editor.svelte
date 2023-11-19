@@ -50,7 +50,7 @@
 	async function save() {
 		_albumForm.data.palette = _palette.toString()
 
-		await albums.upsert([_albumForm])
+		await albums.update(_albumForm)
 		await tracks.upsert([..._trackForms])
 		close()
 	}

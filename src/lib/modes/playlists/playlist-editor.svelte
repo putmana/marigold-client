@@ -1,101 +1,154 @@
 <script lang="ts">
+	import { createEventDispatcher } from "svelte"
 	import { crossfade } from "svelte/transition"
 	import { flip } from "svelte/animate"
 
-	import BtnText from "$lib/components/button/btn-text.svelte"
 	import CoverField from "$lib/components/field/cover-field.svelte"
+	import BtnText from "$lib/components/button/btn-text.svelte"
 	import Textbox from "$lib/components/textbox/textbox.svelte"
 
-	import { playlists } from "$lib/scripts/stores/LibraryStore"
-	import { createEventDispatcher } from "svelte"
-	import PlaylistEditorTrack from "./playlist-editor-track.svelte"
+	import { user } from "$lib/scripts/stores/UserStore"
+	import { playlists } from "$lib/scripts/library/PlaylistsStore"
+
+	import type { APIForm } from "$lib/scripts/api/types"
+	import { Palette } from "$lib/scripts/color-engine/palette"
+	import PlaylistTrackField from "$lib/components/field/playlist-track-field.svelte"
+	import TrackPicker from "$lib/components/track-picker/track-picker.svelte"
+
+	let trackPicker: TrackPicker
 
 	const dispatch = createEventDispatcher()
-
 	const [send, receive] = crossfade({
 		duration: (d) => Math.sqrt(d * 200)
 	})
 
 	export let currentPlaylistID: string
 
-	let coverField: CoverField
-
-	let _id: string = ""
-	let _title: string = ""
-	let _description: string = ""
-	let _coverID: string = ""
-	let _tracks: string[] = []
+	let _playlistForm: APIForm<Playlist>
+	let _playlistTrackForms: APIForm<PlaylistTrack>[]
+	let _palette: Palette = Palette.gray
 
 	$: resetFields(currentPlaylistID)
 
 	function resetFields(playlistID: string) {
-		const _playlist = $playlists.get(playlistID)
+		_playlistForm = {
+			userID: $user.id,
+			data: { ...$playlists.get(playlistID) },
+			action: "UPDATE"
+		}
 
-		_id = _playlist?.id ?? ""
-		_title = _playlist?.title ?? ""
-		_description = _playlist?.description ?? ""
-		_coverID = _playlist?.coverID ?? ""
-		_tracks = [..._playlist?.trackIDs]
+		_playlistTrackForms = _playlistForm.data.tracklist.map((playlistTrack) => {
+			return {
+				data: { ...playlistTrack },
+				action: "UPDATE",
+				userID: $user.id
+			}
+		})
+
+		_palette = Palette.parse(_playlistForm.data.palette)
 	}
 
-	function moveUp(index: number) {
-		let moved = _tracks[index - 1]
-		_tracks[index - 1] = _tracks[index]
-		_tracks[index] = moved
+	async function save() {
+		_playlistForm.data.palette = _palette.toString()
+
+		await playlists.update(_playlistForm)
+		await playlists.upsertTracks(_playlistForm.data.id, [..._playlistTrackForms])
+		close()
 	}
 
-	function moveDown(index: number) {
-		let moved = _tracks[index + 1]
-		_tracks[index + 1] = _tracks[index]
-		_tracks[index] = moved
+	function moveTrackUp(index: number) {
+		let moved = _playlistTrackForms[index - 1]
+		_playlistTrackForms[index - 1] = _playlistTrackForms[index]
+		_playlistTrackForms[index] = moved
 	}
 
-	function addTrack(trackID) {
-		_tracks = [..._tracks, trackID]
+	function moveTrackDown(index: number) {
+		let moved = _playlistTrackForms[index + 1]
+		_playlistTrackForms[index + 1] = _playlistTrackForms[index]
+		_playlistTrackForms[index] = moved
+	}
+
+	function openPicker() {
+		trackPicker.open()
+	}
+
+	function addTrack(trackID: string) {
+		const newTrack = {
+			data: {
+				id: trackID,
+				index: _playlistForm.data.tracklist.length
+			},
+			action: "INSERT",
+			userID: $user.id
+		} satisfies APIForm<PlaylistTrack>
+
+		_playlistTrackForms = [..._playlistTrackForms, newTrack]
 	}
 
 	function removeTrack(index: number) {
-		_tracks = _tracks.toSpliced(index, 1)
+		if (_playlistTrackForms[index].action === "INSERT") {
+			_playlistTrackForms = _playlistTrackForms.toSpliced(index, 1)
+			return
+		}
+
+		_playlistTrackForms[index].action = "DELETE"
+		_playlistTrackForms = _playlistTrackForms
+	}
+
+	function handlePick(e: CustomEvent) {
+		e.detail.tracks.forEach((trackID: string) => {
+			addTrack(trackID)
+		})
 	}
 
 	function close() {
 		dispatch("close")
-	}
-
-	async function saveAll() {
-		await coverField.save()
-		close()
 	}
 </script>
 
 {#if currentPlaylistID}
 	<header class="header">
 		<section class="info">
-			<Textbox id="{_id}_title" bind:value={_title} label="Title" />
-			<Textbox id="{_id}_description" bind:value={_description} label="Description" />
+			<Textbox
+				id="{_playlistForm.data.id}_title"
+				bind:value={_playlistForm.data.title}
+				label="Title"
+			/>
+			<Textbox
+				id="{_playlistForm.data.id}_description"
+				bind:value={_playlistForm.data.description}
+				label="Description"
+			/>
 
 			<div class="btns">
-				<BtnText label="Save" on:click={saveAll} />
+				<BtnText label="Save" on:click={save} />
 				<BtnText label="Cancel" on:click={close} />
 			</div>
 		</section>
 		<section class="cover">
-			<CoverField bind:this={coverField} coverID={_coverID} />
+			<CoverField
+				cover={_playlistForm.data.cover}
+				bind:file={_playlistForm.file}
+				bind:palette={_palette}
+			/>
 		</section>
 	</header>
-
-	{#each _tracks as trackID, index (trackID)}
-		<div in:receive={{ key: trackID }} out:send={{ key: trackID }} animate:flip={{ duration: 200 }}>
-			<PlaylistEditorTrack
-				{trackID}
+	{#each _playlistTrackForms as playlistTrackForm, index (playlistTrackForm.data.id)}
+		<div
+			in:receive={{ key: playlistTrackForm.data.id }}
+			out:send={{ key: playlistTrackForm.data.id }}
+			animate:flip={{ duration: 200 }}
+		>
+			<PlaylistTrackField
 				{index}
+				bind:playlistTrackForm
 				atStart={index === 0}
-				atEnd={index === _tracks.length - 1}
+				atEnd={index === _playlistTrackForms.length - 1}
 				on:moveup={() => {
-					moveUp(index)
+					moveTrackUp(index)
 				}}
 				on:movedown={() => {
-					moveDown(index)
+					moveTrackDown(index)
 				}}
 				on:remove={() => {
 					removeTrack(index)
@@ -103,6 +156,8 @@
 			/>
 		</div>
 	{/each}
+	<BtnText label="add" on:click={openPicker} />
+	<TrackPicker bind:this={trackPicker} on:submit={handlePick} />
 {/if}
 
 <style lang="scss">

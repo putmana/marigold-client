@@ -22,7 +22,6 @@
 
 	function openEditor() {
 		$editing = true
-		console.log("EDITOR OPENED")
 	}
 
 	function closeEditor() {

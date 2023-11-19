@@ -51,48 +51,40 @@ export class AlbumAPI {
                 }
         }
 
-        static async upsert(forms: APIForm<Album>[]): Promise<APIResult<null>> {
-                if (forms.length === 0) return {
-                        result: null,
-                        success: true,
+        static async upsert(form: APIForm<Album>): Promise<APIResult<null>> {
+                // <---- UPSERT ALBUM INFORMATION ---->
+                const q1 = {
+                        id: form.data.id,
+                        title: form.data.title,
+                        artists: form.data.artists,
+                        year: form.data.year,
+                        palette: form.data.palette,
                 }
 
-                const query = forms.map(form => {
-                        return {
-                                id: form.data.id,
-                                title: form.data.title,
-                                artists: form.data.artists,
-                                year: form.data.year,
-                                palette: form.data.palette,
-                        }
-                })
-
-                const { error } = await sb
+                const r1 = await sb
                         .from('albums')
-                        .upsert(query)
+                        .upsert(q1)
 
-                if (error) return {
+                if (r1.error) return {
                         result: null,
                         success: false,
-                        error: error.message,
+                        error: r1.error.message,
                 }
 
-                // Upload new album art files to the database
-                for (const form of forms) {
-                        if (form.file) {
-                                const { error } = await sb
-                                        .storage
-                                        .from('covers')
-                                        .upload(`${form.userID}/${form.data.id}`, form.file, {
-                                                cacheControl: '3600',
-                                                upsert: true,
-                                        })
+                // <---- UPLOAD ALBUM COVER FILE ---->
+                if (form.file) {
+                        const r2 = await sb
+                                .storage
+                                .from('covers')
+                                .upload(`${form.userID}/${form.data.id}`, form.file, {
+                                        cacheControl: '3600',
+                                        upsert: true,
+                                })
 
-                                if (error) return {
-                                        result: null,
-                                        success: false,
-                                        error: error.message,
-                                }
+                        if (r2) return {
+                                result: null,
+                                success: false,
+                                error: r2.error.message,
                         }
                 }
 
@@ -100,47 +92,10 @@ export class AlbumAPI {
                         result: null,
                         success: true,
                 }
-        }
-
-        static async delete(forms: APIForm<Album>[]): Promise<APIResult<null>> {
-                if (forms.length === 0) return {
-                        result: null,
-                        success: true,
-                }
-
-                const ids = forms.map(form => form.data.id)
-
-                const res1 = await sb
-                        .from('albums')
-                        .delete()
-                        .in('id', ids)
-
-                if (res1.error) return {
-                        result: null,
-                        success: false,
-                        error: res1.error.message,
-                }
-
-                const res2 = await sb
-                        .storage
-                        .from('covers')
-                        .remove(ids)
-
-                if (res2.error) return {
-                        result: null,
-                        success: false,
-                        error: res2.error.message,
-                }
-
-                return {
-                        result: null,
-                        success: true,
-                }
-
         }
 }
 
-function getCoverURL(userID: string, albumID: string, size?: number): Cover {
+function getCoverURL(userID: string, albumID: string): Cover {
         function getSize(size: number): string {
                 return sb
                         .storage

@@ -1,32 +1,33 @@
 <script lang="ts">
 	import { createEventDispatcher } from "svelte"
-	import BtnIcon from "../button/btn-icon.svelte"
 	import BtnIconSeamless from "../button/btn-icon-seamless.svelte"
-	import BtnText from "../button/btn-text.svelte"
 
 	const dispatch = createEventDispatcher()
 
 	export let label = "Untitled Popup Box"
+	export let visible: boolean
 
 	function close() {
 		dispatch("close")
 	}
 </script>
 
-<div class="wrapper">
-	<div class="box">
-		<header class="titlebar">
-			<h1 class="label">{label}</h1>
-			<BtnIconSeamless src="public/icons/close.svg" alt="Close" on:click={close} />
-		</header>
-		<main class="content">
-			<slot name="content" />
-		</main>
-		<footer class="footer">
-			<slot name="footer" />
-		</footer>
+{#if visible}
+	<div class="wrapper">
+		<div class="box">
+			<header class="titlebar">
+				<h1 class="label">{label}</h1>
+				<BtnIconSeamless src="public/icons/close.svg" alt="Close" on:click={close} />
+			</header>
+			<main class="content">
+				<slot name="content" />
+			</main>
+			<footer class="footer">
+				<slot name="footer" />
+			</footer>
+		</div>
 	</div>
-</div>
+{/if}
 
 <style lang="scss">
 	@use "src/style/colors";
@@ -59,10 +60,9 @@
 			border: 1px solid colors.$hover;
 			border-radius: 5px;
 			box-shadow: 0px 0px 50px colors.$shadow-dark;
-
-			@include mixins.mobile-only {
-				width: 100vw;
-			}
+			width: max-content;
+			box-sizing: border-box;
+			max-width: 95svw;
 
 			.titlebar {
 				display: flex;

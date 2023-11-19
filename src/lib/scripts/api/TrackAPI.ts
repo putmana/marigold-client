@@ -53,7 +53,8 @@ export class TrackAPI {
                         success: true,
                 }
 
-                const query = forms.map(form => {
+                // <---- UPSERT TRACK INFORMATION ---->
+                const q1 = forms.map(form => {
                         return {
                                 id: form.data.id,
                                 title: form.data.title,
@@ -64,20 +65,20 @@ export class TrackAPI {
                         }
                 })
 
-                const { error } = await sb
+                const r1 = await sb
                         .from('tracks')
-                        .upsert(query)
+                        .upsert(q1)
 
-                if (error) return {
+                if (r1) return {
                         result: null,
                         success: false,
-                        error: error.message,
+                        error: r1.error.message,
                 }
 
-                // Upload new audio files to the database
+                // <---- UPLOAD TRACK AUDIO FILE ---->
                 for (const form of forms) {
                         if (form.file) {
-                                const { error } = await sb
+                                const r2 = await sb
                                         .storage
                                         .from('audio')
                                         .upload(`${form.userID}/${form.data.id}`, form.file, {
@@ -85,10 +86,10 @@ export class TrackAPI {
                                                 upsert: true,
                                         })
 
-                                if (error) return {
+                                if (r2.error) return {
                                         result: null,
                                         success: false,
-                                        error: error.message,
+                                        error: r2.error.message,
                                 }
                         }
                 }
@@ -105,6 +106,7 @@ export class TrackAPI {
                         success: true,
                 }
 
+                // <---- DELETE TRACK ROW IN DATABASE ---->
                 const ids = forms.map(form => form.data.id)
 
                 const res1 = await sb
@@ -118,6 +120,7 @@ export class TrackAPI {
                         error: res1.error.message,
                 }
 
+                // <---- DELETE TRACK AUDIO FILE ---->
                 const res2 = await sb
                         .storage
                         .from('audio')

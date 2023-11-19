@@ -33,7 +33,7 @@ declare global {
                 description: string
                 cover: Cover
                 palette: string
-                trackIDs: string[]
+                tracklist: PlaylistTrack[]
         }
 
         export type Track = {
@@ -45,5 +45,11 @@ declare global {
                 file: string
                 albumID: string
         }
+
+        export type PlaylistTrack = {
+                id: string
+                index: number
+        }
 }
+
 export { }

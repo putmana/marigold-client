@@ -3,12 +3,13 @@
 	import { tracks } from "$lib/scripts/library/TracksStore"
 
 	export let trackID: string
+	export let picked = false
 
 	$: _track = $tracks.get(trackID)
 	$: _cover = $albums?.get(_track.albumID).cover.small
 </script>
 
-<button class="wrapper" on:click>
+<button class="wrapper" on:click class:picked>
 	<span class="cover">
 		<img src={_cover} alt={`cover for ${_track.title}`} />
 	</span>
@@ -19,6 +20,13 @@
 		<h4 class="artist">
 			{_track.artists}
 		</h4>
+	</span>
+	<span class="end">
+		{#if picked}
+			<img src="public/icons/check.svg" alt="checked box" />
+		{:else}
+			<img src="public/icons/uncheck.svg" alt="unchecked box" />
+		{/if}
 	</span>
 </button>
 
@@ -45,6 +53,7 @@
 				height: inherit;
 			}
 		}
+
 		.info {
 			display: flex;
 			flex-direction: column;
@@ -59,6 +68,11 @@
 				opacity: 80%;
 				font-size: smaller;
 			}
+		}
+		.end {
+			display: flex;
+			align-items: center;
+			justify-content: center;
 		}
 	}
 </style>

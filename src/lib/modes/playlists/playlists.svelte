@@ -3,18 +3,18 @@
 	import Viewer from "$lib/components/viewer/viewer.svelte"
 	import PlaylistFinder from "./playlist-finder.svelte"
 	import PlaylistViewer from "./playlist-viewer.svelte"
+	import PlaylistEditor from "./playlist-editor.svelte"
 
-	import { covers, playlists, selectedPlaylistID } from "$lib/scripts/stores/LibraryStore"
+	import { playlists, selectedPlaylistID } from "$lib/scripts/library/PlaylistsStore"
+
 	import { editing } from "$lib/scripts/stores/EditStore"
 	import { Palette } from "$lib/scripts/color-engine/palette"
-	import PlaylistEditor from "./playlist-editor.svelte"
 
 	let hidden = true
 
 	$: _playlist = $playlists.get($selectedPlaylistID)
-	$: _cover = $covers.get(_playlist?.coverID)
 
-	$: palette = Palette.parse(_cover?.palette)
+	$: palette = Palette.parse(_playlist?.palette)
 
 	function showFinder() {
 		hidden = false

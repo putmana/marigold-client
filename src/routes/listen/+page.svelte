@@ -4,12 +4,13 @@
 	import Nav from "$lib/components/nav/nav.svelte"
 
 	import Albums from "$lib/modes/albums/albums.svelte"
-	// import Playlists from "$lib/modes/playlists/playlists.svelte"
+	import Playlists from "$lib/modes/playlists/playlists.svelte"
 	import Player from "$lib/components/player/player.svelte"
 
 	import { user } from "$lib/scripts/stores/UserStore"
 	import { mode } from "$lib/scripts/stores/ModeStore"
 	import { albums } from "$lib/scripts/library/AlbumsStore"
+	import { playlists } from "$lib/scripts/library/PlaylistsStore"
 	import { tracks } from "$lib/scripts/library/TracksStore"
 	import { onMount } from "svelte"
 
@@ -19,6 +20,7 @@
 
 	async function fetchload() {
 		await albums.fetch()
+		await playlists.fetch()
 		await tracks.fetch()
 	}
 </script>
@@ -35,6 +37,8 @@
 			</Nav>
 			{#if $mode === "ALBUMS"}
 				<Albums />
+			{:else if $mode === "PLAYLISTS"}
+				<Playlists />
 			{/if}
 			<Player />
 		{/await}

@@ -19,28 +19,13 @@ function createAlbumsStore() {
                 set(response.result)
         }
 
-        async function upsert(albumForms: APIForm<Album>[]) {
-                // Update the albums in the database
-                const toUpsert = albumForms.filter(form => form.action !== "DELETE")
+        async function update(albumForm: APIForm<Album>) {
+                const response = await AlbumAPI.upsert(albumForm)
 
-                const upsertResponse = await AlbumAPI.upsert(toUpsert)
-
-                if (!upsertResponse.success) {
-                        console.log(upsertResponse.error)
+                if (!response.success) {
+                        console.log(response.error)
                         return
                 }
-
-
-                // Remove deleted albums from the database
-                const toDelete = albumForms.filter(form => form.action === "DELETE")
-
-                const deleteResponse = await AlbumAPI.delete(toDelete)
-
-                if (!deleteResponse.success) {
-                        console.log(deleteResponse.error)
-                        return
-                }
-
 
                 // Update the store
                 await fetch()
@@ -49,7 +34,7 @@ function createAlbumsStore() {
         return {
                 subscribe,
                 fetch,
-                upsert,
+                update,
         }
 }
 
