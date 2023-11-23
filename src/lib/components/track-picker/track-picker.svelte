@@ -10,8 +10,8 @@
 
 	let visible = false
 	let query = ""
-	let picked: string[] = []
 	let results: string[] = []
+	let picked: string[] = []
 
 	export function open() {
 		visible = true
@@ -45,7 +45,6 @@
 				track.artists.toLowerCase().includes(query.toLowerCase())
 			)
 		})
-		// Filter out any tracks that have already been picked
 		.map((track) => track.id)
 </script>
 

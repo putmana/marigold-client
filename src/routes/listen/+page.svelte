@@ -13,6 +13,7 @@
 	import { playlists } from "$lib/scripts/library/PlaylistsStore"
 	import { tracks } from "$lib/scripts/library/TracksStore"
 	import { onMount } from "svelte"
+	import LoadingScreen from "$lib/components/loading/loading-screen.svelte"
 
 	onMount(async () => {
 		await user.init()
@@ -23,12 +24,16 @@
 		await playlists.fetch()
 		await tracks.fetch()
 	}
+
+	$: if ($mode === "SETTINGS") {
+		user.logout()
+	}
 </script>
 
 {#if $user}
 	<div class="wrapper">
 		{#await fetchload()}
-			<h1>Loading...</h1>
+			<LoadingScreen />
 		{:then}
 			<Nav>
 				<NavBtn tab={"PLAYLISTS"} label="playlists" iconPath="public/icons/regular-playlists.svg" />

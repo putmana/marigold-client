@@ -1,15 +1,15 @@
 <script lang="ts">
 	import { createEventDispatcher } from "svelte"
-	import { Palette } from "$lib/scripts/color-engine/palette"
+	import type { Palette } from "$lib/scripts/color-engine/palette"
+	import BtnIcon from "../button/btn-icon.svelte"
+	import BtnIconText from "../button/btn-icon-text.svelte"
 
 	const dispatch = createEventDispatcher()
 
 	export let title: string
 	export let description: string
 	export let cover: Cover
-	export let palette: string
-
-	$: _palette = Palette.parse(palette)
+	export let palette: Palette
 
 	function play() {
 		dispatch("play")
@@ -20,17 +20,13 @@
 	}
 </script>
 
-<header class="wrapper" style={_palette.toCSS()}>
+<header class="wrapper" style={palette.toCSS()}>
 	<section class="info">
 		<h1 class="title">{title}</h1>
 		<p class="description">{description}</p>
 		<div class="header-btns">
-			<button class="play-btn" on:click={play}>
-				<img src="public/icons/play.svg" alt="Play icon" /> play</button
-			>
-			<button class="play-btn" on:click={openEditor}
-				><img src="public/icons/edit.svg" alt="Edit icon" /></button
-			>
+			<BtnIconText label="Play" src="public/icons/play.svg" alt="Play icon" on:click={play} />
+			<BtnIcon src="public/icons/edit.svg" alt="Edit icon" on:click={openEditor} />
 		</div>
 	</section>
 	<section class="cover">
@@ -50,38 +46,36 @@
 		flex-direction: column-reverse;
 		box-sizing: border-box;
 		padding: 20px;
-		padding-top: 0px;
+		padding-top: 30px;
 		gap: 20px;
 		border-bottom: 1px solid colors.$border;
+		margin-bottom: 10px;
 	}
 
 	.info {
 		display: flex;
 		flex-direction: column;
 		flex-grow: 1;
-		gap: 8px;
 		justify-content: center;
 
 		.title {
-			font-size: clamp(25pt, 4vw, 50pt);
+			font-size: clamp(24px, 4vw, 50px);
 			font-weight: 900;
 			letter-spacing: -1px;
 			margin: 0;
+			margin-left: -2px;
 		}
+
 		.description {
 			opacity: 80%;
+			font-size: 16px;
 			margin: 0;
 		}
-		.header-btns {
-			margin-top: 10px;
 
-			button {
-				@include mixins.button;
-				img {
-					width: 10px;
-					height: 10px;
-				}
-			}
+		.header-btns {
+			display: flex;
+			gap: 5px;
+			margin-top: 15px;
 		}
 	}
 
@@ -90,12 +84,12 @@
 		flex-grow: 1;
 		justify-content: center;
 		.img-wrapper {
-			max-width: 200px;
-			max-height: 200px;
-			box-shadow: 0px 0px 30px colors.$shadow;
+			width: 200px;
+			height: 200px;
 			img {
-				width: 100%;
-				height: 100%;
+				display: block;
+				max-width: 100%;
+				box-shadow: 0px 0px 30px colors.$shadow;
 			}
 		}
 	}

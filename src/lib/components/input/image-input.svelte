@@ -6,7 +6,7 @@
 	export let id = "img"
 	export let src = ""
 	export let label = "Image upload"
-	export let required = true
+	export let required = false
 
 	let input: HTMLInputElement
 
@@ -32,7 +32,7 @@
 </script>
 
 <div class="wrapper">
-	<button class="input-button" on:click={openFileBrowser}>
+	<button type="button" class="input-button" on:click={openFileBrowser}>
 		<label class="label" for={id}>{label}</label>
 		<img {src} alt="Upload preview" />
 	</button>
@@ -41,6 +41,7 @@
 		bind:this={input}
 		{required}
 		{id}
+		name={id}
 		type="file"
 		accept="image/png, image/jpeg"
 		on:change={loadFile}
@@ -56,13 +57,16 @@
 		flex-direction: column;
 
 		.input {
-			display: none;
+			width: 0px;
+			height: 0px;
+			opacity: 0px;
 		}
 
 		.input-button {
 			position: relative;
 
-			@include mixins.clickable-solid;
+			@include mixins.button;
+			padding: 5px;
 
 			@include mixins.desktop-only {
 				width: 210px;

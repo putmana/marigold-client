@@ -1,9 +1,10 @@
 <script lang="ts">
 	export let src = "public/icons/unknown.svg"
 	export let alt = "Button"
+	export let submit = false
 </script>
 
-<button class="btn" on:click>
+<button type={submit ? "submit" : "button"} class="btn" on:click>
 	<img {src} {alt} />
 </button>
 

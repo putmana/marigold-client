@@ -43,7 +43,6 @@ export class Palette {
                         const colors: Color[] = string
                                 .split("&")
                                 .map(c => Color.parseColorString(c))
-
                         return new Palette(colors[0], colors[1])
                 } catch {
                         console.error(`Failed to parse color palette string: ${string}`)

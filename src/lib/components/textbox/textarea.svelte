@@ -3,16 +3,12 @@
 	export let value = ""
 	export let label = "Textbox"
 	export let required = true
-	export let censor = false
+	export let rows = 3
 </script>
 
 <div class="wrapper">
 	<label class="label" for={id}>{label}</label>
-	{#if censor}
-		<input class="textbox" type="password" placeholder={label} {id} bind:value {required} />
-	{:else}
-		<input class="textbox" type="text" placeholder={label} {id} bind:value {required} />
-	{/if}
+	<textarea class="textbox" placeholder={label} {id} {rows} bind:value {required} />
 </div>
 
 <style lang="scss">

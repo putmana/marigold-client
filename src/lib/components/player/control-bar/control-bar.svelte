@@ -1,20 +1,21 @@
 <script lang="ts">
 	import { fly } from "svelte/transition"
 	import { createEventDispatcher } from "svelte"
+
 	import { albums } from "$lib/scripts/library/AlbumsStore"
 	import { tracks } from "$lib/scripts/library/TracksStore"
+	import type { RepeatMode } from "$lib/scripts/stores/PlayerStore"
 
 	import { formatPlayerTime } from "$lib/scripts/utils"
+
+	import PlayPauseBtn from "$lib/components/controls/play-pause-btn.svelte"
+	import SkipNextBtn from "$lib/components/controls/skip-next-btn.svelte"
+	import SkipPrevBtn from "$lib/components/controls/skip-prev-btn.svelte"
+	import ToggleShuffleBtn from "$lib/components/controls/toggle-shuffle-btn.svelte"
+	import ToggleRepeatBtn from "$lib/components/controls/toggle-repeat-btn.svelte"
+	import BtnIconSeamless from "$lib/components/button/btn-icon-seamless.svelte"
 	import Scrub from "../scrub/scrub.svelte"
-	import type { RepeatMode } from "$lib/scripts/stores/PlayerStore"
 	import Queue from "$lib/components/queue/queue.svelte"
-	import { Palette } from "$lib/scripts/color-engine/palette"
-
-	const ICON_PLAY = "public/icons/play.svg"
-	const ICON_PAUSE = "public/icons/pause.svg"
-
-	const ICON_REPEAT_ALL = "public/icons/repeat.svg"
-	const ICON_REPEAT_ONE = "public/icons/repeat-one.svg"
 
 	export let trackID: string
 	export let shuffleEnabled: boolean
@@ -30,36 +31,10 @@
 	$: _track = $tracks.get(trackID)
 	$: _album = $albums.get(_track?.albumID)
 
-	$: palette = Palette.parse(_album?.palette)
+	$: _currentTime = formatPlayerTime(currentTime)
+	$: _duration = formatPlayerTime(duration)
 
-	$: repeatEnabled = repeatMode === "OFF" ? false : true
-
-	$: s_currentTime = formatPlayerTime(currentTime)
-	$: s_duration = formatPlayerTime(duration)
-	$: formattedTime = `${s_currentTime}  /  ${s_duration}`
-
-	$: playpauseIcon = paused ? ICON_PLAY : ICON_PAUSE
-	$: repeatIcon = repeatMode == "ONE" ? ICON_REPEAT_ONE : ICON_REPEAT_ALL
-
-	function playpause() {
-		dispatch("playpause")
-	}
-
-	function skipnext() {
-		dispatch("skipnext")
-	}
-
-	function skipprev() {
-		dispatch("skipprev")
-	}
-
-	function toggleshuffle() {
-		dispatch("toggleshuffle")
-	}
-
-	function togglerepeat() {
-		dispatch("togglerepeat")
-	}
+	$: formattedTime = `${_currentTime} / ${_duration}`
 
 	function togglequeue() {
 		showQueue = !showQueue
@@ -70,9 +45,9 @@
 	}
 </script>
 
-<footer class="wrapper" style={palette.toCSS()} transition:fly={{ duration: 300, y: 60 }}>
+<footer class="wrapper" style={_album.palette.toCSS()} transition:fly={{ duration: 300, y: 60 }}>
 	<div class="scrub">
-		<Scrub {currentTime} {duration} {palette} on:scrub />
+		<Scrub {currentTime} {duration} palette={_album.palette} on:scrub />
 	</div>
 	<div class="inner-wrapper">
 		<button class="info" on:click={maximize}>
@@ -85,22 +60,11 @@
 			</div>
 		</button>
 		<section class="controls">
-			<button class="btn hide-on-mobile" on:click={toggleshuffle} class:toggled={shuffleEnabled}>
-				<img class="smaller" src="public/icons/shuffle.svg" alt="Shuffle" />
-			</button>
-			<button class="btn hide-on-mobile" on:click={skipprev}>
-				<img src="public/icons/skip-prev.svg" alt="Previous Track" />
-			</button>
-			<button class="btn" on:click={playpause}>
-				<img class="larger" src={playpauseIcon} alt="Play" />
-			</button>
-			<button class="btn hide-on-mobile" on:click={skipnext}>
-				<img src="public/icons/skip-next.svg" alt="Next Track" />
-			</button>
-
-			<button class="btn hide-on-mobile" on:click={togglerepeat} class:toggled={repeatEnabled}>
-				<img class="smaller" src={repeatIcon} alt="Repeat" />
-			</button>
+			<ToggleShuffleBtn {shuffleEnabled} on:toggleshuffle desktoponly />
+			<SkipPrevBtn on:skipprev desktoponly />
+			<PlayPauseBtn {paused} on:playpause />
+			<SkipNextBtn on:skipnext desktoponly />
+			<ToggleRepeatBtn {repeatMode} on:togglerepeat desktoponly />
 		</section>
 		<section class="options hide-on-mobile">
 			<div class="time">
@@ -113,7 +77,7 @@
 	</div>
 </footer>
 {#if showQueue}
-	<div class="queuebox" style={palette.toCSS()} transition:fly={{ duration: 300, x: 300 }}>
+	<div class="queuebox" style={_album?.palette.toCSS()} transition:fly={{ duration: 300, x: 300 }}>
 		<div class="inner-wrapper">
 			<Queue />
 		</div>

@@ -55,5 +55,11 @@
 				height: 5px;
 			}
 		}
+
+		@include mixins.mobile-only {
+			&.desktoponly {
+				display: none;
+			}
+		}
 	}
 </style>

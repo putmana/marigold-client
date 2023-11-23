@@ -80,9 +80,9 @@
 			margin-right: 20px;
 			height: 40px;
 			width: 40px;
-			border: 1px solid var(--secondary-border);
 			img {
 				height: inherit;
+				box-shadow: 0px 0px 5px colors.$shadow-faint;
 			}
 		}
 		.info {

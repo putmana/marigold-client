@@ -2,6 +2,8 @@
 	import { createEventDispatcher } from "svelte"
 	import { validateRegistration, type RegistrationIssues } from "./register"
 	import { user } from "$lib/scripts/stores/UserStore"
+	import Textbox from "$lib/components/textbox/textbox.svelte"
+	import BtnText from "$lib/components/button/btn-text.svelte"
 
 	const dispatch = createEventDispatcher()
 
@@ -43,17 +45,7 @@
 				<p class="issue">{issue}</p>
 			{/each}
 		{/if}
-		<label for="username" class="input-label">Username</label>
-		<input
-			id="username"
-			name="username"
-			type="text"
-			class="input-text"
-			bind:value={username}
-			placeholder="username"
-			class:error={issues.username.length > 0 && username.length > 0}
-			required
-		/>
+		<Textbox id="username" bind:value={username} label="Username" />
 	</div>
 
 	<div class="input">
@@ -62,17 +54,7 @@
 				<p class="issue">{issue}</p>
 			{/each}
 		{/if}
-		<label for="email" class="input-label">Email</label>
-		<input
-			id="email"
-			name="email"
-			type="email"
-			class="input-text"
-			bind:value={email}
-			placeholder="email"
-			class:error={issues.email.length > 0 && email.length > 0}
-			required
-		/>
+		<Textbox id="email" bind:value={email} label="Email" />
 	</div>
 
 	<div class="input">
@@ -81,17 +63,7 @@
 				<p class="issue">{issue}</p>
 			{/each}
 		{/if}
-		<label for="password" class="input-label">Password</label>
-		<input
-			id="password"
-			name="password"
-			type="password"
-			class="input-text"
-			bind:value={password}
-			placeholder="password"
-			class:error={issues.password.length > 0 && password.length > 0}
-			required
-		/>
+		<Textbox id="password" bind:value={password} label="Password" censor />
 	</div>
 
 	<div class="input">
@@ -100,24 +72,15 @@
 				<p class="issue">{issue}</p>
 			{/each}
 		{/if}
-		<label for="confirm_password" class="input-label">Confirm Password</label>
-		<input
-			id="confirm_password"
-			name="confirm_password"
-			type="password"
-			class="input-text"
-			bind:value={confirm_password}
-			placeholder="confirm password"
-			class:error={issues.confirm_password.length > 0 && confirm_password.length > 0}
-			required
-		/>
+
+		<Textbox id="confirm_password" bind:value={confirm_password} label="Confirm Password" censor />
 	</div>
 
 	<div class="input">
 		{#each issues.generic as issue}
 			<p class="issue">{issue}</p>
 		{/each}
-		<input type="submit" class="input-submit" value="Submit" />
+		<BtnText label="Submit" grow submit />
 	</div>
 	<div class="footer">
 		<p>Have an account? <button class="link" on:click={showLogin}>Log in</button></p>
@@ -157,27 +120,11 @@
 
 		.input {
 			width: 100%;
-			.input-label {
-				position: absolute;
-				visibility: hidden;
-			}
+
 			.issue {
 				color: $error-red;
 				font-size: smaller;
 				margin: 5px 0;
-			}
-
-			.input-text {
-				@include mixins.textbox;
-				&.error {
-					border-color: $error-red;
-					outline-color: $error-red;
-				}
-			}
-
-			.input-submit {
-				@include mixins.button;
-				width: 100%;
 			}
 		}
 

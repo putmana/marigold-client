@@ -1,4 +1,5 @@
 import type { Colorset } from "$lib/scripts/color-engine/color-engine"
+import type { Palette } from "$lib/scripts/color-engine/palette"
 
 declare global {
 
@@ -23,8 +24,8 @@ declare global {
                 artists: string
                 year: string
                 cover: Cover
-                palette: string
-                trackIDs: string[]
+                palette: Palette
+                tracklist: IndexedTrack[]
         }
 
         export type Playlist = {
@@ -32,8 +33,8 @@ declare global {
                 title: string
                 description: string
                 cover: Cover
-                palette: string
-                tracklist: PlaylistTrack[]
+                palette: Palette
+                tracklist: IndexedTrack[]
         }
 
         export type Track = {
@@ -46,7 +47,7 @@ declare global {
                 albumID: string
         }
 
-        export type PlaylistTrack = {
+        export type IndexedTrack = {
                 id: string
                 index: number
         }

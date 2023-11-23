@@ -38,6 +38,11 @@
 		&.enabled {
 			background-color: colors.$gray-c;
 			border: 1px solid colors.$border;
+
+			&:hover {
+				box-shadow: none;
+			}
+
 			&::after {
 				content: "";
 				box-sizing: border-box;

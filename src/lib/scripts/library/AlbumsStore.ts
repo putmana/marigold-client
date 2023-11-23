@@ -1,7 +1,7 @@
 import { get, writable, type Writable } from "svelte/store"
 import { user } from "../stores/UserStore"
-import { AlbumAPI } from "../api/AlbumAPI"
-import type { APIForm } from "../api/types"
+import { AlbumAPI, type AlbumForm } from "../api/AlbumAPI"
+import { CoverAPI } from "../api/CoverAPI"
 
 type AlbumMap = Map<string, Album>
 
@@ -19,12 +19,23 @@ function createAlbumsStore() {
                 set(response.result)
         }
 
-        async function update(albumForm: APIForm<Album>) {
-                const response = await AlbumAPI.upsert(albumForm)
+        async function update(id: string, form: AlbumForm, file?: File) {
+                // Update the album in the database
+                const r1 = await AlbumAPI.update(id, form)
 
-                if (!response.success) {
-                        console.log(response.error)
+                if (!r1.success) {
+                        console.log(r1.error)
                         return
+                }
+
+                // Upload a new cover file, if one is present
+                if (file) {
+                        const r2 = await CoverAPI.upload(get(user).id, id, file)
+
+                        if (!r2.success) {
+                                console.log(r2.error)
+                                return
+                        }
                 }
 
                 // Update the store

@@ -51,7 +51,13 @@ export class Color {
                 try {
                         const c = colorString
                                 .split(".")
-                                .map(x => parseInt(x))
+                                .map(x => {
+                                        const int = parseInt(x)
+                                        if (0 <= int && int <= 255) {
+                                                return int
+                                        }
+                                        throw new Error("Failed to parse color string")
+                                })
 
                         return new Color(c[0], c[1], c[2])
 

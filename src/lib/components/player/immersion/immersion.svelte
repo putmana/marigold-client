@@ -1,20 +1,20 @@
 <script lang="ts">
 	import { fly } from "svelte/transition"
 	import { createEventDispatcher } from "svelte"
+
 	import { albums } from "$lib/scripts/library/AlbumsStore"
 	import { tracks } from "$lib/scripts/library/TracksStore"
+	import type { RepeatMode } from "$lib/scripts/stores/PlayerStore"
 
 	import { formatPlayerTime } from "$lib/scripts/utils"
-	import Scrub from "../scrub/scrub.svelte"
-	import type { RepeatMode } from "$lib/scripts/stores/PlayerStore"
-	import Queue from "$lib/components/queue/queue.svelte"
-	import { Palette } from "$lib/scripts/color-engine/palette"
+
 	import PlayPauseBtn from "$lib/components/controls/play-pause-btn.svelte"
 	import SkipNextBtn from "$lib/components/controls/skip-next-btn.svelte"
 	import SkipPrevBtn from "$lib/components/controls/skip-prev-btn.svelte"
 	import ToggleShuffleBtn from "$lib/components/controls/toggle-shuffle-btn.svelte"
 	import ToggleRepeatBtn from "$lib/components/controls/toggle-repeat-btn.svelte"
 	import BtnIconSeamless from "$lib/components/button/btn-icon-seamless.svelte"
+	import Scrub from "../scrub/scrub.svelte"
 
 	export let trackID: string
 	export let shuffleEnabled: boolean
@@ -30,17 +30,15 @@
 	$: _track = $tracks.get(trackID)
 	$: _album = $albums.get(_track.albumID)
 
-	$: palette = Palette.parse(_album.palette)
-
-	$: s_currentTime = formatPlayerTime(currentTime)
-	$: s_duration = formatPlayerTime(duration)
+	$: _currentTime = formatPlayerTime(currentTime)
+	$: _duration = formatPlayerTime(duration)
 
 	function minimize() {
 		dispatch("minimize")
 	}
 </script>
 
-<div class="wrapper" style={palette.toCSS()} transition:fly={{ duration: 200, y: 300 }}>
+<div class="wrapper" style={_album.palette.toCSS()} transition:fly={{ duration: 200, y: 300 }}>
 	<div class="close-btn">
 		<BtnIconSeamless src="public/icons/close.svg" on:click={minimize} />
 	</div>
@@ -59,10 +57,10 @@
 		<div class="controls">
 			<div class="scrub">
 				<div class="time">
-					<span>{s_currentTime}</span>
-					<span>{s_duration}</span>
+					<span>{_currentTime}</span>
+					<span>{_duration}</span>
 				</div>
-				<Scrub {currentTime} {duration} {palette} on:scrub />
+				<Scrub {currentTime} {duration} palette={_album.palette} on:scrub />
 			</div>
 			<div class="buttons">
 				<ToggleShuffleBtn {shuffleEnabled} on:toggleshuffle />

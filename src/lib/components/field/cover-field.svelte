@@ -29,8 +29,8 @@
 </script>
 
 <div class="wrapper">
-	<ImageInput id="cover" src={_src} label="Cover" on:change={handleImageChange} required />
-	<PaletteInput bind:palette on:autopick={autoPickPalette} />
+	<ImageInput id="cover" src={_src} label="Cover" on:change={handleImageChange} />
+	<PaletteInput bind:palette on:autopick={autoPickPalette} on:change />
 </div>
 
 <style lang="scss">

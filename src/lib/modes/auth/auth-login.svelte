@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { createEventDispatcher } from "svelte"
 	import { user } from "$lib/scripts/stores/UserStore"
+	import Textbox from "$lib/components/textbox/textbox.svelte"
+	import BtnText from "$lib/components/button/btn-text.svelte"
 
 	const dispatch = createEventDispatcher()
 
@@ -9,6 +11,7 @@
 	let issues: string[] = []
 
 	async function login() {
+		console.log(email, password)
 		user.login(email, password)
 	}
 
@@ -22,27 +25,11 @@
 		<h1>login</h1>
 	</div>
 	<div class="input">
-		<label for="email" class="input-label">Email</label>
-		<input
-			id="email"
-			name="email"
-			type="email"
-			class="input-text"
-			bind:value={email}
-			placeholder="email"
-		/>
+		<Textbox id="email" bind:value={email} label="Email" />
 	</div>
 
 	<div class="input">
-		<label for="password" class="input-label">Password</label>
-		<input
-			id="password"
-			name="password"
-			type="password"
-			class="input-text"
-			bind:value={password}
-			placeholder="password"
-		/>
+		<Textbox id="password" bind:value={password} label="Password" censor />
 	</div>
 
 	<div class="input">
@@ -50,7 +37,7 @@
 			<p class="issue">{issue}</p>
 		{/each}
 
-		<input type="submit" class="input-submit" value="Submit" />
+		<BtnText label="Submit" grow submit />
 	</div>
 	<div class="footer">
 		<p>No account? <button class="link" on:click={showRegister}>Get one</button></p>
@@ -90,24 +77,11 @@
 
 		.input {
 			width: 100%;
-			.input-label {
-				position: absolute;
-				visibility: hidden;
-			}
 
 			.issue {
 				color: $error-red;
 				font-size: smaller;
 				margin: 5px 0;
-			}
-
-			.input-text {
-				@include mixins.textbox;
-			}
-
-			.input-submit {
-				@include mixins.button;
-				width: 100%;
 			}
 		}
 

@@ -24,9 +24,10 @@
 		-moz-appearance: none;
 		appearance: none;
 
-		@include mixins.clickable-solid;
+		@include mixins.button;
 
 		position: relative;
+		padding: 5px;
 		margin: 0px;
 		width: 50px;
 		height: 50px;

@@ -1,7 +1,14 @@
+import { Palette } from "../color-engine/palette";
 import { sb } from "../database/supabase";
-import type { APIForm, APIResult } from "./types";
+import type { APIResult } from "./types";
 
 type PlaylistAPIResult = APIResult<Map<string, Playlist>>
+
+export interface PlaylistForm {
+        title: string,
+        description: string,
+        palette: Palette,
+}
 
 export class PlaylistAPI {
 
@@ -38,7 +45,7 @@ export class PlaylistAPI {
                                         title: data.title,
                                         description: data.description,
                                         cover: getCoverURL(userID, data.id),
-                                        palette: data.palette,
+                                        palette: Palette.parse(data.palette),
                                         tracklist: data.playlists_tracks
                                                 .sort((a, b) => a.index - b.index)
                                                 .map(t => {
@@ -57,96 +64,20 @@ export class PlaylistAPI {
                 }
         }
 
-        static async upsert(form: APIForm<Playlist>): Promise<APIResult<null>> {
-                // <---- UPSERT PLAYLIST INFORMATION ---->
-                const q1 = {
-                        id: form.data.id,
-                        title: form.data.title,
-                        description: form.data.description,
-                        palette: form.data.palette,
-                }
-
-                const r1 = await sb
+        static async update(id: string, form: PlaylistForm): Promise<APIResult<null>> {
+                const response = await sb
                         .from('playlists')
-                        .upsert(q1)
+                        .update({
+                                title: form.title,
+                                description: form.description,
+                                palette: form.palette.toString(),
+                        })
+                        .eq('id', id)
 
-                if (r1.error) return {
+                if (response.error) return {
                         result: null,
                         success: false,
-                        error: r1.error.message,
-                }
-
-                // <---- UPLOAD PLAYLIST COVER FILE ---->
-                if (form.file) {
-                        const r2 = await sb
-                                .storage
-                                .from('covers')
-                                .upload(`${form.userID}/${form.data.id}`, form.file, {
-                                        cacheControl: '3600',
-                                        upsert: true,
-                                })
-
-                        if (r2.error) return {
-                                result: null,
-                                success: false,
-                                error: r2.error.message,
-                        }
-                }
-
-                return {
-                        result: null,
-                        success: true,
-                }
-        }
-
-        static async upsertTracks(playlistID: string, forms: APIForm<PlaylistTrack>[]): Promise<APIResult<null>> {
-                if (forms.length === 0) return {
-                        result: null,
-                        success: true,
-                }
-
-                // <---- UPSERT TRACK ORDER ---->
-                const q1 = forms.map(form => {
-                        return {
-                                playlist_id: playlistID,
-                                track_id: form.data.id,
-                                index: form.data.index,
-                        }
-                })
-
-                const r1 = await sb
-                        .from('playlists_tracks')
-                        .upsert(q1)
-
-                if (r1.error) return {
-                        result: null,
-                        success: false,
-                        error: r1.error.message,
-                }
-
-                return {
-                        result: null,
-                        success: true,
-                }
-        }
-
-        static async removeTracks(playlistID: string, forms: APIForm<PlaylistTrack>[]): Promise<APIResult<null>> {
-                if (forms.length === 0) return {
-                        result: null,
-                        success: true,
-                }
-
-                // <---- REMOVE TRACKS FROM PLAYLIST ---->
-                const r1 = await sb
-                        .from('playlists_tracks')
-                        .delete()
-                        .eq('playlist_id', playlistID)
-                        .in('track_id', forms.map(form => form.data.id))
-
-                if (r1.error) return {
-                        result: null,
-                        success: false,
-                        error: r1.error.message,
+                        error: response.error.message,
                 }
 
                 return {

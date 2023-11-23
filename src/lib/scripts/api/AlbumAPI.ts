@@ -1,7 +1,15 @@
+import { Palette } from "../color-engine/palette"
 import { sb } from "../database/supabase"
-import type { APIForm, APIResult } from "./types"
+import type { APIResult } from "./types"
 
 type AlbumAPIResult = APIResult<Map<string, Album>>
+
+export interface AlbumForm {
+        title: string,
+        artists: string,
+        year: string,
+        palette: Palette,
+}
 
 export class AlbumAPI {
 
@@ -15,7 +23,8 @@ export class AlbumAPI {
                         year,
                         palette,
                         tracks (
-                                id
+                                id,
+                                index
                         )
                 `
 
@@ -39,11 +48,20 @@ export class AlbumAPI {
                                         artists: data.artists,
                                         year: data.year,
                                         cover: getCoverURL(userID, data.id),
-                                        palette: data.palette,
-                                        trackIDs: data.tracks.map(t => t.id),
+                                        palette: Palette.parse(data.palette),
+                                        tracklist: data.tracks
+                                                .sort((a, b) => a.index - b.index)
+                                                .map(t => {
+                                                        return {
+                                                                id: t.id,
+                                                                index: t.index,
+                                                        }
+                                                })
                                 }
                         ])
                 ) satisfies Map<string, Album>
+
+                console.log(albums)
 
                 return {
                         result: albums,
@@ -51,41 +69,21 @@ export class AlbumAPI {
                 }
         }
 
-        static async upsert(form: APIForm<Album>): Promise<APIResult<null>> {
-                // <---- UPSERT ALBUM INFORMATION ---->
-                const q1 = {
-                        id: form.data.id,
-                        title: form.data.title,
-                        artists: form.data.artists,
-                        year: form.data.year,
-                        palette: form.data.palette,
-                }
-
-                const r1 = await sb
+        static async update(id: string, form: AlbumForm): Promise<APIResult<null>> {
+                const response = await sb
                         .from('albums')
-                        .upsert(q1)
+                        .update({
+                                title: form.title,
+                                artists: form.artists,
+                                year: form.year,
+                                palette: form.palette.toString(),
+                        })
+                        .eq('id', id)
 
-                if (r1.error) return {
+                if (response.error) return {
                         result: null,
                         success: false,
-                        error: r1.error.message,
-                }
-
-                // <---- UPLOAD ALBUM COVER FILE ---->
-                if (form.file) {
-                        const r2 = await sb
-                                .storage
-                                .from('covers')
-                                .upload(`${form.userID}/${form.data.id}`, form.file, {
-                                        cacheControl: '3600',
-                                        upsert: true,
-                                })
-
-                        if (r2) return {
-                                result: null,
-                                success: false,
-                                error: r2.error.message,
-                        }
+                        error: response.error.message,
                 }
 
                 return {
@@ -116,5 +114,4 @@ function getCoverURL(userID: string, albumID: string): Cover {
                 large: getSize(500),
                 small: getSize(100),
         }
-
 }

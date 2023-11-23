@@ -1,15 +1,20 @@
 <script lang="ts">
 	import ViewerHeader from "$lib/components/viewer/viewer-header.svelte"
 	import ViewerTrack from "$lib/components/viewer/viewer-track.svelte"
+	import PlaylistEditor from "./edit/playlist-editor.svelte"
+
 	import { playlists } from "$lib/scripts/library/PlaylistsStore"
 	import { tracks } from "$lib/scripts/library/TracksStore"
-
 	import { playerController } from "$lib/scripts/stores/PlayerStore"
+
+	let editing = false
 
 	export let currentPlaylistID: string
 
 	$: _playlist = $playlists.get(currentPlaylistID)
-	$: _tracks = _playlist?.tracklist.map((t) => $tracks.get(t.id))
+	$: _tracks = _playlist?.tracklist.map((track) => $tracks.get(track.id))
+
+	$: _tracks?.sort((a, b) => a.index - b.index)
 
 	function startQueue(index: number) {
 		playerController.startQueue(
@@ -17,9 +22,14 @@
 			index
 		)
 	}
+
+	function openEditor() {
+		editing = true
+	}
 </script>
 
 {#if _playlist}
+	<PlaylistEditor bind:visible={editing} playlist={_playlist} />
 	<ViewerHeader
 		title={_playlist.title}
 		cover={_playlist.cover}
@@ -28,7 +38,7 @@
 		on:play={() => {
 			startQueue(0)
 		}}
-		on:edit
+		on:edit={openEditor}
 	/>
 
 	{#each _tracks as track, index}

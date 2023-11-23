@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { Palette } from "$lib/scripts/color-engine/palette"
+	import type { Palette } from "$lib/scripts/color-engine/palette"
 
 	export let hidden: boolean
-	export let palette: Palette = Palette.gray
+	export let palette: Palette
 
 	// Hide the finder on mobile displays
 	function hide() {
@@ -56,7 +56,6 @@
 			flex-direction: column;
 			padding-bottom: 180px;
 			overflow-y: scroll;
-			gap: 10px;
 		}
 	}
 

@@ -3,39 +3,22 @@
 	import Viewer from "$lib/components/viewer/viewer.svelte"
 	import AlbumFinder from "./album-finder.svelte"
 	import AlbumViewer from "./album-viewer.svelte"
-	import AlbumEditor from "./album-editor.svelte"
 
 	import { albums, selectedAlbumID } from "$lib/scripts/library/AlbumsStore"
-
-	import { editing } from "$lib/scripts/stores/EditStore"
 	import { Palette } from "$lib/scripts/color-engine/palette"
 
 	let hidden = true
 
 	$: _album = $albums.get($selectedAlbumID)
 
-	$: palette = Palette.parse(_album?.palette)
-
 	function showFinder() {
 		hidden = false
-	}
-
-	function openEditor() {
-		$editing = true
-	}
-
-	function closeEditor() {
-		$editing = false
 	}
 </script>
 
 <Finder title="Albums">
 	<AlbumFinder bind:currentAlbumID={$selectedAlbumID} on:select={showFinder} />
 </Finder>
-<Viewer bind:hidden {palette}>
-	{#if $editing}
-		<AlbumEditor currentAlbumID={$selectedAlbumID} on:close={closeEditor} />
-	{:else}
-		<AlbumViewer currentAlbumID={$selectedAlbumID} on:edit={openEditor} />
-	{/if}
+<Viewer bind:hidden palette={_album?.palette ?? Palette.gray}>
+	<AlbumViewer currentAlbumID={$selectedAlbumID} />
 </Viewer>

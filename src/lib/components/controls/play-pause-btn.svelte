@@ -34,5 +34,11 @@
 		img {
 			width: 35px;
 		}
+
+		@include mixins.mobile-only {
+			&.desktoponly {
+				display: none;
+			}
+		}
 	}
 </style>
