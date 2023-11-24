@@ -104,12 +104,12 @@
 		.cover {
 			display: flex;
 			justify-content: center;
-			max-width: min(80%, 350px);
+			max-width: min(80%, 300px);
 
 			img {
 				display: block;
 				max-width: 100%;
-				box-shadow: 0px 0px 20px colors.$shadow;
+				box-shadow: 0px 0px 30px colors.$shadow;
 			}
 		}
 

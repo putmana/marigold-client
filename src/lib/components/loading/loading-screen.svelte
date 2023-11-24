@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { fade, fly } from "svelte/transition"
+	import { fade } from "svelte/transition"
 </script>
 
 <main class="wrapper" transition:fade={{ duration: 200 }}>

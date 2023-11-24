@@ -53,6 +53,7 @@
 			display: flex;
 			flex-direction: column;
 			margin: 10px;
+			margin-bottom: 60px;
 			padding: 20px;
 			gap: 20px;
 			background-color: colors.$gray-c;
