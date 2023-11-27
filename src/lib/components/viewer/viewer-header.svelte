@@ -18,6 +18,10 @@
 	function openEditor() {
 		dispatch("edit")
 	}
+
+	function openUploader() {
+		dispatch("upload")
+	}
 </script>
 
 <header class="wrapper" style={palette.toCSS()}>
@@ -27,6 +31,7 @@
 		<div class="header-btns">
 			<BtnIconText label="Play" src="public/icons/play.svg" alt="Play icon" on:click={play} />
 			<BtnIcon src="public/icons/edit.svg" alt="Edit icon" on:click={openEditor} />
+			<BtnIcon src="public/icons/upload.svg" alt="Upload icon" on:click={openUploader} />
 		</div>
 	</section>
 	<section class="cover">

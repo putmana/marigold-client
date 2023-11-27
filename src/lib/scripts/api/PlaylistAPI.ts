@@ -5,6 +5,7 @@ import type { APIResult } from "./types";
 type PlaylistAPIResult = APIResult<Map<string, Playlist>>
 
 export interface PlaylistForm {
+        id: string,
         title: string,
         description: string,
         palette: Palette,
@@ -31,10 +32,14 @@ export class PlaylistAPI {
                         .select(query)
                         .order('title')
 
-                if (error) return {
-                        result: new Map<string, Playlist>(),
-                        success: false,
-                        error: error.message
+                if (error) {
+                        console.error(error.message)
+
+                        return {
+                                data: new Map<string, Playlist>(),
+                                success: false,
+                                error: error.message
+                        }
                 }
 
                 const playlists = new Map<string, Playlist>(
@@ -59,12 +64,30 @@ export class PlaylistAPI {
                 ) satisfies Map<string, Playlist>
 
                 return {
-                        result: playlists,
+                        data: playlists,
                         success: true,
                 }
         }
 
-        static async update(id: string, form: PlaylistForm): Promise<APIResult<null>> {
+        static async create(form: PlaylistForm): Promise<APIResult> {
+                const response = await sb
+                        .from('playlists')
+                        .insert({
+                                id: form.id,
+                                title: form.title,
+                                description: form.description,
+                                palette: form.palette.toString(),
+                        })
+
+                if (response.error) console.error(response.error.message)
+
+                return {
+                        success: response.error ? false : true,
+                        error: response.error?.message,
+                }
+        }
+
+        static async update(form: PlaylistForm): Promise<APIResult<null>> {
                 const response = await sb
                         .from('playlists')
                         .update({
@@ -72,22 +95,30 @@ export class PlaylistAPI {
                                 description: form.description,
                                 palette: form.palette.toString(),
                         })
-                        .eq('id', id)
+                        .eq('id', form.id)
 
-                if (response.error) return {
-                        result: null,
-                        success: false,
-                        error: response.error.message,
-                }
+                if (response.error) console.error(response.error.message)
 
                 return {
-                        result: null,
-                        success: true,
+                        success: response.error ? false : true,
+                        error: response.error?.message,
+                }
+        }
+
+        static async remove(form: PlaylistForm): Promise<APIResult> {
+                const response = await sb
+                        .from('playlists')
+                        .delete()
+                        .eq('id', form.id)
+
+                if (response.error) console.error(response.error.message)
+
+                return {
+                        success: response.error ? false : true,
+                        error: response.error?.message,
                 }
         }
 }
-
-
 
 function getCoverURL(userID: string, playlistID: string): Cover {
         function getSize(size: number): string {

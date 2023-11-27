@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { tracks } from "$lib/scripts/library/TracksStore"
+	import { tracks } from "$lib/scripts/stores/LibraryStore"
 	import {
 		currentTrack,
 		initialized,

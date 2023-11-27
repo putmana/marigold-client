@@ -3,8 +3,7 @@
 	import ViewerTrack from "$lib/components/viewer/viewer-track.svelte"
 	import PlaylistEditor from "./edit/playlist-editor.svelte"
 
-	import { playlists } from "$lib/scripts/library/PlaylistsStore"
-	import { tracks } from "$lib/scripts/library/TracksStore"
+	import { playlists, tracks } from "$lib/scripts/stores/LibraryStore"
 	import { playerController } from "$lib/scripts/stores/PlayerStore"
 
 	let editing = false

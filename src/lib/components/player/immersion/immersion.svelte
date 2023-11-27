@@ -2,8 +2,7 @@
 	import { fly } from "svelte/transition"
 	import { createEventDispatcher } from "svelte"
 
-	import { albums } from "$lib/scripts/library/AlbumsStore"
-	import { tracks } from "$lib/scripts/library/TracksStore"
+	import { albums, tracks } from "$lib/scripts/stores/LibraryStore"
 	import type { RepeatMode } from "$lib/scripts/stores/PlayerStore"
 
 	import { formatPlayerTime } from "$lib/scripts/utils"

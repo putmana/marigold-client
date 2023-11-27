@@ -3,12 +3,13 @@
 	export let alt = "Button"
 </script>
 
-<button class="btn" on:click>
+<button type="button" class="btn" on:click on:focusout>
 	<img {src} {alt} />
 </button>
 
 <style lang="scss">
 	@use "src/style/mixins";
+
 	.btn {
 		@include mixins.clickable;
 		box-sizing: content-box;

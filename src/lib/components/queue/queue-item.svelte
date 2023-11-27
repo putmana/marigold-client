@@ -1,6 +1,5 @@
 <script lang="ts">
-	import { albums } from "$lib/scripts/library/AlbumsStore"
-	import { tracks } from "$lib/scripts/library/TracksStore"
+	import { albums, tracks } from "$lib/scripts/stores/LibraryStore"
 
 	export let trackID: string
 

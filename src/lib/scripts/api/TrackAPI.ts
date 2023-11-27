@@ -1,12 +1,21 @@
 import { sb } from "../database/supabase";
-import type { APIForm, APIResult } from "./types";
+import type { APIResult } from "./types";
 
-type APITrackResult = APIResult<Map<string, Track>>
+type TrackAPIResult = APIResult<Map<string, Track>>
+
+export interface TrackForm {
+        id: string,
+        title: string,
+        artists: string,
+        duration: number,
+        index: number,
+        albumID: string,
+}
 
 export class TrackAPI {
         constructor() { }
 
-        static async fetch(userID: string): Promise<APITrackResult> {
+        static async fetch(userID: string): Promise<TrackAPIResult> {
                 const query = `
                         id,
                         title,
@@ -20,10 +29,14 @@ export class TrackAPI {
                         .from('tracks')
                         .select(query)
 
-                if (error) return {
-                        result: new Map<string, Track>(),
-                        success: false,
-                        error: error.message,
+                if (error) {
+                        console.error(error.message)
+
+                        return {
+                                data: new Map<string, Track>(),
+                                success: false,
+                                error: error.message,
+                        }
                 }
 
                 const tracks = new Map<string, Track>(
@@ -42,102 +55,64 @@ export class TrackAPI {
                 ) satisfies Map<string, Track>
 
                 return {
-                        result: tracks,
+                        data: tracks,
                         success: true,
                 }
         }
 
-        static async upsert(forms: APIForm<Track>[]): Promise<APIResult<null>> {
-                if (forms.length === 0) return {
-                        result: null,
-                        success: true,
-                }
-
-                // <---- UPSERT TRACK INFORMATION ---->
-                const q1 = forms.map(form => {
-                        return {
-                                id: form.data.id,
-                                title: form.data.title,
-                                artists: form.data.artists,
-                                duration: form.data.duration,
-                                index: form.data.index,
-                                album_id: form.data.albumID,
-                        }
-                })
-
-                const r1 = await sb
+        static async create(form: TrackForm): Promise<APIResult> {
+                const response = await sb
                         .from('tracks')
-                        .upsert(q1)
+                        .insert({
+                                id: form.id,
+                                title: form.title,
+                                artists: form.artists,
+                                duration: form.duration,
+                                index: form.index,
+                                album_id: form.albumID,
+                        })
 
-                if (r1) return {
-                        result: null,
-                        success: false,
-                        error: r1.error.message,
-                }
-
-                // <---- UPLOAD TRACK AUDIO FILE ---->
-                for (const form of forms) {
-                        if (form.file) {
-                                const r2 = await sb
-                                        .storage
-                                        .from('audio')
-                                        .upload(`${form.userID}/${form.data.id}`, form.file, {
-                                                cacheControl: '3600',
-                                                upsert: true,
-                                        })
-
-                                if (r2.error) return {
-                                        result: null,
-                                        success: false,
-                                        error: r2.error.message,
-                                }
-                        }
-                }
+                if (response.error) console.error(response.error.message)
 
                 return {
-                        result: null,
-                        success: true,
+                        success: response.error ? false : true,
+                        error: response.error?.message,
                 }
         }
 
-        static async delete(forms: APIForm<Track>[]): Promise<APIResult<null>> {
-                if (forms.length === 0) return {
-                        result: null,
-                        success: true,
+        static async update(form: TrackForm): Promise<APIResult> {
+                const response = await sb
+                        .from('tracks')
+                        .update({
+                                title: form.title,
+                                artists: form.artists,
+                        })
+                        .eq('id', form.id)
+
+                if (response.error) console.error(response.error.message)
+
+                return {
+                        success: response.error ? false : true,
+                        error: response.error?.message,
                 }
+        }
 
-                // <---- DELETE TRACK ROW IN DATABASE ---->
-                const ids = forms.map(form => form.data.id)
-
-                const res1 = await sb
+        static async remove(form: TrackForm): Promise<APIResult> {
+                const response = await sb
                         .from('tracks')
                         .delete()
-                        .in('id', ids)
+                        .eq('id', form.id)
 
-                if (res1.error) return {
-                        result: null,
-                        success: false,
-                        error: res1.error.message,
-                }
-
-                // <---- DELETE TRACK AUDIO FILE ---->
-                const res2 = await sb
-                        .storage
-                        .from('audio')
-                        .remove(ids)
-
-                if (res2.error) return {
-                        result: null,
-                        success: false,
-                        error: res2.error.message,
-                }
+                console.log("REMOVING TRACK")
+                if (response.error) console.error(response.error.message)
 
                 return {
-                        result: null,
-                        success: true,
+                        success: response.error ? false : true,
+                        error: response.error?.message,
                 }
         }
 }
+
 
 function getAudioURL(userID: string, trackID: string): string {
         return sb
@@ -147,3 +122,4 @@ function getAudioURL(userID: string, trackID: string): string {
                 .data
                 .publicUrl
 }
+

@@ -34,3 +34,13 @@ export function shuffleArray(arr: Array<any>) {
         }
         return arr;
 }
+
+export async function getFileURL(file: File): Promise<string> {
+        const reader = new FileReader()
+        reader.readAsDataURL(file)
+
+        return new Promise((resolve, reject) => {
+                reader.onload = (e) => resolve(e.target.result.toString())
+                reader.onerror = () => reject(new Error("Failed to load file"))
+        })
+}

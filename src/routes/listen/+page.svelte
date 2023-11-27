@@ -3,27 +3,19 @@
 	import NavBtn from "$lib/components/nav/nav-btn/nav-btn.svelte"
 	import Nav from "$lib/components/nav/nav.svelte"
 
+	import LoadingScreen from "$lib/components/loading/loading-screen.svelte"
 	import Albums from "$lib/modes/albums/albums.svelte"
 	import Playlists from "$lib/modes/playlists/playlists.svelte"
 	import Player from "$lib/components/player/player.svelte"
 
 	import { user } from "$lib/scripts/stores/UserStore"
 	import { mode } from "$lib/scripts/stores/ModeStore"
-	import { albums } from "$lib/scripts/library/AlbumsStore"
-	import { playlists } from "$lib/scripts/library/PlaylistsStore"
-	import { tracks } from "$lib/scripts/library/TracksStore"
+	import { library } from "$lib/scripts/stores/LibraryStore"
 	import { onMount } from "svelte"
-	import LoadingScreen from "$lib/components/loading/loading-screen.svelte"
 
 	onMount(async () => {
 		await user.init()
 	})
-
-	async function fetchload() {
-		await albums.fetch()
-		await playlists.fetch()
-		await tracks.fetch()
-	}
 
 	$: if ($mode === "SETTINGS") {
 		user.logout()
@@ -32,7 +24,7 @@
 
 {#if $user}
 	<div class="wrapper">
-		{#await fetchload()}
+		{#await library.load()}
 			<LoadingScreen />
 		{:then}
 			<Nav>
@@ -40,41 +32,19 @@
 				<NavBtn tab={"ALBUMS"} label="albums" iconPath="public/icons/regular-albums.svg" />
 				<NavBtn tab={"SETTINGS"} label="settings" iconPath="public/icons/settings.svg" />
 			</Nav>
+
 			{#if $mode === "ALBUMS"}
 				<Albums />
 			{:else if $mode === "PLAYLISTS"}
 				<Playlists />
 			{/if}
+
 			<Player />
 		{/await}
 	</div>
 {:else}
 	<Auth />
 {/if}
-
-<!---
-{#if $user}
-	{#await library.load()}
-		<h1>Loading...</h1>
-	{:then}
-		<div class="wrapper">
-			<Nav>
-				<NavBtn tab={"PLAYLISTS"} label="playlists" iconPath="public/icons/regular-playlists.svg" />
-				<NavBtn tab={"ALBUMS"} label="albums" iconPath="public/icons/regular-albums.svg" />
-				<NavBtn tab={"SETTINGS"} label="settings" iconPath="public/icons/settings.svg" />
-			</Nav>
-			{#if $mode === "ALBUMS"}
-				<Albums />
-			{:else if $mode === "PLAYLISTS"}
-				<Playlists />
-			{:else if $mode === "SETTINGS"}
-				<AuthLogout />
-			{/if}
-		</div>
-	{/await}
-{:else}
-{/if}
---->
 
 <style lang="scss">
 	@use "/src/style/sizes";

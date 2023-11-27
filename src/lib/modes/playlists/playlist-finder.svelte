@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { createEventDispatcher } from "svelte"
 
-	import { playlists } from "$lib/scripts/library/PlaylistsStore"
+	import { playlists } from "$lib/scripts/stores/LibraryStore"
 
 	import FinderItem from "$lib/components/finder/finder-item.svelte"
 

@@ -5,6 +5,7 @@ import type { APIResult } from "./types"
 type AlbumAPIResult = APIResult<Map<string, Album>>
 
 export interface AlbumForm {
+        id: string,
         title: string,
         artists: string,
         year: string,
@@ -33,10 +34,14 @@ export class AlbumAPI {
                         .select(query)
                         .order('title', { ascending: true })
 
-                if (error) return {
-                        result: new Map<string, Album>(),
-                        success: false,
-                        error: error.message
+                if (error) {
+                        console.error(error.message)
+
+                        return {
+                                data: new Map<string, Album>(),
+                                success: false,
+                                error: error.message
+                        }
                 }
 
                 const albums = new Map<string, Album>(
@@ -61,34 +66,62 @@ export class AlbumAPI {
                         ])
                 ) satisfies Map<string, Album>
 
-                console.log(albums)
-
                 return {
-                        result: albums,
+                        data: albums,
                         success: true,
                 }
         }
 
-        static async update(id: string, form: AlbumForm): Promise<APIResult<null>> {
+        static async create(form: AlbumForm): Promise<APIResult> {
                 const response = await sb
                         .from('albums')
-                        .update({
+                        .insert({
+                                id: form.id,
                                 title: form.title,
                                 artists: form.artists,
                                 year: form.year,
                                 palette: form.palette.toString(),
                         })
-                        .eq('id', id)
 
-                if (response.error) return {
-                        result: null,
-                        success: false,
-                        error: response.error.message,
-                }
+                if (response.error) console.error(response.error.message)
 
                 return {
-                        result: null,
-                        success: true,
+                        success: response.error ? false : true,
+                        error: response.error?.message,
+                }
+        }
+
+        static async update(form: AlbumForm): Promise<APIResult<null>> {
+                const response = await sb
+                        .from('albums')
+                        .update({
+                                id: form.id,
+                                title: form.title,
+                                artists: form.artists,
+                                year: form.year,
+                                palette: form.palette.toString(),
+                        })
+                        .eq('id', form.id)
+
+                if (response.error) console.error(response.error.message)
+
+                return {
+                        success: response.error ? false : true,
+                        error: response.error?.message,
+                }
+        }
+
+        static async remove(form: AlbumForm): Promise<APIResult> {
+                const response = await sb
+                        .from('albums')
+                        .delete()
+                        .eq('id', form.id)
+
+                if (response.error) console.error(response.error.message)
+
+                return {
+                        success: response.error ? false : true,
+                        error: response.error?.message,
                 }
         }
 }

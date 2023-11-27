@@ -2,8 +2,7 @@
 	import { fly } from "svelte/transition"
 	import { createEventDispatcher } from "svelte"
 
-	import { albums } from "$lib/scripts/library/AlbumsStore"
-	import { tracks } from "$lib/scripts/library/TracksStore"
+	import { albums, tracks } from "$lib/scripts/stores/LibraryStore"
 	import type { RepeatMode } from "$lib/scripts/stores/PlayerStore"
 
 	import { formatPlayerTime } from "$lib/scripts/utils"
@@ -13,7 +12,6 @@
 	import SkipPrevBtn from "$lib/components/controls/skip-prev-btn.svelte"
 	import ToggleShuffleBtn from "$lib/components/controls/toggle-shuffle-btn.svelte"
 	import ToggleRepeatBtn from "$lib/components/controls/toggle-repeat-btn.svelte"
-	import BtnIconSeamless from "$lib/components/button/btn-icon-seamless.svelte"
 	import Scrub from "../scrub/scrub.svelte"
 	import Queue from "$lib/components/queue/queue.svelte"
 

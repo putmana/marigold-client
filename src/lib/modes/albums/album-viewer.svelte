@@ -2,12 +2,13 @@
 	import ViewerHeader from "$lib/components/viewer/viewer-header.svelte"
 	import ViewerTrack from "$lib/components/viewer/viewer-track.svelte"
 	import AlbumEditor from "./edit/album-editor.svelte"
+	import TrackUploader from "$lib/components/track-uploader/track-uploader.svelte"
 
-	import { albums } from "$lib/scripts/library/AlbumsStore"
-	import { tracks } from "$lib/scripts/library/TracksStore"
+	import { albums, tracks } from "$lib/scripts/stores/LibraryStore"
 	import { playerController } from "$lib/scripts/stores/PlayerStore"
 
 	let editing = false
+	let uploading = false
 
 	export let currentAlbumID: string
 
@@ -26,11 +27,16 @@
 	function openEdtior() {
 		editing = true
 	}
+
+	function openUploader() {
+		uploading = true
+	}
 </script>
 
 {#key currentAlbumID}
 	{#if _album}
 		<AlbumEditor bind:visible={editing} album={_album} />
+		<TrackUploader bind:visible={uploading} albumID={_album.id} />
 		<ViewerHeader
 			title={_album.title}
 			cover={_album.cover}
@@ -40,6 +46,7 @@
 				startQueue(0)
 			}}
 			on:edit={openEdtior}
+			on:upload={openUploader}
 		/>
 
 		{#each _tracks as track, index}

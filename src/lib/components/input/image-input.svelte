@@ -6,7 +6,7 @@
 	export let id = "img"
 	export let src = ""
 	export let label = "Image upload"
-	export let required = false
+	export let required = true
 
 	let input: HTMLInputElement
 

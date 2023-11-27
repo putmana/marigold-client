@@ -1,10 +1,21 @@
 <script lang="ts">
+	import { createEventDispatcher } from "svelte"
+
+	import BtnIconSeamless from "../button/btn-icon-seamless.svelte"
+
+	const dispatch = createEventDispatcher()
+
 	export let title: string
+
+	function openCreator() {
+		dispatch("create")
+	}
 </script>
 
 <aside class="wrapper">
 	<header class="header">
 		<h1>{title}</h1>
+		<BtnIconSeamless src="public/icons/add.svg" alt="Add icon" on:click={openCreator} />
 	</header>
 
 	<slot />
@@ -36,6 +47,7 @@
 		h1 {
 			text-transform: uppercase;
 			font-size: inherit;
+			flex-grow: 1;
 		}
 	}
 

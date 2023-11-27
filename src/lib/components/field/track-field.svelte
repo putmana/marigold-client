@@ -3,31 +3,16 @@
 
 	import BtnIconSeamless from "../button/btn-icon-seamless.svelte"
 	import Textbox from "../textbox/textbox.svelte"
-	import type { APIForm } from "$lib/scripts/api/types"
+	import type { TrackForm } from "$lib/scripts/api/TrackAPI"
 
 	const dispatch = createEventDispatcher()
 
-	export let trackForm: APIForm<Track>
+	export let trackForm: TrackForm
 	export let index: number
 	export let atStart: boolean
 	export let atEnd: boolean
 
-	function loadFile(e: Event) {
-		const reader = new FileReader()
-		const input = e.target as HTMLInputElement
-
-		const file = input.files[0]
-
-		if (file) {
-			reader.readAsDataURL(file)
-			reader.onload = (e) => {
-				trackForm.data.file = e.target.result.toString()
-				trackForm.file = input.files[0]
-			}
-		}
-	}
-
-	$: trackForm.data.index = index
+	$: trackForm.index = index
 
 	function moveUp() {
 		dispatch("moveup")
@@ -46,7 +31,7 @@
 	}
 </script>
 
-<div class="wrapper" class:deleted={trackForm.action === "DELETE"}>
+<div class="wrapper">
 	<div class="index">
 		{#if !atStart}
 			<BtnIconSeamless src="public/icons/caret-up.svg" on:click={moveUp} />
@@ -56,19 +41,12 @@
 		{/if}
 	</div>
 	<div class="info">
-		<Textbox id="{trackForm.data.id}_title" bind:value={trackForm.data.title} label="Title" />
-		<Textbox id="{trackForm.data.id}_artists" bind:value={trackForm.data.artists} label="Artists" />
-		{#if trackForm.action === "INSERT"}
-			<input type="file" accept="audio/mp3, audio/flac" on:change={loadFile} />
-		{/if}
+		<Textbox id="{trackForm.title}_title" bind:value={trackForm.title} label="Title" />
+		<Textbox id="{trackForm.title}_artists" bind:value={trackForm.artists} label="Artists" />
 	</div>
 	<div class="end">
 		<BtnIconSeamless src="public/icons/play.svg" />
-		{#if trackForm.action === "DELETE"}
-			<BtnIconSeamless src="public/icons/add.svg" on:click={restore} />
-		{:else}
-			<BtnIconSeamless src="public/icons/trash.svg" on:click={remove} />
-		{/if}
+		<BtnIconSeamless src="public/icons/trash.svg" on:click={remove} />
 	</div>
 </div>
 
@@ -85,6 +63,7 @@
 		align-items: center;
 		background-color: colors.$item;
 		border: 1px solid colors.$border;
+		box-shadow: 0px 0px 5px colors.$shadow-faint;
 
 		.index {
 			display: flex;
@@ -109,10 +88,6 @@
 			align-items: center;
 			padding: 0px 15px;
 			gap: 5px;
-		}
-
-		&.deleted {
-			opacity: 50%;
 		}
 	}
 	@media (min-width: sizes.$screen-lg) {

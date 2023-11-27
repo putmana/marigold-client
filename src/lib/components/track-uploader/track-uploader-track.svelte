@@ -1,21 +1,18 @@
 <script lang="ts">
-	import BtnIconSeamless from "$lib/components/button/btn-icon-seamless.svelte"
-	import { Palette } from "$lib/scripts/color-engine/palette"
-	import { albums, covers, tracks } from "$lib/scripts/stores/LibraryStore"
 	import { createEventDispatcher } from "svelte"
+
+	import BtnIconSeamless from "../button/btn-icon-seamless.svelte"
+	import Textbox from "../textbox/textbox.svelte"
+	import type { TrackForm } from "$lib/scripts/api/TrackAPI"
 
 	const dispatch = createEventDispatcher()
 
-	export let trackID: string
+	export let trackForm: TrackForm
 	export let index: number
 	export let atStart: boolean
 	export let atEnd: boolean
 
-	$: _track = $tracks.get(trackID)
-	$: _album = $albums.get(_track?.albumID)
-	$: _cover = $covers.get(_album?.coverID)
-
-	$: palette = Palette.parse(_cover?.palette)
+	$: trackForm.index = index
 
 	function moveUp() {
 		dispatch("moveup")
@@ -30,7 +27,7 @@
 	}
 </script>
 
-<div class="wrapper" style={palette.toCSS()}>
+<div class="wrapper">
 	<div class="index">
 		{#if !atStart}
 			<BtnIconSeamless src="public/icons/caret-up.svg" on:click={moveUp} />
@@ -39,14 +36,12 @@
 			<BtnIconSeamless src="public/icons/caret-down.svg" on:click={moveDown} />
 		{/if}
 	</div>
-	<div class="cover">
-		<img src={_cover?.fileSmall} alt={`cover for ${_track.title}`} />
-	</div>
 	<div class="info">
-		<h3 class="title">{_track.title}</h3>
-		<h4 class="artist">{_track.artists}</h4>
+		<Textbox id="{trackForm.title}_title" bind:value={trackForm.title} label="Title" />
+		<Textbox id="{trackForm.title}_artists" bind:value={trackForm.artists} label="Artists" />
 	</div>
 	<div class="end">
+		<BtnIconSeamless src="public/icons/play.svg" />
 		<BtnIconSeamless src="public/icons/trash.svg" on:click={remove} />
 	</div>
 </div>
@@ -64,44 +59,23 @@
 		align-items: center;
 		background-color: colors.$item;
 		border: 1px solid colors.$border;
+		box-shadow: 0px 0px 5px colors.$shadow-faint;
 
 		.index {
 			display: flex;
 			flex-direction: column;
 			justify-content: center;
 			align-items: center;
+			gap: 5px;
 			height: 20px;
 			width: 60px;
 		}
 
-		.cover {
-			margin-right: 20px;
-			height: 40px;
-			width: 40px;
-			border: 1px solid var(--secondary-border);
-			img {
-				height: inherit;
-			}
-
-			@include mixins.mobile-only {
-				display: none;
-			}
-		}
-
 		.info {
 			display: flex;
-			flex-direction: column;
+			flex-wrap: wrap;
 			flex-grow: 1;
-			justify-content: center;
-
-			.title {
-				all: unset;
-			}
-			.artist {
-				all: unset;
-				opacity: 80%;
-				font-size: smaller;
-			}
+			gap: 10px;
 		}
 
 		.end {
@@ -110,6 +84,13 @@
 			align-items: center;
 			padding: 0px 15px;
 			gap: 5px;
+		}
+	}
+	@media (min-width: sizes.$screen-lg) {
+		.wrapper {
+			.index {
+				width: 60px;
+			}
 		}
 	}
 </style>
