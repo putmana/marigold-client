@@ -28,6 +28,7 @@
 			<h3>{artists}</h3>
 		{/if}
 	</span>
+	<span class="flow" />
 </button>
 
 <style lang="scss">
@@ -42,9 +43,10 @@
 
 		display: flex;
 		align-items: center;
+		flex-shrink: 0;
 
 		box-sizing: border-box;
-		height: 70px;
+		height: 60px;
 		margin: 5px;
 		padding-left: 10px;
 
@@ -53,8 +55,9 @@
 		.cover {
 			@include mixins.faint-shadow;
 
-			width: 60px;
-			height: 60px;
+			width: 50px;
+			height: 50px;
+			border: 1px solid transparent;
 
 			img {
 				height: inherit;
@@ -65,6 +68,7 @@
 			flex-direction: column;
 			justify-content: center;
 			align-items: flex-start;
+			flex-grow: 1;
 
 			margin-left: 20px;
 
@@ -83,8 +87,22 @@
 			}
 		}
 
+		.flow {
+			@include mixins.mobile-only {
+				display: none;
+			}
+
+			@include mixins.desktop-only {
+				position: relative;
+				inset: auto 0px auto auto;
+
+				width: 0px;
+				height: 0px;
+			}
+		}
+
 		&.selected {
-			height: 90px;
+			height: 80px;
 
 			margin: 0;
 			margin-left: 0px;
@@ -93,7 +111,7 @@
 
 			background-color: var(--primary-medium);
 
-			border: 1px solid var(--primary-border);
+			border: 1px solid colors.$border-hover;
 			border-radius: 0px;
 
 			.info {
@@ -103,29 +121,17 @@
 				}
 			}
 
+			.cover {
+				border: 1px solid colors.$border-hover;
+			}
+
 			&:hover,
 			&:focus {
 				box-shadow: none;
 			}
 
-			@media (min-width: sizes.$screen-lg) {
-				border-right-width: 0px;
-
-				&::after {
-					content: "";
-
-					position: absolute;
-					right: -1px;
-
-					box-sizing: border-box;
-					width: 2px;
-					height: inherit;
-
-					background-color: var(--primary-medium);
-
-					border-top: 1px solid var(--primary-border);
-					border-bottom: 1px solid var(--primary-border);
-				}
+			@include mixins.desktop-only {
+				border-right: none;
 			}
 		}
 	}

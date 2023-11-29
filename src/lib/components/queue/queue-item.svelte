@@ -39,7 +39,7 @@
 			margin-right: 10px;
 			height: 40px;
 			width: 40px;
-			border: 1px solid var(--secondary-border);
+			border: 1px solid colors.$border-hover;
 			img {
 				height: inherit;
 			}

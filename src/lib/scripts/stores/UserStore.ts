@@ -37,6 +37,7 @@ export function createUserStore() {
         async function logout() {
                 const { error } = await sb.auth.signOut()
                 if (error) console.error(error)
+                location.reload()
         }
 
         return {

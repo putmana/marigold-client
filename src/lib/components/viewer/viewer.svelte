@@ -29,6 +29,7 @@
 		display: flex;
 		flex-direction: column;
 		box-sizing: border-box;
+		background-color: var(--primary-medium);
 
 		.topbar {
 			padding: 20px;
@@ -78,7 +79,6 @@
 		.wrapper {
 			background-image: linear-gradient(to right, var(--primary-medium), var(--secondary-dark));
 			flex-grow: 1;
-			border-left: 1px solid var(--primary-border);
 		}
 		.topbar {
 			display: none;

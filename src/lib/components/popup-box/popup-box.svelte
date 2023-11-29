@@ -34,35 +34,34 @@
 
 	.wrapper {
 		position: fixed;
-		inset: 0px 0px 0px 0px;
+		inset: 0px auto auto 0px;
 		z-index: 2;
+
 		display: flex;
-		backdrop-filter: brightness(50%) saturate(50%);
-		align-items: center;
 		justify-content: center;
+		align-items: center;
 
-		@include mixins.desktop-only {
-			align-items: center;
-		}
+		height: 100svh;
+		width: 100svw;
 
-		@include mixins.mobile-only {
-			align-items: start;
-		}
+		backdrop-filter: brightness(50%) saturate(50%);
 
 		.box {
 			display: flex;
 			flex-direction: column;
+			gap: 20px;
+
+			box-sizing: border-box;
+			width: max-content;
+			max-width: 95svw;
 			margin: 10px;
 			margin-bottom: 60px;
 			padding: 20px;
-			gap: 20px;
+
 			background-color: colors.$gray-c;
 			border: 1px solid colors.$border-hover;
 			border-radius: 5px;
 			box-shadow: 0px 0px 30px colors.$shadow;
-			width: max-content;
-			box-sizing: border-box;
-			max-width: 95svw;
 
 			.titlebar {
 				display: flex;

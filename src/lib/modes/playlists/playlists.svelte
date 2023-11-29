@@ -23,7 +23,7 @@
 	}
 </script>
 
-<Finder title="Playlists">
+<Finder title="Playlists" on:create={openCreator} palette={_playlist?.palette ?? Palette.gray}>
 	<PlaylistFinder bind:currentPlaylistID={selectedPlaylistID} on:select={showFinder} />
 </Finder>
 <Viewer bind:hidden palette={_playlist?.palette ?? Palette.gray}>

@@ -17,7 +17,7 @@ export const primarySwatches: Swatch[] = [
         { lmin: 0.50, lmax: 0.50, chroma: 0.06, opacity: 1.0, name: "primary-medium", },
         { lmin: 0.35, lmax: 0.50, chroma: 0.06, opacity: 1.0, name: "primary-dark", },
         { lmin: 0.15, lmax: 0.30, chroma: 0.06, opacity: 1.0, name: "primary-verydark", },
-        { lmin: 0.50, lmax: 0.65, chroma: 0.06, opacity: 0.7, name: "primary-border", },
+        { lmin: 0.60, lmax: 0.60, chroma: 0.06, opacity: 1.0, name: "primary-border", },
 ]
 
 export const secondarySwatches: Swatch[] = [

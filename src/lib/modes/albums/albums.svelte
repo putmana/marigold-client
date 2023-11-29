@@ -24,7 +24,7 @@
 	}
 </script>
 
-<Finder title="Albums" on:create={openCreator}>
+<Finder title="Albums" on:create={openCreator} palette={_album?.palette ?? Palette.gray}>
 	<AlbumFinder bind:currentAlbumID={selectedAlbumID} on:select={showFinder} />
 </Finder>
 <Viewer bind:hidden palette={_album?.palette ?? Palette.gray}>
