@@ -16,7 +16,6 @@
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
-		flex-grow: 1;
 
 		.logo {
 			@include animations.throb;

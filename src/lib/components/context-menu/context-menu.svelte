@@ -36,15 +36,19 @@
 			position: absolute;
 			inset: calc(100% + 5px) 0px auto auto;
 			z-index: 100;
-			min-width: 150px;
-			min-height: 60px;
+
 			display: flex;
 			flex-direction: column;
+
+			min-width: 150px;
+			min-height: 60px;
+			padding: 5px;
+
+			backdrop-filter: blur(30px);
+			background-color: colors.$hover;
+
 			border: 1px solid colors.$border-hover;
 			border-radius: 5px;
-			background-color: colors.$hover;
-			backdrop-filter: blur(30px);
-			padding: 5px;
 		}
 	}
 </style>

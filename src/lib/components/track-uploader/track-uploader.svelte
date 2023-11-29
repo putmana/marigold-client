@@ -16,7 +16,7 @@
 	import { AudioAPI } from "$lib/scripts/api/AudioAPI"
 
 	import { user } from "$lib/scripts/stores/UserStore"
-	import { library } from "$lib/scripts/stores/LibraryStore"
+	import { albums, library } from "$lib/scripts/stores/LibraryStore"
 
 	const [send, receive] = crossfade({
 		duration: (d) => Math.sqrt(d * 200)
@@ -78,12 +78,21 @@
 
 	async function submit() {
 		uploading = true
+
+		const album = $albums.get(albumID)
+
+		// For progress bar
+		uploadCurrent = 0
 		uploadTotal = uploads.length
 
 		for (let i = 0; i < uploads.length; i++) {
-			uploadCurrent = i + 1
-
 			const upload = uploads[i]
+
+			// Make sure the tracks are appended to the end of the album
+			upload.form.index = upload.form.index + album.tracklist.length
+
+			// Update the progress bar
+			uploadCurrent = i + 1
 
 			await AudioAPI.upload(upload.file, upload.form.id, $user.id)
 			await TrackAPI.create(upload.form)
@@ -168,18 +177,28 @@
 	@use "src/style/colors";
 
 	.content {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
 		width: min(90svw, 600px);
 
 		.loading {
 			display: flex;
 			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			gap: 10px;
+
 			height: 200px;
+			width: 200px;
 		}
 
 		.form {
 			display: flex;
 			flex-direction: column;
 			gap: 15px;
+
+			width: 100%;
 
 			.input {
 				width: 0px;

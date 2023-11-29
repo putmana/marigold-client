@@ -16,7 +16,7 @@
 <div class="wrapper">
 	<ColorInput bind:color={palette.primary} />
 	<ColorInput bind:color={palette.secondary} />
-	<BtnIconRound src="public/icons/eyedropper.svg" on:click={autoPick} />
+	<BtnIconRound src="public/icons/palette.svg" on:click={autoPick} />
 </div>
 
 <style lang="scss">

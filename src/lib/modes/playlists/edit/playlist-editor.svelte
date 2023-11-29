@@ -30,7 +30,11 @@
 
 	async function submit() {
 		await PlaylistAPI.update(form)
-		await CoverAPI.upload($user.id, form.id, file)
+
+		if (file) {
+			await CoverAPI.upload(file, form.id, $user.id)
+		}
+
 		await library.load()
 		close()
 	}
