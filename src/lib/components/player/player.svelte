@@ -37,13 +37,6 @@
 		file = ""
 	}
 
-	function handleKeyDown(e: KeyboardEvent) {
-		if (e.key === "k") {
-			maximized = !maximized
-			e.preventDefault()
-		}
-	}
-
 	function playpause() {
 		paused = !paused
 	}
@@ -91,7 +84,6 @@
 	}
 </script>
 
-<svelte:window on:keydown={handleKeyDown} />
 {#if $initialized}
 	{#if maximized}
 		<Immersion

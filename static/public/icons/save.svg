@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
-   width="16"
-   height="16"
-   fill="currentColor"
-   class="bi bi-floppy-fill"
-   viewBox="0 0 16 16"
+   class="ionicon"
+   viewBox="0 0 512 512"
    version="1.1"
    id="svg6"
    sodipodi:docname="save.svg"
@@ -25,9 +22,9 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      showgrid="false"
-     inkscape:zoom="14.75"
-     inkscape:cx="8"
-     inkscape:cy="8"
+     inkscape:zoom="0.4609375"
+     inkscape:cx="256"
+     inkscape:cy="256"
      inkscape:window-width="1309"
      inkscape:window-height="456"
      inkscape:window-x="0"
@@ -35,11 +32,13 @@
      inkscape:window-maximized="0"
      inkscape:current-layer="svg6" />
   <path
-     d="M0 1.5A1.5 1.5 0 0 1 1.5 0H3v5.5A1.5 1.5 0 0 0 4.5 7h7A1.5 1.5 0 0 0 13 5.5V0h.086a1.5 1.5 0 0 1 1.06.44l1.415 1.414A1.5 1.5 0 0 1 16 2.914V14.5a1.5 1.5 0 0 1-1.5 1.5H14v-5.5A1.5 1.5 0 0 0 12.5 9h-9A1.5 1.5 0 0 0 2 10.5V16h-.5A1.5 1.5 0 0 1 0 14.5v-13Z"
+     d="M465.94 119.76l-73.7-73.7A47.68 47.68 0 00358.3 32H96a64 64 0 00-64 64v320a64 64 0 0064 64h320a64 64 0 0064-64V153.7a47.68 47.68 0 00-14.06-33.94zM120 112h176a8 8 0 018 8v48a8 8 0 01-8 8H120a8 8 0 01-8-8v-48a8 8 0 018-8zm139.75 319.91a80 80 0 1176.16-76.16 80.06 80.06 0 01-76.16 76.16z"
      id="path2"
-     style="fill:#ffffff" />
-  <path
-     d="M3 16h10v-5.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5V16Zm9-16H4v5.5a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5V0ZM9 1h2v4H9V1Z"
-     id="path4"
-     style="fill:#ffffff" />
+     style="stroke:#ffffff;fill:#ffffff" />
+  <circle
+     cx="256"
+     cy="352"
+     r="48"
+     id="circle4"
+     style="stroke:#ffffff;fill:#ffffff" />
 </svg>

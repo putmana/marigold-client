@@ -3,24 +3,26 @@
 </script>
 
 <div class="wrapper">
-	<img class="logo" src="public/images/logo.png" alt="Marigold logo" />
+	<img class="logo" src="public/images/logo.svg" alt="Marigold logo" />
 	<h1>{label}</h1>
 </div>
 
 <style lang="scss">
 	@use "/src/style/colors";
+	@use "/src/style/animations";
 
 	.wrapper {
 		display: flex;
 		flex-direction: column;
-		align-items: center;
 		justify-content: center;
-		height: 200px;
+		align-items: center;
+		flex-grow: 1;
 
 		.logo {
+			@include animations.throb;
+
 			width: 40px;
 			height: 40px;
-			animation: spin 4s ease infinite;
 		}
 
 		@keyframes spin {
@@ -40,7 +42,6 @@
 
 		h1 {
 			font-size: 20px;
-			opacity: 70%;
 		}
 	}
 </style>

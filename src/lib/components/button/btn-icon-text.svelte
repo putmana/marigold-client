@@ -5,7 +5,7 @@
 	export let src = "public/icons/unknown.svg"
 	export let alt = "button"
 
-	export let trailing = true
+	export let trailing = false
 </script>
 
 <button class="btn" type={submit ? "submit" : "button"} class:smaller on:click>
@@ -27,11 +27,10 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		gap: 10px;
+		gap: 5px;
 
 		img {
-			max-width: 100%;
-			max-height: 100%;
+			width: 15px;
 		}
 
 		&.smaller {

@@ -31,12 +31,12 @@
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
-		height: 50px;
-		width: 50px;
+		height: 45px;
+		width: 45px;
 		border-radius: 5px;
 
 		img {
-			width: 15px;
+			width: 20px;
 		}
 
 		&::after {

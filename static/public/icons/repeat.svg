@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
-   width="16"
-   height="16"
-   fill="currentColor"
-   class="bi bi-repeat"
-   viewBox="0 0 16 16"
+   class="ionicon"
+   viewBox="0 0 512 512"
    version="1.1"
-   id="svg4"
+   id="svg8"
    sodipodi:docname="repeat.svg"
    inkscape:version="1.2.2 (b0a84865, 2022-12-01)"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
@@ -14,9 +11,9 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:svg="http://www.w3.org/2000/svg">
   <defs
-     id="defs8" />
+     id="defs12" />
   <sodipodi:namedview
-     id="namedview6"
+     id="namedview10"
      pagecolor="#ffffff"
      bordercolor="#000000"
      borderopacity="0.25"
@@ -25,17 +22,40 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      showgrid="false"
-     inkscape:zoom="14.75"
-     inkscape:cx="8"
-     inkscape:cy="8"
+     inkscape:zoom="0.4609375"
+     inkscape:cx="256"
+     inkscape:cy="256"
      inkscape:window-width="1309"
      inkscape:window-height="456"
      inkscape:window-x="0"
      inkscape:window-y="38"
      inkscape:window-maximized="0"
-     inkscape:current-layer="svg4" />
+     inkscape:current-layer="svg8" />
   <path
-     d="M11 5.466V4H5a4 4 0 0 0-3.584 5.777.5.5 0 1 1-.896.446A5 5 0 0 1 5 3h6V1.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384l-2.36 1.966a.25.25 0 0 1-.41-.192Zm3.81.086a.5.5 0 0 1 .67.225A5 5 0 0 1 11 13H5v1.466a.25.25 0 0 1-.41.192l-2.36-1.966a.25.25 0 0 1 0-.384l2.36-1.966a.25.25 0 0 1 .41.192V12h6a4 4 0 0 0 3.585-5.777.5.5 0 0 1 .225-.67Z"
+     fill="none"
+     stroke="currentColor"
+     stroke-linecap="round"
+     stroke-linejoin="round"
+     stroke-width="32"
+     d="M320 120l48 48-48 48"
      id="path2"
-     style="fill:#ffffff" />
+     style="stroke:#ffffff" />
+  <path
+     d="M352 168H144a80.24 80.24 0 00-80 80v16M192 392l-48-48 48-48"
+     fill="none"
+     stroke="currentColor"
+     stroke-linecap="round"
+     stroke-linejoin="round"
+     stroke-width="32"
+     id="path4"
+     style="stroke:#ffffff" />
+  <path
+     d="M160 344h208a80.24 80.24 0 0080-80v-16"
+     fill="none"
+     stroke="currentColor"
+     stroke-linecap="round"
+     stroke-linejoin="round"
+     stroke-width="32"
+     id="path6"
+     style="stroke:#ffffff" />
 </svg>

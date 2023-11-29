@@ -10,24 +10,27 @@
 	outline-offset: -4px;
 
 	&:focus-visible {
-		outline-color: white;
-		background-color: colors.$hover;
+		background-color: colors.$item-hover;
+		outline-color: colors.$white-a;
 	}
 }
 
 @mixin clickable {
 	@include interactive;
 	@include animate;
+
 	border: 1px solid transparent;
 	cursor: pointer;
 
-	&:hover, &:focus-within {
-		background-color: colors.$hover;
+	&:hover {
+		@include shadow;
+
+		background-color: colors.$item-hover;
 		border-color: colors.$border-hover;
-		box-shadow: 0px 0px 5px colors.$shadow-faint;
 	}
+
 	&:active {
-		background-color: colors.$active;
+		background-color: colors.$item-active;
 	}
 }
 
@@ -36,64 +39,74 @@
 	@include animate;
 
 	padding: 5px;
-	background-color: colors.$border;
+	background-color: colors.$item;
 	border: 1px solid colors.$border;
 	cursor: pointer;
-
-	&:hover {
-		background-color: colors.$hover;
-		border-color: colors.$border-hover;
-	}
-	
 }
 
 @mixin button {
 	@include clickable;
+	@include faint-shadow;
+
 	display: flex;
+	
 	justify-content: center;
 	align-items: center;
-	color: white;
-	font-weight: 700;
-	text-transform: uppercase;
-	font-size: smaller;
+
 	box-sizing: border-box;
 	width: max-content;
 	padding: 12px;
+
+	color: white;
 	background-color: colors.$border;
+
 	border: 1px solid colors.$border;
 	border-radius: 5px;
-	box-shadow: 0px 0px 5px colors.$shadow-faint;
+
+	font-weight: 700;
+	text-transform: uppercase;
+	font-size: smaller;
+
+	&:hover {
+		@include shadow;
+	}
 }
 
 @mixin link {
 	@include interactive;
-	cursor: pointer;
+
 	font-weight: bold;
 	text-decoration: underline;
+
+	cursor: pointer;
 }
 
 @mixin textbox {
 	all: unset;
+
 	@include animate;
-	color: white;
-	font-size: smaller;
-	box-sizing: border-box;
-	padding: 12px;
-	border: 1px solid colors.$border-hover;
-	border-radius: 5px;
+	@include faint-shadow-inset;
+
 	box-sizing: border-box;
 	width: 100%;
+	padding: 12px;
+
+	color: white;
 	background-color: hsl(0, 0%, 0%, 10%);
-	box-shadow: inset 0px 0px 5px colors.$shadow-faint;
+
+	border: 1px solid colors.$border-hover;
+	border-radius: 5px;
+
+	font-size: smaller;
 
 	&:hover {
 		border-color: colors.$border-bright;
 	}
 
 	&:focus {
+		@include shadow-inset;
 		background-color: hsl(0, 0%, 0%, 25%);
 		border-color: colors.$border-bright;
-		box-shadow: inset 0px 0px 5px colors.$shadow;
 	}
 }
 
@@ -107,4 +120,24 @@
 	@media (min-width: sizes.$screen-lg) {
 		@content;
 	}
+}
+
+@mixin shadow {
+	box-shadow: 0px 0px 5px colors.$shadow;
+}
+
+@mixin shadow-inset {
+	box-shadow: inset 0px 0px 5px colors.$shadow;
+}
+
+@mixin faint-shadow {
+	box-shadow: 0px 0px 5px colors.$shadow-faint;
+}
+
+@mixin faint-shadow-inset {
+	box-shadow: inset 0px 0px 5px colors.$shadow-faint;
+}
+
+@mixin icon {
+	opacity: 80%;
 }

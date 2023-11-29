@@ -4,7 +4,7 @@ import type { APIResult } from "./types";
 export class CoverAPI {
         constructor() { }
 
-        static async upload(userID: string, coverID: string, file: File): Promise<APIResult> {
+        static async upload(file: File, coverID: string, userID: string): Promise<APIResult> {
                 const response = await sb
                         .storage
                         .from('covers')

@@ -39,18 +39,23 @@
 		@include mixins.clickable;
 
 		position: relative;
-		height: 70px;
-		margin: 5px;
-		border-radius: 5px;
-		padding-left: 10px;
+
 		display: flex;
 		align-items: center;
+
 		box-sizing: border-box;
+		height: 70px;
+		margin: 5px;
+		padding-left: 10px;
+
+		border-radius: 5px;
 
 		.cover {
-			height: 60px;
+			@include mixins.faint-shadow;
+
 			width: 60px;
-			box-shadow: 0px 0px 5px colors.$shadow-faint;
+			height: 60px;
+
 			img {
 				height: inherit;
 			}
@@ -60,14 +65,18 @@
 			flex-direction: column;
 			justify-content: center;
 			align-items: flex-start;
+
 			margin-left: 20px;
+
 			h2,
 			h3 {
+				opacity: 80%;
+
 				margin-top: 2px;
 				margin-bottom: 2px;
+
 				font-weight: normal;
 				font-size: inherit;
-				opacity: 80%;
 			}
 			h3 {
 				font-size: small;
@@ -75,14 +84,17 @@
 		}
 
 		&.selected {
+			height: 90px;
+
+			margin: 0;
 			margin-left: 0px;
 			margin-right: 0px;
-			border-radius: 0px;
-			height: 90px;
 			padding-left: 15px;
+
 			background-color: var(--primary-medium);
+
 			border: 1px solid var(--primary-border);
-			margin: 0;
+			border-radius: 0px;
 
 			.info {
 				h2,
@@ -91,7 +103,8 @@
 				}
 			}
 
-			&:hover {
+			&:hover,
+			&:focus {
 				box-shadow: none;
 			}
 
@@ -100,14 +113,18 @@
 
 				&::after {
 					content: "";
+
+					position: absolute;
+					right: -1px;
+
 					box-sizing: border-box;
+					width: 2px;
+					height: inherit;
+
+					background-color: var(--primary-medium);
+
 					border-top: 1px solid var(--primary-border);
 					border-bottom: 1px solid var(--primary-border);
-					background-color: var(--primary-medium);
-					position: absolute;
-					height: inherit;
-					width: 2px;
-					right: -1px;
 				}
 			}
 		}

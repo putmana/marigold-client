@@ -35,8 +35,11 @@
 
 {#key currentAlbumID}
 	{#if _album}
-		<AlbumEditor bind:visible={editing} album={_album} />
-		<TrackUploader bind:visible={uploading} albumID={_album.id} />
+		{#key currentAlbumID}
+			<AlbumEditor bind:visible={editing} album={_album} />
+			<TrackUploader bind:visible={uploading} albumID={_album.id} />
+		{/key}
+
 		<ViewerHeader
 			title={_album.title}
 			cover={_album.cover}

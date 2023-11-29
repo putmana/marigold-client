@@ -10,6 +10,8 @@
 
 <style lang="scss">
 	@use "src/style/mixins";
+	@use "src/style/colors";
+
 	.btn {
 		@include mixins.button;
 		box-sizing: content-box;
@@ -20,8 +22,7 @@
 		align-items: center;
 
 		img {
-			max-width: 100%;
-			max-height: 100%;
+			width: 20px;
 		}
 	}
 </style>

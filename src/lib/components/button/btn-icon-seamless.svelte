@@ -22,8 +22,7 @@
 		align-items: center;
 
 		img {
-			max-width: 100%;
-			max-height: 100%;
+			width: 20px;
 		}
 	}
 </style>

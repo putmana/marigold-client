@@ -9,11 +9,13 @@
 	import BtnText from "$lib/components/button/btn-text.svelte"
 	import TrackUploaderTrack from "./track-uploader-track.svelte"
 	import PopupBox from "$lib/components/popup-box/popup-box.svelte"
+	import Loader from "../loading/loader.svelte"
+	import ProgressBar from "../progress-bar/progress-bar.svelte"
 
 	import { TrackAPI, type TrackForm } from "$lib/scripts/api/TrackAPI"
 	import { AudioAPI } from "$lib/scripts/api/AudioAPI"
+
 	import { user } from "$lib/scripts/stores/UserStore"
-	import Loader from "../loading/loader.svelte"
 	import { library } from "$lib/scripts/stores/LibraryStore"
 
 	const [send, receive] = crossfade({
@@ -27,6 +29,8 @@
 	let uploads: { form: TrackForm; file: File }[] = []
 
 	let uploading = false
+	let uploadCurrent = 0
+	let uploadTotal = 0
 
 	$: empty = uploads.length === 0
 
@@ -74,25 +78,37 @@
 
 	async function submit() {
 		uploading = true
-		for await (const upload of uploads) {
+		uploadTotal = uploads.length
+
+		for (let i = 0; i < uploads.length; i++) {
+			uploadCurrent = i + 1
+
+			const upload = uploads[i]
+
 			await AudioAPI.upload(upload.file, upload.form.id, $user.id)
 			await TrackAPI.create(upload.form)
 		}
+
 		await library.load()
+
 		close()
+
+		uploads = []
+		uploading = false
 	}
 
 	function close() {
 		visible = false
-		uploading = false
-		uploads = []
 	}
 </script>
 
 <PopupBox label="Upload Tracks" bind:visible on:close={close}>
 	<div slot="content" class="content">
 		{#if uploading}
-			<Loader label="Uploading" />
+			<div class="loading">
+				<Loader label="Uploading..." />
+				<ProgressBar current={uploadCurrent} total={uploadTotal} />
+			</div>
 		{:else}
 			<form class="form" on:submit|preventDefault={submit}>
 				<input
@@ -154,6 +170,12 @@
 	.content {
 		width: min(90svw, 600px);
 
+		.loading {
+			display: flex;
+			flex-direction: column;
+			height: 200px;
+		}
+
 		.form {
 			display: flex;
 			flex-direction: column;
@@ -166,24 +188,28 @@
 			}
 
 			.tracks {
-				max-height: min(70svh, 800px);
-				overflow-y: scroll;
 				display: flex;
 				flex-direction: column;
 				gap: 10px;
+				overflow-y: scroll;
+
 				box-sizing: border-box;
+
+				max-height: min(70svh, 800px);
 				padding: 10px;
+
+				background-color: colors.$gray-d;
+
 				border: 1px solid colors.$border-hover;
 				border-radius: 5px;
-				background-color: colors.$gray-d;
-				box-shadow: inset 0px 0px 5px colors.$shadow-faint;
 
 				.empty {
-					height: min(50svh, 400px);
 					display: flex;
 					flex-direction: column;
 					justify-content: center;
 					align-items: center;
+
+					height: min(50svh, 400px);
 
 					.placeholder {
 						opacity: 70%;
@@ -195,7 +221,6 @@
 
 			.footer {
 				display: flex;
-				justify-content: center;
 				justify-content: space-between;
 				gap: 10px;
 			}

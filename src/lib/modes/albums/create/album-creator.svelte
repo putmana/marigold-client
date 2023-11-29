@@ -13,6 +13,7 @@
 	import { CoverAPI } from "$lib/scripts/api/CoverAPI"
 
 	import { user } from "$lib/scripts/stores/UserStore"
+	import { library } from "$lib/scripts/stores/LibraryStore"
 
 	export let visible = false
 
@@ -31,7 +32,8 @@
 
 	async function submit() {
 		await AlbumAPI.create(form)
-		await CoverAPI.upload($user.id, form.id, file)
+		await CoverAPI.upload(file, form.id, $user.id)
+		await library.load()
 		close()
 	}
 

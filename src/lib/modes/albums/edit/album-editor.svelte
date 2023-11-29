@@ -32,8 +32,9 @@
 		await AlbumAPI.update(form)
 
 		if (file) {
-			await CoverAPI.upload($user.id, form.id, file)
+			await CoverAPI.upload(file, form.id, $user.id)
 		}
+
 		await library.load()
 		close()
 	}

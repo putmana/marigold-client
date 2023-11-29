@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
-   width="16"
-   height="16"
-   fill="currentColor"
-   class="bi bi-pause-fill"
-   viewBox="0 0 16 16"
+   class="ionicon"
+   viewBox="0 0 512 512"
    version="1.1"
    id="svg4"
    sodipodi:docname="pause.svg"
@@ -25,17 +22,17 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      showgrid="false"
-     inkscape:zoom="14.746908"
-     inkscape:cx="6.8827988"
-     inkscape:cy="4.3398929"
-     inkscape:window-width="1512"
-     inkscape:window-height="916"
+     inkscape:zoom="0.4609375"
+     inkscape:cx="256"
+     inkscape:cy="256"
+     inkscape:window-width="1309"
+     inkscape:window-height="456"
      inkscape:window-x="0"
      inkscape:window-y="38"
-     inkscape:window-maximized="1"
+     inkscape:window-maximized="0"
      inkscape:current-layer="svg4" />
   <path
-     d="M5.5 3.5A1.5 1.5 0 0 1 7 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5zm5 0A1.5 1.5 0 0 1 12 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5z"
+     d="M208 432h-48a16 16 0 01-16-16V96a16 16 0 0116-16h48a16 16 0 0116 16v320a16 16 0 01-16 16zM352 432h-48a16 16 0 01-16-16V96a16 16 0 0116-16h48a16 16 0 0116 16v320a16 16 0 01-16 16z"
      id="path2"
      style="fill:#ffffff" />
 </svg>
