@@ -67,8 +67,6 @@
 		<BtnIconSeamless on:click={playTrack} src={"public/icons/play.svg"} />
 		<ContextMenu>
 			<ContextMenuOption label="Add to Queue" on:click={addTrackToQueue} />
-			<ContextMenuOption label="Add Track to Playlist" />
-
 			<ContextMenuOption label="Edit Track" on:click={editTrack} />
 			<ContextMenuOption label="Delete Track" on:click={removeTrack} />
 		</ContextMenu>

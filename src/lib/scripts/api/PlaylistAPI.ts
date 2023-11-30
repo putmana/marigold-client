@@ -29,6 +29,7 @@ export class PlaylistAPI {
                         description,
                         palette,
                         playlists_tracks (
+                                id,
                                 track_id,
                                 index
                         )
@@ -59,13 +60,14 @@ export class PlaylistAPI {
                                         cover: getCoverURL(userID, data.id),
                                         palette: Palette.parse(data.palette),
                                         tracklist: data.playlists_tracks
-                                                .sort((a, b) => a.index - b.index)
                                                 .map(t => {
                                                         return {
                                                                 id: t.track_id,
                                                                 index: t.index,
+                                                                refID: t.id,
                                                         }
                                                 })
+                                                .sort((a, b) => a.index - b.index)
                                 }
                         ])
                 ) satisfies Map<string, Playlist>

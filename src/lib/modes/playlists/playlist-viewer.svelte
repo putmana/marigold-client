@@ -14,8 +14,6 @@
 	$: _playlist = $playlists.get(currentPlaylistID)
 	$: _tracks = _playlist?.tracklist.map((track) => $tracks.get(track.id))
 
-	$: _tracks?.sort((a, b) => a.index - b.index)
-
 	function startQueue(index: number) {
 		playerController.startQueue(
 			_playlist.tracklist.map((t) => t.id),
