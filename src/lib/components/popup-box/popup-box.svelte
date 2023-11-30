@@ -28,7 +28,7 @@
 				<slot name="content" />
 			</main>
 			{#if loading}
-				<div class="loader" transition:fade={{ duration: 200 }}>
+				<div class="loader" in:fade={{ duration: 200 }} out:fade={{ delay: 200, duration: 200 }}>
 					{#if $$slots.loader}
 						<slot name="loader" />
 					{:else}
@@ -89,7 +89,7 @@
 				.title {
 					margin: 0;
 					text-transform: uppercase;
-					font-size: inherit;
+					font-size: medium;
 				}
 			}
 

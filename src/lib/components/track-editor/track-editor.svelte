@@ -12,6 +12,8 @@
 	export let track: Track
 	export let visible = false
 
+	let loading = false
+
 	let form: TrackForm
 
 	onMount(() => {
@@ -26,9 +28,13 @@
 	})
 
 	async function submit() {
+		loading = true
+
 		await TrackAPI.update(form)
 		await library.load()
 		close()
+
+		loading = false
 	}
 
 	function close() {
@@ -36,7 +42,7 @@
 	}
 </script>
 
-<PopupBox title="Edit Track Details" bind:visible on:close={close}>
+<PopupBox title="Edit Track Details" bind:visible bind:loading on:close={close}>
 	<div slot="content" class="content">
 		<form class="form" on:submit|preventDefault={submit}>
 			<Textbox id="title" label="Title" bind:value={form.title} />

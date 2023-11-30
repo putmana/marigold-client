@@ -14,6 +14,8 @@
 	.btn {
 		@include mixins.button;
 
+		min-width: 60px;
+
 		&.grow {
 			width: 100%;
 		}

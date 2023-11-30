@@ -15,6 +15,8 @@
 	export let album: Album
 	export let visible = false
 
+	let loading = false
+
 	let form: AlbumForm
 	let file: File | undefined
 
@@ -29,6 +31,8 @@
 	})
 
 	async function submit() {
+		loading = true
+
 		await AlbumAPI.update(form)
 
 		if (file) {
@@ -37,6 +41,8 @@
 
 		await library.load()
 		close()
+
+		loading = false
 	}
 
 	function close() {
@@ -44,7 +50,7 @@
 	}
 </script>
 
-<PopupBox title="Edit Album Details" bind:visible on:close={close}>
+<PopupBox title="Edit Album Details" bind:visible bind:loading on:close={close}>
 	<div slot="content" class="content">
 		<form class="form" on:submit|preventDefault={submit}>
 			<CoverField cover={album.cover} bind:palette={form.palette} bind:file required={false} />

@@ -34,7 +34,7 @@
 	async function removeTrack() {
 		const approved = await confirm({
 			title: "Delete Track",
-			message: `Are you sure you want to delete "${track.title}"? This cannot be undone.`
+			message: `Permanently delete "${track.title}"? This cannot be undone.`
 		})
 
 		// Early return if the user declines the confirmation message

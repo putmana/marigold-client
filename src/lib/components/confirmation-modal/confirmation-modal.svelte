@@ -38,22 +38,27 @@
 			{$confMessage}
 		</div>
 		<div class="footer">
-			<BtnText label="Yes" on:click={approve} />
 			<BtnText label="No" on:click={deny} />
+			<BtnText label="Yes" on:click={approve} />
 		</div>
 	</div>
 </PopupBox>
 
 <style lang="scss">
+	@use "src/style/colors";
+
 	.content {
 		display: flex;
 		flex-direction: column;
 		gap: 20px;
 
-		width: min(90svw, 300px);
+		width: min(90svw, 350px);
 
 		.text {
-			min-height: 50px;
+			min-height: 40px;
+
+			color: colors.$white-b;
+			letter-spacing: 0.25px;
 		}
 
 		.footer {
