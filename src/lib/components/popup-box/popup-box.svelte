@@ -3,11 +3,13 @@
 	import { createEventDispatcher } from "svelte"
 
 	import BtnIconSeamless from "../button/btn-icon-seamless.svelte"
+	import Throbber from "../throbber/throbber.svelte"
 
 	const dispatch = createEventDispatcher()
 
 	export let title = "Untitled Popup Box"
-	export let visible: boolean
+	export let visible = false
+	export let loading = false
 
 	function close() {
 		visible = false
@@ -25,6 +27,17 @@
 			<main class="content">
 				<slot name="content" />
 			</main>
+			{#if loading}
+				<div class="loader" transition:fade={{ duration: 200 }}>
+					{#if $$slots.loader}
+						<slot name="loader" />
+					{:else}
+						<div class="throbber">
+							<Throbber size={60} />
+						</div>
+					{/if}
+				</div>
+			{/if}
 		</div>
 	</div>
 {/if}
@@ -48,6 +61,8 @@
 		backdrop-filter: brightness(50%) saturate(50%);
 
 		.box {
+			position: relative;
+
 			display: flex;
 			flex-direction: column;
 			gap: 20px;
@@ -64,6 +79,8 @@
 			border-radius: 5px;
 			box-shadow: 0px 0px 30px colors.$shadow;
 
+			overflow: hidden;
+
 			.titlebar {
 				display: flex;
 				align-items: center;
@@ -79,6 +96,18 @@
 			.content {
 				display: flex;
 				gap: 5px;
+			}
+
+			.loader {
+				position: absolute;
+				inset: 0px 0px 0px 0px;
+
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: center;
+
+				background-color: colors.$gray-c;
 			}
 		}
 	}

@@ -1,3 +1,11 @@
+<script lang="ts" context="module">
+	let open: (id: string) => void
+
+	export function openUploader(albumID: string) {
+		open(albumID)
+	}
+</script>
+
 <script lang="ts">
 	import { crossfade } from "svelte/transition"
 	import { flip } from "svelte/animate"
@@ -9,26 +17,27 @@
 	import BtnText from "$lib/components/button/btn-text.svelte"
 	import TrackUploaderTrack from "./track-uploader-track.svelte"
 	import PopupBox from "$lib/components/popup-box/popup-box.svelte"
-	import Loader from "../loading/loader.svelte"
-	import ProgressBar from "../progress-bar/progress-bar.svelte"
 
 	import { TrackAPI, type TrackForm } from "$lib/scripts/api/TrackAPI"
 	import { AudioAPI } from "$lib/scripts/api/AudioAPI"
 
 	import { user } from "$lib/scripts/stores/UserStore"
 	import { albums, library } from "$lib/scripts/stores/LibraryStore"
+	import Throbber from "../throbber/throbber.svelte"
+	import ProgressBar from "../progress-bar/progress-bar.svelte"
 
 	const [send, receive] = crossfade({
 		duration: (d) => Math.sqrt(d * 200)
 	})
 
-	export let visible = false
-	export let albumID: string
+	let loading = false
+	let visible = false
+
+	let albumID: string
 
 	let input: HTMLInputElement
 	let uploads: { form: TrackForm; file: File }[] = []
 
-	let uploading = false
 	let uploadCurrent = 0
 	let uploadTotal = 0
 
@@ -77,7 +86,7 @@
 	}
 
 	async function submit() {
-		uploading = true
+		loading = true
 
 		const album = $albums.get(albumID)
 
@@ -103,7 +112,12 @@
 		close()
 
 		uploads = []
-		uploading = false
+		loading = false
+	}
+
+	open = (id: string) => {
+		albumID = id
+		visible = true
 	}
 
 	function close() {
@@ -111,65 +125,63 @@
 	}
 </script>
 
-<PopupBox title="Upload Tracks" bind:visible on:close={close}>
+<PopupBox title="Upload Tracks" bind:loading bind:visible on:close={close}>
 	<div slot="content" class="content">
-		{#if uploading}
-			<div class="loading">
-				<Loader label="Uploading..." />
-				<ProgressBar current={uploadCurrent} total={uploadTotal} />
-			</div>
-		{:else}
-			<form class="form" on:submit|preventDefault={submit}>
-				<input
-					bind:this={input}
-					class="input"
-					type="file"
-					id="audio-files"
-					name="audio-files"
-					accept="audio/*"
-					multiple
-					required
-					on:change={loadFiles}
-				/>
-				<div class="tracks">
-					{#each uploads as upload, index (upload.form.id)}
-						<div
-							in:receive={{ key: upload.form.id }}
-							out:send={{ key: upload.form.id }}
-							animate:flip={{ duration: 200 }}
-						>
-							<TrackUploaderTrack
-								bind:trackForm={upload.form}
-								{index}
-								atStart={index === 0}
-								atEnd={index === uploads.length - 1}
-								on:moveup={() => moveTrackUp(index)}
-								on:movedown={() => moveTrackDown(index)}
-							/>
-						</div>
-					{:else}
-						<div class="empty">
-							<h1 class="placeholder">No files selected</h1>
-							<BtnIconText
-								src="public/icons/upload.svg"
-								label={"Upload Files"}
-								on:click={openFileBrowser}
-							/>
-						</div>
-					{/each}
-				</div>
-				{#if !empty}
-					<div class="footer">
+		<form class="form" on:submit|preventDefault={submit}>
+			<input
+				bind:this={input}
+				class="input"
+				type="file"
+				id="audio-files"
+				name="audio-files"
+				accept="audio/*"
+				multiple
+				required
+				on:change={loadFiles}
+			/>
+			<div class="tracks">
+				{#each uploads as upload, index (upload.form.id)}
+					<div
+						in:receive={{ key: upload.form.id }}
+						out:send={{ key: upload.form.id }}
+						animate:flip={{ duration: 200 }}
+					>
+						<TrackUploaderTrack
+							bind:trackForm={upload.form}
+							{index}
+							atStart={index === 0}
+							atEnd={index === uploads.length - 1}
+							on:moveup={() => moveTrackUp(index)}
+							on:movedown={() => moveTrackDown(index)}
+						/>
+					</div>
+				{:else}
+					<div class="empty">
+						<h1 class="placeholder">No files selected</h1>
 						<BtnIconText
 							src="public/icons/upload.svg"
-							label={"Replace Files"}
+							label={"Upload Files"}
 							on:click={openFileBrowser}
 						/>
-						<BtnText submit label="Save" />
 					</div>
-				{/if}
-			</form>
-		{/if}
+				{/each}
+			</div>
+			{#if !empty}
+				<div class="footer">
+					<BtnIconText
+						src="public/icons/upload.svg"
+						label={"Replace Files"}
+						on:click={openFileBrowser}
+					/>
+					<BtnText submit label="Save" />
+				</div>
+			{/if}
+		</form>
+	</div>
+	<div slot="loader" class="loader">
+		<Throbber size={50} />
+		<h1>Uploading Tracks</h1>
+		<ProgressBar current={uploadCurrent} total={uploadTotal} />
 	</div>
 </PopupBox>
 
@@ -181,17 +193,6 @@
 		flex-direction: column;
 		align-items: center;
 		width: min(90svw, 600px);
-
-		.loading {
-			display: flex;
-			flex-direction: column;
-			justify-content: center;
-			align-items: center;
-			gap: 10px;
-
-			height: 200px;
-			width: 200px;
-		}
 
 		.form {
 			display: flex;
@@ -243,6 +244,24 @@
 				justify-content: space-between;
 				gap: 10px;
 			}
+		}
+	}
+
+	.loader {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		gap: 30px;
+
+		height: 200px;
+		width: 200px;
+
+		h1 {
+			all: unset;
+
+			font-size: x-large;
+			font-weight: bold;
 		}
 	}
 </style>

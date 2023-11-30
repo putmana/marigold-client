@@ -2,7 +2,6 @@
 	import Auth from "$lib/modes/auth/auth.svelte"
 	import NavBtn from "$lib/components/nav/nav-btn/nav-btn.svelte"
 	import Nav from "$lib/components/nav/nav.svelte"
-
 	import LoadingScreen from "$lib/components/loading/loading-screen.svelte"
 	import Albums from "$lib/modes/albums/albums.svelte"
 	import Playlists from "$lib/modes/playlists/playlists.svelte"
