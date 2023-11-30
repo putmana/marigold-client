@@ -3,6 +3,7 @@
 
 	export let hidden: boolean
 	export let palette: Palette
+	export let empty: boolean
 
 	// Hide the finder on mobile displays
 	function hide() {
@@ -10,7 +11,7 @@
 	}
 </script>
 
-<main class="wrapper" class:hidden style={palette.toCSS()}>
+<main class="wrapper" class:hidden class:empty style={palette.toCSS()}>
 	<section class="topbar">
 		<button class="back-btn" on:click={hide}
 			><img class="icon" alt="back button icon" src={"public/icons/back.svg"} /></button
@@ -57,6 +58,19 @@
 			flex-direction: column;
 			padding-bottom: 180px;
 			overflow-y: scroll;
+		}
+
+		&.empty {
+			background-image: url("public/images/logo-tl.svg");
+			background-repeat: no-repeat;
+			background-position: center;
+			background-size: 70px;
+			background-color: colors.$gray-b;
+			box-shadow: inset 30px 0px 30px -30px colors.$shadow;
+
+			.list {
+				padding: none;
+			}
 		}
 	}
 

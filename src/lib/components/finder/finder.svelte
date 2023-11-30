@@ -41,7 +41,6 @@
 		background-color: colors.$gray-c;
 
 		border-left: 1px solid colors.$border;
-		border-top: 1px solid colors.$border;
 		box-shadow: inset -1px 0px var(--primary-border);
 	}
 

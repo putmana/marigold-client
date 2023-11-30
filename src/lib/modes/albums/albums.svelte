@@ -1,13 +1,15 @@
 <script lang="ts">
+	import { fade } from "svelte/transition"
+
 	import Finder from "$lib/components/finder/finder.svelte"
 	import Viewer from "$lib/components/viewer/viewer.svelte"
 	import AlbumFinder from "./album-finder.svelte"
 	import AlbumViewer from "./album-viewer.svelte"
+	import AlbumCreator from "./create/album-creator.svelte"
 
 	import { albums } from "$lib/scripts/stores/LibraryStore"
 
 	import { Palette } from "$lib/scripts/color-engine/palette"
-	import AlbumCreator from "./create/album-creator.svelte"
 
 	let hidden = true
 	let creating = false
@@ -27,7 +29,7 @@
 <Finder title="Albums" on:create={openCreator} palette={_album?.palette ?? Palette.gray}>
 	<AlbumFinder bind:currentAlbumID={selectedAlbumID} on:select={showFinder} />
 </Finder>
-<Viewer bind:hidden palette={_album?.palette ?? Palette.gray}>
+<Viewer bind:hidden empty={selectedAlbumID == ""} palette={_album?.palette ?? Palette.gray}>
 	<AlbumViewer currentAlbumID={selectedAlbumID} />
 	<AlbumCreator bind:visible={creating} />
 </Viewer>
