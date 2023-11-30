@@ -11,8 +11,7 @@
 	let issues: string[] = []
 
 	async function login() {
-		console.log(email, password)
-		user.login(email, password)
+		issues = await user.login(email, password)
 	}
 
 	function showRegister() {

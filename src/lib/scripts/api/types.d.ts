@@ -6,6 +6,6 @@ export interface APIRequest<T> {
 
 export interface APIResult<T = void> {
         success: boolean
-        result?: T
+        data?: T
         error?: string
 }

@@ -10,7 +10,7 @@ export async function submit(form: TrackForm, file: File) {
         const res1 = await AudioAPI.upload(file, form.id, get(user).id)
         if (!res1.success) return res1
 
-        // Create a database row for the track
+        // Create a row in the database for the track
         const res2 = await TrackAPI.create(form)
         if (!res2.success) return res2
 }

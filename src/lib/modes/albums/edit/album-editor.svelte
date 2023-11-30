@@ -44,7 +44,7 @@
 	}
 </script>
 
-<PopupBox label="Edit Album Details" bind:visible on:close={close}>
+<PopupBox title="Edit Album Details" bind:visible on:close={close}>
 	<div slot="content" class="content">
 		<form class="form" on:submit|preventDefault={submit}>
 			<CoverField cover={album.cover} bind:palette={form.palette} bind:file required={false} />

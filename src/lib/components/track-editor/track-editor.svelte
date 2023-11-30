@@ -36,7 +36,7 @@
 	}
 </script>
 
-<PopupBox label="Edit Track Details" bind:visible on:close={close}>
+<PopupBox title="Edit Track Details" bind:visible on:close={close}>
 	<div slot="content" class="content">
 		<form class="form" on:submit|preventDefault={submit}>
 			<Textbox id="title" label="Title" bind:value={form.title} />

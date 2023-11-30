@@ -16,17 +16,17 @@ export function createUserStore() {
                 })
         }
 
-        async function login(email: string, password: string) {
+        async function login(email: string, password: string): Promise<string[]> {
                 const { error } = await sb.auth.signInWithPassword({
                         email: email,
                         password: password,
                 })
 
-                if (error) console.error(error)
+                return error ? [error.message] : []
         }
 
         async function register(username: string, email: string, password: string) {
-                const { data, error } = await sb.auth.signUp({
+                const { error } = await sb.auth.signUp({
                         email: email,
                         password: password,
                 })

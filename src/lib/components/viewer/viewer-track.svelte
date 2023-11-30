@@ -10,6 +10,7 @@
 
 	import { playerController } from "$lib/scripts/stores/PlayerStore"
 	import { albums, library } from "$lib/scripts/stores/LibraryStore"
+	import { confirm } from "../confirmation-modal/confirmation-modal.svelte"
 
 	const dispatch = createEventDispatcher()
 
@@ -31,10 +32,18 @@
 	}
 
 	async function removeTrack() {
+		const approved = await confirm({
+			title: "Delete Track",
+			message: `Are you sure you want to delete "${track.title}"? This cannot be undone.`
+		})
+
+		// Early return if the user declines the confirmation message
+		if (!approved) return
+
 		const r1 = await TrackAPI.remove(track)
+
 		if (r1.error) console.error(r1.error)
 		await library.load()
-		console.log("Deleting track")
 	}
 
 	function addTrackToQueue() {

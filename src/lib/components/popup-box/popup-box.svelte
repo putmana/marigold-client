@@ -6,10 +6,11 @@
 
 	const dispatch = createEventDispatcher()
 
-	export let label = "Untitled Popup Box"
+	export let title = "Untitled Popup Box"
 	export let visible: boolean
 
 	function close() {
+		visible = false
 		dispatch("close")
 	}
 </script>
@@ -18,7 +19,7 @@
 	<div class="wrapper" transition:fade={{ duration: 200 }}>
 		<div class="box" transition:fly={{ duration: 300, y: -50 }}>
 			<header class="titlebar">
-				<h1 class="label">{label}</h1>
+				<h1 class="title">{title}</h1>
 				<BtnIconSeamless src="public/icons/close.svg" alt="Close" on:click={close} />
 			</header>
 			<main class="content">
@@ -35,7 +36,7 @@
 	.wrapper {
 		position: fixed;
 		inset: 0px auto auto 0px;
-		z-index: 2;
+		z-index: 100;
 
 		display: flex;
 		justify-content: center;
@@ -68,7 +69,7 @@
 				align-items: center;
 				justify-content: space-between;
 
-				.label {
+				.title {
 					margin: 0;
 					text-transform: uppercase;
 					font-size: inherit;

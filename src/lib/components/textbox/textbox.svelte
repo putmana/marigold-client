@@ -4,19 +4,37 @@
 	export let label = "Textbox"
 	export let required = true
 	export let censor = false
+	export let invalid = false
 </script>
 
 <div class="wrapper">
 	<label class="label" for={id}>{label}</label>
 	{#if censor}
-		<input class="textbox" type="password" placeholder={label} {id} bind:value {required} />
+		<input
+			class="textbox"
+			class:invalid
+			type="password"
+			placeholder={label}
+			{id}
+			bind:value
+			{required}
+		/>
 	{:else}
-		<input class="textbox" type="text" placeholder={label} {id} bind:value {required} />
+		<input
+			class="textbox"
+			class:invalid
+			type="text"
+			placeholder={label}
+			{id}
+			bind:value
+			{required}
+		/>
 	{/if}
 </div>
 
 <style lang="scss">
 	@use "src/style/mixins";
+	@use "src/style/colors";
 
 	.wrapper {
 		display: flex;
@@ -28,11 +46,11 @@
 			position: absolute;
 			inset: -5px auto auto 6px;
 			padding: 0 5px;
-			opacity: 70%;
 			font-size: x-small;
 			text-transform: uppercase;
 			font-weight: bold;
 		}
+
 		.textbox {
 			@include mixins.textbox;
 		}

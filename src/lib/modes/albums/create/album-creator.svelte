@@ -42,7 +42,7 @@
 	}
 </script>
 
-<PopupBox label="Create New Album" bind:visible on:close={close}>
+<PopupBox title="Create New Album" bind:visible on:close={close}>
 	<div slot="content" class="content">
 		<form class="form" on:submit|preventDefault={submit}>
 			<CoverField bind:palette={form.palette} bind:file />

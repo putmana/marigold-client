@@ -15,6 +15,8 @@
 		generic: []
 	}
 
+	$: console.log(issues.username)
+
 	let username = ""
 	let email = ""
 	let password = ""

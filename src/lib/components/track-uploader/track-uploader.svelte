@@ -111,7 +111,7 @@
 	}
 </script>
 
-<PopupBox label="Upload Tracks" bind:visible on:close={close}>
+<PopupBox title="Upload Tracks" bind:visible on:close={close}>
 	<div slot="content" class="content">
 		{#if uploading}
 			<div class="loading">

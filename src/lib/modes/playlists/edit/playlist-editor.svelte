@@ -44,7 +44,7 @@
 	}
 </script>
 
-<PopupBox label="Edit Playlist Details" bind:visible on:close={close}>
+<PopupBox title="Edit Playlist Details" bind:visible on:close={close}>
 	<div slot="content" class="content">
 		<form class="form" on:submit|preventDefault={submit}>
 			<CoverField cover={playlist.cover} bind:palette={form.palette} bind:file required={false} />

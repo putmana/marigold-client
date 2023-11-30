@@ -8,7 +8,7 @@ export type RegistrationIssues = {
 
 const USERNAME_REGEX = /^[a-zA-Z0-9_]{4,24}$/
 const EMAIL_REGEX = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}$/
-const PASSWORD_REGEX = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{2,200}$/
+const PASSWORD_REGEX = /^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\w\d\s:]?)([^\s]){8,200}$/gm
 
 const ISSUE_USERNAME_INVALID = "Username must be between 4-24 characters, and may only contain letters, numbers, and underscores"
 const ISSUE_EMAIL_INVALID = "Invalid email address"

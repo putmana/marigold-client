@@ -7,6 +7,7 @@
 	import Albums from "$lib/modes/albums/albums.svelte"
 	import Playlists from "$lib/modes/playlists/playlists.svelte"
 	import Player from "$lib/components/player/player.svelte"
+	import ConfirmationModal from "$lib/components/confirmation-modal/confirmation-modal.svelte"
 
 	import { user } from "$lib/scripts/stores/UserStore"
 	import { mode } from "$lib/scripts/stores/ModeStore"
@@ -45,6 +46,8 @@
 {:else}
 	<Auth />
 {/if}
+
+<ConfirmationModal />
 
 <style lang="scss">
 	@use "/src/style/sizes";
