@@ -44,3 +44,7 @@ export async function getFileURL(file: File): Promise<string> {
                 reader.onerror = () => reject(new Error("Failed to load file"))
         })
 }
+
+export function pluralize(count: number, single: string, plural: string): string {
+        return count === 1 ? single : plural
+}

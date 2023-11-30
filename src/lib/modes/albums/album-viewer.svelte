@@ -1,5 +1,5 @@
 <script lang="ts">
-	import ViewerHeader from "$lib/components/viewer/viewer-header.svelte"
+	import AlbumHeader from "./album-header.svelte"
 	import ViewerTrack from "$lib/components/viewer/viewer-track.svelte"
 	import AlbumEditor from "./edit/album-editor.svelte"
 	import TrackUploader, { openUploader } from "$lib/components/track-uploader/track-uploader.svelte"
@@ -23,41 +23,36 @@
 		)
 	}
 
-	function openEdtior() {
+	function openEditor() {
 		editing = true
 	}
 </script>
 
-{#key currentAlbumID}
-	{#if _album}
-		{#key currentAlbumID}
-			<TrackUploader />
-			<AlbumEditor bind:visible={editing} album={_album} />
-		{/key}
+{#if _album}
+	{#key currentAlbumID}
+		<TrackUploader />
+		<AlbumEditor bind:visible={editing} album={_album} />
+	{/key}
 
-		<ViewerHeader
-			title={_album.title}
-			cover={_album.cover}
-			palette={_album.palette}
-			description={_album.artists}
+	<AlbumHeader
+		album={_album}
+		on:play={() => {
+			startQueue(0)
+		}}
+		on:edit={openEditor}
+		on:upload={() => {
+			openUploader(_album.id)
+		}}
+	/>
+
+	{#each _tracks as track, index}
+		<ViewerTrack
+			{track}
+			{index}
+			showCover={false}
 			on:play={() => {
-				startQueue(0)
-			}}
-			on:edit={openEdtior}
-			on:upload={() => {
-				openUploader(_album.id)
+				startQueue(index)
 			}}
 		/>
-
-		{#each _tracks as track, index}
-			<ViewerTrack
-				{track}
-				{index}
-				showCover={false}
-				on:play={() => {
-					startQueue(index)
-				}}
-			/>
-		{/each}
-	{/if}
-{/key}
+	{/each}
+{/if}

@@ -66,6 +66,7 @@
 			background-position: center;
 			background-size: 70px;
 			background-color: colors.$gray-b;
+
 			box-shadow: inset 30px 0px 30px -30px colors.$shadow;
 
 			.list {

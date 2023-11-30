@@ -11,6 +11,13 @@ export interface PlaylistForm {
         palette: Palette,
 }
 
+export interface PlaylistTrackForm {
+        id: string,
+        trackID: string,
+        playlistID: string,
+        index: number,
+}
+
 export class PlaylistAPI {
 
         constructor() { }
@@ -112,6 +119,24 @@ export class PlaylistAPI {
                         .eq('id', form.id)
 
                 if (response.error) console.error(response.error.message)
+
+                return {
+                        success: response.error ? false : true,
+                        error: response.error?.message,
+                }
+        }
+
+        static async addTrack(form: PlaylistTrackForm) {
+                const response = await sb
+                        .from('playlists_tracks')
+                        .insert({
+                                id: form.id,
+                                track_id: form.trackID,
+                                playlist_id: form.playlistID,
+                                index: form.index,
+                        })
+
+                if (response.error) console.log(response.error.message)
 
                 return {
                         success: response.error ? false : true,

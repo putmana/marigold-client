@@ -3,6 +3,7 @@
 	import Viewer from "$lib/components/viewer/viewer.svelte"
 	import PlaylistFinder from "./playlist-finder.svelte"
 	import PlaylistViewer from "./playlist-viewer.svelte"
+	import PlaylistCreator from "./create/playlist-creator.svelte"
 
 	import { playlists } from "$lib/scripts/stores/LibraryStore"
 
@@ -28,4 +29,5 @@
 </Finder>
 <Viewer bind:hidden empty={selectedPlaylistID == ""} palette={_playlist?.palette ?? Palette.gray}>
 	<PlaylistViewer currentPlaylistID={selectedPlaylistID} />
+	<PlaylistCreator bind:visible={creating} />
 </Viewer>

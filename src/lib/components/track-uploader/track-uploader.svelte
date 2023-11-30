@@ -17,14 +17,14 @@
 	import BtnText from "$lib/components/button/btn-text.svelte"
 	import TrackUploaderTrack from "./track-uploader-track.svelte"
 	import PopupBox from "$lib/components/popup-box/popup-box.svelte"
+	import Throbber from "../throbber/throbber.svelte"
+	import ProgressBar from "../progress-bar/progress-bar.svelte"
 
 	import { TrackAPI, type TrackForm } from "$lib/scripts/api/TrackAPI"
 	import { AudioAPI } from "$lib/scripts/api/AudioAPI"
 
 	import { user } from "$lib/scripts/stores/UserStore"
 	import { albums, library } from "$lib/scripts/stores/LibraryStore"
-	import Throbber from "../throbber/throbber.svelte"
-	import ProgressBar from "../progress-bar/progress-bar.svelte"
 
 	const [send, receive] = crossfade({
 		duration: (d) => Math.sqrt(d * 200)
@@ -187,6 +187,7 @@
 
 <style lang="scss">
 	@use "src/style/colors";
+	@use "src/style/mixins";
 
 	.content {
 		display: flex;
@@ -208,6 +209,7 @@
 			}
 
 			.tracks {
+				@include mixins.faint-shadow;
 				display: flex;
 				flex-direction: column;
 				gap: 10px;

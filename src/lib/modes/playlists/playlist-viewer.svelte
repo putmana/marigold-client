@@ -1,7 +1,8 @@
 <script lang="ts">
-	import ViewerHeader from "$lib/components/viewer/viewer-header.svelte"
+	import PlaylistHeader from "./playlist-header.svelte"
 	import ViewerTrack from "$lib/components/viewer/viewer-track.svelte"
 	import PlaylistEditor from "./edit/playlist-editor.svelte"
+	import TrackPicker, { openPicker } from "$lib/components/track-picker/track-picker.svelte"
 
 	import { playlists, tracks } from "$lib/scripts/stores/LibraryStore"
 	import { playerController } from "$lib/scripts/stores/PlayerStore"
@@ -28,16 +29,20 @@
 </script>
 
 {#if _playlist}
-	<PlaylistEditor bind:visible={editing} playlist={_playlist} />
-	<ViewerHeader
-		title={_playlist.title}
-		cover={_playlist.cover}
-		palette={_playlist.palette}
-		description={_playlist.description}
+	{#key currentPlaylistID}
+		<TrackPicker />
+		<PlaylistEditor bind:visible={editing} playlist={_playlist} />
+	{/key}
+
+	<PlaylistHeader
+		playlist={_playlist}
 		on:play={() => {
 			startQueue(0)
 		}}
 		on:edit={openEditor}
+		on:pick={() => {
+			openPicker(_playlist.id)
+		}}
 	/>
 
 	{#each _tracks as track, index}

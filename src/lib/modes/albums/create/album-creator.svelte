@@ -17,6 +17,8 @@
 
 	export let visible = false
 
+	let loading = false
+
 	let form: AlbumForm
 	let file: File | undefined
 
@@ -31,10 +33,14 @@
 	})
 
 	async function submit() {
+		loading = true
+
 		await AlbumAPI.create(form)
 		await CoverAPI.upload(file, form.id, $user.id)
 		await library.load()
 		close()
+
+		loading = false
 	}
 
 	function close() {
@@ -42,7 +48,7 @@
 	}
 </script>
 
-<PopupBox title="Create New Album" bind:visible on:close={close}>
+<PopupBox title="Create New Album" bind:visible bind:loading on:close={close}>
 	<div slot="content" class="content">
 		<form class="form" on:submit|preventDefault={submit}>
 			<CoverField bind:palette={form.palette} bind:file />

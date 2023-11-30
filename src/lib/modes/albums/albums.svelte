@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { fade } from "svelte/transition"
-
 	import Finder from "$lib/components/finder/finder.svelte"
 	import Viewer from "$lib/components/viewer/viewer.svelte"
 	import AlbumFinder from "./album-finder.svelte"

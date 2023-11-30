@@ -1,15 +1,13 @@
 <script lang="ts">
-	import { albums } from "$lib/scripts/library/AlbumsStore"
-	import { tracks } from "$lib/scripts/library/TracksStore"
+	import { albums, tracks } from "$lib/scripts/stores/LibraryStore"
 
 	export let trackID: string
-	export let picked = false
 
 	$: _track = $tracks.get(trackID)
 	$: _cover = $albums?.get(_track.albumID).cover.small
 </script>
 
-<button class="wrapper" on:click class:picked>
+<button class="wrapper" on:click>
 	<span class="cover">
 		<img src={_cover} alt={`cover for ${_track.title}`} />
 	</span>
@@ -20,13 +18,6 @@
 		<h4 class="artist">
 			{_track.artists}
 		</h4>
-	</span>
-	<span class="end">
-		{#if picked}
-			<img src="public/icons/check.svg" alt="checked box" />
-		{:else}
-			<img src="public/icons/uncheck.svg" alt="unchecked box" />
-		{/if}
 	</span>
 </button>
 
@@ -41,14 +32,15 @@
 		width: 100%;
 		border-radius: 5px;
 		align-items: center;
-		padding: 10px 15px 10px 15px;
+		padding: 10px;
 		box-sizing: border-box;
+		gap: 10px;
 
 		.cover {
-			margin-right: 10px;
+			@include mixins.faint-shadow;
 			height: 40px;
 			width: 40px;
-			border: 1px solid var(--secondary-border);
+			border: 1px solid transparent;
 			img {
 				height: inherit;
 			}
@@ -69,6 +61,7 @@
 				font-size: smaller;
 			}
 		}
+
 		.end {
 			display: flex;
 			align-items: center;
