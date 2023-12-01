@@ -15,8 +15,8 @@
 	export let playlistTrack: PlaylistTrack
 	export let index: number
 
-	let track = $tracks.get(playlistTrack.id)
-	let cover = $albums.get(track.albumID).cover
+	$: track = $tracks.get(playlistTrack.id)
+	$: cover = $albums.get(track.albumID).cover
 
 	function playTrack() {
 		dispatch("play")
@@ -31,10 +31,15 @@
 		// Early return if the user declines the confirmation message
 		if (!approved) return
 
-		const r1 = await PlaylistAPI.removeTrack(playlistTrack.refID)
+		try {
+			// Delete the track from the playlist in the database
+			await PlaylistAPI.removeTrack(playlistTrack.refID)
 
-		if (r1.error) console.error(r1.error)
-		await library.load()
+			// Load changes
+			await library.load()
+		} catch (error) {
+			console.error(error)
+		}
 	}
 
 	function addTrackToQueue() {

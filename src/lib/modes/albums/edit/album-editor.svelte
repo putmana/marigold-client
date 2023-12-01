@@ -33,14 +33,21 @@
 	async function submit() {
 		loading = true
 
-		await AlbumAPI.update(form)
+		try {
+			// Update the album in the database
+			await AlbumAPI.update(form)
 
-		if (file) {
-			await CoverAPI.upload(file, form.id, $user.id)
+			// Upload a new cover if one is provided
+			if (file) {
+				await CoverAPI.upload(file, form.id, $user.id)
+			}
+
+			// Load changes and close the modal
+			await library.load()
+			close()
+		} catch (error) {
+			console.error(error)
 		}
-
-		await library.load()
-		close()
 
 		loading = false
 	}

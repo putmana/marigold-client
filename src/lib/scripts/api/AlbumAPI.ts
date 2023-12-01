@@ -1,8 +1,5 @@
 import { Palette } from "../color-engine/palette"
 import { sb } from "../database/supabase"
-import type { APIResult } from "./types"
-
-type AlbumAPIResult = APIResult<Map<string, Album>>
 
 export interface AlbumForm {
         id: string,
@@ -13,10 +10,9 @@ export interface AlbumForm {
 }
 
 export class AlbumAPI {
-
         constructor() { }
 
-        static async fetch(userID: string): Promise<AlbumAPIResult> {
+        static async fetch(userID: string): Promise<Map<string, Album>> {
                 const query = `
                         id,
                         title,
@@ -34,15 +30,7 @@ export class AlbumAPI {
                         .select(query)
                         .order('title', { ascending: true })
 
-                if (error) {
-                        console.error(error.message)
-
-                        return {
-                                data: new Map<string, Album>(),
-                                success: false,
-                                error: error.message
-                        }
-                }
+                if (error) throw new Error(error.message)
 
                 const albums = new Map<string, Album>(
                         data.map(data => [
@@ -66,17 +54,11 @@ export class AlbumAPI {
                         ])
                 ) satisfies Map<string, Album>
 
-
-                console.log(albums)
-
-                return {
-                        data: albums,
-                        success: true,
-                }
+                return albums
         }
 
-        static async create(form: AlbumForm): Promise<APIResult> {
-                const response = await sb
+        static async create(form: AlbumForm): Promise<void> {
+                const { error } = await sb
                         .from('albums')
                         .insert({
                                 id: form.id,
@@ -86,16 +68,11 @@ export class AlbumAPI {
                                 palette: form.palette.toString(),
                         })
 
-                if (response.error) console.error(response.error.message)
-
-                return {
-                        success: response.error ? false : true,
-                        error: response.error?.message,
-                }
+                if (error) throw new Error(error.message)
         }
 
-        static async update(form: AlbumForm): Promise<APIResult<null>> {
-                const response = await sb
+        static async update(form: AlbumForm): Promise<void> {
+                const { error } = await sb
                         .from('albums')
                         .update({
                                 id: form.id,
@@ -106,26 +83,16 @@ export class AlbumAPI {
                         })
                         .eq('id', form.id)
 
-                if (response.error) console.error(response.error.message)
-
-                return {
-                        success: response.error ? false : true,
-                        error: response.error?.message,
-                }
+                if (error) throw new Error(error.message)
         }
 
-        static async remove(form: AlbumForm): Promise<APIResult> {
-                const response = await sb
+        static async remove(form: AlbumForm): Promise<void> {
+                const { error } = await sb
                         .from('albums')
                         .delete()
                         .eq('id', form.id)
 
-                if (response.error) console.error(response.error.message)
-
-                return {
-                        success: response.error ? false : true,
-                        error: response.error?.message,
-                }
+                if (error) throw new Error(error.message)
         }
 }
 

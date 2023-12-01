@@ -9,15 +9,15 @@
 	import { TrackAPI } from "$lib/scripts/api/TrackAPI"
 
 	import { playerController } from "$lib/scripts/stores/PlayerStore"
-	import { library, tracks } from "$lib/scripts/stores/LibraryStore"
+	import { library } from "$lib/scripts/stores/LibraryStore"
 	import { confirm } from "$lib/components/confirmation-modal/confirmation-modal.svelte"
+	import { AudioAPI } from "$lib/scripts/api/AudioAPI"
+	import { user } from "$lib/scripts/stores/UserStore"
 
 	const dispatch = createEventDispatcher()
 
-	export let albumTrack: IndexedTrack
+	export let track: Track
 	export let index: number
-
-	let track = $tracks.get(albumTrack.id)
 
 	let editing = false
 
@@ -39,10 +39,21 @@
 		// Early return if the user declines the confirmation message
 		if (!approved) return
 
-		const r1 = await TrackAPI.remove(track)
+		try {
+			// Reset the queue to prevent any weird behavior
+			playerController.resetQueue()
 
-		if (r1.error) console.error(r1.error)
-		await library.load()
+			// Delete the audio file
+			await AudioAPI.remove(track.id, $user.id)
+
+			// Delete the track from the database
+			await TrackAPI.remove(track)
+
+			// Load changes
+			await library.load()
+		} catch (error) {
+			console.error(error)
+		}
 	}
 
 	function addTrackToQueue() {

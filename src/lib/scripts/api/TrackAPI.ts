@@ -1,7 +1,4 @@
 import { sb } from "../database/supabase";
-import type { APIResult } from "./types";
-
-type TrackAPIResult = APIResult<Map<string, Track>>
 
 export interface TrackForm {
         id: string,
@@ -15,7 +12,7 @@ export interface TrackForm {
 export class TrackAPI {
         constructor() { }
 
-        static async fetch(userID: string): Promise<TrackAPIResult> {
+        static async fetch(userID: string): Promise<Map<string, Track>> {
                 const query = `
                         id,
                         title,
@@ -29,15 +26,7 @@ export class TrackAPI {
                         .from('tracks')
                         .select(query)
 
-                if (error) {
-                        console.error(error.message)
-
-                        return {
-                                data: new Map<string, Track>(),
-                                success: false,
-                                error: error.message,
-                        }
-                }
+                if (error) throw new Error(error.message)
 
                 const tracks = new Map<string, Track>(
                         data.map(data => [
@@ -54,14 +43,11 @@ export class TrackAPI {
                         ])
                 ) satisfies Map<string, Track>
 
-                return {
-                        data: tracks,
-                        success: true,
-                }
+                return tracks
         }
 
-        static async create(form: TrackForm): Promise<APIResult> {
-                const response = await sb
+        static async create(form: TrackForm): Promise<void> {
+                const { error } = await sb
                         .from('tracks')
                         .insert({
                                 id: form.id,
@@ -72,16 +58,11 @@ export class TrackAPI {
                                 album_id: form.albumID,
                         })
 
-                if (response.error) console.error(response.error.message)
-
-                return {
-                        success: response.error ? false : true,
-                        error: response.error?.message,
-                }
+                if (error) throw new Error(error.message)
         }
 
-        static async update(form: TrackForm): Promise<APIResult> {
-                const response = await sb
+        static async update(form: TrackForm): Promise<void> {
+                const { error } = await sb
                         .from('tracks')
                         .update({
                                 title: form.title,
@@ -89,27 +70,16 @@ export class TrackAPI {
                         })
                         .eq('id', form.id)
 
-                if (response.error) console.error(response.error.message)
-
-                return {
-                        success: response.error ? false : true,
-                        error: response.error?.message,
-                }
+                if (error) throw new Error(error.message)
         }
 
-        static async remove(form: TrackForm): Promise<APIResult> {
-                const response = await sb
+        static async remove(form: TrackForm): Promise<void> {
+                const { error } = await sb
                         .from('tracks')
                         .delete()
                         .eq('id', form.id)
 
-                console.log("REMOVING TRACK")
-                if (response.error) console.error(response.error.message)
-
-                return {
-                        success: response.error ? false : true,
-                        error: response.error?.message,
-                }
+                if (error) throw new Error(error.message)
         }
 }
 

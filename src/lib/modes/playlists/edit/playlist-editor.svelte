@@ -33,14 +33,21 @@
 	async function submit() {
 		loading = true
 
-		await PlaylistAPI.update(form)
+		try {
+			// Update the playlist in the database
+			await PlaylistAPI.update(form)
 
-		if (file) {
-			await CoverAPI.upload(file, form.id, $user.id)
+			// Upload a cover if a new one is provided
+			if (file) {
+				await CoverAPI.upload(file, form.id, $user.id)
+			}
+
+			// Load changes and close the modal
+			await library.load()
+			close()
+		} catch (error) {
+			console.error(error)
 		}
-
-		await library.load()
-		close()
 
 		loading = false
 	}

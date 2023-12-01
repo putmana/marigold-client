@@ -2,7 +2,7 @@
 	import { fly } from "svelte/transition"
 	import { createEventDispatcher } from "svelte"
 
-	import { albums, tracks } from "$lib/scripts/stores/LibraryStore"
+	import { albums } from "$lib/scripts/stores/LibraryStore"
 	import type { RepeatMode } from "$lib/scripts/stores/PlayerStore"
 
 	import { formatPlayerTime } from "$lib/scripts/utils"
@@ -15,7 +15,7 @@
 	import BtnIconSeamless from "$lib/components/button/btn-icon-seamless.svelte"
 	import Scrub from "../scrub/scrub.svelte"
 
-	export let trackID: string
+	export let track: Track
 	export let shuffleEnabled: boolean
 	export let repeatMode: RepeatMode
 	export let paused: boolean
@@ -26,8 +26,7 @@
 
 	let dispatch = createEventDispatcher()
 
-	$: _track = $tracks.get(trackID)
-	$: _album = $albums.get(_track.albumID)
+	$: _album = $albums.get(track.albumID)
 
 	$: _currentTime = formatPlayerTime(currentTime)
 	$: _duration = formatPlayerTime(duration)
@@ -42,15 +41,15 @@
 		<BtnIconSeamless src="public/icons/close.svg" on:click={minimize} />
 	</div>
 	<section class="cover">
-		<img src={_album.cover.large} alt={`Cover for ${_track.title}`} />
+		<img src={_album.cover.large} alt={`Cover for ${track.title}`} />
 	</section>
 	<section class="details">
 		<div class="info">
 			<h1 class="title">
-				{_track.title}
+				{track.title}
 			</h1>
 			<h2 class="artists">
-				{_track.artists}
+				{track.artists}
 			</h2>
 		</div>
 		<div class="controls">

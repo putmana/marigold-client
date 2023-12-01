@@ -81,20 +81,27 @@
 	async function submit() {
 		loading = true
 
-		const playlist = $playlists.get(playlistID)
+		try {
+			const playlist = $playlists.get(playlistID)
 
-		for (let i = 0; i < picks.length; i++) {
-			const pick = picks[i]
+			for (let i = 0; i < picks.length; i++) {
+				const pick = picks[i]
 
-			// Make sure the tracks are appended to the end of the playlist
-			pick.index = pick.index + playlist.tracklist.length
+				// Make sure the tracks are appended to the end of the playlist
+				pick.index = pick.index + playlist.tracklist.length
 
-			await PlaylistAPI.addTrack(pick)
+				// Add track to playlist in database
+				await PlaylistAPI.addTrack(pick)
+			}
+
+			// Load changes and close the modal
+			await library.load()
+			close()
+		} catch (error) {
+			console.error(error)
 		}
 
-		await library.load()
-
-		close()
+		loading = false
 	}
 
 	open = (id: string) => {

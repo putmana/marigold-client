@@ -4,8 +4,8 @@ import type { APIResult } from "./types";
 export class CoverAPI {
         constructor() { }
 
-        static async upload(file: File, coverID: string, userID: string): Promise<APIResult> {
-                const response = await sb
+        static async upload(file: File, coverID: string, userID: string): Promise<void> {
+                const { error } = await sb
                         .storage
                         .from('covers')
                         .upload(`${userID}/${coverID}`, file, {
@@ -13,11 +13,6 @@ export class CoverAPI {
                                 upsert: true,
                         })
 
-                if (response.error) console.error(response.error.message)
-
-                return {
-                        success: response.error ? false : true,
-                        error: response.error?.message
-                }
+                if (error) throw new Error(error.message)
         }
 }

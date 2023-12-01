@@ -35,10 +35,19 @@
 	async function submit() {
 		loading = true
 
-		await AlbumAPI.create(form)
-		await CoverAPI.upload(file, form.id, $user.id)
-		await library.load()
-		close()
+		try {
+			// Create the album in the database
+			await AlbumAPI.create(form)
+
+			// Upload the album cover
+			await CoverAPI.upload(file, form.id, $user.id)
+
+			// Load changes and close the modal
+			await library.load()
+			close()
+		} catch (error) {
+			console.error(error)
+		}
 
 		loading = false
 	}

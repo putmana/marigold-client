@@ -4,7 +4,7 @@
 	import AlbumTrack from "./album-track.svelte"
 	import TrackUploader, { openUploader } from "$lib/components/track-uploader/track-uploader.svelte"
 
-	import { albums } from "$lib/scripts/stores/LibraryStore"
+	import { albums, tracks } from "$lib/scripts/stores/LibraryStore"
 	import { playerController } from "$lib/scripts/stores/PlayerStore"
 
 	let editing = false
@@ -43,7 +43,7 @@
 
 		{#each _album.tracklist as albumTrack, index}
 			<AlbumTrack
-				{albumTrack}
+				track={$tracks.get(albumTrack.id)}
 				{index}
 				on:play={() => {
 					startQueue(index)

@@ -30,9 +30,16 @@
 	async function submit() {
 		loading = true
 
-		await TrackAPI.update(form)
-		await library.load()
-		close()
+		try {
+			// Update the track in the database
+			await TrackAPI.update(form)
+
+			// Load changes and close the modal
+			await library.load()
+			close()
+		} catch (error) {
+			console.error(error)
+		}
 
 		loading = false
 	}

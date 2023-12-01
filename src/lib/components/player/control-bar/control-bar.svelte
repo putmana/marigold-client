@@ -2,7 +2,7 @@
 	import { fly } from "svelte/transition"
 	import { createEventDispatcher } from "svelte"
 
-	import { albums, tracks } from "$lib/scripts/stores/LibraryStore"
+	import { albums } from "$lib/scripts/stores/LibraryStore"
 	import type { RepeatMode } from "$lib/scripts/stores/PlayerStore"
 
 	import { formatPlayerTime } from "$lib/scripts/utils"
@@ -15,7 +15,7 @@
 	import Scrub from "../scrub/scrub.svelte"
 	import Queue from "$lib/components/queue/queue.svelte"
 
-	export let trackID: string
+	export let track: Track
 	export let shuffleEnabled: boolean
 	export let repeatMode: RepeatMode
 	export let paused: boolean
@@ -26,8 +26,7 @@
 
 	let dispatch = createEventDispatcher()
 
-	$: _track = $tracks.get(trackID)
-	$: _album = $albums.get(_track?.albumID)
+	$: _album = $albums.get(track.albumID)
 
 	$: _currentTime = formatPlayerTime(currentTime)
 	$: _duration = formatPlayerTime(duration)
@@ -53,8 +52,8 @@
 				<img src={_album.cover.small} alt={`Cover art for ${_album.title}`} />
 			</div>
 			<div class="details">
-				<h1 class="title">{_track.title}</h1>
-				<h2 class="artist">{_track.artists}</h2>
+				<h1 class="title">{track.title}</h1>
+				<h2 class="artist">{track.artists}</h2>
 			</div>
 		</button>
 		<section class="controls">

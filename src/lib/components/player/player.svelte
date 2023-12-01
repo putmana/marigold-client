@@ -23,13 +23,15 @@
 
 	$: shuffleEnabled = $queueShuffleEnabled
 	$: repeatMode = $queueRepeatMode
-	$: trackID = $currentTrack
+	$: track = $tracks.get($currentTrack) ?? undefined
 
 	// Only update the currently playing track if the key changes to prevent Svelte from restarting the audio when unrelated parts of the PlayerStore change
-	$: if ($initialized) {
+	$: if ($initialized && track) {
 		if (trackSessionKey != $queueSessionKey) {
 			trackSessionKey = $queueSessionKey
-			file = $tracks.get($currentTrack).file
+
+			file = track.file
+
 			audio.load()
 			audio.autoplay = true
 		}
@@ -84,10 +86,10 @@
 	}
 </script>
 
-{#if $initialized}
+{#if $initialized && track}
 	{#if maximized}
 		<Immersion
-			{trackID}
+			{track}
 			{paused}
 			{shuffleEnabled}
 			{repeatMode}
@@ -103,7 +105,7 @@
 		/>
 	{:else}
 		<ControlBar
-			{trackID}
+			{track}
 			{paused}
 			{shuffleEnabled}
 			{repeatMode}

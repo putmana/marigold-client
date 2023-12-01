@@ -45,6 +45,7 @@
 		type="file"
 		accept="image/png, image/jpeg"
 		on:change={loadFile}
+		tabindex="-1"
 	/>
 </div>
 
@@ -55,10 +56,11 @@
 	.wrapper {
 		display: flex;
 		flex-direction: column;
+		align-items: center;
 
 		.input {
-			width: 0px;
-			height: 0px;
+			width: 1px;
+			height: 1px;
 			opacity: 0px;
 		}
 

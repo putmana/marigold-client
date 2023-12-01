@@ -88,30 +88,36 @@
 	async function submit() {
 		loading = true
 
-		const album = $albums.get(albumID)
+		try {
+			const album = $albums.get(albumID)
 
-		// For progress bar
-		uploadCurrent = 0
-		uploadTotal = uploads.length
+			// For progress bar
+			uploadCurrent = 0
+			uploadTotal = uploads.length
 
-		for (let i = 0; i < uploads.length; i++) {
-			const upload = uploads[i]
+			for (let i = 0; i < uploads.length; i++) {
+				const upload = uploads[i]
 
-			// Make sure the tracks are appended to the end of the album
-			upload.form.index = upload.form.index + album.tracklist.length
+				// Make sure the tracks are appended to the end of the album
+				upload.form.index = upload.form.index + album.tracklist.length
 
-			// Update the progress bar
-			uploadCurrent = i + 1
+				// Update the progress bar
+				uploadCurrent = i + 1
 
-			await AudioAPI.upload(upload.file, upload.form.id, $user.id)
-			await TrackAPI.create(upload.form)
+				// Upload the audio file
+				await AudioAPI.upload(upload.file, upload.form.id, $user.id)
+
+				// Create the track in database
+				await TrackAPI.create(upload.form)
+			}
+
+			// Load changes and close the modal
+			await library.load()
+			close()
+		} catch (error) {
+			console.error(error)
 		}
 
-		await library.load()
-
-		close()
-
-		uploads = []
 		loading = false
 	}
 
@@ -122,6 +128,7 @@
 
 	function close() {
 		visible = false
+		uploads = []
 	}
 </script>
 

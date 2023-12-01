@@ -3,7 +3,6 @@ import { PlaylistAPI } from "../api/PlaylistAPI"
 import { user } from "./UserStore"
 import { AlbumAPI } from "../api/AlbumAPI"
 import { TrackAPI } from "../api/TrackAPI"
-import type { APIResult } from "../api/types"
 
 type Library = {
         playlists: Map<string, Playlist>
@@ -20,56 +19,13 @@ const EMPTY_LIBRARY: Library = {
 function createLibraryStore() {
         const { subscribe, set }: Writable<Library> = writable(EMPTY_LIBRARY)
 
-        async function load(): Promise<APIResult> {
-
-                // <---- Load Playlists ---->
-                const playlistResponse = await PlaylistAPI.fetch(get(user).id)
-
-                if (playlistResponse.error) {
-                        console.error(playlistResponse.error)
-                        return {
-                                success: false,
-                                error: playlistResponse.error,
-                        }
-                }
-
-                const playlists = playlistResponse.data
-
-
-                // <---- Load Albums ---->
-                const albumResponse = await AlbumAPI.fetch(get(user).id)
-
-                if (albumResponse.error) {
-                        console.error(albumResponse.error)
-                        return {
-                                success: false,
-                                error: albumResponse.error,
-                        }
-                }
-
-                const albums = albumResponse.data
-
-
-                // <---- Load Tracks ---->
-                const trackResponse = await TrackAPI.fetch(get(user).id)
-
-                if (trackResponse.error) {
-                        console.error(trackResponse.error)
-                        return {
-                                success: false,
-                                error: trackResponse.error,
-                        }
-                }
-
-                const tracks = trackResponse.data
-
+        async function load(): Promise<void> {
+                const playlists = await PlaylistAPI.fetch(get(user).id)
+                const albums = await AlbumAPI.fetch(get(user).id)
+                const tracks = await TrackAPI.fetch(get(user).id)
 
                 // <---- Set the store if there are no errors ---->
-                set({ playlists, albums, tracks, })
-
-                return {
-                        success: true
-                }
+                set({ playlists, albums, tracks })
         }
 
         return {

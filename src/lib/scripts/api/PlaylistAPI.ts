@@ -1,8 +1,5 @@
 import { Palette } from "../color-engine/palette";
 import { sb } from "../database/supabase";
-import type { APIResult } from "./types";
-
-type PlaylistAPIResult = APIResult<Map<string, Playlist>>
 
 export interface PlaylistForm {
         id: string,
@@ -19,10 +16,9 @@ export interface PlaylistTrackForm {
 }
 
 export class PlaylistAPI {
-
         constructor() { }
 
-        static async fetch(userID: string): Promise<PlaylistAPIResult> {
+        static async fetch(userID: string): Promise<Map<string, Playlist>> {
                 const query = `
                         id,
                         title,
@@ -40,15 +36,7 @@ export class PlaylistAPI {
                         .select(query)
                         .order('title')
 
-                if (error) {
-                        console.error(error.message)
-
-                        return {
-                                data: new Map<string, Playlist>(),
-                                success: false,
-                                error: error.message
-                        }
-                }
+                if (error) throw new Error(error.message)
 
                 const playlists = new Map<string, Playlist>(
                         data.map(data => [
@@ -72,14 +60,11 @@ export class PlaylistAPI {
                         ])
                 ) satisfies Map<string, Playlist>
 
-                return {
-                        data: playlists,
-                        success: true,
-                }
+                return playlists
         }
 
-        static async create(form: PlaylistForm): Promise<APIResult> {
-                const response = await sb
+        static async create(form: PlaylistForm): Promise<void> {
+                const { error } = await sb
                         .from('playlists')
                         .insert({
                                 id: form.id,
@@ -88,16 +73,11 @@ export class PlaylistAPI {
                                 palette: form.palette.toString(),
                         })
 
-                if (response.error) console.error(response.error.message)
-
-                return {
-                        success: response.error ? false : true,
-                        error: response.error?.message,
-                }
+                if (error) throw new Error(error.message)
         }
 
-        static async update(form: PlaylistForm): Promise<APIResult<null>> {
-                const response = await sb
+        static async update(form: PlaylistForm): Promise<void> {
+                const { error } = await sb
                         .from('playlists')
                         .update({
                                 title: form.title,
@@ -106,30 +86,20 @@ export class PlaylistAPI {
                         })
                         .eq('id', form.id)
 
-                if (response.error) console.error(response.error.message)
-
-                return {
-                        success: response.error ? false : true,
-                        error: response.error?.message,
-                }
+                if (error) throw new Error(error.message)
         }
 
-        static async remove(form: PlaylistForm): Promise<APIResult> {
-                const response = await sb
+        static async remove(form: PlaylistForm): Promise<void> {
+                const { error } = await sb
                         .from('playlists')
                         .delete()
                         .eq('id', form.id)
 
-                if (response.error) console.error(response.error.message)
-
-                return {
-                        success: response.error ? false : true,
-                        error: response.error?.message,
-                }
+                if (error) throw new Error(error.message)
         }
 
-        static async addTrack(form: PlaylistTrackForm) {
-                const response = await sb
+        static async addTrack(form: PlaylistTrackForm): Promise<void> {
+                const { error } = await sb
                         .from('playlists_tracks')
                         .insert({
                                 id: form.id,
@@ -138,26 +108,16 @@ export class PlaylistAPI {
                                 index: form.index,
                         })
 
-                if (response.error) console.log(response.error.message)
-
-                return {
-                        success: response.error ? false : true,
-                        error: response.error?.message,
-                }
+                if (error) throw new Error(error.message)
         }
 
-        static async removeTrack(refID: string): Promise<APIResult> {
-                const response = await sb
+        static async removeTrack(refID: string): Promise<void> {
+                const { error } = await sb
                         .from('playlists_tracks')
                         .delete()
                         .eq('id', refID)
 
-                if (response.error) console.error(response.error.message)
-
-                return {
-                        success: response.error ? false : true,
-                        error: response.error?.message,
-                }
+                if (error) throw new Error(error.message)
         }
 }
 
