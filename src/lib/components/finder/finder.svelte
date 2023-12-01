@@ -19,8 +19,9 @@
 		<h1>{title}</h1>
 		<BtnIconSeamless src="public/icons/add.svg" alt="Add icon" on:click={openCreator} />
 	</header>
-
-	<slot />
+	<div class="list">
+		<slot />
+	</div>
 </aside>
 
 <style lang="scss">
@@ -50,7 +51,6 @@
 		flex-shrink: 0;
 
 		height: sizes.$nav-width;
-		margin: 0;
 		padding-left: 15px;
 		padding-right: 15px;
 
@@ -60,6 +60,12 @@
 			text-transform: uppercase;
 			font-size: inherit;
 		}
+	}
+
+	.list {
+		display: flex;
+		flex-direction: column;
+		gap: 5px;
 	}
 
 	@media (min-width: sizes.$screen-lg) {

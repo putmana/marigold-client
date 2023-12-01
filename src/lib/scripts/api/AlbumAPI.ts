@@ -66,6 +66,9 @@ export class AlbumAPI {
                         ])
                 ) satisfies Map<string, Album>
 
+
+                console.log(albums)
+
                 return {
                         data: albums,
                         success: true,
@@ -145,6 +148,6 @@ function getCoverURL(userID: string, albumID: string): Cover {
 
         return {
                 large: getSize(500),
-                small: getSize(100),
+                small: getSize(500),
         }
 }

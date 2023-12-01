@@ -75,7 +75,7 @@
 		justify-content: center;
 
 		.title {
-			font-size: clamp(24px, 4vw, 50px);
+			font-size: 24px;
 			font-weight: 900;
 			letter-spacing: -1px;
 			margin: 0;
@@ -112,6 +112,12 @@
 
 	@media (min-width: sizes.$screen-lg) {
 		.wrapper {
+			padding-top: 60px;
+		}
+	}
+
+	@media (min-width: sizes.$screen-xl) {
+		.wrapper {
 			justify-content: center;
 			flex-direction: row;
 			padding: 60px;
@@ -124,6 +130,12 @@
 			.img-wrapper {
 				max-width: 220px;
 				max-height: 220px;
+			}
+		}
+
+		.info {
+			.title {
+				font-size: 40px;
 			}
 		}
 	}

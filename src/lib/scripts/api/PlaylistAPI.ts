@@ -145,6 +145,20 @@ export class PlaylistAPI {
                         error: response.error?.message,
                 }
         }
+
+        static async removeTrack(refID: string): Promise<APIResult> {
+                const response = await sb
+                        .from('playlists_tracks')
+                        .delete()
+                        .eq('id', refID)
+
+                if (response.error) console.error(response.error.message)
+
+                return {
+                        success: response.error ? false : true,
+                        error: response.error?.message,
+                }
+        }
 }
 
 function getCoverURL(userID: string, playlistID: string): Cover {

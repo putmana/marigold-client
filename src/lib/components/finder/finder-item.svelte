@@ -28,7 +28,6 @@
 			<h3>{artists}</h3>
 		{/if}
 	</span>
-	<span class="flow" />
 </button>
 
 <style lang="scss">
@@ -46,9 +45,9 @@
 		flex-shrink: 0;
 
 		box-sizing: border-box;
-		height: 60px;
-		margin: 5px;
-		padding-left: 10px;
+		height: 70px;
+		margin: 0px 5px;
+		padding: 0px 10px;
 
 		border-radius: 5px;
 
@@ -63,6 +62,7 @@
 				height: inherit;
 			}
 		}
+
 		.info {
 			display: flex;
 			flex-direction: column;
@@ -71,42 +71,29 @@
 			flex-grow: 1;
 
 			margin-left: 20px;
+			margin-right: 20px;
 
 			h2,
 			h3 {
-				opacity: 80%;
-
+				@include mixins.clamp-text(2);
 				margin-top: 2px;
 				margin-bottom: 2px;
 
 				font-weight: normal;
-				font-size: inherit;
+				font-size: 16px;
+
+				overflow: hidden;
 			}
+
 			h3 {
 				font-size: small;
-			}
-		}
-
-		.flow {
-			@include mixins.mobile-only {
-				display: none;
-			}
-
-			@include mixins.desktop-only {
-				position: relative;
-				inset: auto 0px auto auto;
-
-				width: 0px;
-				height: 0px;
 			}
 		}
 
 		&.selected {
 			height: 80px;
 
-			margin: 0;
-			margin-left: 0px;
-			margin-right: 0px;
+			margin: 0px;
 			padding-left: 15px;
 
 			background-color: var(--primary-medium);

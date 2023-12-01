@@ -146,10 +146,12 @@
 					flex-direction: column;
 					justify-content: center;
 					h1 {
+						@include mixins.clamp-text(1);
 						margin: 0;
 						font-size: inherit;
 					}
 					h2 {
+						@include mixins.clamp-text(1);
 						margin: 0;
 						font-size: smaller;
 						font-weight: normal;

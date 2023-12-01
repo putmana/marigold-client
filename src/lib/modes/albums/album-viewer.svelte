@@ -1,10 +1,10 @@
 <script lang="ts">
 	import AlbumHeader from "./album-header.svelte"
-	import ViewerTrack from "$lib/components/viewer/viewer-track.svelte"
 	import AlbumEditor from "./edit/album-editor.svelte"
+	import AlbumTrack from "./album-track.svelte"
 	import TrackUploader, { openUploader } from "$lib/components/track-uploader/track-uploader.svelte"
 
-	import { albums, tracks } from "$lib/scripts/stores/LibraryStore"
+	import { albums } from "$lib/scripts/stores/LibraryStore"
 	import { playerController } from "$lib/scripts/stores/PlayerStore"
 
 	let editing = false
@@ -12,9 +12,6 @@
 	export let currentAlbumID: string
 
 	$: _album = $albums.get(currentAlbumID)
-	$: _tracks = _album?.tracklist.map((t) => $tracks.get(t.id))
-
-	$: _tracks?.sort((a, b) => a.index - b.index)
 
 	function startQueue(index: number) {
 		playerController.startQueue(
@@ -28,31 +25,30 @@
 	}
 </script>
 
-{#if _album}
-	{#key currentAlbumID}
+{#key currentAlbumID}
+	{#if _album}
 		<TrackUploader />
 		<AlbumEditor bind:visible={editing} album={_album} />
-	{/key}
 
-	<AlbumHeader
-		album={_album}
-		on:play={() => {
-			startQueue(0)
-		}}
-		on:edit={openEditor}
-		on:upload={() => {
-			openUploader(_album.id)
-		}}
-	/>
-
-	{#each _tracks as track, index}
-		<ViewerTrack
-			{track}
-			{index}
-			showCover={false}
+		<AlbumHeader
+			album={_album}
 			on:play={() => {
-				startQueue(index)
+				startQueue(0)
+			}}
+			on:edit={openEditor}
+			on:upload={() => {
+				openUploader(_album.id)
 			}}
 		/>
-	{/each}
-{/if}
+
+		{#each _album.tracklist as albumTrack, index}
+			<AlbumTrack
+				{albumTrack}
+				{index}
+				on:play={() => {
+					startQueue(index)
+				}}
+			/>
+		{/each}
+	{/if}
+{/key}

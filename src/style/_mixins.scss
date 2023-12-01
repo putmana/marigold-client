@@ -145,3 +145,11 @@
 @mixin icon {
 	opacity: 80%;
 }
+
+@mixin clamp-text($lines: 1) {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: $lines;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}

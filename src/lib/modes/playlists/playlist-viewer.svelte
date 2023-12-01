@@ -1,7 +1,7 @@
 <script lang="ts">
 	import PlaylistHeader from "./playlist-header.svelte"
-	import ViewerTrack from "$lib/components/viewer/viewer-track.svelte"
 	import PlaylistEditor from "./edit/playlist-editor.svelte"
+	import PlaylistTrack from "./playlist-track.svelte"
 	import TrackPicker, { openPicker } from "$lib/components/track-picker/track-picker.svelte"
 
 	import { playlists, tracks } from "$lib/scripts/stores/LibraryStore"
@@ -12,7 +12,6 @@
 	export let currentPlaylistID: string
 
 	$: _playlist = $playlists.get(currentPlaylistID)
-	$: _tracks = _playlist?.tracklist.map((track) => $tracks.get(track.id))
 
 	function startQueue(index: number) {
 		playerController.startQueue(
@@ -26,30 +25,30 @@
 	}
 </script>
 
-{#if _playlist}
-	{#key currentPlaylistID}
+{#key currentPlaylistID}
+	{#if _playlist}
 		<TrackPicker />
 		<PlaylistEditor bind:visible={editing} playlist={_playlist} />
-	{/key}
 
-	<PlaylistHeader
-		playlist={_playlist}
-		on:play={() => {
-			startQueue(0)
-		}}
-		on:edit={openEditor}
-		on:pick={() => {
-			openPicker(_playlist.id)
-		}}
-	/>
-
-	{#each _tracks as track, index}
-		<ViewerTrack
-			{track}
-			{index}
+		<PlaylistHeader
+			playlist={_playlist}
 			on:play={() => {
-				startQueue(index)
+				startQueue(0)
+			}}
+			on:edit={openEditor}
+			on:pick={() => {
+				openPicker(_playlist.id)
 			}}
 		/>
-	{/each}
-{/if}
+
+		{#each _playlist.tracklist as playlistTrack, index}
+			<PlaylistTrack
+				{playlistTrack}
+				{index}
+				on:play={() => {
+					startQueue(index)
+				}}
+			/>
+		{/each}
+	{/if}
+{/key}

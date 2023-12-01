@@ -29,5 +29,7 @@
 </Finder>
 <Viewer bind:hidden empty={selectedAlbumID == ""} palette={_album?.palette ?? Palette.gray}>
 	<AlbumViewer currentAlbumID={selectedAlbumID} />
-	<AlbumCreator bind:visible={creating} />
+	{#key selectedAlbumID}
+		<AlbumCreator bind:visible={creating} />
+	{/key}
 </Viewer>
