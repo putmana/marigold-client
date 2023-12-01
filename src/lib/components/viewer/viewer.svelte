@@ -78,8 +78,8 @@
 	@media (max-width: sizes.$screen-lg) {
 		.wrapper {
 			position: fixed;
-			width: 100vw;
-			height: 100vh;
+			width: 100svw;
+			height: 100svh;
 			transition: all 0.3s ease-out;
 			.list {
 				background-image: linear-gradient(to bottom, var(--primary-medium), var(--secondary-dark));
