@@ -6,16 +6,16 @@
 	import BtnIconSeamless from "$lib/components/button/btn-icon-seamless.svelte"
 
 	import { playerController } from "$lib/scripts/stores/PlayerStore"
-	import { albums, library, tracks } from "$lib/scripts/stores/LibraryStore"
+	import { albums, library } from "$lib/scripts/stores/LibraryStore"
 	import { confirm } from "$lib/components/confirmation-modal/confirmation-modal.svelte"
 	import { PlaylistAPI } from "$lib/scripts/api/PlaylistAPI"
 
 	const dispatch = createEventDispatcher()
 
-	export let playlistTrack: PlaylistTrack
+	export let track: Track
+	export let refID: string
 	export let index: number
 
-	$: track = $tracks.get(playlistTrack.id)
 	$: cover = $albums.get(track.albumID).cover
 
 	function playTrack() {
@@ -33,7 +33,7 @@
 
 		try {
 			// Delete the track from the playlist in the database
-			await PlaylistAPI.removeTrack(playlistTrack.refID)
+			await PlaylistAPI.removeTrack(refID)
 
 			// Load changes
 			await library.load()

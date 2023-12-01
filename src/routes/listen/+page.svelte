@@ -12,14 +12,11 @@
 	import { mode } from "$lib/scripts/stores/ModeStore"
 	import { library } from "$lib/scripts/stores/LibraryStore"
 	import { onMount } from "svelte"
+	import Settings from "$lib/modes/settings/settings.svelte"
 
 	onMount(async () => {
 		await user.init()
 	})
-
-	$: if ($mode === "SETTINGS") {
-		user.logout()
-	}
 </script>
 
 {#if $user}
@@ -28,8 +25,8 @@
 			<LoadingScreen />
 		{:then}
 			<Nav>
-				<NavBtn tab={"PLAYLISTS"} label="playlists" iconPath="public/icons/regular-playlists.svg" />
-				<NavBtn tab={"ALBUMS"} label="albums" iconPath="public/icons/regular-albums.svg" />
+				<NavBtn tab={"PLAYLISTS"} label="playlists" iconPath="public/icons/playlists.svg" />
+				<NavBtn tab={"ALBUMS"} label="albums" iconPath="public/icons/albums.svg" />
 				<NavBtn tab={"SETTINGS"} label="settings" iconPath="public/icons/settings.svg" />
 			</Nav>
 
@@ -37,6 +34,8 @@
 				<Albums />
 			{:else if $mode === "PLAYLISTS"}
 				<Playlists />
+			{:else if $mode === "SETTINGS"}
+				<Settings />
 			{/if}
 
 			<Player />

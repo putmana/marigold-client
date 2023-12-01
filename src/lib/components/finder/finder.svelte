@@ -17,10 +17,10 @@
 <aside class="wrapper" style={palette.toCSS()}>
 	<header class="header">
 		<h1>{title}</h1>
-		<BtnIconSeamless src="public/icons/add.svg" alt="Add icon" on:click={openCreator} />
+		<slot name="header" />
 	</header>
 	<div class="list">
-		<slot />
+		<slot name="body" />
 	</div>
 </aside>
 
