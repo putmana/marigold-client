@@ -1,8 +1,5 @@
 <script lang="ts">
-	export let current: number = 0
-	export let total: number = 0
-
-	$: progress = (current / total) * 100
+	export let progress = 0
 </script>
 
 <div class="wrapper">
@@ -18,6 +15,7 @@
 
 		box-sizing: border-box;
 		width: inherit;
+		min-width: 150px;
 
 		background-color: colors.$item;
 

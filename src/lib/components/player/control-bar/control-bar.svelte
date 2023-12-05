@@ -87,6 +87,7 @@
 
 	.wrapper {
 		position: fixed;
+		z-index: 10;
 
 		@include mixins.desktop-only {
 			inset: auto 0px 0px 0px;
@@ -95,7 +96,7 @@
 		}
 
 		@include mixins.mobile-only {
-			inset: auto 10px 60px 10px;
+			inset: auto 10px 10px 10px;
 			border-radius: 5px;
 			background-image: linear-gradient(to left, var(--primary-medium), var(--secondary-medium));
 			box-shadow: 0px 60px 60px 60px colors.$shadow-dark;
@@ -140,6 +141,7 @@
 						height: 100%;
 					}
 				}
+
 				.details {
 					display: flex;
 					flex-direction: column;
@@ -149,6 +151,7 @@
 						margin: 0;
 						font-size: inherit;
 					}
+
 					h2 {
 						@include mixins.clamp-text(1);
 						margin: 0;

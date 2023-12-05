@@ -1,48 +1,58 @@
 <script lang="ts" context="module">
-	interface ConfProps {
-		title: string
-		message: string
-	}
+	import ConfirmationModal from "./confirmation-modal.svelte"
 
-	export async function confirm(props: ConfProps) {
-		confVisible.set(true)
-		confTitle.set(props.title)
-		confMessage.set(props.message)
-
-		return new Promise((resolve) => {
-			onConfirm.set((approved: boolean) => {
-				resolve(approved)
-				confVisible.set(false)
+	export function confirm(title: string, message: string): Promise<boolean> {
+		return new Promise<boolean>((resolve) => {
+			openModal<ConfirmationModal>({
+				component: ConfirmationModal,
+				props: {
+					message: message,
+					approve: () => resolve(true),
+					deny: () => resolve(false)
+				},
+				title: title
 			})
 		})
 	}
 </script>
 
 <script lang="ts">
+	import { createEventDispatcher, onDestroy } from "svelte"
+
 	import BtnText from "../button/btn-text.svelte"
-	import PopupBox from "../popup-box/popup-box.svelte"
-	import { confMessage, confTitle, confVisible, onConfirm } from "./ConfStore"
 
-	function approve() {
-		$onConfirm(true)
+	import { openModal } from "../modal-manager/modal-manager.svelte"
+
+	const dispatch = createEventDispatcher()
+
+	export let message: string
+
+	export let approve = () => {}
+	export let deny = () => {}
+
+	function approveAndClose() {
+		approve()
+		close()
 	}
 
-	function deny() {
-		$onConfirm(false)
+	function close() {
+		dispatch("close")
 	}
+
+	onDestroy(() => {
+		deny()
+	})
 </script>
 
-<PopupBox title={$confTitle} bind:visible={$confVisible}>
-	<div slot="content" class="content">
-		<div class="text">
-			{$confMessage}
-		</div>
-		<div class="footer">
-			<BtnText label="No" on:click={deny} />
-			<BtnText label="Yes" on:click={approve} />
-		</div>
+<div class="content">
+	<div class="text">
+		{message}
 	</div>
-</PopupBox>
+	<div class="footer">
+		<BtnText label="No" on:click={close} />
+		<BtnText label="Yes" on:click={approveAndClose} />
+	</div>
+</div>
 
 <style lang="scss">
 	@use "src/style/colors";

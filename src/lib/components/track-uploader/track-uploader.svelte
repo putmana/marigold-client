@@ -1,12 +1,21 @@
 <script lang="ts" context="module">
-	let open: (id: string) => void
+	import TrackUploader from "./track-uploader.svelte"
 
-	export function openUploader(albumID: string) {
-		open(albumID)
+	export function openTrackUploaderModal(albumID: string) {
+		openModal<TrackUploader>({
+			component: TrackUploader,
+			props: {
+				albumID: albumID
+			},
+			title: "Upload Tracks",
+			loading: false,
+			progress: 0
+		})
 	}
 </script>
 
 <script lang="ts">
+	import { createEventDispatcher } from "svelte"
 	import { crossfade } from "svelte/transition"
 	import { flip } from "svelte/animate"
 
@@ -16,30 +25,26 @@
 	import BtnIconText from "$lib/components/button/btn-icon-text.svelte"
 	import BtnText from "$lib/components/button/btn-text.svelte"
 	import TrackUploaderTrack from "./track-uploader-track.svelte"
-	import PopupBox from "$lib/components/popup-box/popup-box.svelte"
-	import Throbber from "../throbber/throbber.svelte"
-	import ProgressBar from "../progress-bar/progress-bar.svelte"
 
 	import { TrackAPI, type TrackForm } from "$lib/scripts/api/TrackAPI"
 	import { AudioAPI } from "$lib/scripts/api/AudioAPI"
 
 	import { user } from "$lib/scripts/stores/UserStore"
 	import { albums, library } from "$lib/scripts/stores/LibraryStore"
+	import { openModal } from "../modal-manager/modal-manager.svelte"
 
 	const [send, receive] = crossfade({
 		duration: (d) => Math.sqrt(d * 200)
 	})
 
-	let loading = false
-	let visible = false
+	const dispatch = createEventDispatcher()
 
-	let albumID: string
+	export let albumID: string
+	export let loading = false
+	export let progress = 0
 
 	let input: HTMLInputElement
 	let uploads: { form: TrackForm; file: File }[] = []
-
-	let uploadCurrent = 0
-	let uploadTotal = 0
 
 	$: empty = uploads.length === 0
 
@@ -91,18 +96,13 @@
 		try {
 			const album = $albums.get(albumID)
 
-			// For progress bar
-			uploadCurrent = 0
-			uploadTotal = uploads.length
-
 			for (let i = 0; i < uploads.length; i++) {
 				const upload = uploads[i]
 
+				progress = (i + 1 / uploads.length) * 100
+
 				// Make sure the tracks are appended to the end of the album
 				upload.form.index = upload.form.index + album.tracklist.length
-
-				// Update the progress bar
-				uploadCurrent = i + 1
 
 				// Upload the audio file
 				await AudioAPI.upload(upload.file, upload.form.id, $user.id)
@@ -121,76 +121,63 @@
 		loading = false
 	}
 
-	open = (id: string) => {
-		albumID = id
-		visible = true
-	}
-
 	function close() {
-		visible = false
-		uploads = []
+		dispatch("close")
 	}
 </script>
 
-<PopupBox title="Upload Tracks" bind:loading bind:visible on:close={close}>
-	<div slot="content" class="content">
-		<form class="form" on:submit|preventDefault={submit}>
-			<input
-				bind:this={input}
-				class="input"
-				type="file"
-				id="audio-files"
-				name="audio-files"
-				accept="audio/*"
-				multiple
-				required
-				on:change={loadFiles}
-			/>
-			<div class="tracks">
-				{#each uploads as upload, index (upload.form.id)}
-					<div
-						in:receive={{ key: upload.form.id }}
-						out:send={{ key: upload.form.id }}
-						animate:flip={{ duration: 200 }}
-					>
-						<TrackUploaderTrack
-							bind:trackForm={upload.form}
-							{index}
-							atStart={index === 0}
-							atEnd={index === uploads.length - 1}
-							on:moveup={() => moveTrackUp(index)}
-							on:movedown={() => moveTrackDown(index)}
-						/>
-					</div>
-				{:else}
-					<div class="empty">
-						<h1 class="placeholder">No files selected</h1>
-						<BtnIconText
-							src="public/icons/upload.svg"
-							label={"Upload Files"}
-							on:click={openFileBrowser}
-						/>
-					</div>
-				{/each}
-			</div>
-			{#if !empty}
-				<div class="footer">
+<div class="content">
+	<form class="form" on:submit|preventDefault={submit}>
+		<input
+			bind:this={input}
+			class="input"
+			type="file"
+			id="audio-files"
+			name="audio-files"
+			accept="audio/*"
+			multiple
+			required
+			on:change={loadFiles}
+		/>
+		<div class="tracks">
+			{#each uploads as upload, index (upload.form.id)}
+				<div
+					in:receive={{ key: upload.form.id }}
+					out:send={{ key: upload.form.id }}
+					animate:flip={{ duration: 200 }}
+				>
+					<TrackUploaderTrack
+						bind:trackForm={upload.form}
+						{index}
+						atStart={index === 0}
+						atEnd={index === uploads.length - 1}
+						on:moveup={() => moveTrackUp(index)}
+						on:movedown={() => moveTrackDown(index)}
+					/>
+				</div>
+			{:else}
+				<div class="empty">
+					<h1 class="placeholder">No files selected</h1>
 					<BtnIconText
 						src="public/icons/upload.svg"
-						label={"Replace Files"}
+						label={"Upload Files"}
 						on:click={openFileBrowser}
 					/>
-					<BtnText submit label="Save" />
 				</div>
-			{/if}
-		</form>
-	</div>
-	<div slot="loader" class="loader">
-		<Throbber size={50} />
-		<h1>Uploading Tracks</h1>
-		<ProgressBar current={uploadCurrent} total={uploadTotal} />
-	</div>
-</PopupBox>
+			{/each}
+		</div>
+		{#if !empty}
+			<div class="footer">
+				<BtnIconText
+					src="public/icons/upload.svg"
+					label={"Replace Files"}
+					on:click={openFileBrowser}
+				/>
+				<BtnText submit label="Save" />
+			</div>
+		{/if}
+	</form>
+</div>
 
 <style lang="scss">
 	@use "src/style/colors";
@@ -253,24 +240,6 @@
 				justify-content: space-between;
 				gap: 10px;
 			}
-		}
-	}
-
-	.loader {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		gap: 30px;
-
-		height: 200px;
-		width: 200px;
-
-		h1 {
-			all: unset;
-
-			font-size: x-large;
-			font-weight: bold;
 		}
 	}
 </style>

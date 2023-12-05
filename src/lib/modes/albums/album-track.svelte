@@ -4,7 +4,7 @@
 	import ContextMenu from "$lib/components/context-menu/context-menu.svelte"
 	import ContextMenuOption from "$lib/components/context-menu/context-menu-option.svelte"
 	import BtnIconSeamless from "$lib/components/button/btn-icon-seamless.svelte"
-	import TrackEditor from "$lib/components/track-editor/track-editor.svelte"
+	import { openTrackEditorModal } from "$lib/components/track-editor/track-editor.svelte"
 
 	import { TrackAPI } from "$lib/scripts/api/TrackAPI"
 
@@ -19,22 +19,19 @@
 	export let track: Track
 	export let index: number
 
-	let editing = false
-
 	function playTrack() {
 		dispatch("play")
 	}
 
 	function editTrack() {
-		playerController.resetQueue()
-		editing = true
+		openTrackEditorModal(track)
 	}
 
 	async function removeTrack() {
-		const approved = await confirm({
-			title: "Delete Track",
-			message: `Permanently delete "${track.title}"? This cannot be undone.`
-		})
+		const approved = await confirm(
+			"Delete Track",
+			`Delete "${track.title}"? This cannot be undone.`
+		)
 
 		// Early return if the user declines the confirmation message
 		if (!approved) return
@@ -61,7 +58,6 @@
 	}
 </script>
 
-<TrackEditor bind:visible={editing} {track} />
 <button class="wrapper" on:dblclick={playTrack}>
 	<span class="index">{index + 1}</span>
 	<span class="info">

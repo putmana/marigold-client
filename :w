@@ -1,14 +1,9 @@
 <script lang="ts" context="module">
-	import TrackEditor from "./track-editor.svelte"
-
 	export function openTrackEditorModal(track: Track) {
-		openModal<TrackEditor>({
+		openModal({
 			component: TrackEditor,
-			props: {
-				track: track
-			},
-			title: "Edit Track Details",
-			loading: false
+			props: { track: track },
+			title: "Edit Track"
 		})
 	}
 </script>
@@ -28,7 +23,7 @@
 
 	export let track: Track
 
-	export let loading = false
+	let loading = false
 
 	let form: TrackForm = {
 		id: track?.id ?? "",

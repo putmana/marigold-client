@@ -6,13 +6,14 @@
 	import Albums from "$lib/modes/albums/albums.svelte"
 	import Playlists from "$lib/modes/playlists/playlists.svelte"
 	import Player from "$lib/components/player/player.svelte"
-	import ConfirmationModal from "$lib/components/confirmation-modal/confirmation-modal.svelte"
 
 	import { user } from "$lib/scripts/stores/UserStore"
 	import { mode } from "$lib/scripts/stores/ModeStore"
 	import { library } from "$lib/scripts/stores/LibraryStore"
 	import { onMount } from "svelte"
+
 	import Settings from "$lib/modes/settings/settings.svelte"
+	import ModalManager from "$lib/components/modal-manager/modal-manager.svelte"
 
 	onMount(async () => {
 		await user.init()
@@ -45,7 +46,7 @@
 	<Auth />
 {/if}
 
-<ConfirmationModal />
+<ModalManager />
 
 <style lang="scss">
 	@use "/src/style/sizes";

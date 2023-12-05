@@ -1,8 +1,22 @@
+<script lang="ts" context="module">
+	import AlbumEditor from "./album-editor.svelte"
+
+	export function openAlbumEditorModal(album: Album) {
+		openModal<AlbumEditor>({
+			component: AlbumEditor,
+			props: {
+				album: album
+			},
+			title: "Edit Album Details",
+			loading: false
+		})
+	}
+</script>
+
 <script lang="ts">
-	import { onMount } from "svelte"
+	import { createEventDispatcher } from "svelte"
 
 	import CoverField from "$lib/components/field/cover-field.svelte"
-	import PopupBox from "$lib/components/popup-box/popup-box.svelte"
 	import Textbox from "$lib/components/textbox/textbox.svelte"
 	import BtnText from "$lib/components/button/btn-text.svelte"
 
@@ -11,24 +25,22 @@
 
 	import { user } from "$lib/scripts/stores/UserStore"
 	import { library } from "$lib/scripts/stores/LibraryStore"
+	import { openModal } from "$lib/components/modal-manager/modal-manager.svelte"
+
+	const dispatch = createEventDispatcher()
 
 	export let album: Album
-	export let visible = false
+	export let loading = false
 
-	let loading = false
+	let form: AlbumForm = {
+		id: album.id,
+		title: album.title,
+		artists: album.artists,
+		year: album.year,
+		palette: album.palette
+	}
 
-	let form: AlbumForm
 	let file: File | undefined
-
-	onMount(() => {
-		form = {
-			id: album.id,
-			title: album.title,
-			artists: album.artists,
-			year: album.year,
-			palette: album.palette
-		}
-	})
 
 	async function submit() {
 		loading = true
@@ -53,23 +65,21 @@
 	}
 
 	function close() {
-		visible = false
+		dispatch("close")
 	}
 </script>
 
-<PopupBox title="Edit Album Details" bind:visible bind:loading on:close={close}>
-	<div slot="content" class="content">
-		<form class="form" on:submit|preventDefault={submit}>
-			<CoverField cover={album.cover} bind:palette={form.palette} bind:file required={false} />
-			<Textbox id="title" label="Title" bind:value={form.title} />
-			<Textbox id="artists" label="Artists" bind:value={form.artists} />
-			<Textbox id="year" label="Year" bind:value={form.year} />
-			<div class="footer">
-				<BtnText submit label="Save" />
-			</div>
-		</form>
-	</div>
-</PopupBox>
+<div class="content">
+	<form class="form" on:submit|preventDefault={submit}>
+		<CoverField cover={album.cover} bind:palette={form.palette} bind:file required={false} />
+		<Textbox id="title" label="Title" bind:value={form.title} />
+		<Textbox id="artists" label="Artists" bind:value={form.artists} />
+		<Textbox id="year" label="Year" bind:value={form.year} />
+		<div class="footer">
+			<BtnText submit label="Save" />
+		</div>
+	</form>
+</div>
 
 <style lang="scss">
 	.content {

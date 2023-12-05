@@ -1,34 +1,43 @@
 <script lang="ts" context="module">
-	let open: (id: string) => void
+	import TrackPicker from "./track-picker.svelte"
 
-	export function openPicker(playlistID: string) {
-		open(playlistID)
+	export function openTrackPickerModal(playlistID: string) {
+		openModal<TrackPicker>({
+			component: TrackPicker,
+			props: {
+				playlistID: playlistID
+			},
+			title: "Add Tracks",
+			loading: false
+		})
 	}
 </script>
 
 <script lang="ts">
+	import { createEventDispatcher } from "svelte"
 	import { crossfade } from "svelte/transition"
 	import { flip } from "svelte/animate"
 
 	import { v4 as uuid } from "uuid"
 
 	import BtnText from "../button/btn-text.svelte"
-	import PopupBox from "../popup-box/popup-box.svelte"
 	import Textbox from "../textbox/textbox.svelte"
+	import TrackPickerTrack from "./track-picker-track.svelte"
 	import TrackPickerResult from "./track-picker-result.svelte"
 
-	import { library, playlists, tracks } from "$lib/scripts/stores/LibraryStore"
 	import { PlaylistAPI, type PlaylistTrackForm } from "$lib/scripts/api/PlaylistAPI"
-	import TrackPickerTrack from "./track-picker-track.svelte"
+
+	import { library, playlists, tracks } from "$lib/scripts/stores/LibraryStore"
+	import { openModal } from "../modal-manager/modal-manager.svelte"
 
 	const [send, receive] = crossfade({
 		duration: (d) => Math.sqrt(d * 200)
 	})
 
-	let loading = false
-	let visible = false
+	const dispatch = createEventDispatcher()
 
-	let playlistID: string
+	export let playlistID: string
+	export let loading = false
 
 	let query = ""
 	let picks: PlaylistTrackForm[] = []
@@ -104,14 +113,8 @@
 		loading = false
 	}
 
-	open = (id: string) => {
-		playlistID = id
-		visible = true
-	}
-
 	export function close() {
-		visible = false
-		picks = []
+		dispatch("close")
 	}
 
 	// <---- RESPONSIVENESS ---->
@@ -122,75 +125,73 @@
 	$: desktop = innerWidth > 800
 </script>
 
-<PopupBox title="Add tracks" bind:loading bind:visible on:close={close}>
-	<div class="content" slot="content">
-		<div class="row">
-			{#if !showSelected || desktop}
-				<section class="column">
-					<Textbox id="fuzzyfind" bind:value={query} label="Search tracks" />
-					<div class="scrollbox">
-						{#each results as id}
-							<TrackPickerResult
-								trackID={id}
-								on:click={() => {
-									pickTrack(id)
-								}}
+<div class="content">
+	<div class="row">
+		{#if !showSelected || desktop}
+			<section class="column">
+				<Textbox id="fuzzyfind" bind:value={query} label="Search tracks" />
+				<div class="scrollbox">
+					{#each results as id}
+						<TrackPickerResult
+							trackID={id}
+							on:click={() => {
+								pickTrack(id)
+							}}
+						/>
+					{/each}
+				</div>
+			</section>
+		{/if}
+		{#if showSelected || desktop}
+			<section class="column">
+				<div class="scrollbox">
+					{#each picks as pick, index (pick.id)}
+						<div
+							in:receive={{ key: pick.id }}
+							out:send={{ key: pick.id }}
+							animate:flip={{ duration: 200 }}
+						>
+							<TrackPickerTrack
+								pickForm={pick}
+								{index}
+								atStart={index === 0}
+								atEnd={index === picks.length - 1}
+								on:moveup={() => moveTrackUp(index)}
+								on:movedown={() => moveTrackDown(index)}
+								on:remove={() => removeTrack(index)}
 							/>
-						{/each}
-					</div>
-				</section>
-			{/if}
-			{#if showSelected || desktop}
-				<section class="column">
-					<div class="scrollbox">
-						{#each picks as pick, index (pick.id)}
-							<div
-								in:receive={{ key: pick.id }}
-								out:send={{ key: pick.id }}
-								animate:flip={{ duration: 200 }}
-							>
-								<TrackPickerTrack
-									pickForm={pick}
-									{index}
-									atStart={index === 0}
-									atEnd={index === picks.length - 1}
-									on:moveup={() => moveTrackUp(index)}
-									on:movedown={() => moveTrackDown(index)}
-									on:remove={() => removeTrack(index)}
-								/>
-							</div>
-						{/each}
-					</div>
-				</section>
-			{/if}
-		</div>
-
-		<div class="footer">
-			{#if !desktop}
-				{#if showSelected}
-					<BtnText
-						label="Search"
-						on:click={() => {
-							showSelected = false
-						}}
-					/>
-				{:else}
-					<BtnText
-						label="Selected Tracks"
-						on:click={() => {
-							showSelected = true
-						}}
-					/>
-				{/if}
-			{:else}
-				<BtnText label="Cancel" on:click={close} />
-			{/if}
-			{#if !empty}
-				<BtnText label="Save" on:click={submit} />
-			{/if}
-		</div>
+						</div>
+					{/each}
+				</div>
+			</section>
+		{/if}
 	</div>
-</PopupBox>
+
+	<div class="footer">
+		{#if !desktop}
+			{#if showSelected}
+				<BtnText
+					label="Search"
+					on:click={() => {
+						showSelected = false
+					}}
+				/>
+			{:else}
+				<BtnText
+					label="Selected Tracks"
+					on:click={() => {
+						showSelected = true
+					}}
+				/>
+			{/if}
+		{:else}
+			<BtnText label="Cancel" on:click={close} />
+		{/if}
+		{#if !empty}
+			<BtnText label="Save" on:click={submit} />
+		{/if}
+	</div>
+</div>
 
 <svelte:window bind:innerWidth />
 

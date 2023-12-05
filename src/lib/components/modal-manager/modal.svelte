@@ -4,43 +4,41 @@
 
 	import BtnIconSeamless from "../button/btn-icon-seamless.svelte"
 	import Throbber from "../throbber/throbber.svelte"
+	import ProgressBar from "../progress-bar/progress-bar.svelte"
 
 	const dispatch = createEventDispatcher()
 
 	export let title = "Untitled Popup Box"
-	export let visible = false
 	export let loading = false
+	export let progress: number | undefined
 
 	function close() {
-		visible = false
 		dispatch("close")
 	}
 </script>
 
-{#if visible}
-	<div class="wrapper" transition:fade={{ duration: 200 }}>
-		<div class="box" transition:fly={{ duration: 300, y: -50 }}>
-			<header class="titlebar">
-				<h1 class="title">{title}</h1>
-				<BtnIconSeamless src="public/icons/close.svg" alt="Close" on:click={close} />
-			</header>
-			<main class="content">
-				<slot name="content" />
-			</main>
-			{#if loading}
-				<div class="loader" in:fade={{ duration: 200 }} out:fade={{ delay: 200, duration: 200 }}>
-					{#if $$slots.loader}
-						<slot name="loader" />
-					{:else}
-						<div class="throbber">
-							<Throbber size={60} />
-						</div>
-					{/if}
+<div class="wrapper" transition:fade={{ duration: 200 }}>
+	<div class="box" transition:fly={{ duration: 300, y: -50 }}>
+		<header class="titlebar">
+			<h1 class="title">{title}</h1>
+			<BtnIconSeamless src="public/icons/close.svg" alt="Close" on:click={close} />
+		</header>
+		<main class="content">
+			<slot />
+		</main>
+		{#if loading}
+			<div class="loader" in:fade={{ duration: 200 }} out:fade={{ delay: 200, duration: 200 }}>
+				<slot name="loader" />
+				<div class="throbber">
+					<Throbber size={60} />
 				</div>
-			{/if}
-		</div>
+				{#if progress}
+					<ProgressBar {progress} />
+				{/if}
+			</div>
+		{/if}
 	</div>
-{/if}
+</div>
 
 <style lang="scss">
 	@use "src/style/colors";
@@ -104,8 +102,9 @@
 
 				display: flex;
 				flex-direction: column;
-				align-items: center;
 				justify-content: center;
+				align-items: center;
+				gap: 30px;
 
 				background-color: colors.$gray-c;
 			}

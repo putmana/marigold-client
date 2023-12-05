@@ -23,10 +23,7 @@
 	}
 
 	async function removeTrack() {
-		const approved = await confirm({
-			title: "Remove From Playlist",
-			message: `Remove ${track.title} from this playlist?`
-		})
+		const approved = await confirm("Remove Track", `Remove "${track.title}" from this playlist?`)
 
 		// Early return if the user declines the confirmation message
 		if (!approved) return

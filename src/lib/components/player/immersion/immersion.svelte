@@ -77,12 +77,12 @@
 
 	.wrapper {
 		position: fixed;
-		inset: 0px 0px 0px 0px;
-		width: 100vw;
-		height: 100vh;
+		z-index: 10;
+		width: 100svw;
+		height: 100svh;
 		display: flex;
-		align-items: center;
 		justify-content: center;
+		align-items: center;
 		gap: 60px;
 
 		@include mixins.desktop-only {
@@ -92,6 +92,7 @@
 		@include mixins.mobile-only {
 			background-image: linear-gradient(to bottom, var(--primary-medium), var(--secondary-dark));
 			flex-direction: column;
+			max-height: 100svh;
 		}
 
 		.close-btn {
@@ -100,9 +101,10 @@
 		}
 
 		.cover {
+			flex-shrink: 1;
 			display: flex;
 			justify-content: center;
-			max-width: min(80%, 300px);
+			max-width: 250px;
 
 			img {
 				display: block;

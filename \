@@ -1,0 +1,32 @@
+<script lang="ts" context="module">
+	import { get, writable, type Writable } from "svelte/store"
+
+	type ModalData = {
+		component: ConstructorOfATypedSvelteComponent
+		props: {}
+	}
+
+	export const modals: Writable<ModalData[]> = writable([])
+
+	export function openModal(modal: ModalData) {
+		modals.set([...get(modals), modal])
+	}
+</script>
+
+<script lang="ts">
+	import Modal from "./modal.svelte"
+
+	function closeModal(index: number) {
+		$modals = $modals.toSpliced(index, 1)
+	}
+</script>
+
+{#each $modals as modal, index}
+	<svelte:component
+		this={modal.component}
+		props={...modal.props}
+		on:close={() => {
+			closeModal(index)
+		}}
+	/>
+{/each}

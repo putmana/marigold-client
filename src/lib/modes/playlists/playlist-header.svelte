@@ -3,6 +3,8 @@
 
 	import BtnIconText from "$lib/components/button/btn-icon-text.svelte"
 	import BtnIcon from "$lib/components/button/btn-icon.svelte"
+	import { openPlaylistEditorModal } from "./edit/playlist-editor.svelte"
+	import { openTrackPickerModal } from "$lib/components/track-picker/track-picker.svelte"
 
 	const dispatch = createEventDispatcher()
 
@@ -14,14 +16,6 @@
 
 	function play() {
 		dispatch("play")
-	}
-
-	function openEditor() {
-		dispatch("edit")
-	}
-
-	function openPicker() {
-		dispatch("pick")
 	}
 </script>
 
@@ -36,14 +30,26 @@
 					label="Add Tracks"
 					src="public/icons/add-tracks.svg"
 					alt="Add tracks icon"
-					on:click={openPicker}
+					on:click={() => openTrackPickerModal(playlist.id)}
 				/>
 			{:else}
 				<BtnIconText label="Play" src="public/icons/play.svg" alt="Play icon" on:click={play} />
-				<BtnIcon src="public/icons/add-tracks.svg" alt="Add tracks icon" on:click={openPicker} />
+				<BtnIcon
+					src="public/icons/add-tracks.svg"
+					alt="Add tracks icon"
+					on:click={() => {
+						openTrackPickerModal(playlist.id)
+					}}
+				/>
 			{/if}
 
-			<BtnIcon src="public/icons/edit.svg" alt="Edit icon" on:click={openEditor} />
+			<BtnIcon
+				src="public/icons/edit.svg"
+				alt="Edit icon"
+				on:click={() => {
+					openPlaylistEditorModal(playlist)
+				}}
+			/>
 		</div>
 	</section>
 	<section class="cover">

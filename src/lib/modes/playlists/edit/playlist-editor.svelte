@@ -1,5 +1,20 @@
+<script lang="ts" context="module">
+	import PlaylistEditor from "./playlist-editor.svelte"
+
+	export function openPlaylistEditorModal(playlist: Playlist) {
+		openModal<PlaylistEditor>({
+			component: PlaylistEditor,
+			props: {
+				playlist: playlist
+			},
+			title: "Edit Playlist Details",
+			loading: false
+		})
+	}
+</script>
+
 <script lang="ts">
-	import { onMount } from "svelte"
+	import { createEventDispatcher } from "svelte"
 
 	import CoverField from "$lib/components/field/cover-field.svelte"
 	import PopupBox from "$lib/components/popup-box/popup-box.svelte"
@@ -12,23 +27,21 @@
 
 	import { user } from "$lib/scripts/stores/UserStore"
 	import { library } from "$lib/scripts/stores/LibraryStore"
+	import { openModal } from "$lib/components/modal-manager/modal-manager.svelte"
+
+	const dispatch = createEventDispatcher()
 
 	export let playlist: Playlist
-	export let visible = false
+	export let loading = false
 
-	let loading = false
+	let form: PlaylistForm = {
+		id: playlist.id,
+		title: playlist.title,
+		description: playlist.description,
+		palette: playlist.palette
+	}
 
-	let form: PlaylistForm
 	let file: File | undefined
-
-	onMount(() => {
-		form = {
-			id: playlist.id,
-			title: playlist.title,
-			description: playlist.description,
-			palette: playlist.palette
-		}
-	})
 
 	async function submit() {
 		loading = true
@@ -53,23 +66,21 @@
 	}
 
 	function close() {
-		visible = false
+		dispatch("close")
 	}
 </script>
 
-<PopupBox title="Edit Playlist Details" bind:visible bind:loading on:close={close}>
-	<div slot="content" class="content">
-		<form class="form" on:submit|preventDefault={submit}>
-			<CoverField cover={playlist.cover} bind:palette={form.palette} bind:file required={false} />
-			<Textbox id="title" label="Title" bind:value={form.title} />
-			<Textarea id="description" label="Description" bind:value={form.description} />
+<div class="content">
+	<form class="form" on:submit|preventDefault={submit}>
+		<CoverField cover={playlist.cover} bind:palette={form.palette} bind:file required={false} />
+		<Textbox id="title" label="Title" bind:value={form.title} />
+		<Textarea id="description" label="Description" bind:value={form.description} />
 
-			<div class="footer">
-				<BtnText submit label="Save" />
-			</div>
-		</form>
-	</div>
-</PopupBox>
+		<div class="footer">
+			<BtnText submit label="Save" />
+		</div>
+	</form>
+</div>
 
 <style lang="scss">
 	.content {

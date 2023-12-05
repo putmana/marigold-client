@@ -81,9 +81,11 @@
 			width: 100svw;
 			height: 100svh;
 			transition: all 0.3s ease-out;
+
 			.list {
 				background-image: linear-gradient(to bottom, var(--primary-medium), var(--secondary-dark));
 			}
+
 			&.hidden {
 				transform: translateX(100vw);
 			}
@@ -95,6 +97,7 @@
 			background-image: linear-gradient(to right, var(--primary-medium), var(--secondary-dark));
 			flex-grow: 1;
 		}
+
 		.topbar {
 			display: none;
 		}

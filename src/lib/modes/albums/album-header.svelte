@@ -3,7 +3,10 @@
 
 	import BtnIconText from "$lib/components/button/btn-icon-text.svelte"
 	import BtnIcon from "$lib/components/button/btn-icon.svelte"
+
 	import { pluralize } from "$lib/scripts/utils"
+	import { openAlbumEditorModal } from "./edit/album-editor.svelte"
+	import { openTrackUploaderModal } from "$lib/components/track-uploader/track-uploader.svelte"
 
 	const dispatch = createEventDispatcher()
 
@@ -16,14 +19,6 @@
 
 	function play() {
 		dispatch("play")
-	}
-
-	function openEditor() {
-		dispatch("edit")
-	}
-
-	function openUploader() {
-		dispatch("upload")
 	}
 </script>
 
@@ -38,13 +33,21 @@
 					label="Upload Tracks"
 					src="public/icons/upload.svg"
 					alt="Upload icon"
-					on:click={openUploader}
+					on:click={() => openTrackUploaderModal(album.id)}
 				/>
 			{:else}
 				<BtnIconText label="Play" src="public/icons/play.svg" alt="Play icon" on:click={play} />
-				<BtnIcon src="public/icons/upload.svg" alt="Upload icon" on:click={openUploader} />
+				<BtnIcon
+					src="public/icons/upload.svg"
+					alt="Upload icon"
+					on:click={() => openTrackUploaderModal(album.id)}
+				/>
 			{/if}
-			<BtnIcon src="public/icons/edit.svg" alt="Edit icon" on:click={openEditor} />
+			<BtnIcon
+				src="public/icons/edit.svg"
+				alt="Edit icon"
+				on:click={() => openAlbumEditorModal(album)}
+			/>
 		</div>
 	</section>
 	<section class="cover">
