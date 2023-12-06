@@ -71,13 +71,13 @@
 			padding: 5px;
 
 			@include mixins.desktop-only {
-				width: 210px;
-				height: 210px;
+				width: 220px;
+				height: 220px;
 			}
 
 			@include mixins.mobile-only {
-				height: 200px;
-				width: 200px;
+				height: 180px;
+				width: 180px;
 			}
 
 			label {

@@ -89,7 +89,7 @@
 
 	box-sizing: border-box;
 	width: 100%;
-	padding: 12px;
+	padding: 10px;
 
 	color: white;
 	background-color: hsl(0, 0%, 0%, 10%);
@@ -97,7 +97,7 @@
 	border: 1px solid colors.$border-hover;
 	border-radius: 5px;
 
-	font-size: smaller;
+	font-size: 14px;
 
 	&:hover {
 		border-color: colors.$border-bright;
