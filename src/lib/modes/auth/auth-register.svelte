@@ -29,6 +29,8 @@
 
 		if (result.valid) {
 			user.register(username, email, password)
+
+			issues.generic = ["A link to confirm your email address has been sent to your inbox"]
 		}
 	}
 
