@@ -11,6 +11,4 @@ node_modules
 .svelte-kit
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
-static/public/audio/test
-static/public/img/test
 pocketbase
