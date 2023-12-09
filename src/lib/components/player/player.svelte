@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { tracks } from "$lib/scripts/stores/LibraryStore"
+	import { albums, tracks } from "$lib/scripts/stores/LibraryStore"
 	import {
 		currentTrack,
 		initialized,
@@ -34,6 +34,26 @@
 
 			audio.load()
 			audio.autoplay = true
+
+			const album = $albums.get(track.albumID)
+
+			if ("mediaSession" in navigator) {
+				navigator.mediaSession.metadata = new MediaMetadata({
+					title: track.title,
+					artist: track.artists,
+					album: album.title,
+					artwork: [
+						{
+							src: album.cover.large,
+							sizes: "500x500",
+							type: "image/webp"
+						}
+					]
+				})
+
+				navigator.mediaSession.setActionHandler("previoustrack", skipprev)
+				navigator.mediaSession.setActionHandler("nexttrack", skipnext)
+			}
 		}
 	} else {
 		file = ""
