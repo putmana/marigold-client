@@ -1,12 +1,30 @@
 # Marigold
-A modern music locker.
+
 ![Screenshot of Marigold](./static/public/images/screenshot.jpeg)
 
-## Marigold is currently under development!
-Here be dragons. A demo of the application will be up soon!
+## Introduction
+
+Marigold aims to give you the convenience of Spotify without the DRM.
+Create an account, upload your own files, and stream them from anywhere.
+
+I originally created Marigold as my college capstone project, but I enjoyed
+the process so much that I decided to continue development and turn it into
+a portfolip piece.
+
+#### Disclaimer
+
+Marigold is currently in early alpha, meaning that things WILL change. 
+I cannot promise that things won't break as development contunes, so please don't 
+rely on Marigold as your only music app right now. 
+
+## Getting Started
+
+See the live version [here](https://marigoldmusic.live/)
 
 ## Development Plans
-### THINGS DONE:
+
+#### Currently Implemented:
+
 - [x] Full rewrite for increased maintainability
 - [x] Migration to PocketBase
 - [x] Fully responsive UI
@@ -14,19 +32,27 @@ Here be dragons. A demo of the application will be up soon!
 - [x] Immersive listening mode
 - [x] User accounts
 - [x] File uploading
+- [x] New Demo 
+- [x] File metadata integration (Marigold)
 
-### TOP PRIORITY:
-- [ ] New portfolio demo
-- [ ] File metadata integration (your music tags work with Marigold)
+#### Top Priority:
 
-### SOON:
+- [ ] Code cleanup/refactor
+- [ ] Smart uploading (Bulk upload your files -- Marigold will automatically parse file metadata and create albums)
+- [ ] Metadata lookup (Search for a song/album and Marigold will pull the album art, tags, etc from the Internet)
+
+####  Soon:
+
 - [ ] Desktop application with Tauri
-- [ ] Downloading your entire library
+- [ ] Support for downloading your entire library
+- [ ] Migration from Supabase to my own backend
 
-### SOMEDAY:
+#### Someday Maybe:
+
 - [ ] Support for various stream qualities with FFMPEG
-- [ ] iOS app
-- [ ] Android app
+- [ ] Native iOS app
 
-### PIPE DREAM:
+#### Pipe Dream:
+
+- [ ] Native Android app
 - [ ] Integration with a music vendor (i.e., Bandcamp) to make it easy to buy and port songs directly into Marigold

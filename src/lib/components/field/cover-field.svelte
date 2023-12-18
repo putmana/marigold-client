@@ -8,7 +8,7 @@
 	export let cover: Cover | undefined = undefined
 	export let palette: Palette = Palette.gray
 	export let file: File | undefined = undefined
-	export let required = true
+	export let required = false
 
 	let _src: string
 
