@@ -21,14 +21,11 @@ See the live version [here](https://marigoldmusic.live/)
 
 First, create an account, verify your email address, then log in.
 
-To upload songs, start by going to the Albums page, then click the '+' icon to create a new Album.
-Once you've made an album, you can upload songs to it from that album's page. 
+To upload songs, start by going to the Albums page and clicking the '+' icon to create a new Album. Once you've made an album, you can go to that album's page and upload songs to it by clicking the "Upload Tracks" button. 
 
 #### Disclaimer 
 
-Marigold is currently in early alpha, meaning that things WILL change. 
-I cannot promise that things won't break as development contunes, so please don't 
-rely on Marigold as your only music app right now. 
+Marigold is currently in early alpha, meaning that things WILL change. I cannot promise that things won't break as development contunes, so please don't rely on Marigold as your only music app right now. 
 
 
 ## Development Plans
