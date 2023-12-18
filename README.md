@@ -2,6 +2,7 @@
 
 ![Screenshot of Marigold](./static/public/images/screenshot.jpeg)
 
+
 ## Introduction
 
 Marigold aims to give you the convenience of Spotify without the DRM.
@@ -11,15 +12,17 @@ I originally created Marigold as my college capstone project, but I enjoyed
 the process so much that I decided to continue development and turn it into
 a portfolip piece.
 
-#### Disclaimer
+
+## Getting Started
+
+See the live version [here](https://marigoldmusic.live/)
+
+#### Disclaimer 
 
 Marigold is currently in early alpha, meaning that things WILL change. 
 I cannot promise that things won't break as development contunes, so please don't 
 rely on Marigold as your only music app right now. 
 
-## Getting Started
-
-See the live version [here](https://marigoldmusic.live/)
 
 ## Development Plans
 
