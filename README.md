@@ -17,6 +17,13 @@ a portfolio piece.
 
 See the live version [here](https://marigoldmusic.live/)
 
+#### Uploading Songs
+
+First, create an account, verify your email address, then log in.
+
+To upload songs, start by going to the Albums page, then click the '+' icon to create a new Album.
+Once you've made an album, you can upload songs to it from that album's page. 
+
 #### Disclaimer 
 
 Marigold is currently in early alpha, meaning that things WILL change. 
