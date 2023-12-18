@@ -36,7 +36,7 @@ rely on Marigold as your only music app right now.
 #### Currently Implemented:
 
 - [x] Full rewrite for increased maintainability
-- [x] Migration to PocketBase
+- [x] Migration to Supabase
 - [x] Fully responsive UI
 - [x] Color palette generator built from scratch using OKLAB color space
 - [x] Immersive listening mode
