@@ -10,7 +10,7 @@ Create an account, upload your own files, and stream them from anywhere.
 
 I originally created Marigold as my college capstone project, but I enjoyed
 the process so much that I decided to continue development and turn it into
-a portfolip piece.
+a portfolio piece.
 
 
 ## Getting Started
@@ -35,14 +35,14 @@ rely on Marigold as your only music app right now.
 - [x] Immersive listening mode
 - [x] User accounts
 - [x] File uploading
-- [x] New Demo 
-- [x] File metadata integration (Marigold)
+- [x] New portfolio demo 
+- [x] File metadata integration
 
 #### Top Priority:
 
 - [ ] Code cleanup/refactor
 - [ ] Smart uploading (Bulk upload your files -- Marigold will automatically parse file metadata and create albums)
-- [ ] Metadata lookup (Search for a song/album and Marigold will pull the album art, tags, etc from the Internet)
+- [ ] Metadata lookup (Search for a song/album and Marigold will pull the title, cover art, etc from the Internet)
 
 ####  Soon:
 
