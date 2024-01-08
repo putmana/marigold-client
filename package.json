@@ -1,12 +1,12 @@
 {
-	"name": "marigold-client",
+	"name": "marigold",
 	"version": "0.0.1",
 	"scripts": {
-		"dev": "vite dev",
-		"build": "vite build",
-		"preview": "vite preview",
-		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
-		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
+		"dev": "cd apps/client && vite dev",
+		"build": "cd apps/client && vite build",
+		"preview": "cd apps/client && vite preview",
+		"check": "cd apps/client && svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+		"check:watch": "cd apps/client && svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
 	},
 	"devDependencies": {
 		"@fontsource/fira-mono": "^4.5.10",
@@ -37,5 +37,9 @@
 		"sass": "^1.62.0",
 		"uuid": "^9.0.0",
 		"vite-plugin-node-polyfills": "^0.16.0"
-	}
+	},
+	"workspaces": [
+		"apps/*",
+		"packages/*"
+	]
 }

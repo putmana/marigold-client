@@ -1,8 +1,8 @@
 .DS_Store
+.npmrc
 node_modules
-/build
-/.svelte-kit
-/.vscode
+build
+.svelte-kit
 /package
 .env
 .env.*
