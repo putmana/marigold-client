@@ -3,6 +3,7 @@
 	import { user } from "$lib/scripts/stores/UserStore"
 	import Textbox from "$lib/components/textbox/textbox.svelte"
 	import BtnText from "$lib/components/button/btn-text.svelte"
+	import { Button } from "marigold-ui"
 
 	const dispatch = createEventDispatcher()
 
@@ -37,6 +38,7 @@
 		{/each}
 
 		<BtnText label="Submit" grow submit />
+		<Button>Button</Button>
 	</div>
 	<div class="footer">
 		<p>No account? <button class="link" on:click={showRegister}>Get one</button></p>

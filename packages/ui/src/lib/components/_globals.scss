@@ -1,0 +1,7 @@
+@use './colors';
+
+@mixin default {
+	color: colors.$text_a;
+	background-color: colors.$background_a;
+	font-size: 16px;
+}
