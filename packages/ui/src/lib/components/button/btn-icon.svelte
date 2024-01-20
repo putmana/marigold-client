@@ -10,14 +10,13 @@
 </button>
 
 <style lang="scss">
-	@use '../colors';
-	@use '../mixins';
+	@use './btn' as *;
 
 	button {
 		font-size: 0.875em;
 		padding: 0.625em;
 
-		@include mixins.button-base;
+		@include btn;
 	}
 
 	img {

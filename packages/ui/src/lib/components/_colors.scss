@@ -1,24 +1,30 @@
 @use 'sass:color';
 
-$accent: hsl(28, 100%, 50%, 100%);
+$accent: hsl(28, 100%, 50%);
 
-$background_a: hsl(0, 0%, 25%, 100%);
-$background_b: hsl(0, 0%, 15%, 100%);
-$background_c: hsl(0, 0%, 10%, 100%);
+$primary_background: hsl(0, 0%, 100%);
+$primary_border: hsl(0, 0%, 100%);
+
+$error_background: hsl(0, 0%, 100%);
+
+$background_a: hsl(0, 0%, 40%, 100%);
+$background_b: hsl(0, 0%, 25%, 100%);
+$background_c: hsl(0, 0%, 15%, 100%);
+$background_d: hsl(0, 0%, 10%, 100%);
 
 $text_a: hsl(0, 0%, 100%, 100%);
 $text_b: hsl(0, 0%, 90%, 100%);
 
-$border: hsl(0, 0%, 100%, 15%);
-$border_hover: hsl(0, 0%, 100%, 25%);
-$border_active: hsl(0, 0%, 100%, 20%);
+$border: hsl(0, 0%, 70%, 40%);
+$border_hover: hsl(0, 0%, 70%, 80%);
+$border_active: hsl(0, 0%, 70%, 60%);
 
-$button: hsl(0, 0%, 100%, 10%);
-$button_hover: hsl(0, 0%, 100%, 20%);
-$button_active: hsl(0, 0%, 100%, 15%);
+$button: hsl(0, 0%, 50%, 50%);
+$button_hover: hsl(0, 0%, 70%, 50%);
+$button_active: hsl(0, 0%, 60%, 50%);
 
-$textbox: hsl(0, 0%, 0%, 15%);
-$textbox_active: hsl(0, 0%, 0%, 25%);
+$textbox: hsl(0, 0%, 20%, 50%);
+$textbox_active: hsl(0, 0%, 15%, 50%);
 
 $shadow: hsl(0, 0%, 0%, 35%);
 

@@ -8,16 +8,12 @@
 </button>
 
 <style lang="scss">
+	@use './btn' as *;
 	@use '../colors';
-	@use '../mixins';
 
 	button {
-		font-size: 0.875em;
-		font-weight: bold;
-		line-height: 1.25em;
-
 		padding: 0.75em;
 
-		@include mixins.button-base;
+		@include btn;
 	}
 </style>

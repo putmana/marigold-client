@@ -1,0 +1,56 @@
+@use 'sass:color';
+@use '../colors';
+@use '../mixins';
+
+@mixin btn {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	color: inherit;
+	font-family: inherit;
+	font-size: 0.875em;
+	font-weight: bold;
+	line-height: 1.25em;
+
+	box-sizing: border-box;
+
+	cursor: pointer;
+
+	mix-blend-mode: luminosity;
+
+	&:enabled:hover,
+	&:enabled:focus-visible {
+		background-color: color.adjust(colors.$button, $lightness: 20%);
+		border-color: color.adjust(colors.$border, $lightness: 20%);
+
+		@include mixins.shadow;
+	}
+
+	&:enabled:active {
+		background-color: color.adjust(colors.$button, $lightness: 10%);
+		border-color: color.adjust(colors.$border, $lightness: 10%);
+
+		@include mixins.shadow;
+	}
+
+	&:disabled {
+		@include mixins.disabled;
+	}
+
+	@include mixins.focusable;
+	@include mixins.animate;
+	@include mixins.rounded;
+
+	&.primary {
+		background-color: colors.$button;
+		border: 1px solid colors.$border;
+
+		@include mixins.shadow;
+	}
+
+	&.invisible {
+		background-color: transparent;
+		border: 1px solid transparent;
+	}
+}
