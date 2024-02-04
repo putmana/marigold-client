@@ -1,0 +1,41 @@
+@use '/src/lib/ui/button/button';
+@use '/src/lib/ui/colors';
+@use '/src/lib/ui/mixins';
+@use '/src/lib/ui/vars';
+
+@mixin base {
+	@include button.base;
+
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+
+	width: 2.5em;
+	height: 2.5em;
+
+	img {
+		width: 1.5em;
+	}
+}
+
+@mixin toggleable {
+
+	&::after {
+		content: "";
+		margin-top: 0;
+		height: 0;
+		width: 0;
+		background-color: transparent;
+		transition: all 0.2s ease;
+	}
+
+	&.toggled {
+		&::after {
+			margin-top: calc(vars.$item_gap / 2);
+			width: 0.75rem;
+			height: 0.125rem;
+			border-radius: vars.$item_border_radius;
+			background-color: var(--primary-verylight);
+		}
+	}
+}

@@ -1,4 +1,5 @@
 <script lang="ts">
+	//
 </script>
 
 <nav class="wrapper">
@@ -6,12 +7,14 @@
 </nav>
 
 <style lang="scss">
-	@use "/src/style/colors";
-	@use "/src/style/mixins";
-	@use "/src/style/sizes";
+	@use "/src/lib/ui/colors";
+	@use "/src/lib/ui/mixins";
+	@use "/src/lib/ui/vars";
 
 	.wrapper {
-		background-color: colors.$gray-b;
-		width: sizes.$nav-width;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: vars.$item_gap;
 	}
 </style>

@@ -1,0 +1,52 @@
+@use 'sass:color';
+@use './colors';
+@use './vars';
+
+@mixin focusable {
+	outline: 2px solid transparent;
+	outline-offset: -4px;
+
+	&:focus-visible {
+		outline-color: colors.$white;
+	}
+}
+
+@mixin disabled {
+	opacity: 40%;
+	cursor: default;
+}
+
+@mixin animate {
+	transition: all 0.1s ease-out;
+}
+
+
+@mixin link {
+	@include focusable;
+
+	font-weight: bold;
+	text-decoration: underline;
+
+	cursor: pointer;
+}
+
+@mixin item {
+	background-color: colors.$item;
+	border-radius: vars.$item_border_radius;
+	outline: vars.$item_border;
+	outline-offset: -1px;
+	box-shadow: vars.$item_shadow;
+}
+
+
+@mixin mobile-only {
+	@media (max-width: calc(vars.$screen-lg - 1px)) {
+		@content;
+	}
+}
+
+@mixin desktop-only {
+	@media (min-width: vars.$screen-lg) {
+		@content;
+	}
+}

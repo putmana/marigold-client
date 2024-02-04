@@ -36,8 +36,8 @@
 		background-image: linear-gradient(to right, var(--primary-dark), var(--secondary-dark));
 
 		.logo {
-			width: 60px;
-			height: 60px;
+			width: 4em;
+			height: 4em;
 		}
 	}
 </style>

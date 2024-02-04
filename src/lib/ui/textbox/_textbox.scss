@@ -1,0 +1,54 @@
+@use 'sass:color';
+@use '../vars';
+@use '../colors';
+@use '../mixins';
+
+@mixin textbox-wrapper {
+	position: relative;
+	min-width: 10rem;
+}
+
+@mixin textbox-input {
+	color: inherit;
+	font-family: inherit;
+	font-size: 1rem;
+	line-height: 1.25em;
+	padding: 0.75em;
+
+	box-sizing: border-box;
+	background-color: colors.$textbox;
+	border: vars.$item_border;
+	border-radius: vars.$item_border_radius;
+
+	box-shadow: vars.$item_shadow;
+
+	&:enabled:hover {
+		border-color: color.adjust(colors.$border, $lightness: 40%);
+	}
+
+	&:enabled:focus-visible {
+		outline: none;
+		border-color: color.adjust(colors.$border, $lightness: 40%);
+		background-color: color.adjust(colors.$textbox, $lightness: -5%);
+	}
+
+	&:disabled {
+		@include mixins.disabled;
+	}
+
+}
+
+@mixin textbox-label {
+	position: absolute;
+	inset: -0.375em auto auto 6px;
+
+	padding: 0 0.625em;
+
+	font-size: 0.625em;
+	text-transform: uppercase;
+	font-weight: bold;
+
+	&.disabled {
+		@include mixins.disabled;
+	}
+}

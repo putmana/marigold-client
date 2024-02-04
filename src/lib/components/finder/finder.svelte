@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { createEventDispatcher } from "svelte"
 
-	import BtnIconSeamless from "../button/btn-icon-seamless.svelte"
 	import { Palette } from "$lib/scripts/color-engine/palette"
+	import { bgPalette } from "$lib/scripts/stores/PaletteStore"
 
 	const dispatch = createEventDispatcher()
 
@@ -14,7 +14,7 @@
 	}
 </script>
 
-<aside class="wrapper" style={palette.toCSS()}>
+<aside class="wrapper" style={$bgPalette.toCSS()}>
 	<header class="header">
 		<h1>{title}</h1>
 		<slot name="header" />
@@ -25,24 +25,21 @@
 </aside>
 
 <style lang="scss">
-	@use "/src/style/colors";
-	@use "/src/style/mixins";
-	@use "/src/style/sizes";
+	@use "/src/lib/ui/vars";
+	@use "/src/lib/ui/colors";
+	@use "/src/lib/ui/mixins";
 
 	.wrapper {
+		@include mixins.item;
 		overflow-y: scroll;
 
 		display: flex;
 		flex-direction: column;
+		padding: 0 0 20rem 0;
 
 		box-sizing: border-box;
-		width: calc(100vw - sizes.$nav-width);
-		padding-bottom: 180px;
 
-		background-color: colors.$gray-c;
-
-		border-left: 1px solid colors.$border;
-		box-shadow: inset -1px 0px var(--primary-border);
+		width: 20rem;
 	}
 
 	.header {
@@ -50,28 +47,20 @@
 		align-items: center;
 		flex-shrink: 0;
 
-		height: sizes.$nav-width;
-		padding-left: 15px;
-		padding-right: 15px;
+		padding: 0.75rem calc(2 * vars.$item_gap);
 
 		h1 {
 			flex-grow: 1;
+			margin: 0;
 
-			text-transform: uppercase;
-			font-size: inherit;
+			font-size: 1rem;
 		}
 	}
 
 	.list {
 		display: flex;
 		flex-direction: column;
-		gap: 5px;
-	}
-
-	@media (min-width: sizes.$screen-lg) {
-		.wrapper {
-			min-width: calc(sizes.$screen-sm - sizes.$nav-width);
-			max-width: calc(sizes.$screen-sm - sizes.$nav-width);
-		}
+		padding: 0rem vars.$item_gap;
+		gap: vars.$item_gap;
 	}
 </style>

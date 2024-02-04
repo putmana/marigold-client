@@ -1,0 +1,52 @@
+@use 'sass:color';
+@use '../colors';
+@use '../mixins';
+@use '../vars';
+
+@mixin base {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	color: inherit;
+	font-family: inherit;
+	font-size: 1rem;
+	line-height: 1.25em;
+
+	background-color: colors.$item;
+	border: vars.$item_border;
+	border-radius: vars.$item_border_radius;
+	box-shadow: vars.$item_shadow;
+
+	box-sizing: border-box;
+
+	cursor: pointer;
+
+
+	&.seamless {
+		background-color: transparent;
+		border: 1px solid transparent;
+		box-shadow: none;
+	}
+
+
+	&:enabled:hover,
+	&:enabled:focus-visible {
+		border-color: color.adjust(colors.$border, $lightness: 20%);
+		background-color: color.adjust(colors.$item, $lightness: 20%);
+		box-shadow: vars.$item_shadow;
+	}
+
+	&:enabled:active {
+		border-color: color.adjust(colors.$border, $lightness: 10%);
+		background-color: color.adjust(colors.$item, $lightness: 10%);
+		box-shadow: vars.$item_shadow;
+	}
+
+	&:disabled {
+		@include mixins.disabled;
+	}
+
+	@include mixins.focusable;
+	@include mixins.animate;
+}

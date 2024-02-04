@@ -2,8 +2,9 @@
 	import { createEventDispatcher } from "svelte"
 	import { validateRegistration, type RegistrationIssues } from "./register"
 	import { user } from "$lib/scripts/stores/UserStore"
-	import Textbox from "$lib/components/textbox/textbox.svelte"
-	import BtnText from "$lib/components/button/btn-text.svelte"
+	import Textbox from "$lib/ui/textbox/textbox.svelte"
+
+	import ButtonText from "$lib/ui/button/button-text.svelte"
 
 	const dispatch = createEventDispatcher()
 
@@ -49,7 +50,7 @@
 				<p class="issue">{issue}</p>
 			{/each}
 		{/if}
-		<Textbox id="username" bind:value={username} label="Username" />
+		<Textbox id="username" type="text" bind:value={username} label="Username" grow />
 	</div>
 
 	<div class="input">
@@ -58,7 +59,7 @@
 				<p class="issue">{issue}</p>
 			{/each}
 		{/if}
-		<Textbox id="email" bind:value={email} label="Email" />
+		<Textbox id="email" type="email" bind:value={email} label="Email" grow />
 	</div>
 
 	<div class="input">
@@ -67,7 +68,7 @@
 				<p class="issue">{issue}</p>
 			{/each}
 		{/if}
-		<Textbox id="password" bind:value={password} label="Password" censor />
+		<Textbox id="password" type="password" bind:value={password} label="Password" grow />
 	</div>
 
 	<div class="input">
@@ -77,14 +78,20 @@
 			{/each}
 		{/if}
 
-		<Textbox id="confirm_password" bind:value={confirm_password} label="Confirm Password" censor />
+		<Textbox
+			id="confirm_password"
+			type="password"
+			bind:value={confirm_password}
+			label="Confirm Password"
+			grow
+		/>
 	</div>
 
 	<div class="input">
 		{#each issues.generic as issue}
 			<p class="issue">{issue}</p>
 		{/each}
-		<BtnText label="Submit" grow submit />
+		<ButtonText text="Submit" grow submit />
 	</div>
 	<div class="footer">
 		<p>Have an account? <button class="link" on:click={showLogin}>Log in</button></p>
@@ -92,22 +99,21 @@
 </form>
 
 <style lang="scss">
-	@use "/src/style/mixins";
-	@use "/src/style/colors";
-
-	$error-red: hsl(0, 100, 80);
+	@use "/src/lib/ui/colors";
+	@use "/src/lib/ui/mixins";
 
 	.form {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
-		gap: 30px;
+		gap: 1.5rem;
+
 		width: 100%;
-		padding: 15px;
+		padding: 1rem;
 
 		@include mixins.desktop-only {
-			width: 300px;
+			width: 20rem;
 		}
 
 		@include mixins.mobile-only {
@@ -124,12 +130,6 @@
 
 		.input {
 			width: 100%;
-
-			.issue {
-				color: $error-red;
-				font-size: smaller;
-				margin: 5px 0;
-			}
 		}
 
 		.footer {

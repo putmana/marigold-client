@@ -1,0 +1,11 @@
+@use "./colors";
+
+$screen-sm: 400px;
+$screen-md: 600px;
+$screen-lg: 800px;
+$screen-xl: 1000px;
+
+$item_gap: 0.5rem;
+$item_shadow: 0px 0px 0.25rem colors.$shadow;
+$item_border: 1px solid colors.$border;
+$item_border_radius: 0.325rem;

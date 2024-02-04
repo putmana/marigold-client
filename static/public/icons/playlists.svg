@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
-   class="ionicon"
-   viewBox="0 0 512 512"
+   class="icon icon-tabler icon-tabler-playlist"
+   width="24"
+   height="24"
+   viewBox="0 0 24 24"
+   stroke-width="1.75"
+   stroke="currentColor"
+   fill="none"
+   stroke-linecap="round"
+   stroke-linejoin="round"
    version="1.1"
-   id="svg10"
+   id="svg14"
    sodipodi:docname="playlists.svg"
    inkscape:version="1.2.2 (b0a84865, 2022-12-01)"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
@@ -11,9 +18,9 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:svg="http://www.w3.org/2000/svg">
   <defs
-     id="defs14" />
+     id="defs18" />
   <sodipodi:namedview
-     id="namedview12"
+     id="namedview16"
      pagecolor="#ffffff"
      bordercolor="#000000"
      borderopacity="0.25"
@@ -22,55 +29,38 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      showgrid="false"
-     inkscape:zoom="0.4609375"
-     inkscape:cx="256"
-     inkscape:cy="256"
+     inkscape:zoom="9.8333333"
+     inkscape:cx="12"
+     inkscape:cy="12"
      inkscape:window-width="1309"
      inkscape:window-height="456"
      inkscape:window-x="0"
      inkscape:window-y="38"
      inkscape:window-maximized="0"
-     inkscape:current-layer="svg10" />
+     inkscape:current-layer="svg14" />
   <path
+     stroke="none"
+     d="M0 0h24v24H0z"
      fill="none"
-     stroke="currentColor"
-     stroke-linecap="round"
-     stroke-linejoin="round"
-     stroke-width="32"
-     d="M160 144h288M160 256h288M160 368h288"
-     id="path2"
+     id="path2" />
+  <path
+     d="M14 17m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"
+     id="path4"
      style="stroke:#ffffff" />
-  <circle
-     cx="80"
-     cy="144"
-     r="16"
-     fill="none"
-     stroke="currentColor"
-     stroke-linecap="round"
-     stroke-linejoin="round"
-     stroke-width="32"
-     id="circle4"
+  <path
+     d="M17 17v-13h4"
+     id="path6"
      style="stroke:#ffffff" />
-  <circle
-     cx="80"
-     cy="256"
-     r="16"
-     fill="none"
-     stroke="currentColor"
-     stroke-linecap="round"
-     stroke-linejoin="round"
-     stroke-width="32"
-     id="circle6"
+  <path
+     d="M13 5h-10"
+     id="path8"
      style="stroke:#ffffff" />
-  <circle
-     cx="80"
-     cy="368"
-     r="16"
-     fill="none"
-     stroke="currentColor"
-     stroke-linecap="round"
-     stroke-linejoin="round"
-     stroke-width="32"
-     id="circle8"
+  <path
+     d="M3 9l10 0"
+     id="path10"
+     style="stroke:#ffffff" />
+  <path
+     d="M9 13h-6"
+     id="path12"
      style="stroke:#ffffff" />
 </svg>

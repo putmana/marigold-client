@@ -1,10 +1,11 @@
+@use "/src/lib/ui/fonts";
 @use "colors";
 
 body {
-	font-family: "jaf-bernina-sans-narrow", sans-serif;
+	font-family: system-ui;
 	font-weight: 400;
 	font-style: normal;
-	font-size: 12pt;
+	font-size: 1rem;
 	color: colors.$white-a;
 }
 

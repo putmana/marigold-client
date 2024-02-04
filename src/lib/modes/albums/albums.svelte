@@ -11,12 +11,21 @@
 	import { Palette } from "$lib/scripts/color-engine/palette"
 
 	import { openAlbumCreatorModal } from "./create/album-creator.svelte"
+	import ButtonText from "$lib/ui/button/button-text.svelte"
+	import ButtonIcon from "$lib/ui/button/button-icon.svelte"
+	import Track from "$lib/components/track/track.svelte"
+	import Tracklist from "$lib/components/tracklist/tracklist.svelte"
+	import { bgPalette } from "$lib/scripts/stores/PaletteStore"
+	import { openAlbumEditorModal } from "./edit/album-editor.svelte"
 
 	let hidden = true
 
 	let selectedAlbumID = ""
 
 	$: _album = $albums.get(selectedAlbumID)
+	$: _tracks = _album?.tracklist.map((t) => $tracks.get(t.id))
+
+	$: $bgPalette = _album?.palette ?? Palette.gray
 
 	function startQueue(index: number) {
 		playerController.startQueue(
@@ -28,7 +37,13 @@
 
 <Finder title="Albums" palette={_album?.palette ?? Palette.gray}>
 	<svelte:fragment slot="header">
-		<BtnIconSeamless src="public/icons/add.svg" on:click={openAlbumCreatorModal} />
+		<ButtonIcon
+			src="public/icons/add.svg"
+			alt="Add album icon"
+			on:click={openAlbumCreatorModal}
+			seamless
+			nopadding
+		/>
 	</svelte:fragment>
 	<svelte:fragment slot="body">
 		{#each [...$albums] as [_, album]}
@@ -48,24 +63,41 @@
 	</svelte:fragment>
 </Finder>
 
-<Viewer bind:hidden empty={selectedAlbumID == ""} palette={_album?.palette ?? Palette.gray}>
-	{#key selectedAlbumID}
-		{#if _album}
-			<AlbumHeader
-				album={_album}
-				on:play={() => {
-					startQueue(0)
-				}}
-			/>
-			{#each _album.tracklist as albumTrack, index}
-				<AlbumTrack
-					track={$tracks.get(albumTrack.id)}
-					{index}
-					on:play={() => {
-						startQueue(index)
-					}}
+{#key selectedAlbumID}
+	{#if _album}
+		<Tracklist
+			title={_album.title}
+			details={["artist", "etc"]}
+			artSrc={_album.cover.large}
+			artAlt={`Cover art for ${_album.title}`}
+		>
+			<svelte:fragment slot="actions">
+				{#if _album.tracklist.length === 0}
+					<ButtonIcon src="public/icons/upload.svg" text="Upload Tracks" alt="Upload icon" />
+				{:else}
+					<ButtonIcon src="public/icons/play.svg" text="Play" alt="Play icon" />
+					<ButtonIcon src="public/icons/upload.svg" alt="Upload icon" />
+				{/if}
+
+				<ButtonIcon
+					src="public/icons/edit.svg"
+					alt="Edit icon"
+					on:click={() => openAlbumEditorModal(_album)}
 				/>
-			{/each}
-		{/if}
-	{/key}
-</Viewer>
+			</svelte:fragment>
+
+			<svelte:fragment slot="tracks">
+				{#each _tracks as track, index}
+					<Track
+						{index}
+						title={track.title}
+						artist={_album.artists}
+						artSrc={_album.cover.small}
+						showIndex
+						on:dblclick={() => startQueue(index)}
+					/>
+				{/each}
+			</svelte:fragment>
+		</Tracklist>
+	{/if}
+{/key}

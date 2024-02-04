@@ -13,18 +13,20 @@ export type Swatch = {
 
 export const primarySwatches: Swatch[] = [
         { lmin: 0.80, lmax: 0.80, chroma: 0.06, opacity: 1.0, name: "primary-verylight", },
-        { lmin: 0.60, lmax: 0.65, chroma: 0.06, opacity: 1.0, name: "primary-light", },
+        { lmin: 0.65, lmax: 0.65, chroma: 0.06, opacity: 1.0, name: "primary-light", },
         { lmin: 0.50, lmax: 0.50, chroma: 0.06, opacity: 1.0, name: "primary-medium", },
-        { lmin: 0.35, lmax: 0.50, chroma: 0.06, opacity: 1.0, name: "primary-dark", },
-        { lmin: 0.15, lmax: 0.30, chroma: 0.06, opacity: 1.0, name: "primary-verydark", },
+        { lmin: 0.35, lmax: 0.35, chroma: 0.06, opacity: 1.0, name: "primary-dark", },
+        { lmin: 0.20, lmax: 0.20, chroma: 0.06, opacity: 1.0, name: "primary-verydark", },
         { lmin: 0.60, lmax: 0.60, chroma: 0.06, opacity: 1.0, name: "primary-border", },
+        { lmin: 0.20, lmax: 0.20, chroma: 0.02, opacity: 1.0, name: "primary-background", },
 ]
 
 export const secondarySwatches: Swatch[] = [
         { lmin: 0.75, lmax: 0.75, chroma: 0.06, opacity: 1.0, name: "secondary-verylight", },
         { lmin: 0.55, lmax: 0.60, chroma: 0.06, opacity: 1.0, name: "secondary-light", },
-        { lmin: 0.40, lmax: 0.40, chroma: 0.06, opacity: 1.0, name: "secondary-medium", },
-        { lmin: 0.30, lmax: 0.35, chroma: 0.06, opacity: 1.0, name: "secondary-dark", },
-        { lmin: 0.10, lmax: 0.25, chroma: 0.06, opacity: 1.0, name: "secondary-verydark", },
-        { lmin: 0.50, lmax: 0.65, chroma: 0.06, opacity: 0.7, name: "secondary-border", },
+        { lmin: 0.50, lmax: 0.50, chroma: 0.04, opacity: 1.0, name: "secondary-medium", },
+        { lmin: 0.35, lmax: 0.35, chroma: 0.04, opacity: 1.0, name: "secondary-dark", },
+        { lmin: 0.20, lmax: 0.20, chroma: 0.04, opacity: 1.0, name: "secondary-verydark", },
+        { lmin: 0.80, lmax: 0.80, chroma: 0.04, opacity: 0.7, name: "secondary-border", },
+        { lmin: 0.20, lmax: 0.20, chroma: 0.06, opacity: 1.0, name: "secondary-background", },
 ]

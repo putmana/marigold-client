@@ -26,24 +26,23 @@
 	<span class="cover">
 		<img src={cover.small} alt={`Cover for ${title}`} />
 	</span>
-	<span class="info">
-		<h2>{title}</h2>
+	<ul class="info">
+		<li class="title">{title}</li>
 		{#if artists}
-			<h3>{artists}</h3>
+			<li class="artist">{artists}</li>
 		{/if}
-	</span>
+	</ul>
 </FinderItem>
 
 <style lang="scss">
-	@use "/src/style/colors";
-	@use "/src/style/mixins";
+	@use "/src/lib/ui/colors";
+	@use "/src/lib/ui/mixins";
+	@use "/src/lib/ui/vars";
 
 	.cover {
-		@include mixins.faint-shadow;
-
-		width: 50px;
-		height: 50px;
-		border: 1px solid transparent;
+		width: 2.5rem;
+		height: 2.5rem;
+		isolation: isolate;
 
 		img {
 			height: inherit;
@@ -54,26 +53,13 @@
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
-		align-items: flex-start;
 		flex-grow: 1;
+		padding: 0 vars.$item_gap;
+		margin: 0;
+		list-style-type: none;
 
-		margin-left: 20px;
-		margin-right: 20px;
-
-		h2,
-		h3 {
-			@include mixins.clamp-text(2);
-			margin-top: 2px;
-			margin-bottom: 2px;
-
-			font-weight: normal;
-			font-size: 16px;
-
-			overflow: hidden;
-		}
-
-		h3 {
-			font-size: small;
+		.artist {
+			color: colors.$text_b;
 		}
 	}
 </style>

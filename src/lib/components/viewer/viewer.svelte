@@ -17,24 +17,28 @@
 			><img class="icon" alt="back button icon" src={"public/icons/back.svg"} /></button
 		>
 	</section>
+	<section class="info" />
 	<section class="list">
 		<slot />
 	</section>
 </main>
 
 <style lang="scss">
+	@use "/src/lib/ui/vars";
+	@use "/src/lib/ui/colors";
+
 	@use "/src/style/sizes";
 	@use "/src/style/mixins";
-	@use "/src/style/colors";
 	.wrapper {
 		display: flex;
 		flex-direction: column;
 		box-sizing: border-box;
-		background-color: var(--primary-medium);
+		background-color: colors.$item;
+		border: vars.$item_border;
+		border-radius: vars.$item_border_radius;
 
 		.topbar {
-			padding: 20px;
-			padding-bottom: 10px;
+			padding: 1.5rem;
 			position: sticky;
 			top: 0;
 			background-color: var(--primary-medium);
@@ -45,18 +49,20 @@
 				justify-content: center;
 				align-items: center;
 				border-radius: 5px;
+
 				.icon {
 					height: 20px;
 					width: 20px;
 				}
 			}
 		}
+
 		.list {
-			padding: 10px;
+			padding: vars.$item_gap;
+			padding-bottom: 10rem;
 			display: flex;
 			flex-grow: 1;
 			flex-direction: column;
-			padding-bottom: 180px;
 			overflow-y: scroll;
 		}
 
@@ -65,7 +71,7 @@
 			background-repeat: no-repeat;
 			background-position: center;
 			background-size: 70px;
-			background-color: colors.$gray-b;
+			background-color: colors.$background_c;
 
 			box-shadow: inset 30px 0px 30px -30px colors.$shadow;
 
@@ -94,7 +100,6 @@
 
 	@media (min-width: sizes.$screen-lg) {
 		.wrapper {
-			background-image: linear-gradient(to right, var(--primary-medium), var(--secondary-dark));
 			flex-grow: 1;
 		}
 

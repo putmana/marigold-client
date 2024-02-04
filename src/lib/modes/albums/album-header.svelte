@@ -7,6 +7,7 @@
 	import { pluralize } from "$lib/scripts/utils"
 	import { openAlbumEditorModal } from "./edit/album-editor.svelte"
 	import { openTrackUploaderModal } from "$lib/components/track-uploader/track-uploader.svelte"
+	import ButtonIcon from "$lib/ui/button/button-icon.svelte"
 
 	const dispatch = createEventDispatcher()
 
@@ -24,9 +25,12 @@
 
 <header class="wrapper" style={album.palette.toCSS()}>
 	<section class="info">
-		<h1 class="title">{album.title}</h1>
-		<p class="details">{album.artists}</p>
-		<p class="details">{details}</p>
+		<div class="details">
+			<h1 class="title">{album.title}</h1>
+			<p>{album.artists}</p>
+			<p>{details}</p>
+		</div>
+
 		<div class="header-btns">
 			{#if album.tracklist.length === 0}
 				<BtnIconText
@@ -36,14 +40,14 @@
 					on:click={() => openTrackUploaderModal(album.id)}
 				/>
 			{:else}
-				<BtnIconText label="Play" src="public/icons/play.svg" alt="Play icon" on:click={play} />
-				<BtnIcon
+				<ButtonIcon src="public/icons/play.svg" text="Play" alt="Play" on:click={play} />
+				<ButtonIcon
 					src="public/icons/upload.svg"
 					alt="Upload icon"
 					on:click={() => openTrackUploaderModal(album.id)}
 				/>
 			{/if}
-			<BtnIcon
+			<ButtonIcon
 				src="public/icons/edit.svg"
 				alt="Edit icon"
 				on:click={() => openAlbumEditorModal(album)}
@@ -58,88 +62,67 @@
 </header>
 
 <style lang="scss">
+	@use "/src/lib/ui/vars";
+	@use "/src/lib/ui/mixins";
+	@use "/src/lib/ui/colors";
+
 	@use "/src/style/sizes";
-	@use "/src/style/mixins";
-	@use "/src/style/colors";
 
 	.wrapper {
 		display: flex;
-		flex-direction: column-reverse;
 		box-sizing: border-box;
-		padding: 20px;
-		gap: 40px;
-		border-bottom: 1px solid colors.$border;
-		margin-bottom: 10px;
+		border-bottom: vars.$item_border;
+
+		@include mixins.desktop-only {
+			justify-content: space-between;
+			padding: 4rem;
+			gap: 4rem;
+		}
+
+		@include mixins.mobile-only {
+			padding: 2rem;
+			gap: 2rem;
+
+			flex-direction: column-reverse;
+		}
 	}
 
 	.info {
 		display: flex;
 		flex-direction: column;
-		flex-grow: 1;
 		justify-content: center;
+		gap: vars.$item_gap;
 
 		.title {
-			@include mixins.clamp-text(2);
-			font-size: 24px;
-			font-weight: 900;
-			letter-spacing: -1px;
+			font-size: 3rem;
 			margin: 0;
-			margin-left: -2px;
 		}
 
 		.details {
 			opacity: 80%;
-			font-size: 16px;
-			margin: 0;
+
+			p {
+				font-size: 1rem;
+				margin: 0;
+			}
 		}
 
 		.header-btns {
 			display: flex;
-			gap: 5px;
-			margin-top: 15px;
+			gap: vars.$item_gap;
 		}
 	}
 
 	.cover {
 		display: flex;
-		flex-grow: 1;
 		justify-content: center;
 		.img-wrapper {
-			width: 200px;
-			height: 200px;
+			width: 15rem;
+			height: 15rem;
 			img {
 				display: block;
 				max-width: 100%;
-				box-shadow: 0px 0px 30px colors.$shadow;
-			}
-		}
-	}
-
-	@media (min-width: sizes.$screen-lg) {
-		.wrapper {
-			padding-top: 60px;
-		}
-	}
-
-	@media (min-width: sizes.$screen-xl) {
-		.wrapper {
-			justify-content: center;
-			flex-direction: row;
-			padding: 60px;
-			gap: 60px;
-		}
-
-		.cover {
-			flex-grow: 0;
-			.img-wrapper {
-				max-width: 220px;
-				max-height: 220px;
-			}
-		}
-
-		.info {
-			.title {
-				font-size: 40px;
+				box-shadow: vars.$item_shadow;
 			}
 		}
 	}

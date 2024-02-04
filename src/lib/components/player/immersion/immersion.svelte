@@ -7,13 +7,13 @@
 
 	import { formatPlayerTime } from "$lib/scripts/utils"
 
-	import PlayPauseBtn from "$lib/components/controls/play-pause-btn.svelte"
-	import SkipNextBtn from "$lib/components/controls/skip-next-btn.svelte"
-	import SkipPrevBtn from "$lib/components/controls/skip-prev-btn.svelte"
-	import ToggleShuffleBtn from "$lib/components/controls/toggle-shuffle-btn.svelte"
-	import ToggleRepeatBtn from "$lib/components/controls/toggle-repeat-btn.svelte"
-	import BtnIconSeamless from "$lib/components/button/btn-icon-seamless.svelte"
+	import PlayerBtnPlaypause from "../player-btn/player-btn-playpause.svelte"
+	import PlayerBtnSkipprev from "../player-btn/player-btn-skipprev.svelte"
+	import PlayerBtnSkipnext from "../player-btn/player-btn-skipnext.svelte"
+	import PlayerBtnShuffle from "../player-btn/player-btn-shuffle.svelte"
+	import PlayerBtnRepeat from "../player-btn/player-btn-repeat.svelte"
 	import Scrub from "../scrub/scrub.svelte"
+	import ButtonIcon from "$lib/ui/button/button-icon.svelte"
 
 	export let track: Track
 	export let shuffleEnabled: boolean
@@ -38,7 +38,7 @@
 
 <div class="wrapper" style={_album.palette.toCSS()} transition:fly={{ duration: 200, y: 300 }}>
 	<div class="close-btn">
-		<BtnIconSeamless src="public/icons/close.svg" on:click={minimize} />
+		<ButtonIcon src="public/icons/close.svg" alt="Close icon" on:click={minimize} seamless />
 	</div>
 	<section class="cover">
 		<img src={_album.cover.large} alt={`Cover for ${track.title}`} />
@@ -61,11 +61,11 @@
 				<Scrub {currentTime} {duration} palette={_album.palette} on:scrub />
 			</div>
 			<div class="buttons">
-				<ToggleShuffleBtn {shuffleEnabled} on:toggleshuffle />
-				<SkipPrevBtn on:skipprev />
-				<PlayPauseBtn {paused} on:playpause />
-				<SkipNextBtn on:skipnext />
-				<ToggleRepeatBtn {repeatMode} on:togglerepeat />
+				<PlayerBtnShuffle {shuffleEnabled} on:toggleshuffle />
+				<PlayerBtnSkipprev on:skipprev />
+				<PlayerBtnPlaypause {paused} on:playpause />
+				<PlayerBtnSkipnext on:skipnext />
+				<PlayerBtnRepeat {repeatMode} on:togglerepeat />
 			</div>
 		</div>
 	</section>

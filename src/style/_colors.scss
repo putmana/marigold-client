@@ -1,23 +1,22 @@
+$border: hsla(200, 100%, 70%, 100%);
+$border-hover: hsla(200, 70%, 100%, 100%);
+$border-bright: hsla(200, 70%, 100%, 100%);
+$border-brighter: hsla(200, 70%, 100%, 100%);
 
-$border: hsla(0, 0%, 100%, 10%);
-$border-hover: hsla(0, 0%, 100%, 20%);
-$border-bright: hsla(0, 0%, 100%, 30%);
-$border-brighter: hsla(0, 0%, 100%, 60%);
-
-$hover: hsla(0, 0%, 100%, 15%);
-$item: hsla(0, 0%, 100%, 10%);
-$item-hover: hsla(0, 0%, 100%, 15%);
-$item-active: hsla(0, 0%, 100%, 20%);
+$hover: hsla(120, 100%, 70%, 100%);
+$item: hsla(120, 100%, 70%, 100%);
+$item-hover: hsla(120, 100%, 70%, 100%);
+$item-active: hsla(120, 100%, 70%, 100%);
 
 $shadow-faint: hsla(0, 0%, 0%, 30%);
 $shadow: hsla(0, 0%, 0%, 60%);
 $shadow-dark: hsla(0, 0%, 10%, 65%);
 
-$gray-a: hsl(0, 0%, 10%);
-$gray-b: hsl(0, 0%, 15%);
-$gray-c: hsl(0, 0%, 25%);
-$gray-d: hsl(0, 0%, 30%);
-$gray-e: hsl(0, 0%, 35%);
+$gray-a: hsl(0, 100%, 10%);
+$gray-b: hsl(0, 100%, 15%);
+$gray-c: hsl(0, 100%, 25%);
+$gray-d: hsl(0, 100%, 30%);
+$gray-e: hsl(0, 100%, 35%);
 
 $white-a: hsl(0, 0%, 100%);
 $white-b: hsl(0, 0%, 85%);

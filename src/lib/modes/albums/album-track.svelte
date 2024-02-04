@@ -13,6 +13,7 @@
 	import { confirm } from "$lib/components/confirmation-modal/confirmation-modal.svelte"
 	import { AudioAPI } from "$lib/scripts/api/AudioAPI"
 	import { user } from "$lib/scripts/stores/UserStore"
+	import ButtonFlex from "$lib/ui/button/button-flex.svelte"
 
 	const dispatch = createEventDispatcher()
 
@@ -58,7 +59,7 @@
 	}
 </script>
 
-<button class="wrapper" on:dblclick={playTrack}>
+<button class="seamless" on:dblclick={playTrack}>
 	<span class="index">{index + 1}</span>
 	<span class="info">
 		<h3 class="title">{track.title}</h3>
@@ -75,74 +76,25 @@
 </button>
 
 <style lang="scss">
-	@use "/src/style/sizes";
-	@use "/src/style/mixins";
-	@use "/src/style/colors";
+	@use "/src/lib/ui/button/button";
+	@use "/src/lib/ui/mixins";
+	@use "/src/lib/ui/colors";
+	@use "/src/lib/ui/vars";
 
-	.wrapper {
-		@include mixins.clickable;
-		display: flex;
-		padding-top: 10px;
-		padding-bottom: 10px;
-		border-radius: 5px;
-		align-items: center;
+	button {
+		@include button.base;
 
 		.index {
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			min-width: 20px;
-			font-size: larger;
-			opacity: 0%;
+			width: 4rem;
 		}
-
 		.info {
 			display: flex;
 			flex-direction: column;
+			justify-content: center;
+			gap: vars.$item_gap;
 			flex-grow: 1;
-			justify-content: center;
-
-			.title {
-				all: unset;
-				@include mixins.clamp-text(1);
-			}
-			.artist {
-				all: unset;
-				@include mixins.clamp-text(1);
-				opacity: 80%;
-				font-size: smaller;
-			}
 		}
-
 		.end {
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			min-width: 60px;
-			padding: 0px 10px;
-			transition: opacity 0.2s ease;
-			gap: 5px;
-		}
-	}
-
-	@media (min-width: sizes.$screen-lg) {
-		.wrapper {
-			.index {
-				opacity: 100%;
-				min-width: 60px;
-			}
-			.end {
-				min-width: 60px;
-				opacity: 0%;
-			}
-
-			&:hover,
-			&:focus,
-			&:focus-within {
-				.end {
-					opacity: 100%;
-				}
-			}
 		}
 	}
 </style>

@@ -1,0 +1,33 @@
+@font-face {
+	font-family: 'Mona Sans Narrow';
+	src: url('/public/fonts/mona_sans.woff2');
+	font-stretch: 90%;
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Mona Sans Narrow';
+	src: url('/public/fonts/mona_sans.woff2');
+	font-stretch: 90%;
+	font-weight: bold;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Mona Sans Narrow';
+	src: url('/public/fonts/mona_sans.woff2');
+	font-stretch: 90%;
+	font-weight: normal;
+	font-style: italic;
+}
+
+@font-face {
+	font-family: 'Mona Sans Narrow';
+	src: url('/public/fonts/mona_sans.woff2');
+	font-stretch: 90%;
+	font-weight: bold;
+	font-style: italic;
+}
+
+$mona-sans-narrow: 'Mona Sans Narrow', Arial, sans-serif;

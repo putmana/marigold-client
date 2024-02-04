@@ -14,6 +14,7 @@
 
 	import Settings from "$lib/modes/settings/settings.svelte"
 	import ModalManager from "$lib/components/modal-manager/modal-manager.svelte"
+	import { bgPalette } from "$lib/scripts/stores/PaletteStore"
 
 	onMount(async () => {
 		await user.init()
@@ -21,26 +22,27 @@
 </script>
 
 {#if $user}
-	<div class="wrapper">
-		{#await library.load()}
-			<LoadingScreen />
-		{:then}
-			<Nav>
-				<NavBtn tab={"PLAYLISTS"} label="playlists" iconPath="public/icons/playlists.svg" />
-				<NavBtn tab={"ALBUMS"} label="albums" iconPath="public/icons/albums.svg" />
-				<NavBtn tab={"SETTINGS"} label="settings" iconPath="public/icons/settings.svg" />
-			</Nav>
+	<div class="wrapper" style={$bgPalette.toCSS()}>
+		<div class="library">
+			{#await library.load()}
+				<LoadingScreen />
+			{:then}
+				<Nav>
+					<NavBtn tab={"PLAYLISTS"} label="playlists" iconPath="public/icons/playlists.svg" />
+					<NavBtn tab={"ALBUMS"} label="albums" iconPath="public/icons/albums.svg" />
+					<NavBtn tab={"SETTINGS"} label="settings" iconPath="public/icons/settings.svg" />
+				</Nav>
 
-			{#if $mode === "ALBUMS"}
-				<Albums />
-			{:else if $mode === "PLAYLISTS"}
-				<Playlists />
-			{:else if $mode === "SETTINGS"}
-				<Settings />
-			{/if}
-
-			<Player />
-		{/await}
+				{#if $mode === "ALBUMS"}
+					<Albums />
+				{:else if $mode === "PLAYLISTS"}
+					<Playlists />
+				{:else if $mode === "SETTINGS"}
+					<Settings />
+				{/if}
+			{/await}
+		</div>
+		<Player />
 	</div>
 {:else}
 	<Auth />
@@ -49,10 +51,26 @@
 <ModalManager />
 
 <style lang="scss">
-	@use "/src/style/sizes";
+	@use "/src/lib/ui/vars";
 
 	.wrapper {
 		display: flex;
+		flex-direction: column;
 		height: 100svh;
+		padding: vars.$item_gap;
+		gap: vars.$item_gap;
+		box-sizing: border-box;
+		background-image: linear-gradient(
+			to right,
+			var(--secondary-background),
+			var(--primary-background)
+		);
+
+		.library {
+			display: flex;
+			flex-grow: 1;
+			gap: vars.$item_gap;
+			overflow: hidden;
+		}
 	}
 </style>

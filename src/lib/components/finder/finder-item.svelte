@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { Palette } from "$lib/scripts/color-engine/palette"
+	import { bgPalette } from "$lib/scripts/stores/PaletteStore"
 	import { createEventDispatcher } from "svelte"
 
 	const dispatch = createEventDispatcher()
@@ -12,50 +13,35 @@
 	}
 </script>
 
-<button class="wrapper" class:selected on:click={selectItem} style={palette.toCSS()}>
+<button
+	class="wrapper"
+	class:selected
+	on:click={selectItem}
+	class:seamless={!selected}
+	style={$bgPalette.toCSS()}
+>
 	<slot />
 </button>
 
 <style lang="scss">
-	@use "/src/style/colors";
-	@use "/src/style/mixins";
-	@use "/src/style/sizes";
+	@use "/src/lib/ui/button/button";
+
+	@use "/src/lib/ui/colors";
+	@use "/src/lib/ui/mixins";
+	@use "/src/lib/ui/vars";
 
 	.wrapper {
-		@include mixins.clickable;
-
-		position: relative;
+		@include button.base;
 
 		display: flex;
 		align-items: center;
-		flex-shrink: 0;
+		gap: vars.$item_gap;
 
 		box-sizing: border-box;
-		height: 70px;
-		margin: 0px 5px;
-		padding: 0px 10px;
-
-		border-radius: 5px;
+		padding: vars.$item_gap;
 
 		&.selected {
-			height: 80px;
-
-			margin: 0px;
-			padding-left: 15px;
-
-			background-color: var(--primary-medium);
-
-			border: 1px solid colors.$border-hover;
-			border-radius: 0px;
-
-			&:hover,
-			&:focus {
-				box-shadow: none;
-			}
-
-			@include mixins.desktop-only {
-				border-right: none;
-			}
+			padding: vars.$item_gap;
 		}
 	}
 </style>
