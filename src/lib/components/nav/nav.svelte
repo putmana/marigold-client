@@ -3,7 +3,13 @@
 </script>
 
 <nav class="wrapper">
-	<slot />
+	<div class="start">
+		<slot />
+	</div>
+
+	<div class="end">
+		<slot name="end" />
+	</div>
 </nav>
 
 <style lang="scss">
@@ -16,5 +22,19 @@
 		flex-direction: column;
 		align-items: center;
 		gap: vars.$item_gap;
+
+		div {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			gap: vars.$item_gap;
+
+			&.start {
+				flex-grow: 1;
+			}
+			&.end {
+				flex-grow: 0;
+			}
+		}
 	}
 </style>

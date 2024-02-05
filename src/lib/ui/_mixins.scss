@@ -32,9 +32,8 @@
 
 @mixin item {
 	background-color: colors.$item;
+	border: vars.$item_border;
 	border-radius: vars.$item_border_radius;
-	outline: vars.$item_border;
-	outline-offset: -1px;
 	box-shadow: vars.$item_shadow;
 }
 

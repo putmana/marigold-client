@@ -39,6 +39,7 @@
 		background-color: var(--primary-medium);
 		background-image: linear-gradient(to right, var(--primary-medium), var(--primary-dark));
 		overflow-y: scroll;
+		border-color: var(--primary-medium);
 
 		display: flex;
 		flex-direction: column;

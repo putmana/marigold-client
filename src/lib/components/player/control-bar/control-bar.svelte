@@ -7,7 +7,6 @@
 
 	import { formatPlayerTime } from "$lib/scripts/utils"
 
-	import Scrub from "../scrub/scrub.svelte"
 	import Queue from "$lib/components/queue/queue.svelte"
 
 	import PlayerBtnPlaypause from "../player-btn/player-btn-playpause.svelte"
@@ -15,6 +14,7 @@
 	import PlayerBtnSkipnext from "../player-btn/player-btn-skipnext.svelte"
 	import PlayerBtnShuffle from "../player-btn/player-btn-shuffle.svelte"
 	import PlayerBtnRepeat from "../player-btn/player-btn-repeat.svelte"
+	import Scrub from "../scrub/scrub.svelte"
 
 	export let track: Track
 	export let shuffleEnabled: boolean
@@ -44,7 +44,7 @@
 </script>
 
 <footer class="wrapper" style={_album.palette.toCSS()} transition:fly={{ duration: 300, y: 60 }}>
-	<button class="info" on:click={maximize}>
+	<button class="info seamless" on:click={maximize}>
 		<div class="cover">
 			<img src={_album.cover.small} alt={`Cover art for ${_album.title}`} />
 		</div>
@@ -54,11 +54,13 @@
 		</ul>
 	</button>
 	<div class="controls">
-		<PlayerBtnShuffle {shuffleEnabled} on:toggleshuffle />
-		<PlayerBtnSkipprev on:skipprev />
-		<PlayerBtnPlaypause {paused} on:playpause />
-		<PlayerBtnSkipnext on:skipnext />
-		<PlayerBtnRepeat {repeatMode} on:togglerepeat />
+		<div class="buttons">
+			<PlayerBtnShuffle {shuffleEnabled} on:toggleshuffle />
+			<PlayerBtnSkipprev on:skipprev />
+			<PlayerBtnPlaypause {paused} on:playpause />
+			<PlayerBtnSkipnext on:skipnext />
+			<PlayerBtnRepeat {repeatMode} on:togglerepeat />
+		</div>
 	</div>
 	<div class="actions">
 		<div class="time">
@@ -78,26 +80,29 @@
 {/if}
 
 <style lang="scss">
+	@use "/src/lib/ui/button/button";
 	@use "/src/lib/ui/vars";
 	@use "/src/lib/ui/colors";
 	@use "/src/lib/ui/mixins";
 
 	.wrapper {
+		background-color: var(--secondary-dark);
+		background-image: linear-gradient(to right, var(--secondary-dark), var(--primary-medium));
+		border-top: vars.$item_border;
 		display: flex;
-		gap: vars.$item_gap;
+		padding: vars.$item_gap;
 
 		.info {
 			display: flex;
 			flex: 1;
 			align-items: center;
+			justify-content: flex-start;
 			gap: calc(2 * vars.$item_gap);
 
 			.cover {
 				img {
 					display: block;
-					width: 3rem;
-					border: vars.$item_border;
-					border-radius: vars.$item_border_radius;
+					width: 2.75rem;
 				}
 			}
 
@@ -114,10 +119,20 @@
 
 		.controls {
 			display: flex;
+			flex-direction: column;
 			flex-grow: 1;
 			justify-content: center;
 			align-items: center;
 			gap: vars.$item_gap;
+
+			.buttons {
+				display: flex;
+				gap: vars.$item_gap;
+			}
+
+			.scrub {
+				width: 80%;
+			}
 		}
 
 		.actions {

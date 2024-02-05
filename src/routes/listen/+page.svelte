@@ -15,6 +15,7 @@
 	import Settings from "$lib/modes/settings/settings.svelte"
 	import ModalManager from "$lib/components/modal-manager/modal-manager.svelte"
 	import { bgPalette } from "$lib/scripts/stores/PaletteStore"
+	import ButtonIcon from "$lib/ui/button/button-icon.svelte"
 
 	onMount(async () => {
 		await user.init()
@@ -23,16 +24,18 @@
 
 {#if $user}
 	<div class="wrapper" style={$bgPalette.toCSS()}>
-		<div class="library">
+		<main>
+			<Nav>
+				<NavBtn tab={"PLAYLISTS"} label="playlists" iconPath="public/icons/playlists.svg" />
+				<NavBtn tab={"ALBUMS"} label="albums" iconPath="public/icons/albums.svg" />
+				<svelte:fragment slot="end">
+					<NavBtn tab={"SETTINGS"} label="settings" iconPath="public/icons/settings.svg" />
+				</svelte:fragment>
+			</Nav>
+
 			{#await library.load()}
 				<LoadingScreen />
-			{:then}
-				<Nav>
-					<NavBtn tab={"PLAYLISTS"} label="playlists" iconPath="public/icons/playlists.svg" />
-					<NavBtn tab={"ALBUMS"} label="albums" iconPath="public/icons/albums.svg" />
-					<NavBtn tab={"SETTINGS"} label="settings" iconPath="public/icons/settings.svg" />
-				</Nav>
-
+			{:then _}
 				{#if $mode === "ALBUMS"}
 					<Albums />
 				{:else if $mode === "PLAYLISTS"}
@@ -41,7 +44,7 @@
 					<Settings />
 				{/if}
 			{/await}
-		</div>
+		</main>
 		<Player />
 	</div>
 {:else}
@@ -57,8 +60,6 @@
 		display: flex;
 		flex-direction: column;
 		height: 100svh;
-		padding: vars.$item_gap;
-		gap: vars.$item_gap;
 		box-sizing: border-box;
 		background-image: linear-gradient(
 			to right,
@@ -66,9 +67,10 @@
 			var(--primary-background)
 		);
 
-		.library {
+		main {
 			display: flex;
 			flex-grow: 1;
+			padding: vars.$item_gap;
 			gap: vars.$item_gap;
 			overflow: hidden;
 		}

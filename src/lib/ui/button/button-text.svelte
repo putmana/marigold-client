@@ -16,7 +16,7 @@
 	button {
 		@include button.base;
 
-		min-width: 5rem;
+		min-width: 5em;
 		padding: 0.75em;
 
 		&.grow {

@@ -13,11 +13,21 @@
 	}
 </script>
 
-<ButtonIcon
-	src={iconPath}
-	alt={`${label} icon`}
-	toggled={enabled}
-	seamless={!enabled}
-	padded
-	on:click={switchMode}
-/>
+<button class:seamless={!enabled} on:click={switchMode}>
+	<img src={iconPath} alt={`${label} icon`} />
+</button>
+
+<style lang="scss">
+	@use "/src/lib/ui/button/button";
+
+	button {
+		@include button.base;
+
+		padding: 0.75em;
+
+		img {
+			display: block;
+			width: 1.5em;
+		}
+	}
+</style>

@@ -99,45 +99,49 @@
 </div>
 
 <style lang="scss">
-	@use "src/style/colors";
+	@use "/src/lib/ui/vars";
+	@use "/src/lib/ui/colors";
+	@use "/src/lib/ui/mixins";
+
 	.wrapper {
 		position: relative;
 		display: flex;
 		align-items: center;
-		height: 5px;
+		height: 0.25rem;
 		width: 100%;
-		background-color: colors.$shadow;
+		background-color: var(--secondary-verydark);
+		border-radius: 0.25rem;
 
 		.hitbox {
 			position: absolute;
 			display: flex;
 			align-items: center;
-			height: 20px;
+			height: 1rem;
 			width: 100%;
 
 			.track {
 				display: flex;
 				align-items: center;
-				height: 5px;
+				height: 0.25rem;
 				width: 100%;
 				box-sizing: border-box;
-
 				.progress {
 					position: relative;
 					display: flex;
 					align-items: center;
-					background-color: var(--primary-light);
-					height: 5px;
+					background-color: var(--primary-verylight);
+					height: 0.25rem;
 					width: var(--scrub-position);
+					border-radius: 0.25rem;
 
 					.thumb {
 						transition: 0.2s ease all;
 						position: absolute;
-						right: -2.5px;
-						height: 5px;
-						width: 5px;
-						background-color: var(--primary-light);
-						border-radius: 5px;
+						right: 0rem;
+						height: 0.25rem;
+						width: 0.25rem;
+						background-color: var(--primary-verylight);
+						border-radius: 50%;
 					}
 				}
 			}
@@ -148,9 +152,9 @@
 				.progress {
 					.thumb {
 						background-color: white;
-						height: 10px;
-						width: 10px;
-						box-shadow: 0px 0px 5px colors.$shadow;
+						height: 0.5rem;
+						width: 0.5rem;
+						box-shadow: vars.$item_shadow;
 					}
 				}
 			}

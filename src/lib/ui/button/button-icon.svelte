@@ -28,10 +28,11 @@
 		@include button.base;
 
 		padding: 0.75em;
-		gap: calc(vars.$item_gap / 2);
+		gap: 0.25em;
 
 		img {
-			width: 1.5rem;
+			display: block;
+			width: 1.5em;
 		}
 
 		&.nopadding {
