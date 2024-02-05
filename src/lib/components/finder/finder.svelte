@@ -33,12 +33,10 @@
 		@include mixins.item;
 		overflow-y: scroll;
 
-		display: flex;
 		flex-direction: column;
-		padding: 0 0 20rem 0;
+		padding: 0 0 5rem 0;
 
 		box-sizing: border-box;
-
 		width: 20rem;
 	}
 

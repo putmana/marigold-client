@@ -1,27 +1,30 @@
 <script lang="ts">
+	import { albums, tracks } from "$lib/scripts/stores/LibraryStore"
+
+	export let trackID: string
 	export let index: number
-	export let title: string
-	export let artist: string
-	export let artSrc: string
+
+	$: _track = $tracks.get(trackID)
+	$: _cover = $albums?.get(_track.albumID).cover.small
 
 	export let showIndex = false
 	export let showCover = false
 </script>
 
-<button class="seamless" on:dblclick {...$$restProps}>
+<button class="seamless" on:click on:dblclick {...$$restProps}>
 	{#if showIndex}
 		<div class="index">{index + 1}</div>
 	{/if}
 
 	{#if showCover}
 		<div class="cover">
-			<img src={artSrc} alt={`Cover art for ${title}`} />
+			<img src={_cover} alt={`Cover art for ${_track.title}`} />
 		</div>
 	{/if}
 
 	<ul class="info">
-		<li class="title">{title}</li>
-		<li class="artist">{artist}</li>
+		<li class="title">{_track.title}</li>
+		<li class="artist">{_track.artists}</li>
 	</ul>
 
 	<div class="actions">

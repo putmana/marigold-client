@@ -1,7 +1,8 @@
 <script lang="ts">
+	import type { Palette } from "$lib/scripts/color-engine/palette"
+
 	import { createEventDispatcher } from "svelte"
 	import { clamp } from "$lib/scripts/utils"
-	import type { Palette } from "$lib/scripts/color-engine/palette"
 
 	export let duration: number
 	export let currentTime: number
@@ -103,44 +104,51 @@
 	@use "/src/lib/ui/colors";
 	@use "/src/lib/ui/mixins";
 
+	$track_height: 1px;
+	$progress_height: 0.125rem;
+	$progress_height_hover: 0.25rem;
+	$hitbox_height: 1rem;
+
 	.wrapper {
 		position: relative;
 		display: flex;
 		align-items: center;
-		height: 0.25rem;
+		height: $track_height;
 		width: 100%;
-		background-color: var(--secondary-verydark);
-		border-radius: 0.25rem;
+		background-color: colors.$border;
 
 		.hitbox {
 			position: absolute;
 			display: flex;
 			align-items: center;
-			height: 1rem;
+			height: $hitbox_height;
 			width: 100%;
 
 			.track {
 				display: flex;
 				align-items: center;
-				height: 0.25rem;
+				height: 1px;
 				width: 100%;
 				box-sizing: border-box;
+
 				.progress {
+					transition: 0.2s ease height;
 					position: relative;
 					display: flex;
 					align-items: center;
-					background-color: var(--primary-verylight);
-					height: 0.25rem;
+					background-color: var(--primary-light);
+					height: $progress_height;
 					width: var(--scrub-position);
-					border-radius: 0.25rem;
+					border-top-right-radius: 0.25rem;
+					border-bottom-right-radius: 0.25rem;
 
 					.thumb {
 						transition: 0.2s ease all;
 						position: absolute;
 						right: 0rem;
-						height: 0.25rem;
-						width: 0.25rem;
-						background-color: var(--primary-verylight);
+						height: $progress_height;
+						width: $progress_height;
+						background-color: var(--primary-light);
 						border-radius: 50%;
 					}
 				}
@@ -150,17 +158,19 @@
 				cursor: pointer;
 
 				.progress {
+					height: $progress_height_hover;
+
 					.thumb {
 						background-color: white;
-						height: 0.5rem;
-						width: 0.5rem;
+						height: calc(2 * $progress_height_hover);
+						width: calc(2 * $progress_height_hover);
 						box-shadow: vars.$item_shadow;
 					}
 				}
 			}
 		}
 		&.contained {
-			border-radius: 5px;
+			border-radius: vars.$item_border_radius;
 			.hitbox {
 				.track {
 					border-radius: 5px;

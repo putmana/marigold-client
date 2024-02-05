@@ -88,14 +88,7 @@
 
 			<svelte:fragment slot="tracks">
 				{#each _tracks as track, index}
-					<Track
-						{index}
-						title={track.title}
-						artist={_album.artists}
-						artSrc={_album.cover.small}
-						showIndex
-						on:dblclick={() => startQueue(index)}
-					/>
+					<Track {index} trackID={track.id} showIndex on:dblclick={() => startQueue(index)} />
 				{/each}
 			</svelte:fragment>
 		</Tracklist>

@@ -13,7 +13,6 @@
 	import { confirm } from "$lib/components/confirmation-modal/confirmation-modal.svelte"
 	import { AudioAPI } from "$lib/scripts/api/AudioAPI"
 	import { user } from "$lib/scripts/stores/UserStore"
-	import ButtonFlex from "$lib/ui/button/button-flex.svelte"
 
 	const dispatch = createEventDispatcher()
 

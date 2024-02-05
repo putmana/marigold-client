@@ -10,12 +10,12 @@
 	import { user } from "$lib/scripts/stores/UserStore"
 	import { mode } from "$lib/scripts/stores/ModeStore"
 	import { library } from "$lib/scripts/stores/LibraryStore"
+	import { bgPalette } from "$lib/scripts/stores/PaletteStore"
 	import { onMount } from "svelte"
 
 	import Settings from "$lib/modes/settings/settings.svelte"
 	import ModalManager from "$lib/components/modal-manager/modal-manager.svelte"
-	import { bgPalette } from "$lib/scripts/stores/PaletteStore"
-	import ButtonIcon from "$lib/ui/button/button-icon.svelte"
+	import Queue from "$lib/components/queue/queue.svelte"
 
 	onMount(async () => {
 		await user.init()
@@ -61,11 +61,7 @@
 		flex-direction: column;
 		height: 100svh;
 		box-sizing: border-box;
-		background-image: linear-gradient(
-			to right,
-			var(--secondary-background),
-			var(--primary-background)
-		);
+		background-color: var(--secondary-background);
 
 		main {
 			display: flex;
