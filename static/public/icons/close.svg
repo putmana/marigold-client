@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
-   class="ionicon"
-   viewBox="0 0 512 512"
+   class="icon icon-tabler icon-tabler-x"
+   width="24"
+   height="24"
+   viewBox="0 0 24 24"
+   stroke-width="1.75"
+   stroke="currentColor"
+   fill="none"
+   stroke-linecap="round"
+   stroke-linejoin="round"
    version="1.1"
-   id="svg4"
+   id="svg8"
    sodipodi:docname="close.svg"
    inkscape:version="1.2.2 (b0a84865, 2022-12-01)"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
@@ -11,9 +18,9 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:svg="http://www.w3.org/2000/svg">
   <defs
-     id="defs8" />
+     id="defs12" />
   <sodipodi:namedview
-     id="namedview6"
+     id="namedview10"
      pagecolor="#ffffff"
      bordercolor="#000000"
      borderopacity="0.25"
@@ -22,17 +29,26 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      showgrid="false"
-     inkscape:zoom="0.4609375"
-     inkscape:cx="256"
-     inkscape:cy="256"
+     inkscape:zoom="9.8333333"
+     inkscape:cx="12"
+     inkscape:cy="12"
      inkscape:window-width="1309"
      inkscape:window-height="456"
      inkscape:window-x="0"
      inkscape:window-y="38"
      inkscape:window-maximized="0"
-     inkscape:current-layer="svg4" />
+     inkscape:current-layer="svg8" />
   <path
-     d="M289.94 256l95-95A24 24 0 00351 127l-95 95-95-95a24 24 0 00-34 34l95 95-95 95a24 24 0 1034 34l95-95 95 95a24 24 0 0034-34z"
-     id="path2"
-     style="fill:#ffffff" />
+     stroke="none"
+     d="M0 0h24v24H0z"
+     fill="none"
+     id="path2" />
+  <path
+     d="M18 6l-12 12"
+     id="path4"
+     style="stroke:#ffffff" />
+  <path
+     d="M6 6l12 12"
+     id="path6"
+     style="stroke:#ffffff" />
 </svg>

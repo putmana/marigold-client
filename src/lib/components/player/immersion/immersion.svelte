@@ -38,7 +38,13 @@
 
 <div class="wrapper" style={_album.palette.toCSS()} transition:fly={{ duration: 200, y: 300 }}>
 	<div class="close-btn">
-		<ButtonIcon src="public/icons/close.svg" alt="Close icon" on:click={minimize} seamless />
+		<ButtonIcon
+			src="public/icons/close.svg"
+			alt="Close icon"
+			on:click={minimize}
+			seamless
+			nopadding
+		/>
 	</div>
 	<section class="cover">
 		<img src={_album.cover.large} alt={`Cover for ${track.title}`} />
@@ -72,6 +78,7 @@
 </div>
 
 <style lang="scss">
+	@use "/src/lib/ui/vars";
 	@use "/src/style/colors";
 	@use "/src/style/mixins";
 
@@ -83,7 +90,7 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		gap: 60px;
+		gap: 5rem;
 
 		@include mixins.desktop-only {
 			background-image: linear-gradient(to right, var(--primary-medium), var(--secondary-dark));
@@ -97,19 +104,19 @@
 
 		.close-btn {
 			position: absolute;
-			inset: 30px auto auto 30px;
+			inset: 2rem auto auto 2rem;
 		}
 
 		.cover {
 			flex-shrink: 1;
 			display: flex;
 			justify-content: center;
-			max-width: 250px;
+			max-width: 15rem;
 
 			img {
 				display: block;
 				max-width: 100%;
-				box-shadow: 0px 0px 30px colors.$shadow;
+				box-shadow: vars.$item_shadow;
 			}
 		}
 

@@ -39,7 +39,7 @@
 
 <footer class="wrapper" style={_album.palette.toCSS()} transition:fly={{ duration: 300, y: 60 }}>
 	<section class="scrub">
-		<Scrub {currentTime} {duration} palette={_album.palette} />
+		<Scrub {currentTime} {duration} palette={_album.palette} on:scrub />
 	</section>
 
 	<section class="controls">

@@ -1,20 +1,18 @@
 <script lang="ts">
 	import Finder from "$lib/components/finder/finder.svelte"
 	import FinderItemMedia from "$lib/components/finder/finder-item-media.svelte"
-	import Viewer from "$lib/components/viewer/viewer.svelte"
-	import AlbumHeader from "./album-header.svelte"
-	import AlbumTrack from "./album-track.svelte"
-	import BtnIconSeamless from "$lib/components/button/btn-icon-seamless.svelte"
+	import Tracklist from "$lib/components/tracklist/tracklist.svelte"
+	import Track from "$lib/components/track/track.svelte"
+
+	import { Palette } from "$lib/scripts/color-engine/palette"
 
 	import { albums, tracks } from "$lib/scripts/stores/LibraryStore"
 	import { playerController } from "$lib/scripts/stores/PlayerStore"
-	import { Palette } from "$lib/scripts/color-engine/palette"
 
 	import { openAlbumCreatorModal } from "./create/album-creator.svelte"
-	import ButtonText from "$lib/ui/button/button-text.svelte"
+
 	import ButtonIcon from "$lib/ui/button/button-icon.svelte"
-	import Track from "$lib/components/track/track.svelte"
-	import Tracklist from "$lib/components/tracklist/tracklist.svelte"
+
 	import { bgPalette } from "$lib/scripts/stores/PaletteStore"
 	import { openAlbumEditorModal } from "./edit/album-editor.svelte"
 

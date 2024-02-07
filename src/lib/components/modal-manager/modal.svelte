@@ -1,29 +1,45 @@
 <script lang="ts">
 	import { fade, fly } from "svelte/transition"
-	import { createEventDispatcher } from "svelte"
+	import { createEventDispatcher, onDestroy, onMount } from "svelte"
 
-	import BtnIconSeamless from "../button/btn-icon-seamless.svelte"
 	import Throbber from "../throbber/throbber.svelte"
 	import ProgressBar from "../progress-bar/progress-bar.svelte"
-
-	const dispatch = createEventDispatcher()
+	import ButtonIcon from "$lib/ui/button/button-icon.svelte"
+	import { bgPalette } from "$lib/scripts/stores/PaletteStore"
 
 	export let title = "Untitled Popup Box"
 	export let loading = false
 	export let progress: number | undefined
 
-	function close() {
-		dispatch("close")
+	let dialog: HTMLDialogElement
+
+	function closeModal() {
+		dialog.close()
 	}
+
+	onMount(() => {
+		dialog = document.querySelector("dialog")
+		dialog.show()
+	})
+
+	onDestroy(() => {
+		dialog.close()
+	})
 </script>
 
-<div class="wrapper" transition:fade={{ duration: 200 }}>
-	<div class="box" transition:fly={{ duration: 300, y: -50 }}>
-		<header class="titlebar">
-			<h1 class="title">{title}</h1>
-			<BtnIconSeamless src="public/icons/close.svg" alt="Close" on:click={close} />
+<div class="wrapper" transition:fade={{ duration: 300 }}>
+	<dialog transition:fly={{ duration: 300, y: -64 }} on:close>
+		<header>
+			<h1>{title}</h1>
+			<ButtonIcon
+				src="public/icons/close.svg"
+				alt="Close"
+				on:click={closeModal}
+				seamless
+				nopadding
+			/>
 		</header>
-		<main class="content">
+		<main>
 			<slot />
 		</main>
 		{#if loading}
@@ -37,76 +53,64 @@
 				{/if}
 			</div>
 		{/if}
-	</div>
+	</dialog>
 </div>
 
 <style lang="scss">
-	@use "src/style/colors";
-	@use "src/style/mixins";
+	@use "src/lib/ui/vars";
+	@use "src/lib/ui/colors";
+	@use "src/lib/ui/mixins";
+
+	$backdrop-filter: contrast(75%) saturate(50%) brightness(50%);
 
 	.wrapper {
 		position: absolute;
-		inset: 0px auto auto 0px;
-		z-index: 15;
-
+		inset: 0;
 		display: flex;
-		justify-content: center;
 		align-items: center;
+		justify-content: center;
+		-webkit-backdrop-filter: $backdrop-filter;
+		backdrop-filter: $backdrop-filter;
 
-		height: 100svh;
-		width: 100svw;
-
-		backdrop-filter: brightness(50%) saturate(50%);
-
-		.box {
+		dialog {
 			position: relative;
-
 			display: flex;
 			flex-direction: column;
-			gap: 20px;
+			gap: vars.$modal_gap;
 
 			box-sizing: border-box;
 			width: max-content;
-			max-width: 95svw;
-			max-height: 95svh;
-			margin: 10px;
-			padding: 20px;
+			padding: vars.$modal_gap;
 
-			background-color: colors.$gray-c;
-			border: 1px solid colors.$border-hover;
-			border-radius: 5px;
-			box-shadow: 0px 0px 30px colors.$shadow;
+			color: colors.$text_a;
+			background-color: colors.$background_b;
+			border: vars.$modal_border;
+			border-radius: vars.$modal_border_radius;
+			box-shadow: vars.$modal_shadow;
 
 			overflow-y: scroll;
 
-			.titlebar {
+			header {
 				display: flex;
 				align-items: center;
 				justify-content: space-between;
 
-				.title {
+				h1 {
 					margin: 0;
-					text-transform: uppercase;
-					font-size: medium;
+					font-size: 1rem;
 				}
-			}
-
-			.content {
-				display: flex;
-				gap: 5px;
 			}
 
 			.loader {
 				position: absolute;
-				inset: 0px 0px 0px 0px;
+				inset: 0;
 
 				display: flex;
 				flex-direction: column;
 				justify-content: center;
 				align-items: center;
-				gap: 30px;
 
-				background-color: colors.$gray-c;
+				background-color: colors.$background_b;
 			}
 		}
 	}
