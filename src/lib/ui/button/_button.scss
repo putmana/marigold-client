@@ -40,6 +40,10 @@
 		@include mixins.disabled;
 	}
 
+	&.tooltip {
+		visibility: hidden;
+	}
+
 	@include mixins.focusable;
 	@include mixins.animate;
 }

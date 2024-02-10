@@ -20,8 +20,8 @@
 	<ButtonIcon
 		type="button"
 		on:click={autoPick}
-		src="public/icons/swatch.svg"
-		alt="Swatch icon"
+		src="public/icons/wand.svg"
+		alt="Wand icon"
 		tooltip={"Automatically pick colors from cover art"}
 		round
 	/>
