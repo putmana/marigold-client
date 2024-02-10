@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { mode, type Mode } from "$lib/scripts/stores/ModeStore"
-	import ButtonIcon from "$lib/ui/button/button-icon.svelte"
 	import Icon from "$lib/ui/icon/icon.svelte"
 
 	export let label: string
@@ -14,7 +13,7 @@
 	}
 </script>
 
-<button class:seamless={!enabled} on:click={switchMode}>
+<button title={label} class:seamless={!enabled} on:click={switchMode}>
 	<Icon src={iconPath} alt={`${label} icon`} />
 </button>
 

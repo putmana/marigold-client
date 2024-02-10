@@ -3,13 +3,14 @@
 
 	export let src: string
 	export let alt: string
+	export let tooltip: string
 
 	export let seamless = false
 	export let nopadding = false
 	export let round = false
 </script>
 
-<button class:seamless class:nopadding class:round {...$$restProps} on:click>
+<button title={tooltip} class:seamless class:nopadding class:round {...$$restProps} on:click>
 	<Icon {src} {alt} />
 </button>
 

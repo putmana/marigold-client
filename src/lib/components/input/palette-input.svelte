@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { Palette } from "$lib/scripts/color-engine/palette"
 	import { createEventDispatcher } from "svelte"
+
 	import ColorInput from "./color-input.svelte"
 	import ButtonIcon from "$lib/ui/button/button-icon.svelte"
 
@@ -21,6 +22,7 @@
 		on:click={autoPick}
 		src="public/icons/swatch.svg"
 		alt="Swatch icon"
+		tooltip={"Automatically pick colors from cover art"}
 		round
 	/>
 </div>

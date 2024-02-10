@@ -26,10 +26,10 @@
 	<div class="wrapper" style={$bgPalette.toCSS()}>
 		<main>
 			<Nav>
-				<NavBtn tab={"PLAYLISTS"} label="playlists" iconPath="public/icons/playlists.svg" />
-				<NavBtn tab={"ALBUMS"} label="albums" iconPath="public/icons/albums.svg" />
+				<NavBtn tab={"PLAYLISTS"} label="Playlists" iconPath="public/icons/playlists.svg" />
+				<NavBtn tab={"ALBUMS"} label="Albums" iconPath="public/icons/albums.svg" />
 				<svelte:fragment slot="end">
-					<NavBtn tab={"SETTINGS"} label="settings" iconPath="public/icons/settings.svg" />
+					<NavBtn tab={"SETTINGS"} label="Settings" iconPath="public/icons/settings.svg" />
 				</svelte:fragment>
 			</Nav>
 

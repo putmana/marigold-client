@@ -41,6 +41,7 @@
 			src="public/icons/add.svg"
 			alt="Add album icon"
 			on:click={openAlbumCreatorModal}
+			tooltip="Create a new album"
 			seamless
 			nopadding
 		/>
@@ -82,13 +83,18 @@
 						<Icon src="public/icons/play.svg" alt="Play icon" />
 						<span>Play</span>
 					</Button>
-					<ButtonIcon src="public/icons/upload.svg" alt="Upload icon" />
+					<ButtonIcon
+						src="public/icons/upload.svg"
+						alt="Upload icon"
+						tooltip="Upload tracks to album"
+					/>
 				{/if}
 
 				<ButtonIcon
 					src="public/icons/edit.svg"
 					alt="Edit icon"
 					on:click={() => openAlbumEditorModal(_album)}
+					tooltip="Edit album details"
 				/>
 			</svelte:fragment>
 
