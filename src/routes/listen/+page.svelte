@@ -61,7 +61,7 @@
 		flex-direction: column;
 		height: 100svh;
 		box-sizing: border-box;
-		background-color: var(--secondary-background);
+		background-color: var(--secondary-background-b);
 
 		main {
 			display: flex;

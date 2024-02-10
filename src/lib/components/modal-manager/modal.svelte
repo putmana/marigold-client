@@ -27,7 +27,7 @@
 	})
 </script>
 
-<div class="wrapper" transition:fade={{ duration: 300 }}>
+<div class="wrapper" transition:fade={{ duration: 300 }} style={$bgPalette.toCSS()}>
 	<dialog transition:fly={{ duration: 300, y: -64 }} on:close>
 		<header>
 			<h1>{title}</h1>
@@ -35,6 +35,7 @@
 				src="public/icons/close.svg"
 				alt="Close"
 				on:click={closeModal}
+				tooltip="Close window"
 				seamless
 				nopadding
 			/>
@@ -61,7 +62,7 @@
 	@use "src/lib/ui/colors";
 	@use "src/lib/ui/mixins";
 
-	$backdrop-filter: contrast(75%) saturate(50%) brightness(50%);
+	$backdrop-filter: contrast(75%) saturate(50%) brightness(40%) blur(5px);
 
 	.wrapper {
 		position: absolute;
