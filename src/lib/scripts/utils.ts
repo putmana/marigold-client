@@ -46,5 +46,6 @@ export async function getFileURL(file: File): Promise<string> {
 }
 
 export function pluralize(count: number, single: string, plural: string): string {
-        return count === 1 ? single : plural
+        const form = count === 1 ? single : plural
+        return `${count} ${form}`
 }

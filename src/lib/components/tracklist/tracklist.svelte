@@ -74,11 +74,13 @@
 					margin: 0;
 					padding: 0;
 					list-style-type: none;
+					color: colors.$text_b;
 
 					.title {
 						margin: 0;
 						font-size: 3rem;
 						font-weight: bold;
+						color: colors.$text_a;
 					}
 				}
 

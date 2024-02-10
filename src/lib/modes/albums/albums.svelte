@@ -17,6 +17,7 @@
 	import { openAlbumEditorModal } from "./edit/album-editor.svelte"
 	import Button from "$lib/ui/button/button.svelte"
 	import Icon from "$lib/ui/icon/icon.svelte"
+	import { pluralize } from "$lib/scripts/utils"
 
 	let hidden = true
 
@@ -26,6 +27,11 @@
 	$: _tracks = _album?.tracklist.map((t) => $tracks.get(t.id))
 
 	$: $bgPalette = _album?.palette ?? Palette.gray
+
+	$: details = [
+		`${_album?.artists}`,
+		`Album • ${_album?.year} • ${pluralize(_album?.tracklist.length, "track", "tracks")}`
+	]
 
 	function startQueue(index: number) {
 		playerController.startQueue(
@@ -68,7 +74,7 @@
 	{#if _album}
 		<Tracklist
 			title={_album.title}
-			details={["artist", "etc"]}
+			{details}
 			artSrc={_album.cover.large}
 			artAlt={`Cover art for ${_album.title}`}
 		>
