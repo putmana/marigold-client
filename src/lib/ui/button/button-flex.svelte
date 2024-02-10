@@ -17,5 +17,9 @@
 		&.grow {
 			width: 100%;
 		}
+
+		&.seamless {
+			@include button.seamless;
+		}
 	}
 </style>

@@ -10,7 +10,7 @@
 	}
 </script>
 
-<button class="seamless" on:click={maximize}>
+<button on:click={maximize}>
 	<img {src} alt="Skip to next track icon" />
 </button>
 

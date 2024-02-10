@@ -1,16 +1,12 @@
 <script lang="ts">
-	import Icon from "../icon/icon.svelte"
-
-	export let src: string
-	export let alt: string
-
 	export let seamless = false
 	export let nopadding = false
+	export let grow = false
 	export let round = false
 </script>
 
-<button class:seamless class:nopadding class:round {...$$restProps} on:click>
-	<Icon {src} {alt} />
+<button class:seamless class:nopadding class:grow class:round {...$$restProps} on:click>
+	<slot />
 </button>
 
 <style lang="scss">
@@ -21,8 +17,8 @@
 	button {
 		@include button.base;
 
-		width: vars.$button_size;
-		height: vars.$button_size;
+		gap: calc(0.25 * vars.$button_content_size);
+		min-width: vars.$button_content_size;
 
 		&.seamless {
 			@include button.seamless;
@@ -30,9 +26,10 @@
 
 		&.nopadding {
 			@include button.nopadding;
+		}
 
-			width: auto;
-			height: auto;
+		&.grow {
+			width: 100%;
 		}
 
 		&.round {
@@ -40,3 +37,4 @@
 		}
 	}
 </style>
+

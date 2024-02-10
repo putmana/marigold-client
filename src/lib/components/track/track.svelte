@@ -11,7 +11,7 @@
 	export let showCover = false
 </script>
 
-<button class="seamless" on:click on:dblclick {...$$restProps}>
+<button on:click on:dblclick {...$$restProps}>
 	{#if showIndex}
 		<div class="index">{index + 1}</div>
 	{/if}
@@ -40,6 +40,8 @@
 
 	button {
 		@include button.base;
+		@include button.seamless;
+		@include button.nopadding;
 
 		justify-content: start;
 		padding: vars.$item_gap;

@@ -2,7 +2,7 @@
 	import type { Palette } from "$lib/scripts/color-engine/palette"
 	import { createEventDispatcher } from "svelte"
 	import ColorInput from "./color-input.svelte"
-	import BtnIconRound from "../button/btn-icon-round.svelte"
+	import ButtonIcon from "$lib/ui/button/button-icon.svelte"
 
 	const dispatch = createEventDispatcher()
 
@@ -16,12 +16,20 @@
 <div class="wrapper">
 	<ColorInput bind:color={palette.primary} />
 	<ColorInput bind:color={palette.secondary} />
-	<BtnIconRound src="public/icons/palette.svg" on:click={autoPick} />
+	<ButtonIcon
+		type="button"
+		on:click={autoPick}
+		src="public/icons/swatch.svg"
+		alt="Swatch icon"
+		round
+	/>
 </div>
 
 <style lang="scss">
+	@use "/src/lib/ui/vars";
+
 	.wrapper {
 		display: flex;
-		gap: 5px;
+		gap: vars.$item_gap;
 	}
 </style>

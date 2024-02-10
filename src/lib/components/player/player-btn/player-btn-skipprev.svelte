@@ -10,7 +10,7 @@
 	}
 </script>
 
-<button class="seamless" on:click={skipprev}>
+<button on:click={skipprev}>
 	<img {src} alt="Skip to previous track icon" />
 </button>
 

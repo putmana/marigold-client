@@ -32,6 +32,7 @@
 
 	.wrapper {
 		@include button.base;
+		@include button.nopadding;
 
 		display: flex;
 		align-items: center;
@@ -42,6 +43,10 @@
 
 		&.selected {
 			padding: vars.$item_gap;
+		}
+
+		&.seamless {
+			@include button.seamless;
 		}
 	}
 </style>

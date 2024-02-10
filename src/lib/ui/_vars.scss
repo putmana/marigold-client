@@ -5,12 +5,14 @@ $screen-md: 600px;
 $screen-lg: 800px;
 $screen-xl: 1000px;
 
-$item_gap: 0.5rem;
-$item_shadow: 0px 0px 0.25rem colors.$shadow;
-$item_border: 1px solid colors.$border;
-$item_border_radius: 0.25rem;
+$button_size: 3em;
+$button_content_size: 1.5em;
 
-$modal_gap: 1rem;
-$modal_shadow: 0px 0px 2rem colors.$shadow;
-$modal_border: 1px solid colors.$border;
-$modal_border_radius: 0.25rem;
+$item_gap: 0.5em;
+$item_shadow: 0px 0px 0.25em colors.$shadow;
+$item_border: 1px solid colors.$border;
+$item_border_radius: 0.25em;
+
+$form_gap: calc(2 * $item_gap);
+
+$modal_shadow: 0px 0px 2em colors.$shadow;

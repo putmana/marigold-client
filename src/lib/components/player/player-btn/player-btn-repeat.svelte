@@ -15,7 +15,7 @@
 	}
 </script>
 
-<button class="seamless" class:toggled on:click={togglerepeat}>
+<button class:toggled on:click={togglerepeat}>
 	<img {src} alt="Repeat icon" />
 </button>
 

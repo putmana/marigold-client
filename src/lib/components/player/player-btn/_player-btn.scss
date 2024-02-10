@@ -5,6 +5,8 @@
 
 @mixin base {
 	@include button.base;
+	@include button.seamless;
+	@include button.nopadding;
 
 	flex-direction: column;
 	justify-content: center;
@@ -19,7 +21,6 @@
 }
 
 @mixin toggleable {
-
 	&::after {
 		content: "";
 		margin-top: 0;
@@ -35,6 +36,7 @@
 			width: 0.75em;
 			height: 0.125em;
 			border-radius: vars.$item_border_radius;
+			background-color: red;
 			background-color: var(--primary-verylight);
 		}
 	}

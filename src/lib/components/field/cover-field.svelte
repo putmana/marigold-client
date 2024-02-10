@@ -35,10 +35,12 @@
 </div>
 
 <style lang="scss">
+	@use "/src/lib/ui/vars";
+
 	.wrapper {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		gap: 15px;
+		gap: vars.$form_gap;
 	}
 </style>

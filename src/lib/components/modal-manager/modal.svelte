@@ -76,16 +76,16 @@
 			position: relative;
 			display: flex;
 			flex-direction: column;
-			gap: vars.$modal_gap;
 
 			box-sizing: border-box;
 			width: max-content;
-			padding: vars.$modal_gap;
+			padding: vars.$form_gap;
+			gap: vars.$form_gap;
 
 			color: colors.$text_a;
 			background-color: colors.$background_b;
-			border: vars.$modal_border;
-			border-radius: vars.$modal_border_radius;
+			border: vars.$item_border;
+			border-radius: vars.$item_border_radius;
 			box-shadow: vars.$modal_shadow;
 
 			overflow-y: scroll;
@@ -93,12 +93,18 @@
 			header {
 				display: flex;
 				align-items: center;
-				justify-content: space-between;
+				flex-shrink: 0;
+				padding: vars.$item_gap;
 
 				h1 {
+					flex-grow: 1;
 					margin: 0;
 					font-size: 1rem;
 				}
+			}
+
+			main {
+				padding: vars.$item_gap;
 			}
 
 			.loader {

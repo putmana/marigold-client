@@ -11,7 +11,8 @@
 	color: inherit;
 	font-family: inherit;
 	font-size: 1em;
-	line-height: 1.25em;
+	height: vars.$button_size;
+	padding: 0 calc(0.5 * vars.$button_content_size);
 
 	background-color: colors.$item;
 	border: vars.$item_border;
@@ -21,14 +22,6 @@
 	box-sizing: border-box;
 
 	cursor: pointer;
-
-
-	&.seamless {
-		background-color: transparent;
-		border: 1px solid transparent;
-		box-shadow: none;
-	}
-
 
 	&:enabled:hover,
 	&:enabled:focus-visible {
@@ -49,4 +42,19 @@
 
 	@include mixins.focusable;
 	@include mixins.animate;
+}
+
+@mixin seamless {
+	background-color: transparent;
+	border: 1px solid transparent;
+	box-shadow: none;
+}
+
+@mixin nopadding {
+	padding: 0;
+	height: auto;
+}
+
+@mixin round {
+	border-radius: 50rem;
 }

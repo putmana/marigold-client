@@ -15,6 +15,8 @@
 
 	import { bgPalette } from "$lib/scripts/stores/PaletteStore"
 	import { openAlbumEditorModal } from "./edit/album-editor.svelte"
+	import Button from "$lib/ui/button/button.svelte"
+	import Icon from "$lib/ui/icon/icon.svelte"
 
 	let hidden = true
 
@@ -71,9 +73,15 @@
 		>
 			<svelte:fragment slot="actions">
 				{#if _album.tracklist.length === 0}
-					<ButtonIcon src="public/icons/upload.svg" text="Upload Tracks" alt="Upload icon" />
+					<Button>
+						<Icon src="public/icons/upload.svg" alt="Upload icon" />
+						<span>Upload Tracks</span>
+					</Button>
 				{:else}
-					<ButtonIcon src="public/icons/play.svg" text="Play" alt="Play icon" />
+					<Button>
+						<Icon src="public/icons/play.svg" alt="Play icon" />
+						<span>Play</span>
+					</Button>
 					<ButtonIcon src="public/icons/upload.svg" alt="Upload icon" />
 				{/if}
 

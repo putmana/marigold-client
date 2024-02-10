@@ -10,7 +10,7 @@
 	}
 </script>
 
-<button class="seamless" on:click={skipnext}>
+<button on:click={skipnext}>
 	<img {src} alt="Skip to next track icon" />
 </button>
 

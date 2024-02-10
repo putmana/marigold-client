@@ -17,8 +17,6 @@
 	import { createEventDispatcher } from "svelte"
 
 	import CoverField from "$lib/components/field/cover-field.svelte"
-	import Textbox from "$lib/components/textbox/textbox.svelte"
-	import BtnText from "$lib/components/button/btn-text.svelte"
 
 	import { AlbumAPI, type AlbumForm } from "$lib/scripts/api/AlbumAPI"
 	import { CoverAPI } from "$lib/scripts/api/CoverAPI"
@@ -26,6 +24,9 @@
 	import { user } from "$lib/scripts/stores/UserStore"
 	import { library } from "$lib/scripts/stores/LibraryStore"
 	import { openModal } from "$lib/components/modal-manager/modal-manager.svelte"
+
+	import Textbox from "$lib/ui/textbox/textbox.svelte"
+	import Button from "$lib/ui/button/button.svelte"
 
 	const dispatch = createEventDispatcher()
 
@@ -72,30 +73,34 @@
 <div class="content">
 	<form class="form" on:submit|preventDefault={submit}>
 		<CoverField cover={album.cover} bind:palette={form.palette} bind:file required={false} />
-		<Textbox id="title" label="Title" bind:value={form.title} />
-		<Textbox id="artists" label="Artists" bind:value={form.artists} />
-		<Textbox id="year" label="Year" bind:value={form.year} />
+		<Textbox id="title" label="Title" bind:value={form.title} grow />
+		<Textbox id="artists" label="Artists" bind:value={form.artists} grow />
+		<Textbox id="year" label="Year" bind:value={form.year} grow />
 		<div class="footer">
-			<BtnText submit label="Save" />
+			<Button submit>
+				<span>Save</span>
+			</Button>
 		</div>
 	</form>
 </div>
 
 <style lang="scss">
+	@use "/src/lib/ui/vars";
 	.content {
 		width: 300px;
 
 		.form {
 			display: flex;
 			flex-direction: column;
-			gap: 15px;
+			gap: vars.$form_gap;
+
 			width: 100%;
 
 			.footer {
 				display: flex;
 				justify-content: space-between;
 				justify-content: flex-end;
-				gap: 10px;
+				gap: vars.$form_gap;
 			}
 		}
 	}

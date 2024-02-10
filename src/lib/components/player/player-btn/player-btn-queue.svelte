@@ -14,7 +14,7 @@
 	}
 </script>
 
-<button class="seamless" class:toggled on:click={toggleQueue}>
+<button class:toggled on:click={toggleQueue}>
 	<img {src} alt="Shuffle icon" />
 </button>
 

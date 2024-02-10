@@ -4,7 +4,7 @@
 	import { user } from "$lib/scripts/stores/UserStore"
 	import Textbox from "$lib/ui/textbox/textbox.svelte"
 
-	import ButtonText from "$lib/ui/button/button-text.svelte"
+	import Button from "$lib/ui/button/button.svelte"
 
 	const dispatch = createEventDispatcher()
 
@@ -91,7 +91,9 @@
 		{#each issues.generic as issue}
 			<p class="issue">{issue}</p>
 		{/each}
-		<ButtonText text="Submit" grow submit />
+		<Button grow submit>
+			<span>Submit</span>
+		</Button>
 	</div>
 	<div class="footer">
 		<p>Have an account? <button class="link" on:click={showLogin}>Log in</button></p>
@@ -99,6 +101,7 @@
 </form>
 
 <style lang="scss">
+	@use "/src/lib/ui/vars";
 	@use "/src/lib/ui/colors";
 	@use "/src/lib/ui/mixins";
 
@@ -107,7 +110,8 @@
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
-		gap: 1.5rem;
+		padding: calc(3 * vars.$item_gap);
+		gap: calc(3 * vars.$item_gap);
 
 		width: 100%;
 		padding: 1rem;
@@ -124,7 +128,7 @@
 			opacity: 80%;
 			h1 {
 				margin: 0;
-				font-size: larger;
+				font-size: 1.5em;
 			}
 		}
 

@@ -4,6 +4,8 @@
 	export let id = "img"
 	export let color = Color.gray
 	export let required = true
+
+	let input: HTMLInputElement
 </script>
 
 <input
@@ -16,21 +18,23 @@
 />
 
 <style lang="scss">
-	@use "src/style/mixins";
-	@use "src/style/colors";
+	@use "/src/lib/ui/button/button";
+	@use "/src/lib/ui/vars";
+	@use "/src/lib/ui/colors";
+	@use "/src/lib/ui/mixins";
 
 	input[type="color"] {
 		-webkit-appearance: none;
 		-moz-appearance: none;
 		appearance: none;
 
-		@include mixins.button;
+		@include button.base;
+		@include button.round;
+
+		width: vars.$button_size;
 
 		position: relative;
-		padding: 5px;
-		margin: 0px;
-		width: 50px;
-		height: 50px;
+		padding: 0.25em;
 		border-radius: 50%;
 		overflow: hidden;
 

@@ -32,12 +32,11 @@
 </script>
 
 <div class="wrapper">
-	<button type="button" class="input-button" on:click={openFileBrowser}>
+	<button type="button" on:click={openFileBrowser}>
 		<label class="label" for={id}>{label}</label>
 		<img {src} alt="Upload preview" />
 	</button>
 	<input
-		class="input"
 		bind:this={input}
 		{required}
 		{id}
@@ -50,34 +49,36 @@
 </div>
 
 <style lang="scss">
-	@use "src/style/mixins";
-	@use "src/style/colors";
+	@use "/src/lib/ui/button/button";
+	@use "/src/lib/ui/vars";
+	@use "/src/lib/ui/colors";
+	@use "/src/lib/ui/mixins";
 
 	.wrapper {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 
-		.input {
+		input {
 			width: 1px;
 			height: 1px;
 			opacity: 0px;
 		}
 
-		.input-button {
-			position: relative;
+		button {
+			@include button.base;
 
-			@include mixins.button;
-			padding: 5px;
+			position: relative;
+			padding: 0.25em;
 
 			@include mixins.desktop-only {
-				width: 220px;
-				height: 220px;
+				width: 16rem;
+				height: 16rem;
 			}
 
 			@include mixins.mobile-only {
-				height: 180px;
-				width: 180px;
+				height: 12rem;
+				width: 12rem;
 			}
 
 			label {

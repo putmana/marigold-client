@@ -12,7 +12,7 @@
 	}
 </script>
 
-<button class="seamless" on:click={playpause}>
+<button on:click={playpause}>
 	<img {src} alt="play/pause icon" />
 </button>
 
