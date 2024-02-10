@@ -16,11 +16,10 @@
 <script lang="ts">
 	import { createEventDispatcher } from "svelte"
 
+	import Textbox from "$lib/ui/textbox/textbox.svelte"
+	import Textarea from "$lib/ui/textbox/textarea.svelte"
+	import Button from "$lib/ui/button/button.svelte"
 	import CoverField from "$lib/components/field/cover-field.svelte"
-	import PopupBox from "$lib/components/popup-box/popup-box.svelte"
-	import Textbox from "$lib/components/textbox/textbox.svelte"
-	import Textarea from "$lib/components/textbox/textarea.svelte"
-	import BtnText from "$lib/components/button/btn-text.svelte"
 
 	import { PlaylistAPI, type PlaylistForm } from "$lib/scripts/api/PlaylistAPI"
 	import { CoverAPI } from "$lib/scripts/api/CoverAPI"
@@ -73,18 +72,20 @@
 <div class="content">
 	<form class="form" on:submit|preventDefault={submit}>
 		<CoverField cover={playlist.cover} bind:palette={form.palette} bind:file required={false} />
-		<Textbox id="title" label="Title" bind:value={form.title} />
-		<Textarea id="description" label="Description" bind:value={form.description} />
+		<Textbox id="title" label="Title" bind:value={form.title} grow />
+		<Textarea id="description" label="Description" bind:value={form.description} grow />
 
 		<div class="footer">
-			<BtnText submit label="Save" />
+			<Button submit>
+				<span>Save</span>
+			</Button>
 		</div>
 	</form>
 </div>
 
 <style lang="scss">
 	.content {
-		width: 300px;
+		width: 20rem;
 
 		.form {
 			display: flex;

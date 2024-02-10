@@ -15,9 +15,9 @@
 	import { createEventDispatcher } from "svelte"
 	import { v4 as uuid } from "uuid"
 
+	import Textbox from "$lib/ui/textbox/textbox.svelte"
+	import Button from "$lib/ui/button/button.svelte"
 	import CoverField from "$lib/components/field/cover-field.svelte"
-	import Textbox from "$lib/components/textbox/textbox.svelte"
-	import BtnText from "$lib/components/button/btn-text.svelte"
 
 	import { Palette } from "$lib/scripts/color-engine/palette"
 	import { AlbumAPI, type AlbumForm } from "$lib/scripts/api/AlbumAPI"
@@ -69,11 +69,13 @@
 <div class="content">
 	<form class="form" on:submit|preventDefault={submit}>
 		<CoverField bind:palette={form.palette} bind:file />
-		<Textbox id="title" label="Title" bind:value={form.title} />
-		<Textbox id="artists" label="Artists" bind:value={form.artists} />
-		<Textbox id="year" label="Year" bind:value={form.year} />
+		<Textbox id="title" label="Title" bind:value={form.title} grow />
+		<Textbox id="artists" label="Artists" bind:value={form.artists} grow />
+		<Textbox id="year" label="Year" bind:value={form.year} grow />
 		<div class="footer">
-			<BtnText submit label="Save" />
+			<Button submit>
+				<span>Save</span>
+			</Button>
 		</div>
 	</form>
 </div>

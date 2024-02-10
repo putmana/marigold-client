@@ -16,6 +16,8 @@
 <script lang="ts">
 	import { createEventDispatcher } from "svelte"
 
+	import Textbox from "$lib/ui/textbox/textbox.svelte"
+	import Button from "$lib/ui/button/button.svelte"
 	import CoverField from "$lib/components/field/cover-field.svelte"
 
 	import { AlbumAPI, type AlbumForm } from "$lib/scripts/api/AlbumAPI"
@@ -24,9 +26,6 @@
 	import { user } from "$lib/scripts/stores/UserStore"
 	import { library } from "$lib/scripts/stores/LibraryStore"
 	import { openModal } from "$lib/components/modal-manager/modal-manager.svelte"
-
-	import Textbox from "$lib/ui/textbox/textbox.svelte"
-	import Button from "$lib/ui/button/button.svelte"
 
 	const dispatch = createEventDispatcher()
 
@@ -87,7 +86,7 @@
 <style lang="scss">
 	@use "/src/lib/ui/vars";
 	.content {
-		width: 300px;
+		width: 20rem;
 
 		.form {
 			display: flex;

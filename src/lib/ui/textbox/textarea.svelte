@@ -1,44 +1,31 @@
 <script lang="ts">
-	import { onMount } from "svelte"
-
 	export let id: string
 	export let value = ""
 	export let label = "Textbox"
-	export let type: "text" | "email" | "password" = "text"
 	export let required = true
 	export let disabled = false
 	export let error = false
 	export let grow = false
+	export let rows = 3
 	export let placeholder = label
-
-	let input: HTMLInputElement
-
-	onMount(() => {
-		input.type = type
-	})
 </script>
 
 <div>
-	<input
-		{id}
-		{disabled}
-		{required}
-		{placeholder}
-		class:grow
-		class:error
-		bind:value
-		bind:this={input}
-	/>
-
+	<textarea {id} {rows} {disabled} {required} {placeholder} class:grow class:error bind:value />
 	<label class:disabled for={id}>{label}</label>
 </div>
 
 <style lang="scss">
+	@use "../vars";
 	@use "./textbox" as *;
 
 	div {
-		input {
+		textarea {
 			@include textbox-input;
+
+			height: auto;
+			padding: calc(0.5 * vars.$button_content_size);
+			resize: none;
 
 			&.grow {
 				width: 100%;

@@ -15,10 +15,10 @@
 	import { createEventDispatcher } from "svelte"
 	import { v4 as uuid } from "uuid"
 
+	import Textbox from "$lib/ui/textbox/textbox.svelte"
+	import Textarea from "$lib/ui/textbox/textarea.svelte"
+	import Button from "$lib/ui/button/button.svelte"
 	import CoverField from "$lib/components/field/cover-field.svelte"
-	import Textbox from "$lib/components/textbox/textbox.svelte"
-	import Textarea from "$lib/components/textbox/textarea.svelte"
-	import BtnText from "$lib/components/button/btn-text.svelte"
 
 	import { Palette } from "$lib/scripts/color-engine/palette"
 	import { PlaylistAPI, type PlaylistForm } from "$lib/scripts/api/PlaylistAPI"
@@ -69,10 +69,13 @@
 <div class="content">
 	<form class="form" on:submit|preventDefault={submit}>
 		<CoverField bind:palette={form.palette} bind:file />
-		<Textbox id="title" label="Title" bind:value={form.title} />
-		<Textarea id="description" label="Description" bind:value={form.description} />
+		<Textbox id="title" label="Title" bind:value={form.title} grow />
+		<Textarea id="description" label="Description" bind:value={form.description} grow />
+
 		<div class="footer">
-			<BtnText submit label="Save" />
+			<Button submit>
+				<span>Save</span>
+			</Button>
 		</div>
 	</form>
 </div>
