@@ -1,4 +1,8 @@
 <script lang="ts">
+	import Button from "$lib/ui/button/button.svelte"
+	import ButtonIcon from "$lib/ui/button/button-icon.svelte"
+	import Icon from "$lib/ui/icon/icon.svelte"
+
 	import Finder from "$lib/components/finder/finder.svelte"
 	import FinderItemMedia from "$lib/components/finder/finder-item-media.svelte"
 	import Tracklist from "$lib/components/tracklist/tracklist.svelte"
@@ -6,18 +10,13 @@
 
 	import { Palette } from "$lib/scripts/color-engine/palette"
 
+	import { bgPalette } from "$lib/scripts/stores/PaletteStore"
 	import { albums, tracks } from "$lib/scripts/stores/LibraryStore"
 	import { playerController } from "$lib/scripts/stores/PlayerStore"
-
 	import { openAlbumCreatorModal } from "./create/album-creator.svelte"
-
-	import ButtonIcon from "$lib/ui/button/button-icon.svelte"
-
-	import { bgPalette } from "$lib/scripts/stores/PaletteStore"
 	import { openAlbumEditorModal } from "./edit/album-editor.svelte"
-	import Button from "$lib/ui/button/button.svelte"
-	import Icon from "$lib/ui/icon/icon.svelte"
 	import { pluralize } from "$lib/scripts/utils"
+	import { openTrackUploaderModal } from "$lib/components/track-uploader/track-uploader.svelte"
 
 	let hidden = true
 
@@ -80,7 +79,7 @@
 		>
 			<svelte:fragment slot="actions">
 				{#if _album.tracklist.length === 0}
-					<Button>
+					<Button on:click={() => openTrackUploaderModal(_album.id)}>
 						<Icon src="public/icons/upload.svg" alt="Upload icon" />
 						<span>Upload Tracks</span>
 					</Button>
@@ -92,6 +91,7 @@
 					<ButtonIcon
 						src="public/icons/upload.svg"
 						alt="Upload icon"
+						on:click={() => openTrackUploaderModal(_album.id)}
 						tooltip="Upload tracks to album"
 					/>
 				{/if}

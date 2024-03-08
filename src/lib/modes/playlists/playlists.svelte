@@ -16,6 +16,7 @@
 	import { openPlaylistCreatorModal } from "./create/playlist-creator.svelte"
 	import { openPlaylistEditorModal } from "./edit/playlist-editor.svelte"
 	import { pluralize } from "$lib/scripts/utils"
+	import { openTrackPickerModal } from "$lib/components/track-picker/track-picker.svelte"
 
 	let hidden = true
 
@@ -77,8 +78,8 @@
 		>
 			<svelte:fragment slot="actions">
 				{#if _playlist.tracklist.length === 0}
-					<Button>
-						<Icon src="public/icons/playlist_add.svg" alt="Add to playlist icon" />
+					<Button on:click={() => openTrackPickerModal(_playlist.id)}>
+						<Icon src="public/icons/playlist-add.svg" alt="Add to playlist icon" />
 						<span>Add tracks</span>
 					</Button>
 				{:else}
@@ -89,6 +90,7 @@
 					<ButtonIcon
 						src="public/icons/playlist-add.svg"
 						alt="Add to playlist icon"
+						on:click={() => openTrackPickerModal(_playlist.id)}
 						tooltip="Add tracks to playlist"
 					/>
 				{/if}

@@ -71,6 +71,8 @@
 				gap: vars.$item_gap;
 
 				.details {
+					display: flex;
+					flex-direction: column;
 					margin: 0;
 					padding: 0;
 					list-style-type: none;

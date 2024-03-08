@@ -20,15 +20,15 @@
 
 	import { v4 as uuid } from "uuid"
 
-	import BtnText from "../button/btn-text.svelte"
-	import Textbox from "../textbox/textbox.svelte"
-	import TrackPickerTrack from "./track-picker-track.svelte"
-	import TrackPickerResult from "./track-picker-result.svelte"
+	import Button from "$lib/ui/button/button.svelte"
+	import Textbox from "$lib/ui/textbox/textbox.svelte"
 
 	import { PlaylistAPI, type PlaylistTrackForm } from "$lib/scripts/api/PlaylistAPI"
 
 	import { library, playlists, tracks } from "$lib/scripts/stores/LibraryStore"
 	import { openModal } from "../modal-manager/modal-manager.svelte"
+	import Track from "../track/track.svelte"
+	import ButtonIcon from "$lib/ui/button/button-icon.svelte"
 
 	const [send, receive] = crossfade({
 		duration: (d) => Math.sqrt(d * 200)
@@ -129,15 +129,10 @@
 	<div class="row">
 		{#if !showSelected || desktop}
 			<section class="column">
-				<Textbox id="fuzzyfind" bind:value={query} label="Search tracks" />
+				<Textbox id="fuzzyfind" bind:value={query} label="Search tracks" grow />
 				<div class="scrollbox">
-					{#each results as id}
-						<TrackPickerResult
-							trackID={id}
-							on:click={() => {
-								pickTrack(id)
-							}}
-						/>
+					{#each results as id, index}
+						<Track trackID={id} {index} showCover on:click={() => pickTrack(id)} />
 					{/each}
 				</div>
 			</section>
@@ -146,21 +141,18 @@
 			<section class="column">
 				<div class="scrollbox">
 					{#each picks as pick, index (pick.id)}
-						<div
-							in:receive={{ key: pick.id }}
-							out:send={{ key: pick.id }}
-							animate:flip={{ duration: 200 }}
-						>
-							<TrackPickerTrack
-								pickForm={pick}
-								{index}
-								atStart={index === 0}
-								atEnd={index === picks.length - 1}
-								on:moveup={() => moveTrackUp(index)}
-								on:movedown={() => moveTrackDown(index)}
-								on:remove={() => removeTrack(index)}
-							/>
-						</div>
+						<Track trackID={pick.trackID} {index} showCover>
+							<svelte:fragment slot="actions">
+								<ButtonIcon
+									src="public/icons/close.svg"
+									alt="Remove icon"
+									tooltip="Remove track"
+									nopadding
+									seamless
+									on:click={() => removeTrack(index)}
+								/>
+							</svelte:fragment>
+						</Track>
 					{/each}
 				</div>
 			</section>
@@ -170,25 +162,31 @@
 	<div class="footer">
 		{#if !desktop}
 			{#if showSelected}
-				<BtnText
-					label="Search"
+				<Button
 					on:click={() => {
 						showSelected = false
 					}}
-				/>
+				>
+					<span>Search</span>
+				</Button>
 			{:else}
-				<BtnText
-					label="Selected Tracks"
+				<Button
 					on:click={() => {
 						showSelected = true
 					}}
-				/>
+				>
+					<span>Show Selected</span>
+				</Button>
 			{/if}
 		{:else}
-			<BtnText label="Cancel" on:click={close} />
+			<Button on:click={close}>
+				<span>Cancel</span>
+			</Button>
 		{/if}
 		{#if !empty}
-			<BtnText label="Save" on:click={submit} />
+			<Button on:click={submit}>
+				<span>Save</span>
+			</Button>
 		{/if}
 	</div>
 </div>
@@ -196,37 +194,38 @@
 <svelte:window bind:innerWidth />
 
 <style lang="scss">
-	@use "src/style/colors";
-	@use "src/style/mixins";
+	@use "/src/lib/ui/vars";
+	@use "/src/lib/ui/mixins";
+
 	.content {
 		display: flex;
 		flex-direction: column;
-		gap: 20px;
+		gap: vars.$form_gap;
 
 		.row {
 			display: flex;
-			gap: 20px;
+			gap: vars.$form_gap;
 
 			.column {
 				display: flex;
 				flex-direction: column;
-				gap: 15px;
+				gap: vars.$form_gap;
 
-				width: min(300px, 100svw);
-				height: min(60svh, 800px);
+				width: min(20rem, 100svw);
+				height: min(60svh, 50rem);
 
 				.scrollbox {
-					@include mixins.faint-shadow;
+					@include mixins.item;
+
 					display: flex;
 					flex-direction: column;
+					gap: vars.$item_gap;
+					padding: vars.$item_gap;
 
 					height: 100%;
-					padding: 5px;
 
-					background-color: colors.$gray-d;
-
-					border: 1px solid colors.$border;
-					border-radius: 5px;
+					border: vars.$item_border;
+					border-radius: vars.$item_border_radius;
 
 					overflow-y: scroll;
 				}

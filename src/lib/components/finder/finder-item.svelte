@@ -1,11 +1,9 @@
 <script lang="ts">
-	import type { Palette } from "$lib/scripts/color-engine/palette"
 	import { bgPalette } from "$lib/scripts/stores/PaletteStore"
 	import { createEventDispatcher } from "svelte"
 
 	const dispatch = createEventDispatcher()
 
-	export let palette: Palette
 	export let selected: boolean
 
 	function selectItem() {
@@ -37,6 +35,7 @@
 		display: flex;
 		align-items: center;
 		gap: vars.$item_gap;
+		position: relative;
 
 		box-sizing: border-box;
 		padding: vars.$item_gap;

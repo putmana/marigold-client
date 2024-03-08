@@ -22,8 +22,6 @@
 	import { v4 as uuid } from "uuid"
 	import { parseBlob as parseMetadata } from "music-metadata-browser"
 
-	import BtnIconText from "$lib/components/button/btn-icon-text.svelte"
-	import BtnText from "$lib/components/button/btn-text.svelte"
 	import TrackUploaderTrack from "./track-uploader-track.svelte"
 
 	import { TrackAPI, type TrackForm } from "$lib/scripts/api/TrackAPI"
@@ -32,6 +30,8 @@
 	import { user } from "$lib/scripts/stores/UserStore"
 	import { albums, library } from "$lib/scripts/stores/LibraryStore"
 	import { openModal } from "../modal-manager/modal-manager.svelte"
+	import Button from "$lib/ui/button/button.svelte"
+	import Icon from "$lib/ui/icon/icon.svelte"
 
 	const [send, receive] = crossfade({
 		duration: (d) => Math.sqrt(d * 200)
@@ -59,10 +59,10 @@
 
 			const form: TrackForm = {
 				id: uuid(),
-				title: metadata.common.title,
-				artists: metadata.common.artists.toString(),
+				title: metadata.common.title ?? "",
+				artists: metadata.common.artists?.toString() ?? "",
 				duration: Math.round(metadata.format.duration),
-				index: metadata.common.track.no,
+				index: metadata.common.track.no ?? 1,
 				albumID: albumID
 			}
 
@@ -72,6 +72,8 @@
 		}
 
 		uploads = uploads.sort((a, b) => a.form.index - b.form.index)
+
+		console.log(uploads)
 	}
 
 	function openFileBrowser() {
@@ -88,6 +90,10 @@
 		let moved = uploads[index]
 		uploads[index] = uploads[index + 1]
 		uploads[index + 1] = moved
+	}
+
+	function removeTrack(index: number) {
+		uploads = uploads.toSpliced(index, 1)
 	}
 
 	async function submit() {
@@ -153,46 +159,42 @@
 						atEnd={index === uploads.length - 1}
 						on:moveup={() => moveTrackUp(index)}
 						on:movedown={() => moveTrackDown(index)}
+						on:remove={() => removeTrack(index)}
 					/>
 				</div>
 			{:else}
 				<div class="empty">
 					<h1 class="placeholder">No files selected</h1>
-					<BtnIconText
-						src="public/icons/upload.svg"
-						label={"Upload Files"}
-						on:click={openFileBrowser}
-					/>
+					<Button on:click={openFileBrowser}>
+						<Icon src="public/icons/upload.svg" alt="Upload icon" />
+						<span>Upload tracks</span>
+					</Button>
 				</div>
 			{/each}
 		</div>
 		{#if !empty}
 			<div class="footer">
-				<BtnIconText
-					src="public/icons/upload.svg"
-					label={"Replace Files"}
-					on:click={openFileBrowser}
-				/>
-				<BtnText submit label="Save" />
+				<Button on:click={openFileBrowser}>
+					<Icon src="public/icons/upload.svg" alt="Upload icon" />
+					<span>Replace tracks</span>
+				</Button>
+				<Button submit>Save</Button>
 			</div>
 		{/if}
 	</form>
 </div>
 
 <style lang="scss">
-	@use "src/style/colors";
-	@use "src/style/mixins";
+	@use "/src/lib/ui/vars";
+	@use "/src/lib/ui/mixins";
 
 	.content {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		width: min(90svw, 600px);
+		width: min(90svw, 35rem);
 
-		.form {
+		form {
 			display: flex;
 			flex-direction: column;
-			gap: 15px;
+			gap: vars.$form_gap;
 
 			width: 100%;
 
@@ -203,21 +205,19 @@
 			}
 
 			.tracks {
-				@include mixins.faint-shadow;
+				@include mixins.item;
+
 				display: flex;
 				flex-direction: column;
-				gap: 10px;
+				gap: vars.$item_gap;
+				padding: vars.$item_gap;
+
+				max-height: min(70svh, 50rem);
+
+				border: vars.$item_border;
+				border-radius: vars.$item_border_radius;
+
 				overflow-y: scroll;
-
-				box-sizing: border-box;
-
-				max-height: min(70svh, 800px);
-				padding: 10px;
-
-				background-color: colors.$gray-d;
-
-				border: 1px solid colors.$border-hover;
-				border-radius: 5px;
 
 				.empty {
 					display: flex;
@@ -225,7 +225,7 @@
 					justify-content: center;
 					align-items: center;
 
-					height: min(50svh, 400px);
+					height: min(50svh, 30rem);
 
 					.placeholder {
 						opacity: 70%;
@@ -238,7 +238,7 @@
 			.footer {
 				display: flex;
 				justify-content: space-between;
-				gap: 10px;
+				gap: vars.$form_gap;
 			}
 		}
 	}

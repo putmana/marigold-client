@@ -3,9 +3,18 @@
 	export let nopadding = false
 	export let grow = false
 	export let round = false
+	export let submit = false
 </script>
 
-<button class:seamless class:nopadding class:grow class:round {...$$restProps} on:click>
+<button
+	type={submit ? "submit" : "button"}
+	class:seamless
+	class:nopadding
+	class:grow
+	class:round
+	{...$$restProps}
+	on:click
+>
 	<slot />
 </button>
 

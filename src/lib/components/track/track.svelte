@@ -73,6 +73,7 @@
 			margin: 0;
 			padding: 0;
 			list-style-type: none;
+			flex-grow: 1;
 
 			.artist {
 				color: colors.$text_b;

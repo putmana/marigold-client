@@ -8,9 +8,18 @@
 	export let seamless = false
 	export let nopadding = false
 	export let round = false
+	export let submit = false
 </script>
 
-<button title={tooltip} class:seamless class:nopadding class:round {...$$restProps} on:click>
+<button
+	title={tooltip}
+	type={submit ? "submit" : "button"}
+	class:seamless
+	class:nopadding
+	class:round
+	{...$$restProps}
+	on:click
+>
 	<Icon {src} {alt} />
 </button>
 

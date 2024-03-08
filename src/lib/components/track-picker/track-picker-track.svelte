@@ -31,23 +31,26 @@
 	}
 </script>
 
-<div class="wrapper">
-	<span class="cover">
+<button on:click {...$$restProps}>
+	<div class="cover">
 		<img src={cover} alt={`cover for ${track.title}`} />
-	</span>
-	<div class="info">
-		<h3 class="title">{track.title}</h3>
-		<h4 class="artist">{track.artists}</h4>
 	</div>
+	<ul class="info">
+		<li class="title">
+			{track.title}
+		</li>
+		<li class="artist">
+			{track.artists}
+		</li>
+	</ul>
 	<div class="end">
 		<BtnIconSeamless src="public/icons/trash.svg" on:click={remove} />
 	</div>
-</div>
+</button>
 
 <style lang="scss">
-	@use "/src/style/sizes";
-	@use "/src/style/mixins";
-	@use "/src/style/colors";
+	@use "/src/lib/ui/mixins";
+	@use "/src/lib/ui/colors";
 
 	.wrapper {
 		@include mixins.clickable;
