@@ -4,18 +4,21 @@
 	import Viewer from "$lib/components/viewer/viewer.svelte"
 	import { Palette } from "$lib/scripts/color-engine/palette"
 	import { user } from "$lib/scripts/stores/UserStore"
+	import ButtonIcon from "$lib/ui/button/button-icon.svelte"
+	import Button from "$lib/ui/button/button.svelte"
 
 	let hidden = true
 </script>
 
-<Finder title="settings">
+<Finder title="Settings">
 	<svelte:fragment slot="header">
-		<BtnText
-			label="Log Out"
-			on:click={() => {
-				user.logout()
-			}}
-			smaller
+		<ButtonIcon
+			src="public/icons/logout.svg"
+			alt="Log out"
+			on:click={user.logout}
+			tooltip="Log out"
+			seamless
+			nopadding
 		/>
 	</svelte:fragment>
 	<svelte fragment slot="body">
@@ -24,7 +27,6 @@
 		</div>
 	</svelte>
 </Finder>
-<Viewer bind:hidden empty palette={Palette.gray} />
 
 <style lang="scss">
 	@use "src/style/colors";
